@@ -1,0 +1,1 @@
+# smart-recipe-generator
