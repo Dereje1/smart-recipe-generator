@@ -29,24 +29,17 @@
 // src/pages/index.tsx
 import { useSession, signIn, signOut } from 'next-auth/react';
 import Hero from './components/Hero';
+import Dashboard from './components/Dashboard'
 
 export default function Home() {
   const { data: session, status } = useSession();
-  const recipe = {
-    title: 'Sample Recipe',
-    ingredients: ['1 cup flour', '2 eggs', '1/2 cup milk'],
-    instructions: ['Mix ingredients', 'Bake at 350°F for 20 minutes'],
-  };
 
-  if(!session){
-    return <Hero />
+  if (session) {
+    return <Dashboard user={session.user}/>
   }
 
   return (
-    <div className="text-center">
-      <h1>Dashboard here</h1>
-      <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded" onClick={() => signOut()}>Sign out</button>
-    </div>
+    <Hero />
   );
 }
 
