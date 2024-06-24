@@ -120,6 +120,7 @@ export default function Dashboard({ user }: DashboardProps) {
                                                                         'block px-4 py-2 text-sm text-gray-700',
                                                                     )}
                                                                     onClick={item.clickAction}
+                                                                    style={{ cursor: 'pointer' }}
                                                                 >
                                                                     {item.name}
                                                                 </a>
