@@ -47,9 +47,9 @@ export default function Example() {
                         ))}
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <a href="#" className="text-sm font-semibold leading-6 text-gray-900" onClick={() => signIn('google')}>
+                        <button className="text-sm font-semibold leading-6 text-gray-900" onClick={() => signIn('google')}>
                             Log in With Google <span aria-hidden="true">&rarr;</span>
-                        </a>
+                        </button>
                     </div>
                 </nav>
                 <Dialog className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -133,16 +133,12 @@ export default function Example() {
                             Simply input your available ingredients, select dietary preferences, and let our AI create unique and delicious recipes just for you.
                         </p>
                         <div className="mt-10 flex items-center justify-center gap-x-6">
-                            <a
-                                href="#"
+                            <button
                                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 onClick={() => signIn('google')}
                             >
                                 Get started
-                            </a>
-                            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-                                Learn more <span aria-hidden="true">→</span>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>

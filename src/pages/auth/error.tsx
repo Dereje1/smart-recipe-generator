@@ -6,7 +6,7 @@ export default function ErrorPage() {
     const router = useRouter();
     const { error } = router.query;
 
-    let errorMessage = `An unexpected error: ${error} occurred. Please try again later.`;
+    let errorMessage = `An unexpected error: "${error}" occurred. Please try again later.`;
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
