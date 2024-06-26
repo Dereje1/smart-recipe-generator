@@ -3,10 +3,27 @@ import IngredientForm from './IngredientForm';
 
 const steps = ['Add Ingredients', 'Choose Diet', 'Review Choices']
 
-function StepComponent({ step }: { step: number }) {
+type ingredient = {
+    name: string
+    quantity: number
+    id: number
+}
+const initialIngridients: ingredient[] = []
+
+interface StepComponentProps {
+    step: number,
+    ingredients: ingredient[],
+    updateIngredients: (ingredients: ingredient[]) => void
+}
+
+function StepComponent({
+    step,
+    ingredients,
+    updateIngredients
+}: StepComponentProps) {
     switch (step) {
         case 0:
-            return <IngredientForm />;
+            return <IngredientForm ingredients={ingredients} updateIngredients={updateIngredients} />;
         default:
             return <h1 className="text-center">Not ready yet!</h1>;
     }
@@ -15,6 +32,7 @@ function StepComponent({ step }: { step: number }) {
 
 export default function Navigation() {
     const [step, setStep] = useState(0);
+    const [ingredients, setIngredients] = useState(initialIngridients)
 
     const updateStep = (val: number) => {
         let newStep = step + val
@@ -38,7 +56,7 @@ export default function Navigation() {
                         </div>
                     </button>}
                     <p className="text-black mt-2 font-bold italic text-lg">{steps[step]}</p>
-{   step !== steps.length -1 &&                  <button
+                    {step !== steps.length - 1 && <button
                         type="button"
                         className="bg-gray-800 text-white rounded-r-md py-2 border-l border-gray-200 hover:bg-red-700 hover:text-white px-3"
                         onClick={() => updateStep(+1)}
@@ -52,7 +70,11 @@ export default function Navigation() {
                     </button>}
                 </div>
             </div>
-            <StepComponent step={step} />
+            <StepComponent
+                step={step}
+                ingredients={ingredients}
+                updateIngredients={(ingredients: ingredient[]) => setIngredients(ingredients)}
+            />
         </>
     )
 }

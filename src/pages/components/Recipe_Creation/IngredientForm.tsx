@@ -97,8 +97,15 @@ function IngredientList({ ingredientUpdate }: { ingredientUpdate: (val: string |
     )
 }
 
-export default function IngredientForm() {
-    const [ingredients, setIngredients] = useState(initialIngridients);
+interface IngredientFormProps {
+    ingredients: ingredient[],
+    updateIngredients: (ingredients: ingredient[]) => void
+}
+
+export default function IngredientForm({
+    ingredients,
+    updateIngredients
+}:IngredientFormProps) {
     const [ingredient, setIngredient] = useState(initialIngridient);
 
     const handleChange = (val: string | undefined, field: string) => {
@@ -116,11 +123,11 @@ export default function IngredientForm() {
         if (!ingredient.name.trim()) return;
         const isRepeat = ingredients.map(i => i.name).includes(ingredient.name);
         if (isRepeat) return;
-        setIngredients([...ingredients, { ...ingredient, id: Date.now() }])
+        updateIngredients([...ingredients, { ...ingredient, id: Date.now() }])
     };
 
     const deleteIngredient = (id: number) => {
-        setIngredients(ingredients.filter(ingredient => ingredient.id !== id))
+        updateIngredients(ingredients.filter(ingredient => ingredient.id !== id))
     }
 
     return (
@@ -149,7 +156,7 @@ export default function IngredientForm() {
                         <div>
                             <button
                                 type="submit"
-                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                                 onClick={(e) => handleAddIngredient(e)}
                             >
                                 Add Ingredient
