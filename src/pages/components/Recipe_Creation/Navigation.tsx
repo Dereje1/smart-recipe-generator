@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from '@headlessui/react'
 import IngredientForm from './IngredientForm';
 import DietaryPreferences from './DietaryPreferences';
+import ReviewComponent from './Review';
 
 const steps = ['Add Ingredients', 'Choose Diet', 'Review']
 
@@ -19,6 +20,7 @@ interface StepComponentProps {
     updateIngredients: (ingredients: ingredient[]) => void
     preferences: string[]
     updatePreferences: (preferences: string[]) => void
+    editInputs: () => void
 }
 
 function StepComponent({
@@ -26,13 +28,16 @@ function StepComponent({
     ingredients,
     updateIngredients,
     preferences,
-    updatePreferences
+    updatePreferences,
+    editInputs
 }: StepComponentProps) {
     switch (step) {
         case 0:
             return <IngredientForm ingredients={ingredients} updateIngredients={updateIngredients} />;
         case 1:
             return <DietaryPreferences preferences={preferences} updatePreferences={updatePreferences} />
+        case 2:
+            return <ReviewComponent ingredients={ingredients} dietaryPreference={preferences} onEdit={editInputs} onSubmit={()=>{}}/>
         default:
             return <h1 className="text-center">Not ready yet!</h1>;
     }
@@ -90,6 +95,7 @@ export default function Navigation() {
                 updateIngredients={(ingredients: ingredient[]) => setIngredients(ingredients)}
                 preferences={preferences}
                 updatePreferences={(preferences: string[]) => setPreferences(preferences)}
+                editInputs={() => setStep(0)}
             />
         </>
     )
