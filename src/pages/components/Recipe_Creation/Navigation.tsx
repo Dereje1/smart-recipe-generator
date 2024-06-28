@@ -3,24 +3,23 @@ import { Button } from '@headlessui/react'
 import IngredientForm from './IngredientForm';
 import DietaryPreferences from './DietaryPreferences';
 import ReviewComponent from './Review';
+import call_api from './call_api';
+import {Ingredient, DietaryPreference} from '../../../types/index'
 
 const steps = ['Add Ingredients', 'Choose Diet', 'Review']
 
-type ingredient = {
-    name: string
-    quantity: number
-    id: number
-}
-const initialIngridients: ingredient[] = []
-const initialPreferences: string[] = [];
+
+const initialIngridients: Ingredient[] = []
+const initialPreferences: DietaryPreference[] = [];
 
 interface StepComponentProps {
     step: number,
-    ingredients: ingredient[],
-    updateIngredients: (ingredients: ingredient[]) => void
-    preferences: string[]
-    updatePreferences: (preferences: string[]) => void
+    ingredients: Ingredient[],
+    updateIngredients: (ingredients: Ingredient[]) => void
+    preferences: DietaryPreference[]
+    updatePreferences: (preferences: DietaryPreference[]) => void
     editInputs: () => void
+    handleSubmit: () => void
 }
 
 function StepComponent({
@@ -29,7 +28,8 @@ function StepComponent({
     updateIngredients,
     preferences,
     updatePreferences,
-    editInputs
+    editInputs,
+    handleSubmit,
 }: StepComponentProps) {
     switch (step) {
         case 0:
@@ -37,7 +37,7 @@ function StepComponent({
         case 1:
             return <DietaryPreferences preferences={preferences} updatePreferences={updatePreferences} />
         case 2:
-            return <ReviewComponent ingredients={ingredients} dietaryPreference={preferences} onEdit={editInputs} onSubmit={()=>{}}/>
+            return <ReviewComponent ingredients={ingredients} dietaryPreference={preferences} onEdit={editInputs} onSubmit={handleSubmit} />
         default:
             return <h1 className="text-center">Not ready yet!</h1>;
     }
@@ -53,6 +53,11 @@ export default function Navigation() {
         let newStep = step + val
         if (newStep < 0 || newStep >= steps.length) newStep = 0
         setStep(newStep)
+    }
+
+    const handleIngredientSubmit = async () => {
+        const result = await call_api(ingredients, preferences);
+        console.log({ result })
     }
     return (
         <>
@@ -92,10 +97,11 @@ export default function Navigation() {
             <StepComponent
                 step={step}
                 ingredients={ingredients}
-                updateIngredients={(ingredients: ingredient[]) => setIngredients(ingredients)}
+                updateIngredients={(ingredients: Ingredient[]) => setIngredients(ingredients)}
                 preferences={preferences}
-                updatePreferences={(preferences: string[]) => setPreferences(preferences)}
+                updatePreferences={(preferences: DietaryPreference[]) => setPreferences(preferences)}
                 editInputs={() => setStep(0)}
+                handleSubmit={handleIngredientSubmit}
             />
         </>
     )
