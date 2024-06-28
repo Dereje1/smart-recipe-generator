@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Checkbox, Field, Label } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/16/solid'
+import { DietaryPreference } from '../../../types/index'
 
 
-const dietaryOptions = ['Vegetarian', 'Vegan', 'Gluten-Free', 'Keto', 'Paleo'];
+const dietaryOptions: DietaryPreference[] = ['Vegetarian', 'Vegan', 'Gluten-Free', 'Keto', 'Paleo'];
 
-
-interface DietaryPreferences {
-  preferences: string[]
-  updatePreferences: (preferences: string[]) => void
+interface DietaryPreferencesProps {
+  preferences: DietaryPreference[]
+  updatePreferences: (preferences: DietaryPreference[]) => void
 }
 
-const initialPreference: string[] = [];
+const initialPreference: DietaryPreference[] = [];
 
-export default function DietaryPreferences({ preferences, updatePreferences }: DietaryPreferences) {
+export default function DietaryPreferences({ preferences, updatePreferences }: DietaryPreferencesProps) {
   const [noPreference, setNoPreference] = useState(false)
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function DietaryPreferences({ preferences, updatePreferences }: D
     }
   }, [preferences.length])
 
-  const handlePreferenceChange = (checked: boolean, option: string) => {
+  const handlePreferenceChange = (checked: boolean, option: DietaryPreference) => {
     const updatedPreferences = preferences.includes(option) ? preferences.filter((p) => p !== option) : [...preferences, option]
     updatePreferences(updatedPreferences)
   };
@@ -45,7 +45,7 @@ export default function DietaryPreferences({ preferences, updatePreferences }: D
         </Checkbox>
         <Label className="data-[disabled]:opacity-50">No Preference</Label>
       </Field>
-      <hr className="mb-4"/>
+      <hr className="mb-4" />
       <div className="flex flex-wrap">
         {dietaryOptions.map((option) => (
           <Field className="flex items-center gap-2 mr-5 mb-5 data-[disabled]:opacity-50" key={option} disabled={noPreference}>

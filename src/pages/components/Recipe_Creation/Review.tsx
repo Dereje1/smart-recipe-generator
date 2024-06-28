@@ -1,21 +1,15 @@
 import React from 'react';
 import { Button } from '@headlessui/react'
-import DietaryPreferences from './DietaryPreferences';
+import { Ingredient, DietaryPreference } from '../../../types/index'
 
-type ingredient = {
-    name: string
-    quantity: number
-    id: number
-}
-
-interface Review {
-    ingredients: ingredient[]
-    dietaryPreference: string[]
+interface ReviewComponentProps {
+    ingredients: Ingredient[]
+    dietaryPreference: DietaryPreference[]
     onSubmit: () => void
     onEdit: () => void
 }
 
-const ReviewComponent = ({ ingredients, dietaryPreference, onSubmit, onEdit }: Review) => {
+const ReviewComponent = ({ ingredients, dietaryPreference, onSubmit, onEdit }: ReviewComponentProps) => {
     return (
         <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10">
             <div className="px-6 py-4">
@@ -27,7 +21,7 @@ const ReviewComponent = ({ ingredients, dietaryPreference, onSubmit, onEdit }: R
                         <li key={ingredient.name} className="flex justify-between gap-x-6 py-2">
                             <div className="flex min-w-0 gap-x-4">
                                 <div className="min-w-0 flex-auto">
-                                    <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{`${ingredient.name}${ingredient.quantity > 0 ? ` (${ingredient.quantity})` : ''}`}</span>
+                                    <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}</span>
                                 </div>
                             </div>
                         </li>

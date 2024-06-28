@@ -3,23 +3,19 @@ import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOption
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import ingredientList from './ingredientList';
+import { Ingredient } from '../../../types/index'
 
 
-type ingredient = {
-    name: string
-    quantity: number
-    id: number
-}
 type comboIngredient = { id: number, name: string }
 
-const initialIngridient: ingredient = { name: '', quantity: 0, id: 0 }
+const initialIngridient: Ingredient = { name: '', quantity: 0, id: 0 }
 const initialComboIngredient: comboIngredient = { id: 0, name: '' }
 
-const Chip = ({ ingredient, onDelete }: { ingredient: ingredient, onDelete: (id: number) => void }) => {
+const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient, onDelete: (id: number) => void }) => {
     return (
         <div className="flex flex-wrap justify-center">
             <div className="flex justify-center items-center m-1 font-medium py-1 px-2 rounded-full text-black-100 bg-gray-200 border-none">
-                <div className="text-sm font-bold leading-none max-w-full flex-initial">{`${ingredient.name}${ingredient.quantity > 0 ? ` (${ingredient.quantity})` : ''}`}</div>
+                <div className="text-sm font-bold leading-none max-w-full flex-initial">{`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}</div>
                 <div className="flex flex-auto flex-row-reverse">
                     <div onClick={() => onDelete(ingredient.id)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x cursor-pointer hover:text-indigo-400 rounded-full w-4 h-4 ml-2">
@@ -97,8 +93,8 @@ function IngredientList({ ingredientUpdate }: { ingredientUpdate: (val: string |
 }
 
 interface IngredientFormProps {
-    ingredients: ingredient[],
-    updateIngredients: (ingredients: ingredient[]) => void
+    ingredients: Ingredient[],
+    updateIngredients: (ingredients: Ingredient[]) => void
 }
 
 export default function IngredientForm({
@@ -109,10 +105,16 @@ export default function IngredientForm({
 
     const handleChange = (val: string | undefined, field: string) => {
         if (!val) return;
+        let updatedVal: string | number | null = val;
+        if (field === 'quantity') {
+            updatedVal = Number(updatedVal);
+            if (updatedVal <= 0) updatedVal = null
+        }
+
         setIngredient(
             {
                 ...ingredient,
-                [field]: val,
+                [field]: updatedVal
             }
         );
     }
@@ -146,7 +148,7 @@ export default function IngredientForm({
                                     type="number"
                                     name="quantity"
                                     placeholder="Quantity"
-                                    value={ingredient.quantity}
+                                    value={ingredient.quantity || 0}
                                     onChange={(e) => handleChange(e.target.value, 'quantity')}
                                     className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
@@ -165,7 +167,7 @@ export default function IngredientForm({
                     <hr className="mt-4 mb-4" />
                     <div className="flex flex-wrap justify-center mt-2">
                         {
-                            ingredients.map(((ingredient: ingredient) =>
+                            ingredients.map(((ingredient: Ingredient) =>
                                 <Chip
                                     ingredient={ingredient}
                                     key={ingredient.id}
