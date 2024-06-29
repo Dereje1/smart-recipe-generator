@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Checkbox, Field, Label } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/16/solid'
-import { DietaryPreference } from '../../../types/index'
+import { DietaryPreference, Recipe } from '../../../types/index'
 
 
 const dietaryOptions: DietaryPreference[] = ['Vegetarian', 'Vegan', 'Gluten-Free', 'Keto', 'Paleo'];
@@ -9,11 +9,12 @@ const dietaryOptions: DietaryPreference[] = ['Vegetarian', 'Vegan', 'Gluten-Free
 interface DietaryPreferencesProps {
   preferences: DietaryPreference[]
   updatePreferences: (preferences: DietaryPreference[]) => void
+  generatedRecipes: Recipe[]
 }
 
 const initialPreference: DietaryPreference[] = [];
 
-export default function DietaryPreferences({ preferences, updatePreferences }: DietaryPreferencesProps) {
+export default function DietaryPreferences({ preferences, updatePreferences, generatedRecipes }: DietaryPreferencesProps) {
   const [noPreference, setNoPreference] = useState(false)
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function DietaryPreferences({ preferences, updatePreferences }: D
   return (
     <div className="mt-2 ml-5 sm:mx-auto sm:w-full sm:max-w-sm">
       <h2 className="text-xl font-bold mb-4">Dietary Preferences</h2>
-      <Field className="flex items-center gap-2 mr-5 mb-5 italic">
+      <Field className="flex items-center gap-2 mr-5 mb-5 italic" disabled={Boolean(generatedRecipes.length)}>
         <Checkbox
           checked={noPreference}
           onChange={handleNoPreference}
@@ -48,7 +49,7 @@ export default function DietaryPreferences({ preferences, updatePreferences }: D
       <hr className="mb-4" />
       <div className="flex flex-wrap">
         {dietaryOptions.map((option) => (
-          <Field className="flex items-center gap-2 mr-5 mb-5 data-[disabled]:opacity-50" key={option} disabled={noPreference}>
+          <Field className="flex items-center gap-2 mr-5 mb-5 data-[disabled]:opacity-50" key={option} disabled={noPreference || Boolean(generatedRecipes.length)}>
             <Checkbox
               checked={preferences.includes(option)}
               onChange={(e) => handlePreferenceChange(e, option)}

@@ -1,15 +1,16 @@
 import React from 'react';
 import { Button } from '@headlessui/react'
-import { Ingredient, DietaryPreference } from '../../../types/index'
+import { Ingredient, DietaryPreference, Recipe } from '../../../types/index'
 
 interface ReviewComponentProps {
     ingredients: Ingredient[]
     dietaryPreference: DietaryPreference[]
     onSubmit: () => void
     onEdit: () => void
+    generatedRecipes: Recipe[]
 }
 
-const ReviewComponent = ({ ingredients, dietaryPreference, onSubmit, onEdit }: ReviewComponentProps) => {
+const ReviewComponent = ({ ingredients, dietaryPreference, onSubmit, onEdit, generatedRecipes }: ReviewComponentProps) => {
     return (
         <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10">
             <div className="px-6 py-4">
@@ -38,14 +39,15 @@ const ReviewComponent = ({ ingredients, dietaryPreference, onSubmit, onEdit }: R
                 <div className="flex justify-between mt-4">
                     <Button
                         onClick={onEdit}
-                        className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300"
+                        className="bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-500 data-[disabled]:bg-gray-200"
+                        disabled={Boolean(generatedRecipes.length)}
                     >
                         Edit
                     </Button>
                     <Button
                         onClick={onSubmit}
-                        className="bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-500 data-[disabled]:bg-gray-200"
-                        disabled={!ingredients.length}
+                        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-sky-500 data-[disabled]:bg-gray-200"
+                        disabled={!ingredients.length || Boolean(generatedRecipes.length)}
                     >
                         Get Recipes
                     </Button>

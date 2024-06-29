@@ -1,16 +1,21 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Button } from '@headlessui/react'
 import IngredientForm from './IngredientForm';
 import DietaryPreferences from './DietaryPreferences';
 import ReviewComponent from './Review';
+import SelectRecipesComponent from './SelectRecipes';
 import call_api from './call_api';
-import {Ingredient, DietaryPreference} from '../../../types/index'
+import { Ingredient, DietaryPreference, Recipe } from '../../../types/index'
+import stub from './stub_response.json';
 
-const steps = ['Add Ingredients', 'Choose Diet', 'Review']
+const steps = ['Add Ingredients', 'Choose Diet', 'Review Ingredients', 'Select Recipes', 'Review Selected Recipes', 'Finalize Recipes']
 
 
 const initialIngridients: Ingredient[] = []
 const initialPreferences: DietaryPreference[] = [];
+const initialRecipes: Recipe[] = [];
+const initialSelectedIds: string[] = [];
 
 interface StepComponentProps {
     step: number,
@@ -20,6 +25,9 @@ interface StepComponentProps {
     updatePreferences: (preferences: DietaryPreference[]) => void
     editInputs: () => void
     handleSubmit: () => void
+    generatedRecipes: Recipe[]
+    updateSelectedRecipes: (ids: string[]) => void
+    selectedRecipes: string[]
 }
 
 function StepComponent({
@@ -30,14 +38,45 @@ function StepComponent({
     updatePreferences,
     editInputs,
     handleSubmit,
+    generatedRecipes,
+    selectedRecipes,
+    updateSelectedRecipes
 }: StepComponentProps) {
     switch (step) {
         case 0:
-            return <IngredientForm ingredients={ingredients} updateIngredients={updateIngredients} />;
+            return (
+                <IngredientForm
+                    ingredients={ingredients}
+                    updateIngredients={updateIngredients}
+                    generatedRecipes={generatedRecipes}
+                />
+            );
         case 1:
-            return <DietaryPreferences preferences={preferences} updatePreferences={updatePreferences} />
+            return (
+                <DietaryPreferences
+                    preferences={preferences}
+                    updatePreferences={updatePreferences}
+                    generatedRecipes={generatedRecipes}
+                />
+            )
         case 2:
-            return <ReviewComponent ingredients={ingredients} dietaryPreference={preferences} onEdit={editInputs} onSubmit={handleSubmit} />
+            return (
+                <ReviewComponent
+                    ingredients={ingredients}
+                    dietaryPreference={preferences}
+                    onEdit={editInputs}
+                    onSubmit={handleSubmit}
+                    generatedRecipes={generatedRecipes}
+                />
+            )
+        case 3:
+            return (
+                <SelectRecipesComponent
+                    generatedRecipes={generatedRecipes}
+                    selectedRecipes={selectedRecipes}
+                    updateSelectedRecipes={updateSelectedRecipes}
+                />
+            )
         default:
             return <h1 className="text-center">Not ready yet!</h1>;
     }
@@ -48,6 +87,8 @@ export default function Navigation() {
     const [step, setStep] = useState(0);
     const [ingredients, setIngredients] = useState(initialIngridients)
     const [preferences, setPreferences] = useState(initialPreferences)
+    const [generatedRecipes, setGeneratedRecipes] = useState(initialRecipes)
+    const [selectedRecipeIds, setSelectedRecipeIds] = useState(initialSelectedIds)
 
     const updateStep = (val: number) => {
         let newStep = step + val
@@ -56,8 +97,18 @@ export default function Navigation() {
     }
 
     const handleIngredientSubmit = async () => {
-        const result = await call_api(ingredients, preferences);
-        console.log({ result })
+        try {
+            const result = await call_api(ingredients, preferences);
+            let recipes = JSON.parse(stub);
+            recipes = recipes.map((recipe: Recipe) => ({
+                ...recipe,
+                id: uuidv4()
+            }))
+            setGeneratedRecipes(recipes)
+            setStep(step + 1)
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <>
@@ -82,7 +133,7 @@ export default function Navigation() {
                             type="button"
                             className="bg-sky-600 text-white rounded-r-md py-2 border-l border-gray-100 hover:bg-sky-500 hover:text-white px-3 data-[disabled]:bg-gray-200"
                             onClick={() => updateStep(+1)}
-                            disabled={step === steps.length - 1}
+                            disabled={step === steps.length - 1 || step === 2 && !generatedRecipes}
                         >
                             <div className="flex flex-row align-middle">
                                 <span className="mr-2">Next</span>
@@ -102,6 +153,9 @@ export default function Navigation() {
                 updatePreferences={(preferences: DietaryPreference[]) => setPreferences(preferences)}
                 editInputs={() => setStep(0)}
                 handleSubmit={handleIngredientSubmit}
+                generatedRecipes={generatedRecipes}
+                updateSelectedRecipes={(selectedIds) => setSelectedRecipeIds(selectedIds)}
+                selectedRecipes={selectedRecipeIds}
             />
         </>
     )

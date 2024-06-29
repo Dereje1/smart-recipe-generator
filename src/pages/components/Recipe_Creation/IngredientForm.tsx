@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
+import { Button, Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import ingredientList from './ingredientList';
-import { Ingredient } from '../../../types/index'
+import { Ingredient, Recipe } from '../../../types/index'
 
 
 type comboIngredient = { id: number, name: string }
@@ -30,7 +30,7 @@ const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient, onDelete: (id:
 }
 
 
-function IngredientList({ ingredientUpdate }: { ingredientUpdate: (val: string | undefined) => void }) {
+function IngredientList({ ingredientUpdate, generatedRecipes }: { ingredientUpdate: (val: string | undefined) => void, generatedRecipes: Recipe[] }) {
     const [selectedIngredient, setSelectedIngredient] = useState(initialComboIngredient)
     const [query, setQuery] = useState('')
 
@@ -52,6 +52,7 @@ function IngredientList({ ingredientUpdate }: { ingredientUpdate: (val: string |
                 onChange={handleSelectedIngredient}
                 onClose={() => setQuery('')}
                 immediate
+                disabled={Boolean(generatedRecipes.length)}
             >
                 <div className="relative">
                     <ComboboxInput
@@ -95,11 +96,13 @@ function IngredientList({ ingredientUpdate }: { ingredientUpdate: (val: string |
 interface IngredientFormProps {
     ingredients: Ingredient[],
     updateIngredients: (ingredients: Ingredient[]) => void
+    generatedRecipes: Recipe[]
 }
 
 export default function IngredientForm({
     ingredients,
-    updateIngredients
+    updateIngredients,
+    generatedRecipes
 }: IngredientFormProps) {
     const [ingredient, setIngredient] = useState(initialIngridient);
 
@@ -128,6 +131,7 @@ export default function IngredientForm({
     };
 
     const deleteIngredient = (id: number) => {
+        if(Boolean(generatedRecipes.length)) return null;
         updateIngredients(ingredients.filter(ingredient => ingredient.id !== id))
     }
 
@@ -136,7 +140,7 @@ export default function IngredientForm({
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-3 lg:px-8">
                 <div className="mt-0 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" action="#" method="POST">
-                        <IngredientList ingredientUpdate={(val) => handleChange(val, 'name')} />
+                        <IngredientList ingredientUpdate={(val) => handleChange(val, 'name')} generatedRecipes={generatedRecipes}/>
                         <div>
                             <div className="flex items-center justify-between">
                                 <label htmlFor="number" className="block text-sm font-medium leading-6 text-gray-900">
@@ -151,17 +155,19 @@ export default function IngredientForm({
                                     value={ingredient.quantity || 0}
                                     onChange={(e) => handleChange(e.target.value, 'quantity')}
                                     className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    disabled={Boolean(generatedRecipes.length)}
                                 />
                             </div>
                         </div>
                         <div>
-                            <button
+                            <Button
                                 type="submit"
-                                className="flex w-full justify-center rounded-md bg-sky-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                                className="flex w-full justify-center rounded-md bg-sky-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 data-[disabled]:bg-gray-200"
                                 onClick={(e) => handleAddIngredient(e)}
+                                disabled={Boolean(generatedRecipes.length)}
                             >
                                 Add Ingredient
-                            </button>
+                            </Button>
                         </div>
                     </form>
                     <hr className="mt-4 mb-4" />
