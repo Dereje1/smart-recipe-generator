@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-// import { generateRecipe } from '../../../lib/openai';
+import { generateRecipe } from '../../lib/openai';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
@@ -10,8 +10,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-      // const recipe = await generateRecipe(ingredients, dietaryPreferences);
-      res.status(200).json({ ingredients, dietaryPreferences });
+      const recipe = await generateRecipe(ingredients, dietaryPreferences);
+      res.status(200).json({ recipe });
     } catch (error) {
       res.status(500).json({ error: 'Failed to generate recipe' });
     }
