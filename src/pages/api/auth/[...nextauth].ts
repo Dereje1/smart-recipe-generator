@@ -2,8 +2,9 @@ import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import { clientPromise } from '../../../lib/mongodb';
+import type { NextAuthOptions } from "next-auth"
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID || '',
@@ -18,4 +19,13 @@ export default NextAuth({
         verifyRequest: '/auth/verify-request', // (used for check email message)
         newUser: undefined // If set, new users will be directed here on first sign in
     },
-});
+    callbacks: {
+        async session({ session, token, user }) {
+            // Send properties to the client, like an access_token and user id from a provider.
+            session.user.id = user.id;
+            return session
+        }
+    }
+}
+
+export default NextAuth(authOptions)
