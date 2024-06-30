@@ -3,13 +3,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { Button } from '@headlessui/react'
 import IngredientForm from './IngredientForm';
 import DietaryPreferences from './DietaryPreferences';
-import ReviewComponent from './Review';
+import ReviewComponent from './ReviewIngredients';
 import SelectRecipesComponent from './SelectRecipes';
+import ReviewRecipesComponent from './ReviewRecipes';
 import call_api from './call_api';
 import { Ingredient, DietaryPreference, Recipe } from '../../../types/index'
 import stub from './stub_response.json';
 
-const steps = ['Add Ingredients', 'Choose Diet', 'Review Ingredients', 'Select Recipes', 'Review Selected Recipes', 'Finalize Recipes']
+const steps = ['Add Ingredients', 'Choose Diet', 'Review Ingredients', 'Select Recipes', 'Review and Save Recipes']
 
 
 const initialIngridients: Ingredient[] = []
@@ -77,6 +78,13 @@ function StepComponent({
                     updateSelectedRecipes={updateSelectedRecipes}
                 />
             )
+        case 4:
+            return (
+                <ReviewRecipesComponent
+                    generatedRecipes={generatedRecipes}
+                    selectedRecipes={selectedRecipes}
+                />
+            )
         default:
             return <h1 className="text-center">Not ready yet!</h1>;
     }
@@ -113,7 +121,10 @@ export default function Navigation() {
     return (
         <>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center justify-center">
-                <p className="text-black mt-2 font-bold italic text-lg">{steps[step]}</p>
+                <span className="bg-black text-white text-xl font-bold italic px-2.5 py-0.5 rounded mt-2">
+                    {steps[step]}
+                </span>
+                <p className="text-black mt-2 font-bold italic text-lg"></p>
                 <div className="flex items-center justify-center">
                     <div className="w-[400px]  text-white p-4 flex justify-between mt-2">
                         <Button
@@ -133,7 +144,7 @@ export default function Navigation() {
                             type="button"
                             className="bg-sky-600 text-white rounded-r-md py-2 border-l border-gray-100 hover:bg-sky-500 hover:text-white px-3 data-[disabled]:bg-gray-200"
                             onClick={() => updateStep(+1)}
-                            disabled={step === steps.length - 1 || step === 2 && !generatedRecipes}
+                            disabled={step === steps.length - 1 || step === 2 && !generatedRecipes.length}
                         >
                             <div className="flex flex-row align-middle">
                                 <span className="mr-2">Next</span>
