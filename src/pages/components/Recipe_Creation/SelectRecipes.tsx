@@ -17,7 +17,7 @@ const SelectRecipesComponent = ({ generatedRecipes, selectedRecipes, updateSelec
     }
 
     const handleSelectAll = () => {
-        const allIds = generatedRecipes.map(recipe => recipe.id);
+        const allIds = generatedRecipes.map(recipe => recipe.openaiPromptId);
         updateSelectedRecipes(allIds)
     }
 
@@ -36,7 +36,7 @@ const SelectRecipesComponent = ({ generatedRecipes, selectedRecipes, updateSelec
                     generatedRecipes.map((recipe) => (
                         <RecipeCard
                             recipe={recipe}
-                            key={recipe.id}
+                            key={recipe.openaiPromptId}
                             handleRecipeSelection={handleRecipeSelection}
                             selectedRecipes={selectedRecipes}
                             showSwitch

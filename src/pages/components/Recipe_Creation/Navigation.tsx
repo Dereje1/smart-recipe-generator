@@ -7,7 +7,7 @@ import ReviewComponent from './ReviewIngredients';
 import SelectRecipesComponent from './SelectRecipes';
 import ReviewRecipesComponent from './ReviewRecipes';
 import Loading from './Loading';
-import call_api from './call_api';
+import { getRecipesFromAPI, saveRecipes } from './call_api';
 import { Ingredient, DietaryPreference, Recipe } from '../../../types/index'
 import stub from './stub_response.json';
 
@@ -26,10 +26,11 @@ interface StepComponentProps {
     preferences: DietaryPreference[]
     updatePreferences: (preferences: DietaryPreference[]) => void
     editInputs: () => void
-    handleSubmit: () => void
+    handleIngredientSubmit: () => void
     generatedRecipes: Recipe[]
     updateSelectedRecipes: (ids: string[]) => void
     selectedRecipes: string[]
+    handleRecipeSubmit: (recipes: Recipe[]) => void
 }
 
 function StepComponent({
@@ -39,10 +40,11 @@ function StepComponent({
     preferences,
     updatePreferences,
     editInputs,
-    handleSubmit,
+    handleIngredientSubmit,
     generatedRecipes,
     selectedRecipes,
-    updateSelectedRecipes
+    updateSelectedRecipes,
+    handleRecipeSubmit
 }: StepComponentProps) {
     switch (step) {
         case 0:
@@ -67,7 +69,7 @@ function StepComponent({
                     ingredients={ingredients}
                     dietaryPreference={preferences}
                     onEdit={editInputs}
-                    onSubmit={handleSubmit}
+                    onSubmit={handleIngredientSubmit}
                     generatedRecipes={generatedRecipes}
                 />
             )
@@ -84,6 +86,7 @@ function StepComponent({
                 <ReviewRecipesComponent
                     generatedRecipes={generatedRecipes}
                     selectedRecipes={selectedRecipes}
+                    handleRecipeSubmit={handleRecipeSubmit}
                 />
             )
         default:
@@ -109,19 +112,35 @@ export default function Navigation() {
     const handleIngredientSubmit = async () => {
         try {
             setIsLoading(true);
-            const result = await call_api(ingredients, preferences);
-            let recipes = JSON.parse(result.recipe);
-            recipes = recipes.map((recipe: Recipe) => ({
+            const { recipes, openaiPromptId } = await getRecipesFromAPI(ingredients, preferences);
+            let parsedRecipes = JSON.parse(recipes);
+            parsedRecipes = parsedRecipes.map((recipe: Recipe, idx: number) => ({
                 ...recipe,
-                id: uuidv4()
+                openaiPromptId:`${openaiPromptId}-${idx}` // make unique for client key iteration
             }))
             setIsLoading(false)
-            setGeneratedRecipes(recipes)
+            setGeneratedRecipes(parsedRecipes)
             setStep(step + 1)
         } catch (error) {
             console.log(error)
         }
     }
+
+    const handleRecipeSubmit = async (recipes: Recipe[]) => {
+        try {
+            setIsLoading(true);
+            const result = await saveRecipes(recipes);
+            setIsLoading(false)
+            setIngredients(initialIngridients)
+            setPreferences(initialPreferences)
+            setGeneratedRecipes(initialRecipes)
+            setSelectedRecipeIds(initialSelectedIds)
+            setStep(0)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center justify-center">
@@ -171,10 +190,11 @@ export default function Navigation() {
                         preferences={preferences}
                         updatePreferences={(preferences: DietaryPreference[]) => setPreferences(preferences)}
                         editInputs={() => setStep(0)}
-                        handleSubmit={handleIngredientSubmit}
+                        handleIngredientSubmit={handleIngredientSubmit}
                         generatedRecipes={generatedRecipes}
                         updateSelectedRecipes={(selectedIds) => setSelectedRecipeIds(selectedIds)}
                         selectedRecipes={selectedRecipeIds}
+                        handleRecipeSubmit={handleRecipeSubmit}
                     />
             }
 

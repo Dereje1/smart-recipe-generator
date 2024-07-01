@@ -6,15 +6,16 @@ import { Recipe } from '../../../types/index'
 interface ReviewRecipesComponentProps {
     generatedRecipes: Recipe[]
     selectedRecipes: string[]
+    handleRecipeSubmit: (recipes: Recipe[]) => void
 }
 
 const initialRecipes: Recipe[] = [];
 
-const ReviewRecipesComponent = ({ generatedRecipes, selectedRecipes }: ReviewRecipesComponentProps) => {
+const ReviewRecipesComponent = ({ generatedRecipes, selectedRecipes, handleRecipeSubmit }: ReviewRecipesComponentProps) => {
     const [finalRecipes, setFinalRecipes] = useState(initialRecipes)
 
     useEffect(() => {
-        const recipes = generatedRecipes.filter((recipe) => selectedRecipes.includes(recipe.id))
+        const recipes = generatedRecipes.filter((recipe) => selectedRecipes.includes(recipe.openaiPromptId))
         setFinalRecipes(recipes)
     }, [generatedRecipes, selectedRecipes])
 
@@ -26,7 +27,7 @@ const ReviewRecipesComponent = ({ generatedRecipes, selectedRecipes }: ReviewRec
                     finalRecipes.map((recipe) => (
                         <RecipeCard
                             recipe={recipe}
-                            key={recipe.id}
+                            key={recipe.openaiPromptId}
                             selectedRecipes={selectedRecipes}
                         />
                     ))
@@ -35,7 +36,10 @@ const ReviewRecipesComponent = ({ generatedRecipes, selectedRecipes }: ReviewRec
             <div className="flex w-[300px] max-w-md mx-auto justify-center mb-3">
                 {
                     finalRecipes.length ?
-                        <Button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                        <Button 
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+                        onClick={()=> handleRecipeSubmit(finalRecipes)}
+                        >
                             Submit Selected Recipes
                         </Button>
                         :

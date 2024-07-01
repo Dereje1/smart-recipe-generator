@@ -35,7 +35,11 @@ I have the following ingredients: ${JSON.stringify(ingredients)} ${dietaryPrefer
 Please ensure the recipes are diverse and use the ingredients listed. The recipes should follow the dietary preferences provided.The instructions should be ordered but not include the step numbers.
 `;
 
-export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[], userId: string): Promise<string | null> => {
+type ResponseType = {
+    recipes: string | null
+    openaiPromptId: string
+}
+export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[], userId: string): Promise<ResponseType> => {
     try {
         const prompt = getPrompt(ingredients, dietaryPreferences);
         const response = await openai.chat.completions.create({
@@ -48,13 +52,13 @@ export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferenc
         });
 
         await connectDB();
-        await aiGenerated.create({
+        const { _id } = await aiGenerated.create({
             userId,
             prompt,
             response,
         });
 
-        return response.choices[0].message?.content
+        return { recipes: response.choices[0].message?.content, openaiPromptId: _id }
     } catch (error) {
         console.error('Failed to generate recipe:', error);
         throw new Error('Failed to generate recipe');

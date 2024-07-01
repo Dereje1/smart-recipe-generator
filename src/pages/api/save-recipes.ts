@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import mongoose from 'mongoose';
 import { authOptions } from "../api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"
-import { generateRecipe } from '../../lib/openai';
-import stub from '../components/Recipe_Creation/stub_response.json';
+import { connectDB } from '../../lib/mongodb';
+import recipe from '../../lib/models/recipe';
+import { Recipe } from '../../types';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions)
@@ -12,15 +14,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === 'POST') {
-    const { ingredients, dietaryPreferences } = req.body;
-
-    if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
-      return res.status(400).json({ error: 'Ingredients are required' });
-    }
-
+    const { recipes } = req.body;
+    const updatedRecipes = recipes.map((r: Recipe) => ({
+        ...r,
+        owner: new mongoose.Types.ObjectId(session.user.id),
+        imgLink: 'To be determined',
+        openaiPromptId: r.openaiPromptId.split('-')[0] // take out client key iteration
+    }) )
+    await connectDB()
+    await recipe.insertMany(updatedRecipes);
     try {
-      const response = await generateRecipe(ingredients, dietaryPreferences, session.user.id);
-      res.status(200).json(response);
+      res.status(200).json({ status: 'Saved to DB!' });
     } catch (error) {
       res.status(500).json({ error: 'Failed to generate recipe' });
     }

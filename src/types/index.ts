@@ -25,5 +25,5 @@ export interface Recipe {
     instructions: string[];
     dietaryPreference: string[];
     additionalInformation: AdditionalInformation;
-    id: string
+    openaiPromptId: string
 }

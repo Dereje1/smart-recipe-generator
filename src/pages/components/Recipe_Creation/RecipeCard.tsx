@@ -16,15 +16,15 @@ const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch
                     <div className="font-bold text-2xl mb-4">{recipe.name}</div>
                     {
                         showSwitch && <Switch
-                            checked={selectedRecipes.includes(recipe.id)}
-                            onChange={() => handleRecipeSelection ? handleRecipeSelection(recipe.id) : undefined}
-                            className={`${selectedRecipes.includes(recipe.id) ? 'bg-green-500' : 'bg-gray-300'}
+                            checked={selectedRecipes.includes(recipe.openaiPromptId)}
+                            onChange={() => handleRecipeSelection ? handleRecipeSelection(recipe.openaiPromptId) : undefined}
+                            className={`${selectedRecipes.includes(recipe.openaiPromptId) ? 'bg-green-500' : 'bg-gray-300'}
           relative inline-flex h-[28px] w-[54px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
                         >
                             <span className="sr-only">Use setting</span>
                             <span
                                 aria-hidden="true"
-                                className={`${selectedRecipes.includes(recipe.id) ? 'translate-x-7' : 'translate-x-0'}
+                                className={`${selectedRecipes.includes(recipe.openaiPromptId) ? 'translate-x-7' : 'translate-x-0'}
             pointer-events-none inline-block h-[24px] w-[23px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                             />
                         </Switch>

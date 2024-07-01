@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { Ingredient, DietaryPreference } from '../../../types/index'
+import { Ingredient, DietaryPreference, Recipe } from '../../../types/index'
 
-const getRecipesFromAPI = async (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[]) => {
+export const getRecipesFromAPI = async (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[]) => {
     try {
         const { data } = await axios.post('/api/generate-recipes', {
             ingredients,
@@ -15,4 +15,12 @@ const getRecipesFromAPI = async (ingredients: Ingredient[], dietaryPreferences: 
     }
 };
 
-export default getRecipesFromAPI;
+export const saveRecipes = async (recipes: Recipe[]) => {
+    try {
+        const { data } = await axios.post('/api/save-recipes', { recipes });
+        return data;
+    } catch (error) {
+        console.error('Failed to fetch recipes:', error);
+        return null;
+    }
+}
