@@ -28,7 +28,7 @@ const ReviewComponent = ({ ingredients, dietaryPreference, onSubmit, onEdit, gen
                         </li>
                     ))}
                 </div>
-                <h3 className="text-gray-700 font-semibold text-lg">Dietary Preference:</h3>
+                <h3 className="text-gray-700 font-semibold text-lg">Dietary Preference:{dietaryPreference.length ? '' : ' None'}</h3>
                 <div className="mb-5 mt-2 flex flex-wrap">
                     {
                         dietaryPreference.map((preference) => (

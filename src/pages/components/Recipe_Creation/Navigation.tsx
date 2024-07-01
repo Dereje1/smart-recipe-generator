@@ -6,6 +6,7 @@ import DietaryPreferences from './DietaryPreferences';
 import ReviewComponent from './ReviewIngredients';
 import SelectRecipesComponent from './SelectRecipes';
 import ReviewRecipesComponent from './ReviewRecipes';
+import Loading from './Loading';
 import call_api from './call_api';
 import { Ingredient, DietaryPreference, Recipe } from '../../../types/index'
 import stub from './stub_response.json';
@@ -97,6 +98,7 @@ export default function Navigation() {
     const [preferences, setPreferences] = useState(initialPreferences)
     const [generatedRecipes, setGeneratedRecipes] = useState(initialRecipes)
     const [selectedRecipeIds, setSelectedRecipeIds] = useState(initialSelectedIds)
+    const [isLoading, setIsLoading] = useState(false)
 
     const updateStep = (val: number) => {
         let newStep = step + val
@@ -106,12 +108,14 @@ export default function Navigation() {
 
     const handleIngredientSubmit = async () => {
         try {
+            setIsLoading(true);
             const result = await call_api(ingredients, preferences);
             let recipes = JSON.parse(result.recipe);
             recipes = recipes.map((recipe: Recipe) => ({
                 ...recipe,
                 id: uuidv4()
             }))
+            setIsLoading(false)
             setGeneratedRecipes(recipes)
             setStep(step + 1)
         } catch (error) {
@@ -156,18 +160,24 @@ export default function Navigation() {
                     </div>
                 </div>
             </div>
-            <StepComponent
-                step={step}
-                ingredients={ingredients}
-                updateIngredients={(ingredients: Ingredient[]) => setIngredients(ingredients)}
-                preferences={preferences}
-                updatePreferences={(preferences: DietaryPreference[]) => setPreferences(preferences)}
-                editInputs={() => setStep(0)}
-                handleSubmit={handleIngredientSubmit}
-                generatedRecipes={generatedRecipes}
-                updateSelectedRecipes={(selectedIds) => setSelectedRecipeIds(selectedIds)}
-                selectedRecipes={selectedRecipeIds}
-            />
+            {
+                isLoading ?
+                    <Loading />
+                    :
+                    <StepComponent
+                        step={step}
+                        ingredients={ingredients}
+                        updateIngredients={(ingredients: Ingredient[]) => setIngredients(ingredients)}
+                        preferences={preferences}
+                        updatePreferences={(preferences: DietaryPreference[]) => setPreferences(preferences)}
+                        editInputs={() => setStep(0)}
+                        handleSubmit={handleIngredientSubmit}
+                        generatedRecipes={generatedRecipes}
+                        updateSelectedRecipes={(selectedIds) => setSelectedRecipeIds(selectedIds)}
+                        selectedRecipes={selectedRecipeIds}
+                    />
+            }
+
         </>
     )
 }
