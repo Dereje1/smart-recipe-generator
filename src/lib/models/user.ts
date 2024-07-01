@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Model }  from 'mongoose';
 
 export interface UserType {
     _id: string,
@@ -17,4 +17,6 @@ const userSchema = new mongoose.Schema({
   emailVerified: String || null,
 }, { timestamps: true });
 
-export default mongoose.model<UserType>('User', userSchema);
+const User: Model<UserType> = mongoose.models.Account || mongoose.model<UserType>('User', userSchema);
+
+export default User

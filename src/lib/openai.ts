@@ -1,13 +1,14 @@
 import OpenAI from 'openai';
 import { Ingredient, DietaryPreference } from '../types/index'
 import aiGenerated from './models/aigenerated';
+import { connectDB } from '../lib/mongodb';
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
 const getPrompt = (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[]) => `
-I have the following ingredients: ${JSON.stringify(ingredients)} and dietary preferences: ${dietaryPreferences.join(',')}. Please provide me with three different delicious recipes. The response should be in the following JSON format without any additional text or markdown:
+I have the following ingredients: ${JSON.stringify(ingredients)} ${dietaryPreferences.length ? `and dietary preferences: ${dietaryPreferences.join(',')}` : ''}. Please provide me with three different delicious recipes. The response should be in the following JSON format without any additional text or markdown:
 [
     {
         "name": "Recipe Name",
@@ -43,13 +44,14 @@ export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferenc
                 role: 'user',
                 content: prompt,
             }],
-            max_tokens: 1000,
+            max_tokens: 1500,
         });
 
+        await connectDB();
         await aiGenerated.create({
             userId,
             prompt,
-            response
+            response,
         });
 
         return response.choices[0].message?.content

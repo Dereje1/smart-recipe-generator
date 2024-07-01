@@ -6,4 +6,4 @@ const AIgeneratedSchema = new mongoose.Schema({
     response: { type: Object, required: true },
   }, { timestamps: true });
   
-  export default mongoose.model('AIgenerated', AIgeneratedSchema);
+  export default mongoose.models.AIgenerated || mongoose.model('AIgenerated', AIgeneratedSchema);

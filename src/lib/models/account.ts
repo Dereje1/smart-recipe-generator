@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Model }  from 'mongoose';
 
 export interface AccountType {
     provider: string,
@@ -23,4 +23,6 @@ const accountSchema = new mongoose.Schema({
   id_token: String
 });
 
-export default mongoose.model<AccountType>('Account', accountSchema);
+const Account: Model<AccountType> = mongoose.models.Account || mongoose.model<AccountType>('Account', accountSchema);
+
+export default Account
