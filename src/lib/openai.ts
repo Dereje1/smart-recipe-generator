@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import { Ingredient, DietaryPreference } from '../types/index'
+import aiGenerated from './models/aigenerated';
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -30,20 +31,27 @@ I have the following ingredients: ${JSON.stringify(ingredients)} and dietary pre
     },
     ...
 ]
-Please ensure the recipes are diverse and use the ingredients listed. The recipes should follow the dietary preferences provided.
+Please ensure the recipes are diverse and use the ingredients listed. The recipes should follow the dietary preferences provided.The instructions should be ordered but not include the step numbers.
 `;
 
-export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[]): Promise<string | null> => {
+export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[], userId: string): Promise<string | null> => {
     try {
+        const prompt = getPrompt(ingredients, dietaryPreferences);
         const response = await openai.chat.completions.create({
             model: 'gpt-4o',
             messages: [{
                 role: 'user',
-                content: getPrompt(ingredients, dietaryPreferences),
+                content: prompt,
             }],
-            max_tokens: 800,
+            max_tokens: 1000,
         });
-        console.dir(response.choices, { depth: null })
+
+        await aiGenerated.create({
+            userId,
+            prompt,
+            response
+        });
+
         return response.choices[0].message?.content
     } catch (error) {
         console.error('Failed to generate recipe:', error);

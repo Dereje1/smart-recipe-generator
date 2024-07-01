@@ -107,7 +107,7 @@ export default function Navigation() {
     const handleIngredientSubmit = async () => {
         try {
             const result = await call_api(ingredients, preferences);
-            let recipes = JSON.parse(stub);
+            let recipes = JSON.parse(result.recipe);
             recipes = recipes.map((recipe: Recipe) => ({
                 ...recipe,
                 id: uuidv4()

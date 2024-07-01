@@ -3,16 +3,12 @@ import { authOptions } from "../api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"
 import { generateRecipe } from '../../lib/openai';
 
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions)
-
   if (!session) {
     res.status(401).json({ message: "You must be logged in." })
     return
   }
-
-  console.dir({ session })
 
   if (req.method === 'POST') {
     const { ingredients, dietaryPreferences } = req.body;
@@ -22,8 +18,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-      // const recipe = await generateRecipe(ingredients, dietaryPreferences);
-      res.status(200).json({ recipe: 'test' });
+      const recipe = await generateRecipe(ingredients, dietaryPreferences, session.user.id);
+      res.status(200).json({ recipe });
     } catch (error) {
       res.status(500).json({ error: 'Failed to generate recipe' });
     }
