@@ -96,7 +96,7 @@ const generateImage = (prompt: string): Promise<ImagesResponse> => {
 };
 
 const generatePrompt = (recipeName: string, ingredients: Recipe['ingredients']): string => {
-    const allIngredients = ingredients.map(ingredient => `${ingredient.name} (${ingredient.quantity})`).join(', ');
+    const allIngredients = ingredients.map(ingredient => `${ingredient.name}`).join(', ');
     const prompt = `Create an image of a delicious ${recipeName} made of these ingredients: ${allIngredients}. The image should be visually appealing and showcase the dish in an appetizing manner.`;
     console.log({ prompt })
     return prompt;

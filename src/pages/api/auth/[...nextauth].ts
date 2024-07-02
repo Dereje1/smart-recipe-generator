@@ -24,8 +24,13 @@ export const authOptions: NextAuthOptions = {
             // Send properties to the client, like an access_token and user id from a provider.
             session.user.id = user.id;
             return session
+        },
+        async redirect({ url, baseUrl }) {
+            // Always redirect to the index page after sign-in
+            return baseUrl; // this is equivalent to '/'
         }
-    }
+    },
+    
 }
 
 export default NextAuth(authOptions)

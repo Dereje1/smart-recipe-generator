@@ -19,8 +19,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
+      console.log('Generating recipes from openAI...')
       const response = await generateRecipe(ingredients, dietaryPreferences, session.user.id);
-      // const response = { recipes: stub, openaiPromptId: Date.now() }
       res.status(200).json(response);
     } catch (error) {
       res.status(500).json({ error: 'Failed to generate recipe' });

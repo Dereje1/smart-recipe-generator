@@ -6,7 +6,7 @@ import DietaryPreferences from './DietaryPreferences';
 import ReviewComponent from './ReviewIngredients';
 import SelectRecipesComponent from './SelectRecipes';
 import ReviewRecipesComponent from './ReviewRecipes';
-import Loading from './Loading';
+import Loading from '../Loading';
 import { getRecipesFromAPI, saveRecipes } from './call_api';
 import { Ingredient, DietaryPreference, Recipe } from '../../../types/index'
 import stub from './stub_response.json';

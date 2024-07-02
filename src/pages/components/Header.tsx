@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import { signOut } from 'next-auth/react';
 
 const userNavigation = [
-    { name: 'Your Profile' },
-    { name: 'Settings' },
-    { name: 'Sign out' },
+    { name: 'Your Profile', route: '/' },
+    { name: 'Settings', route: '/' },
+    { name: 'Sign out', route: '/auth/signout' },
 ]
 
 const navigation = [
-    { name: 'Dashboard' },
-    { name: 'Create Recipes' },
+    { name: 'Home', route: '/components/Home' },
+    { name: 'Create Recipes', route: '/components/Recipe_Creation' },
 ]
 
 
@@ -27,22 +28,18 @@ interface HeaderProps {
         image?: string | null | undefined
         email?: string | null | undefined
     } | undefined
-    updateSelection: (selected: string) => void
 }
 
-function Header({ user, updateSelection }: HeaderProps) {
-    const [selected, setSelected] = useState('Dashboard')
+function Header({ user }: HeaderProps) {
 
-    useEffect(() => {
-        updateSelection(selected)
-    }, [selected, updateSelection])
+    const router = useRouter();
 
-    const handleClick = (selected: string) => {
-        if (selected === 'Sign out') {
+    const handleUserNavigation = (menu: { name: string, route: string }) => {
+        if (menu.name === 'Sign out') {
             signOut()
             return
         }
-        setSelected(selected)
+        router.push(menu.route)
     }
 
     return (
@@ -66,13 +63,13 @@ function Header({ user, updateSelection }: HeaderProps) {
                                             <button
                                                 key={item.name}
                                                 className={classNames(
-                                                    item.name === selected
+                                                    item.route === router.pathname
                                                         ? 'bg-gray-900 text-white'
                                                         : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                     'rounded-md px-3 py-2 text-sm font-medium',
                                                 )}
-                                                aria-current={item.name === selected ? 'page' : undefined}
-                                                onClick={() => handleClick(item.name)}
+                                                aria-current={item.route === router.pathname ? 'page' : undefined}
+                                                onClick={() => router.push(item.route)}
                                             >
                                                 {item.name}
                                             </button>
@@ -118,7 +115,7 @@ function Header({ user, updateSelection }: HeaderProps) {
                                                                 focus ? 'bg-gray-100' : '',
                                                                 'block px-4 py-2 text-sm text-gray-700 w-full text-left',
                                                             )}
-                                                            onClick={() => handleClick(item.name)}
+                                                            onClick={() => handleUserNavigation(item)}
                                                         >
                                                             {item.name}
                                                         </button>
@@ -150,11 +147,11 @@ function Header({ user, updateSelection }: HeaderProps) {
                                 <DisclosureButton
                                     key={item.name}
                                     className={classNames(
-                                        item.name === selected ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                        item.route === router.pathname ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                         'block rounded-md px-3 py-2 text-base font-medium',
                                     )}
-                                    aria-current={item.name === selected ? 'page' : undefined}
-                                    onClick={() => handleClick(item.name)}
+                                    aria-current={item.route === router.pathname ? 'page' : undefined}
+                                    onClick={() => router.push(item.route)}
                                 >
                                     {item.name}
                                 </DisclosureButton>
@@ -189,7 +186,7 @@ function Header({ user, updateSelection }: HeaderProps) {
                                     <DisclosureButton
                                         key={item.name}
                                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                                        onClick={() => handleClick(item.name)}
+                                        onClick={() => handleUserNavigation(item)}
                                     >
                                         {item.name}
                                     </DisclosureButton>
