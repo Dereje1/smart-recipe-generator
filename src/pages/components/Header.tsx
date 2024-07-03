@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -6,8 +5,7 @@ import Image from 'next/image'
 import { signOut } from 'next-auth/react';
 
 const userNavigation = [
-    { name: 'Your Profile', route: '/' },
-    { name: 'Settings', route: '/' },
+    { name: 'Your Profile', route: '/components/Profile' },
     { name: 'Sign out', route: '/auth/signout' },
 ]
 

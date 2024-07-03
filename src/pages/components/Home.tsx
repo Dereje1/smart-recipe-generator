@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/react';
 import axios from 'axios';
 import withAuth from './withAuth'
 import FrontDisplay from './Recipe_Display/FrontDisplay'
@@ -12,9 +13,9 @@ const initialDialogContents: ExtendedRecipe | null = null
 function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
     const [openDialog, setOpenDialog] = useState(initialDialogContents);
     const handleShowRecipe = (recipe: ExtendedRecipe) => {
-        console.log(recipe)
         setOpenDialog(recipe)
     }
+    if(!recipes.length) return null;
     return (
         <>
             <div className="flex justify-center items-center min-h-screen p-2">
@@ -34,10 +35,23 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
+        const session = await getSession(context);
+        if (!session) {
+            return {
+                redirect: {
+                    destination: '/',
+                    permanent: false,
+                },
+            };
+        }
         const connection = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api/recipes' : ''
-        const { data: recipes } = await axios.get(connection);
+        const { data: recipes } = await axios.get(connection, {
+            headers: {
+                Cookie: context.req.headers.cookie || '',
+            },
+        });
         return {
             props: {
                 recipes,

@@ -13,6 +13,11 @@ const nextConfig = {
                 hostname: 'smart-recipe-generator.s3.amazonaws.com',
                 port: '',
             },
+            {
+                protocol: 'https',
+                hostname: 'www.gravatar.com',
+                port: '',
+            },
         ],
     }
 

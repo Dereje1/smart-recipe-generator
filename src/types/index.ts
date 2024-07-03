@@ -60,6 +60,7 @@ export interface ExtendedRecipe extends Recipe {
     owner:{
         _id: string
         name: string
+        image: string
     }
     createdAt: string
     updatedAt: string
