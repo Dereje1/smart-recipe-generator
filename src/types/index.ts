@@ -27,3 +27,9 @@ export interface Recipe {
     additionalInformation: AdditionalInformation;
     openaiPromptId: string
 }
+
+// this is for recipes returned from the db back to the client
+export interface ExtendedRecipe extends Recipe {
+    _id: string
+    imgLink: string
+}
