@@ -6,11 +6,13 @@ interface RecipeCardProps {
     handleRecipeSelection?: (id: string) => void
     selectedRecipes: string[]
     showSwitch?: boolean
+    removeMargin: boolean
 }
 
-const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch, removeMargin }: RecipeCardProps) => {
+    const parentClassName = `max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden ${removeMargin ? '' : 'mt-10 mb-5'}` 
     return (
-        <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10 mb-5" key={recipe.name}>
+        <div className={parentClassName} key={recipe.name}>
             <div className="px-6 py-4">
                 <div className="flex justify-between items-center">
                     <div className="font-bold text-2xl mb-4">{recipe.name}</div>

@@ -1,19 +1,36 @@
+import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import withAuth from './withAuth'
 import FrontDisplay from './Recipe_Display/FrontDisplay'
+import Dialog from '../components/Recipe_Display/Dialog'
 import { ExtendedRecipe } from '../../types';
 
 
+const initialDialogContents: ExtendedRecipe | null = null
+
 function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
+    const [openDialog, setOpenDialog] = useState(initialDialogContents);
+    const handleShowRecipe = (recipe: ExtendedRecipe) => {
+        console.log(recipe)
+        setOpenDialog(recipe)
+    }
     return (
-        <div className="flex justify-center items-center min-h-screen p-2">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {recipes.map((recipe, idx) => (
-            <FrontDisplay key={recipe._id} recipe={recipe}/>
-          ))}
-        </div>
-      </div>
+        <>
+            <div className="flex justify-center items-center min-h-screen p-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {recipes.map((recipe, idx) => (
+                        <FrontDisplay key={recipe._id} recipe={recipe} showRecipe={handleShowRecipe} />
+                    ))}
+                </div>
+            </div>
+
+            <Dialog
+                isOpen={Boolean(openDialog)}
+                close={() => setOpenDialog(null)}
+                recipe={openDialog}
+            />
+        </>
     )
 }
 

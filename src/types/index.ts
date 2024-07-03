@@ -1,10 +1,12 @@
+import mongoose from 'mongoose';
+
 export type Ingredient = {
     name: string
     quantity: number | null
     id: number
 }
 
-// Type for dietary preferences
+// Type for dietary preferences in client
 export type DietaryPreference = 'Vegetarian' | 'Vegan' | 'Gluten-Free' | 'Keto' | 'Paleo';
 
 interface RecipeIngredient {
@@ -28,8 +30,37 @@ export interface Recipe {
     openaiPromptId: string
 }
 
-// this is for recipes returned from the db back to the client
+// this is for raw recipe documents to be stored in the db
+interface tagType {
+    _id: string,
+    tag: string,
+}
+
+interface unPopulatedComment {
+    _id: mongoose.Types.ObjectId,
+    user: mongoose.Types.ObjectId,
+    comment: string,
+    createdAt: string,
+  }
+
+
+export interface RecipeDocument extends Recipe {
+    owner: mongoose.Types.ObjectId
+    imgLink: string
+    likedBy: mongoose.Types.ObjectId[]
+    comments: unPopulatedComment[],
+    createdAt: string,
+    tags: tagType[],
+}
+
+// this is for recipes returned from the db back to the client or those returned from populated mongoose queries
 export interface ExtendedRecipe extends Recipe {
     _id: string
     imgLink: string
+    owner:{
+        _id: string
+        name: string
+    }
+    createdAt: string
+    updatedAt: string
 }

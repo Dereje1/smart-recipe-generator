@@ -144,7 +144,7 @@ export default function Navigation() {
     return (
         <>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center justify-center">
-                <span className="bg-black text-white text-xl font-bold italic px-2.5 py-0.5 rounded mt-2">
+                <span className="text-3xl font-bold text-blue-700 bg-blue-100 rounded-lg p-3 mb-5 mt-5 shadow-md">
                     {steps[step]}
                 </span>
                 <p className="text-black mt-2 font-bold italic text-lg"></p>

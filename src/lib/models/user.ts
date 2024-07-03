@@ -17,6 +17,6 @@ const userSchema = new mongoose.Schema({
   emailVerified: String || null,
 }, { timestamps: true });
 
-const User: Model<UserType> = mongoose.models.Account || mongoose.model<UserType>('User', userSchema);
+const User: Model<UserType> = mongoose.models.User || mongoose.model<UserType>('User', userSchema);
 
 export default User

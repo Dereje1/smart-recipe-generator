@@ -1,30 +1,9 @@
 import mongoose, { Model }  from 'mongoose';
-import { Recipe as RecipeType } from '../../types/index'
-
-
-interface tagType {
-    _id: string,
-    tag: string,
-}
-
-interface unPopulatedComment {
-    _id: mongoose.Types.ObjectId,
-    user: mongoose.Types.ObjectId,
-    comment: string,
-    createdAt: string,
-  }
-
-interface RecipeDocument extends RecipeType {
-    owner: mongoose.Types.ObjectId
-    imgLink: string
-    likedBy: mongoose.Types.ObjectId[]
-    comments: unPopulatedComment[],
-    createdAt: string,
-    tags: tagType[],
-}
+import User from './user';
+import { RecipeDocument } from '../../types/index'
 
 const commentSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: User },
     comment: { type: String, required: true },
 }, {
     timestamps: true,
@@ -40,7 +19,7 @@ const ingredientSchema = new mongoose.Schema({
 });
 
 const recipeSchema = new mongoose.Schema({
-    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: User },
     name: { type: String, required: true },
     ingredients: [ingredientSchema],
     instructions: [{ type: String, required: true }],
@@ -54,7 +33,7 @@ const recipeSchema = new mongoose.Schema({
     imgLink: { type: String },
     openaiPromptId: {type: String, required: true},
     likedBy: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: User }],
         default: [],
     },
     comments: {
