@@ -13,18 +13,15 @@ const initialComboIngredient: comboIngredient = { id: 0, name: '' }
 
 const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient, onDelete: (id: number) => void }) => {
     return (
-        <div className="flex flex-wrap justify-center">
-            <div className="flex justify-center items-center m-1 font-medium py-1 px-2 rounded-full text-black-100 bg-gray-200 border-none">
-                <div className="text-sm font-bold leading-none max-w-full flex-initial">{`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}</div>
-                <div className="flex flex-auto flex-row-reverse">
-                    <div onClick={() => onDelete(ingredient.id)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x cursor-pointer hover:text-indigo-400 rounded-full w-4 h-4 ml-2">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </div>
+        <div className="flex">
+            <span className="flex items-center bg-blue-600 text-white text-sm font-medium me-2 px-2.5 py-0.5 rounded m-2">{`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}
+                <div onClick={() => onDelete(ingredient.id)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x cursor-pointer hover:text-gray-300 rounded-full w-4 h-4 ml-2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                 </div>
-            </div>
+            </span>
         </div>
     )
 }
@@ -131,7 +128,7 @@ export default function IngredientForm({
     };
 
     const deleteIngredient = (id: number) => {
-        if(Boolean(generatedRecipes.length)) return null;
+        if (Boolean(generatedRecipes.length)) return null;
         updateIngredients(ingredients.filter(ingredient => ingredient.id !== id))
     }
 
@@ -140,7 +137,7 @@ export default function IngredientForm({
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-3 lg:px-8">
                 <div className="mt-0 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" action="#" method="POST">
-                        <IngredientList ingredientUpdate={(val) => handleChange(val, 'name')} generatedRecipes={generatedRecipes}/>
+                        <IngredientList ingredientUpdate={(val) => handleChange(val, 'name')} generatedRecipes={generatedRecipes} />
                         <div>
                             <div className="flex items-center justify-between">
                                 <label htmlFor="number" className="block text-sm font-medium leading-6 text-gray-900">
