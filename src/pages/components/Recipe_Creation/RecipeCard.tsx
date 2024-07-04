@@ -6,7 +6,7 @@ interface RecipeCardProps {
     handleRecipeSelection?: (id: string) => void
     selectedRecipes: string[]
     showSwitch?: boolean
-    removeMargin: boolean
+    removeMargin?: boolean
 }
 
 const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch, removeMargin }: RecipeCardProps) => {
