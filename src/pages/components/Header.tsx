@@ -41,18 +41,18 @@ function Header({ user }: HeaderProps) {
     }
 
     return (
-        <Disclosure as="nav" className="bg-gray-800">
+        <Disclosure as="nav" className="sticky top-0 z-50 bg-gray-800">
             {({ open }) => (
                 <>
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="flex h-16 items-center justify-between">
                             <div className="flex items-center">
-                                <div className="flex-shrink-0">
+                                <div className="flex-shrink-0 bg-white">
                                     <Image
                                         src="/logo.svg"
-                                        alt=""
-                                        width={75}
-                                        height={75}
+                                        alt="logo"
+                                        width={62}
+                                        height={62}
                                     />
                                 </div>
                                 <div className="hidden md:block">
