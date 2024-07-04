@@ -1,45 +1,36 @@
-import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
 import axios from 'axios';
-import Dialog from './Recipe_Display/Dialog'
-import FrontDisplay from './Recipe_Display/FrontDisplay';
+import withAuth from './withAuth'
 import ProfileInformation from './Profile_Information/ProfileInformation';
+import ViewRecipes from './Recipe_Display/ViewRecipes';
+import UserRecipeSelector from './Profile_Information/UserRecipeSelector';
 import { ExtendedRecipe } from '../../types';
-
-
-const initialDialogContents: ExtendedRecipe | null = null
-
+import { useEffect, useState } from 'react';
 
 function Profile({ recipes }: { recipes: ExtendedRecipe[] }) {
-    const [openDialog, setOpenDialog] = useState(initialDialogContents);
-    const handleShowRecipe = (recipe: ExtendedRecipe) => {
-        setOpenDialog(recipe)
-    }
+    const [recipesToView, setRecipesToView] = useState(recipes);
+    const [displaySetting, setDisplaySetting] = useState('created')
 
+    useEffect(() => {
+        setRecipesToView(recipes.filter(r => r.owns))
+    }, [recipes])
+
+    const handleDisplaySetting = (val: string) => {
+        let view = []
+        if (val === 'created') {
+            view = recipes.filter(r => r.owns);
+        } else {
+            view = recipes.filter(r => r.liked);
+        }
+        setRecipesToView(view)
+        setDisplaySetting(val)
+    }
     return (
         <div className="flex flex-col items-center">
             <ProfileInformation recipes={recipes} />
-            {
-                recipes.length ?
-                    <>
-                        <div className="flex justify-center items-center min-h-screen p-2">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                {recipes.map((recipe, idx) => (
-                                    <FrontDisplay key={recipe._id} recipe={recipe} showRecipe={handleShowRecipe} />
-                                ))}
-                            </div>
-                        </div>
-
-                        <Dialog
-                            isOpen={Boolean(openDialog)}
-                            close={() => setOpenDialog(null)}
-                            recipe={openDialog}
-                        />
-                    </>
-                    : null
-            }
-
+            <UserRecipeSelector displaySetting={displaySetting} setDisplaySetting={handleDisplaySetting} />
+            <ViewRecipes recipes={recipesToView} />
         </div>
     )
 }
@@ -77,4 +68,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 };
 
-export default Profile
+export default withAuth(Profile);

@@ -4,11 +4,15 @@ import Image from 'next/image'
 import { ExtendedRecipe } from '../../../types';
 
 function ProfileInformation({ recipes }: { recipes: ExtendedRecipe[] }) {
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     if (!session?.user && !session) return null;
 
     const { user } = session;
+
+    const ownedRecipes = recipes.filter(r => r.owns)
+    const favoriteRecipes = recipes.filter(r => r.liked)
+    const votesReceived = ownedRecipes.reduce((total, recipe) => (total + recipe.likedBy.length), 0)
 
     return (
         <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-5">
@@ -26,15 +30,15 @@ function ProfileInformation({ recipes }: { recipes: ExtendedRecipe[] }) {
                 <span className="text-sm text-gray-500 dark:text-gray-400">{user.email}</span>
                 <div className="grid grid-cols-3 gap-4 text-center mt-2">
                     <div>
-                        <div className="text-lg font-medium text-black">{recipes.length}</div>
+                        <div className="text-lg font-medium text-black">{ownedRecipes.length}</div>
                         <p className="text-gray-500">Recipes Created</p>
                     </div>
                     <div>
-                        <div className="text-lg font-medium text-black">0</div>
+                        <div className="text-lg font-medium text-black">{ votesReceived }</div>
                         <p className="text-gray-500">Votes Received</p>
                     </div>
                     <div>
-                        <div className="text-lg font-medium text-black">0</div>
+                        <div className="text-lg font-medium text-black">{favoriteRecipes.length}</div>
                         <p className="text-gray-500">Favorites</p>
                     </div>
                 </div>
