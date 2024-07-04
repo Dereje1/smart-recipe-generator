@@ -24,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             .lean()
             .exec() as unknown as ExtendedRecipe[];
 
-        res.status(200).json(filterResults(profilePins));
+        res.status(200).json(filterResults(profilePins, session.user.id));
 
     } catch (error) {
         console.log(error)

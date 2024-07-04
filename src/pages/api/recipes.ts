@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .lean()
       .exec() as unknown as ExtendedRecipe[]
 
-    res.status(200).json(filterResults(allRecipes));
+    res.status(200).json(filterResults(allRecipes, session.user.id));
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: 'Failed to fetch recipes' });
