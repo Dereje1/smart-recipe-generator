@@ -23,3 +23,14 @@ export const updateRecipeList = (oldList: ExtendedRecipe[], newRecipe: ExtendedR
     ...oldList.slice(indexOfUpdate + 1),
   ];
 };
+
+export const getFilteredRecipes = (recipes: ExtendedRecipe[], search: string | null) => {
+  if (!search) return recipes;
+  const filteredRecipes = recipes.filter(({ name, ingredients, dietaryPreference }) => {
+      const isFoundInName = name.toLowerCase().includes(search);
+      const isFoundInIngredients = ingredients.filter(ingredient => ingredient.name.toLowerCase().includes(search))
+      const isFoundInDiets = dietaryPreference.filter(diet => diet.toLowerCase().includes(search))
+      return isFoundInName || Boolean(isFoundInIngredients.length) || Boolean(isFoundInDiets.length);
+  });
+  return filteredRecipes;
+};

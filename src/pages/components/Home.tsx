@@ -1,15 +1,53 @@
+import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
 import axios from 'axios';
+import clsx from 'clsx'
+import { Button, Input } from '@headlessui/react'
 import withAuth from './withAuth'
 import ViewRecipes from './Recipe_Display/ViewRecipes';
+import { getFilteredRecipes } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
 
+
 function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
+    const [recipesToView, setRecipesToView] = useState(recipes);
+    const [searchVal, setSearchVal] = useState('')
+
+    useEffect(() => {
+        setRecipesToView(recipes)
+    }, [recipes])
+
+    useEffect(() => {
+        if (!searchVal.trim()) {
+            setRecipesToView(recipes)
+        }
+    }, [searchVal, recipes])
+
+    const handleSearch = () => {
+        const filteredRecipes = getFilteredRecipes(recipes, searchVal.trim().toLowerCase());
+        setRecipesToView(filteredRecipes)
+    }
 
     return (
-        <ViewRecipes recipes={recipes} />
+        <>
+            <div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow-md">
+                <Input
+                    className="w-full px-4 py-2 text-sm text-gray-700 placeholder-gray-500 bg-white border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-transparent"
+                    placeholder="Search..."
+                    value={searchVal}
+                    onChange={(e) => setSearchVal(e.target.value)}
+                />
+                <Button
+                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-r-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-100 hover:shadow"
+                    onClick={handleSearch}
+                >
+                    Search
+                </Button>
+            </div>
+            <ViewRecipes recipes={recipesToView} />
+        </>
     )
 }
 
