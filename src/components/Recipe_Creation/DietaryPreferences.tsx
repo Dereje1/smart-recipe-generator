@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Checkbox, Field, Label } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/16/solid'
-import { DietaryPreference, Recipe } from '../../../types/index'
+import { DietaryPreference, Recipe } from '../../types/index'
 
 
 const dietaryOptions: DietaryPreference[] = ['Vegetarian', 'Vegan', 'Gluten-Free', 'Keto', 'Paleo'];

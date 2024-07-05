@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import FrontDisplay from './FrontDisplay'
 import Dialog from './Dialog'
-import { updateRecipeList } from '../../../utils/utils';
-import { ExtendedRecipe } from '../../../types';
+import { updateRecipeList } from '../../utils/utils';
+import { ExtendedRecipe } from '../../types';
 
 const initialDialogContents: ExtendedRecipe | null = null
 function ViewRecipes({ recipes }: { recipes: ExtendedRecipe[] }) {

@@ -1,7 +1,7 @@
-import { DialogBackdrop, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
+import { DialogBackdrop, Dialog, DialogPanel } from '@headlessui/react'
 import Image from 'next/image'
 import RecipeCard from '../Recipe_Creation/RecipeCard'
-import { ExtendedRecipe } from '../../../types'
+import { ExtendedRecipe } from '../../types'
 
 interface RecipeDialogProps {
     isOpen: boolean

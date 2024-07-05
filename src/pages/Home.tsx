@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
 import axios from 'axios';
-import clsx from 'clsx'
 import { Button, Input } from '@headlessui/react'
-import withAuth from './withAuth'
-import ViewRecipes from './Recipe_Display/ViewRecipes';
-import { getFilteredRecipes } from '../../utils/utils';
-import { ExtendedRecipe } from '../../types';
+import withAuth from '../components/withAuth'
+import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
+import { getFilteredRecipes } from '../utils/utils';
+import { ExtendedRecipe } from '../types';
 
 
 

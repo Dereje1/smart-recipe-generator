@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Ingredient, DietaryPreference, Recipe } from '../../../types/index'
+import { Ingredient, DietaryPreference, Recipe } from '../../types/index'
 
 export const getRecipesFromAPI = async (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[]) => {
     try {

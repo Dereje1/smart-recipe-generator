@@ -1,6 +1,6 @@
 import React from 'react';
 import RecipeCard from './RecipeCard';
-import { Recipe } from '../../../types/index'
+import { Recipe } from '../../types/index'
 import { Button } from '@headlessui/react';
 
 interface SelectRecipesComponentProps {

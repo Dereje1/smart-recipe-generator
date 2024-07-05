@@ -1,5 +1,5 @@
 import { Switch } from '@headlessui/react'
-import { Recipe } from '../../../types/index'
+import { Recipe } from '../../types/index'
 
 interface RecipeCardProps {
     recipe: Recipe

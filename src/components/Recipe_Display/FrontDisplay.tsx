@@ -1,8 +1,7 @@
 import Image from "next/image"
 import { Button } from '@headlessui/react'
 import { likeRecipe } from './call_api'
-import { ExtendedRecipe, Recipe } from '../../../types';
-import { useState } from "react";
+import { ExtendedRecipe } from '../../types';
 
 
 interface FrontDisplayProps {

@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { Button } from '@headlessui/react'
 import { useRouter } from 'next/router';
-import withAuth from '../withAuth';
-import IngredientForm from './IngredientForm';
-import DietaryPreferences from './DietaryPreferences';
-import ReviewComponent from './ReviewIngredients';
-import SelectRecipesComponent from './SelectRecipes';
-import ReviewRecipesComponent from './ReviewRecipes';
-import Loading from '../Loading';
-import { getRecipesFromAPI, saveRecipes } from './call_api';
-import { Ingredient, DietaryPreference, Recipe } from '../../../types/index'
+import withAuth from '../components/withAuth';
+import IngredientForm from '../components/Recipe_Creation/IngredientForm';
+import DietaryPreferences from '../components/Recipe_Creation/DietaryPreferences';
+import ReviewComponent from '../components/Recipe_Creation/ReviewIngredients';
+import SelectRecipesComponent from '../components/Recipe_Creation/SelectRecipes';
+import ReviewRecipesComponent from '../components/Recipe_Creation/ReviewRecipes';
+import Loading from '../components/Loading';
+import { getRecipesFromAPI, saveRecipes } from '../components/Recipe_Creation/call_api';
+import { Ingredient, DietaryPreference, Recipe } from '../types/index'
 
 const steps = ['Add Ingredients', 'Choose Diet', 'Review Ingredients', 'Select Recipes', 'Review and Save Recipes']
 

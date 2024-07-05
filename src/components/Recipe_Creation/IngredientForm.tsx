@@ -3,7 +3,7 @@ import { Button, Combobox, ComboboxButton, ComboboxInput, ComboboxOption, Combob
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import ingredientList from './ingredientList';
-import { Ingredient, Recipe } from '../../../types/index'
+import { Ingredient, Recipe } from '../../types/index'
 
 
 type comboIngredient = { id: number, name: string }

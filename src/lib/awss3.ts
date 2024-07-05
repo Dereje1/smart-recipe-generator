@@ -32,11 +32,11 @@ export const processImage = (url: string): Promise<StreamingBlobPayloadInputType
 
 // Function to configure the S3 client
 export const configureS3 = () => (
-    process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_KEY
+    process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY
         ? new S3Client({
             credentials: {
                 accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-                secretAccessKey: process.env.AWS_SECRET_KEY,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
             },
             region: 'us-east-1',
         })

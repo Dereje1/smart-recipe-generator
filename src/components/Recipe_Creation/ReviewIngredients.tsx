@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@headlessui/react'
-import { Ingredient, DietaryPreference, Recipe } from '../../../types/index'
+import { Ingredient, DietaryPreference, Recipe } from '../../types/index'
 
 interface ReviewComponentProps {
     ingredients: Ingredient[]

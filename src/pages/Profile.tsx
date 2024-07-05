@@ -1,11 +1,11 @@
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
 import axios from 'axios';
-import withAuth from './withAuth'
-import ProfileInformation from './Profile_Information/ProfileInformation';
-import ViewRecipes from './Recipe_Display/ViewRecipes';
-import UserRecipeSelector from './Profile_Information/UserRecipeSelector';
-import { ExtendedRecipe } from '../../types';
+import withAuth from '../components/withAuth'
+import ProfileInformation from '../components/Profile_Information/ProfileInformation';
+import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
+import UserRecipeSelector from '../components/Profile_Information/UserRecipeSelector';
+import { ExtendedRecipe } from '../types';
 import { useEffect, useState } from 'react';
 
 function Profile({ recipes }: { recipes: ExtendedRecipe[] }) {

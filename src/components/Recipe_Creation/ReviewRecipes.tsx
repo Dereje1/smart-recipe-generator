@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import RecipeCard from './RecipeCard';
 import { Button } from '@headlessui/react';
-import { Recipe } from '../../../types/index'
+import { Recipe } from '../../types/index'
 
 interface ReviewRecipesComponentProps {
     generatedRecipes: Recipe[]

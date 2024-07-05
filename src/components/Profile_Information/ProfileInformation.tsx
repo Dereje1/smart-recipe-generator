@@ -1,7 +1,7 @@
 
 import { useSession } from 'next-auth/react';
 import Image from 'next/image'
-import { ExtendedRecipe } from '../../../types';
+import { ExtendedRecipe } from '../../types';
 
 function ProfileInformation({ recipes }: { recipes: ExtendedRecipe[] }) {
     const { data: session } = useSession();

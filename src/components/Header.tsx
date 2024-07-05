@@ -5,13 +5,13 @@ import Image from 'next/image'
 import { signOut } from 'next-auth/react';
 
 const userNavigation = [
-    { name: 'Your Profile', route: '/components/Profile' },
+    { name: 'Your Profile', route: '/Profile' },
     { name: 'Sign out', route: '/auth/signout' },
 ]
 
 const navigation = [
-    { name: 'Home', route: '/components/Home' },
-    { name: 'Create Recipes', route: '/components/Recipe_Creation' },
+    { name: 'Home', route: '/Home' },
+    { name: 'Create Recipes', route: '/CreateRecipe' },
 ]
 
 
