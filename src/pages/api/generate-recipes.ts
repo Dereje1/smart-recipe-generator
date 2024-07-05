@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { authOptions } from "../api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"
 import { generateRecipe } from '../../lib/openai';
-import stub from '../components/Recipe_Creation/stub_response.json';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions)
