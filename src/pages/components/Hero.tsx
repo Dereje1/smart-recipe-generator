@@ -1,18 +1,43 @@
-import { useState } from 'react'
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import Image from 'next/image'
+import { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import { Dialog, DialogPanel } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import Product from './Hero_Sections/Product';
+import Features from './Hero_Sections/Features';
+import Landing from './Hero_Sections/Landing';
 
 const navigation = [
-    { name: 'Product', href: '#' },
-    { name: 'Features', href: '#' },
-    { name: 'Marketplace', href: '#' },
-    { name: 'Company', href: '#' },
-]
+    { name: 'Product', key: 'product' },
+    { name: 'Features', key: 'features' },
+    { name: 'About', key: 'about' },
+];
 
 export default function Hero() {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [selectedPage, setSelectedPage] = useState<string | null>(null);
+
+    const renderContent = () => {
+        switch (selectedPage) {
+            case 'product':
+                return (
+                    <Product resetPage={() => setSelectedPage(null)} />
+                );
+            case 'features':
+                return (
+                    <Features resetPage={() => setSelectedPage(null)} />
+                );
+            case 'about':
+                window.open('https://github.com/Dereje1', '_blank');
+                return (
+                    <Landing />
+                );
+            default:
+                return (
+                    <Landing />
+                );
+        }
+    };
 
     return (
         <div className="bg-white">
@@ -21,12 +46,7 @@ export default function Hero() {
                     <div className="flex lg:flex-1">
                         <a href="#" className="-m-1.5 p-1.5">
                             <span className="sr-only">Smart Recipe Generator</span>
-                            <Image
-                                src="/logo.svg"
-                                alt=""
-                                width={75}
-                                height={75}
-                            />
+                            <Image src="/logo.svg" alt="" width={75} height={75} />
                         </a>
                     </div>
                     <div className="flex lg:hidden">
@@ -41,9 +61,13 @@ export default function Hero() {
                     </div>
                     <div className="hidden lg:flex lg:gap-x-12">
                         {navigation.map((item) => (
-                            <a key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-gray-900">
+                            <button
+                                key={item.name}
+                                onClick={() => setSelectedPage(item.key)}
+                                className="text-sm font-semibold leading-6 text-gray-900"
+                            >
                                 {item.name}
-                            </a>
+                            </button>
                         ))}
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -58,12 +82,7 @@ export default function Hero() {
                         <div className="flex items-center justify-between">
                             <a href="#" className="-m-1.5 p-1.5">
                                 <span className="sr-only">Smart Recipe Generator</span>
-                                <Image
-                                    src="/logo.svg"
-                                    alt=""
-                                    width={75}
-                                    height={75}
-                                />
+                                <Image src="/logo.svg" alt="" width={75} height={75} />
                             </a>
                             <button
                                 type="button"
@@ -78,23 +97,25 @@ export default function Hero() {
                             <div className="-my-6 divide-y divide-gray-500/10">
                                 <div className="space-y-2 py-6">
                                     {navigation.map((item) => (
-                                        <a
+                                        <button
                                             key={item.name}
-                                            href={item.href}
-                                            className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                            onClick={() => {
+                                                setSelectedPage(item.key);
+                                                setMobileMenuOpen(false);
+                                            }}
+                                            className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 w-full text-left"
                                         >
                                             {item.name}
-                                        </a>
+                                        </button>
                                     ))}
                                 </div>
                                 <div className="py-6">
-                                    <a
-                                        href="#"
-                                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                    <button
+                                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 w-full text-left"
                                         onClick={() => signIn('google')}
                                     >
                                         Log in With Google
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -119,28 +140,13 @@ export default function Hero() {
                     <div className="hidden sm:mb-8 sm:flex sm:justify-center">
                         <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
                             Discover our new AI-powered recipe generator.{' '}
-                            <a href="#" className="font-semibold text-indigo-600">
+                            <a href="https://github.com/Dereje1/smart-recipe-generator" className="font-semibold text-indigo-600">
                                 <span className="absolute inset-0" aria-hidden="true" />
                                 Learn more <span aria-hidden="true">&rarr;</span>
                             </a>
                         </div>
                     </div>
-                    <div className="text-center">
-                        <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                            Generate Delicious Recipes with Your Ingredients
-                        </h1>
-                        <p className="mt-6 text-lg leading-8 text-gray-600">
-                            Simply input your available ingredients, select dietary preferences, and let our AI create unique and delicious recipes just for you.
-                        </p>
-                        <div className="mt-10 flex items-center justify-center gap-x-6">
-                            <button
-                                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onClick={() => signIn('google')}
-                            >
-                                Get started
-                            </button>
-                        </div>
-                    </div>
+                    {renderContent()}
                 </div>
                 <div
                     className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
@@ -156,5 +162,5 @@ export default function Hero() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
