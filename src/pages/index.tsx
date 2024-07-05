@@ -13,10 +13,10 @@ export default function Index() {
 
     if (session) {
       // If the user is authenticated, navigate to Home
-      router.push('/components/Home');
+      router.push('/Home');
     } else {
       // If the user is not authenticated, navigate to the hero
-      router.push('/components/Hero');
+      router.push('/Hero');
     }
   }, [session, status, router]);
 

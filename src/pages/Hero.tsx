@@ -3,9 +3,9 @@ import { signIn } from 'next-auth/react';
 import { Dialog, DialogPanel } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import Product from './Hero_Sections/Product';
-import Features from './Hero_Sections/Features';
-import Landing from './Hero_Sections/Landing';
+import Product from '../components/Hero_Sections/Product';
+import Features from '../components/Hero_Sections/Features';
+import Landing from '../components/Hero_Sections/Landing';
 
 const navigation = [
     { name: 'Product', key: 'product' },
