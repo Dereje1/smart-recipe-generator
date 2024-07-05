@@ -62,8 +62,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 },
             };
         }
-        const connection = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api/recipes' : ''
-        const { data: recipes } = await axios.get(connection, {
+        const { data: recipes } = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/recipes`, {
             headers: {
                 Cookie: context.req.headers.cookie || '',
             },

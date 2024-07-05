@@ -39,7 +39,7 @@ function Header({ user }: HeaderProps) {
         }
         router.push(menu.route)
     }
-
+    if(!user) return null;
     return (
         <Disclosure as="nav" className="sticky top-0 z-50 bg-gray-800">
             {({ open }) => (

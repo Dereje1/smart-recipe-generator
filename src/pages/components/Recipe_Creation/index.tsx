@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { Button } from '@headlessui/react'
+import { useRouter } from 'next/router';
+import withAuth from '../withAuth';
 import IngredientForm from './IngredientForm';
 import DietaryPreferences from './DietaryPreferences';
 import ReviewComponent from './ReviewIngredients';
@@ -9,7 +10,6 @@ import ReviewRecipesComponent from './ReviewRecipes';
 import Loading from '../Loading';
 import { getRecipesFromAPI, saveRecipes } from './call_api';
 import { Ingredient, DietaryPreference, Recipe } from '../../../types/index'
-import stub from './stub_response.json';
 
 const steps = ['Add Ingredients', 'Choose Diet', 'Review Ingredients', 'Select Recipes', 'Review and Save Recipes']
 
@@ -95,13 +95,15 @@ function StepComponent({
 
 }
 
-export default function Navigation() {
+function Navigation() {
     const [step, setStep] = useState(0);
     const [ingredients, setIngredients] = useState(initialIngridients)
     const [preferences, setPreferences] = useState(initialPreferences)
     const [generatedRecipes, setGeneratedRecipes] = useState(initialRecipes)
     const [selectedRecipeIds, setSelectedRecipeIds] = useState(initialSelectedIds)
     const [isLoading, setIsLoading] = useState(false)
+
+    const router = useRouter();
 
     const updateStep = (val: number) => {
         let newStep = step + val
@@ -136,6 +138,7 @@ export default function Navigation() {
             setGeneratedRecipes(initialRecipes)
             setSelectedRecipeIds(initialSelectedIds)
             setStep(0)
+            router.push('/');
         } catch (error) {
             console.log(error)
         }
@@ -201,3 +204,5 @@ export default function Navigation() {
         </>
     )
 }
+
+export default withAuth(Navigation);

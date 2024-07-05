@@ -15,7 +15,7 @@ const ReviewComponent = ({ ingredients, dietaryPreference, onSubmit, onEdit, gen
         <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10">
             <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">Review Your Selections</div>
-
+                {ingredients.length < 3 ? <p className="text-sm text-red-300">Please select at least 3 ingredients to proceed with recipe creation.</p> : null}
                 <h3 className="text-gray-700 font-semibold text-lg">Ingredients:</h3>
                 <div className="mb-4 flex flex-wrap">
                     {ingredients.map((ingredient) => (
@@ -47,9 +47,9 @@ const ReviewComponent = ({ ingredients, dietaryPreference, onSubmit, onEdit, gen
                     <Button
                         onClick={onSubmit}
                         className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-sky-500 data-[disabled]:bg-gray-200"
-                        disabled={!ingredients.length || Boolean(generatedRecipes.length)}
+                        disabled={ingredients.length < 3 || Boolean(generatedRecipes.length)}
                     >
-                        Get Recipes
+                        Create Recipes
                     </Button>
                 </div>
             </div>
