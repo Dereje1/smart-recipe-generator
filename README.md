@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Smart Recipe Generator
 
-## Getting Started
+Smart Recipe Generator is an AI-powered web application that generates unique and delicious recipes based on user-selected ingredients and dietary preferences. It uses OpenAI for recipe generation and DALL-E for creating appetizing images of the recipes. The application is built using a MERN stack (MongoDB, React, Node.js) and deployed on Vercel.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **User Authentication**: Secure login using Google OAuth with `next-auth`.
+- **AI-Powered Recipe Generation**: Generate recipes based on selected ingredients and dietary preferences.
+- **Recipe Image Generation**: Generate images of the recipes using DALL-E.
+- **User Profiles**: View and manage your own recipes.
+- **Likes System**: Like your favorite recipes.
+- **Responsive Design**: Mobile-friendly and responsive UI.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend**: React, Next.js, Tailwind CSS
+- **Backend**: Node.js, MongoDB
+- **Authentication**: NextAuth.js with Google OAuth
+- **AI Integration**: OpenAI for recipe generation, DALL-E for image generation
+- **Image Hosting**: AWS S3
+- **Hosting**: Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Installation
 
-## Learn More
+1. **Clone the Repository**:
+    ```bash
+    git clone https://github.com/yourusername/smart-recipe-generator.git
+    cd smart-recipe-generator
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install Dependencies**:
+    ```bash
+    npm install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Set Up Environment Variables**:
+    Create a `.env.local` file in the root directory and add the following environment variables:
+    ```env
+    NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
+    NEXTAUTH_URL=http://localhost:3000
+    NEXTAUTH_SECRET=your-secret
+    GOOGLE_CLIENT_ID=your-google-client-id
+    GOOGLE_CLIENT_SECRET=your-google-client-secret
+    OPENAI_API_KEY=your-openai-api-key
+    AWS_ACCESS_KEY_ID=your-aws-access-key-id
+    AWS_SECRET_KEY=your-aws-secret-key
+    MONGO_URI=your-mongodb-uri
+    S3_BUCKET_NAME=your-s3-bucket-name
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    If you wish and have Docker, you can run MongoDB locally using:
+    ```bash
+    docker-compose up mongodb
+    ```
+    Point your MongoDB URI to:
+    ```env
+    mongodb://root:123456@localhost:27018
+    ```
 
-## Deploy on Vercel
+4. **Run the Development Server**:
+    ```bash
+    npm run dev
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    The application will be available at `http://localhost:3000`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Usage
+
+1. **Sign In**: Log in using your Google account.
+2. **Select Ingredients**: Choose ingredients from the list.
+3. **Generate Recipes**: Click the button to generate recipes.
+4. **Select Recipes**: Choose from the generated recipes to save into your account.
+5. **View Recipes**: See the generated recipes and their images on the homepage.
+6. **Like Recipes**: Like your favorite recipes.
+7. **Profile**: View and manage your recipes in your profile.
+
+## Deployment
+
+The application is deployed on Vercel. Follow these steps to deploy:
+
+1. **Login to Vercel**: If you don't have an account, sign up at [vercel.com](https://vercel.com/).
+2. **Import Project**: Import your GitHub repository to Vercel.
+3. **Configure Environment Variables**: Set the environment variables in Vercel's dashboard.
+4. **Deploy**: Click on Deploy.
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+- [OpenAI](https://openai.com/)
+- [Vercel](https://vercel.com/)
+- [Next.js](https://nextjs.org/)
+- [MongoDB](https://www.mongodb.com/)
+- Hat tip to anyone whose code was used
+- GPT-4o for [acting as an assistant](https://github.com/Dereje1/smart-recipe-generator/blob/main/gpt.md) throughout the project
+
