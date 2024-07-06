@@ -1,4 +1,8 @@
+import axios from "axios";
+import { getSession } from 'next-auth/react';
 import { ExtendedRecipe } from "../types"
+import { GetServerSidePropsContext } from "next";
+
 
 export const filterResults = (recipes: ExtendedRecipe[], userId: string) => {
   return recipes.map((recipe) => (
@@ -27,10 +31,41 @@ export const updateRecipeList = (oldList: ExtendedRecipe[], newRecipe: ExtendedR
 export const getFilteredRecipes = (recipes: ExtendedRecipe[], search: string | null) => {
   if (!search) return recipes;
   const filteredRecipes = recipes.filter(({ name, ingredients, dietaryPreference }) => {
-      const isFoundInName = name.toLowerCase().includes(search);
-      const isFoundInIngredients = ingredients.filter(ingredient => ingredient.name.toLowerCase().includes(search))
-      const isFoundInDiets = dietaryPreference.filter(diet => diet.toLowerCase().includes(search))
-      return isFoundInName || Boolean(isFoundInIngredients.length) || Boolean(isFoundInDiets.length);
+    const isFoundInName = name.toLowerCase().includes(search);
+    const isFoundInIngredients = ingredients.filter(ingredient => ingredient.name.toLowerCase().includes(search))
+    const isFoundInDiets = dietaryPreference.filter(diet => diet.toLowerCase().includes(search))
+    return isFoundInName || Boolean(isFoundInIngredients.length) || Boolean(isFoundInDiets.length);
   });
   return filteredRecipes;
+};
+
+export const getServerSidePropsUtility = async (context: GetServerSidePropsContext, address: string) => {
+  try {
+    const session = await getSession(context);
+    if (!session) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+    const { data: recipes } = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${address}`, {
+      headers: {
+        Cookie: context.req.headers.cookie || '',
+      },
+    });
+    return {
+      props: {
+        recipes,
+      },
+    };
+  } catch (error) {
+    console.error('Failed to fetch recipes:', error);
+    return {
+      props: {
+        recipes: [],
+      },
+    };
+  }
 };

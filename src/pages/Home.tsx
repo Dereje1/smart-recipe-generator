@@ -1,32 +1,32 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
-import axios from 'axios';
 import { Button, Input } from '@headlessui/react'
 import withAuth from '../components/withAuth'
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
-import { getFilteredRecipes } from '../utils/utils';
+import { getFilteredRecipes, getServerSidePropsUtility, updateRecipeList } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
 
 
+const initialSearchView: ExtendedRecipe[] = []
 
 function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
-    const [recipesToView, setRecipesToView] = useState(recipes);
+    const [latestRecipes, setLatestRecipes] = useState(recipes);
     const [searchVal, setSearchVal] = useState('')
-
-    useEffect(() => {
-        setRecipesToView(recipes)
-    }, [recipes])
+    const [searchView, setSearchView] = useState(initialSearchView)
 
     useEffect(() => {
         if (!searchVal.trim()) {
-            setRecipesToView(recipes)
+            setSearchView([])
         }
-    }, [searchVal, recipes])
+    }, [searchVal, latestRecipes])
+
+    const handleRecipeListUpdate = (recipe: ExtendedRecipe) => {
+        setLatestRecipes(updateRecipeList(latestRecipes, recipe));
+    }
 
     const handleSearch = () => {
-        const filteredRecipes = getFilteredRecipes(recipes, searchVal.trim().toLowerCase());
-        setRecipesToView(filteredRecipes)
+        const filteredRecipes = getFilteredRecipes(latestRecipes, searchVal.trim().toLowerCase());
+        setSearchView(filteredRecipes)
     }
 
     return (
@@ -45,40 +45,13 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
                     Search
                 </Button>
             </div>
-            <ViewRecipes recipes={recipesToView} />
+            <ViewRecipes recipes={searchView.length ? searchView : latestRecipes} handleRecipeListUpdate={handleRecipeListUpdate}/>
         </>
     )
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    try {
-        const session = await getSession(context);
-        if (!session) {
-            return {
-                redirect: {
-                    destination: '/',
-                    permanent: false,
-                },
-            };
-        }
-        const { data: recipes } = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/recipes`, {
-            headers: {
-                Cookie: context.req.headers.cookie || '',
-            },
-        });
-        return {
-            props: {
-                recipes,
-            },
-        };
-    } catch (error) {
-        console.error('Failed to fetch recipes:', error);
-        return {
-            props: {
-                recipes: [],
-            },
-        };
-    }
+    return await getServerSidePropsUtility(context, 'api/recipes')
 };
 
 export default withAuth(Home);

@@ -54,7 +54,7 @@ function Header({ user }: HeaderProps) {
                             <div className="flex items-center">
                                 <div className="flex-shrink-0 bg-white">
                                     <Image
-                                        src="/logo.svg"
+                                        src="/favicon.ico"
                                         alt="logo"
                                         width={62}
                                         height={62}

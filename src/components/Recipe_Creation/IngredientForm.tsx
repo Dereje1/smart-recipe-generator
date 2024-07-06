@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Button, Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
+import { useState } from 'react';
+import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import ingredientList from './ingredientList';
@@ -54,15 +54,15 @@ function IngredientList({ ingredientUpdate, generatedRecipes }: { ingredientUpda
                 <div className="relative">
                     <ComboboxInput
                         className={clsx(
-                            'w-full rounded-lg border border-gray/20  bg-white py-1.5 pr-8 pl-3 text-sm/6 text-gray-900',
-                            'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25'
+                            'w-full rounded-lg border border-gray/20 bg-white py-2 pr-8 pl-3 text-base text-gray-900',
+                            'focus:outline-none focus:ring-2 focus:ring-indigo-600'
                         )}
                         displayValue={(ingredient: comboIngredient) => ingredient?.name}
                         onChange={(event) => setQuery(event.target.value)}
                         placeholder='Choose Ingredient'
                     />
                     <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
-                        <ChevronDownIcon className="size-4 fill-black/60 group-data-[hover]:fill-black" />
+                        <ChevronDownIcon className="h-5 w-5 text-gray-400" />
                     </ComboboxButton>
                 </div>
 
