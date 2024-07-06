@@ -83,6 +83,9 @@ The application is deployed on Vercel. Follow these steps to deploy:
 3. **Configure Environment Variables**: Set the environment variables in Vercel's dashboard.
 4. **Deploy**: Click on Deploy.
 
+## Live Demo
+Check out the live application [here](https://smart-recipe-generator.vercel.app/).
+
 ## Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
