@@ -12,6 +12,7 @@ const userNavigation = [
 const navigation = [
     { name: 'Home', route: '/Home' },
     { name: 'Create Recipes', route: '/CreateRecipe' },
+    { name: 'About', route: '/' },
 ]
 
 
@@ -32,13 +33,17 @@ function Header({ user }: HeaderProps) {
 
     const router = useRouter();
 
-    const handleUserNavigation = (menu: { name: string, route: string }) => {
+    const handleNavigation = (menu: { name: string, route: string }) => {
         if (menu.name === 'Sign out') {
             signOut()
             return
         }
+        if (menu.name === 'About') {
+            window.open('https://github.com/Dereje1', '_blank');
+        }
         router.push(menu.route)
     }
+
     if(!user) return null;
     return (
         <Disclosure as="nav" className="sticky top-0 z-50 bg-gray-800">
@@ -67,7 +72,7 @@ function Header({ user }: HeaderProps) {
                                                     'rounded-md px-3 py-2 text-sm font-medium',
                                                 )}
                                                 aria-current={item.route === router.pathname ? 'page' : undefined}
-                                                onClick={() => router.push(item.route)}
+                                                onClick={() => handleNavigation(item)}
                                             >
                                                 {item.name}
                                             </button>
@@ -113,7 +118,7 @@ function Header({ user }: HeaderProps) {
                                                                 focus ? 'bg-gray-100' : '',
                                                                 'block px-4 py-2 text-sm text-gray-700 w-full text-left',
                                                             )}
-                                                            onClick={() => handleUserNavigation(item)}
+                                                            onClick={() => handleNavigation(item)}
                                                         >
                                                             {item.name}
                                                         </button>
@@ -149,7 +154,7 @@ function Header({ user }: HeaderProps) {
                                         'block rounded-md px-3 py-2 text-base font-medium',
                                     )}
                                     aria-current={item.route === router.pathname ? 'page' : undefined}
-                                    onClick={() => router.push(item.route)}
+                                    onClick={() => handleNavigation(item)}
                                 >
                                     {item.name}
                                 </DisclosureButton>
@@ -184,7 +189,7 @@ function Header({ user }: HeaderProps) {
                                     <DisclosureButton
                                         key={item.name}
                                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                                        onClick={() => handleUserNavigation(item)}
+                                        onClick={() => handleNavigation(item)}
                                     >
                                         {item.name}
                                     </DisclosureButton>

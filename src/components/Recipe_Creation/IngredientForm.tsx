@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
@@ -8,8 +8,8 @@ import { Ingredient, Recipe } from '../../types/index'
 
 type comboIngredient = { id: number, name: string }
 
-const initialIngridient: Ingredient = { name: '', quantity: 0, id: 0 }
 const initialComboIngredient: comboIngredient = { id: 0, name: '' }
+const initialQuantity: number | null = 0
 
 const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient, onDelete: (id: number) => void }) => {
     return (
@@ -101,7 +101,7 @@ export default function IngredientForm({
     updateIngredients,
     generatedRecipes
 }: IngredientFormProps) {
-    const [ingredient, setIngredient] = useState(initialIngridient);
+    const [quantity, setQuantity] = useState(initialQuantity);
 
     const handleChange = (val: string | undefined, field: string) => {
         if (!val) return;
@@ -109,23 +109,16 @@ export default function IngredientForm({
         if (field === 'quantity') {
             updatedVal = Number(updatedVal);
             if (updatedVal <= 0) updatedVal = null
-        }
-
-        setIngredient(
-            {
-                ...ingredient,
-                [field]: updatedVal
-            }
-        );
+            setQuantity(updatedVal)
+        } else {
+            const isRepeat = ingredients.some(i => i.name === val);
+            if (isRepeat) return
+            updateIngredients([
+                ...ingredients,
+                { name: val, quantity, id: Date.now() }
+            ])
+        };
     }
-
-    const handleAddIngredient = (event: React.FormEvent<HTMLButtonElement>) => {
-        event.preventDefault()
-        if (!ingredient.name.trim()) return;
-        const isRepeat = ingredients.map(i => i.name).includes(ingredient.name);
-        if (isRepeat) return;
-        updateIngredients([...ingredients, { ...ingredient, id: Date.now() }])
-    };
 
     const deleteIngredient = (id: number) => {
         if (Boolean(generatedRecipes.length)) return null;
@@ -149,25 +142,14 @@ export default function IngredientForm({
                                     type="number"
                                     name="quantity"
                                     placeholder="Quantity"
-                                    value={ingredient.quantity || 0}
+                                    value={quantity || 0}
                                     onChange={(e) => handleChange(e.target.value, 'quantity')}
                                     className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     disabled={Boolean(generatedRecipes.length)}
                                 />
                             </div>
                         </div>
-                        <div>
-                            <Button
-                                type="submit"
-                                className="flex w-full justify-center rounded-md bg-sky-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 data-[disabled]:bg-gray-200"
-                                onClick={(e) => handleAddIngredient(e)}
-                                disabled={Boolean(generatedRecipes.length)}
-                            >
-                                Add Ingredient
-                            </Button>
-                        </div>
                     </form>
-                    <hr className="mt-4 mb-4" />
                     <div className="flex flex-wrap justify-center mt-2">
                         {
                             ingredients.map(((ingredient: Ingredient) =>
