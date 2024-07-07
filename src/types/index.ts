@@ -68,3 +68,10 @@ export interface ExtendedRecipe extends Recipe {
     owns: boolean
     liked: boolean
 }
+
+export interface IngredientDocumentType {
+    _id: string,
+    name: string,
+    createdBy: string | null,
+    createdAt: string,
+}

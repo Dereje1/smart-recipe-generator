@@ -39,7 +39,7 @@ export const getFilteredRecipes = (recipes: ExtendedRecipe[], search: string | n
   return filteredRecipes;
 };
 
-export const getServerSidePropsUtility = async (context: GetServerSidePropsContext, address: string) => {
+export const getServerSidePropsUtility = async (context: GetServerSidePropsContext, address: string, propskey: string = 'recipes') => {
   try {
     const session = await getSession(context);
     if (!session) {
@@ -50,21 +50,21 @@ export const getServerSidePropsUtility = async (context: GetServerSidePropsConte
         },
       };
     }
-    const { data: recipes } = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${address}`, {
+    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${address}`, {
       headers: {
         Cookie: context.req.headers.cookie || '',
       },
     });
     return {
       props: {
-        recipes,
+        [propskey]: data,
       },
     };
   } catch (error) {
-    console.error('Failed to fetch recipes:', error);
+    console.error(`Failed to fetch ${propskey}:`, error);
     return {
       props: {
-        recipes: [],
+        [propskey]: [],
       },
     };
   }

@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
+import { GetServerSideProps } from 'next';
 import { Button } from '@headlessui/react'
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 import withAuth from '../components/withAuth';
-import IngredientForm from '../components/Recipe_Creation/IngredientForm';
-import DietaryPreferences from '../components/Recipe_Creation/DietaryPreferences';
-import ReviewComponent from '../components/Recipe_Creation/ReviewIngredients';
-import SelectRecipesComponent from '../components/Recipe_Creation/SelectRecipes';
-import ReviewRecipesComponent from '../components/Recipe_Creation/ReviewRecipes';
 import Loading from '../components/Loading';
+import StepComponent from '../components/Recipe_Creation/StepComponent';
 import { getRecipesFromAPI, saveRecipes } from '../components/Recipe_Creation/call_api';
-import { Ingredient, DietaryPreference, Recipe } from '../types/index'
+import { getServerSidePropsUtility } from '../utils/utils';
+import { Ingredient, DietaryPreference, Recipe, IngredientDocumentType } from '../types/index'
 
 const steps = ['Choose Ingredients', 'Choose Diet', 'Review and Create Recipes', 'Select Recipes', 'Review and Save Recipes']
 
@@ -20,83 +18,7 @@ const initialPreferences: DietaryPreference[] = [];
 const initialRecipes: Recipe[] = [];
 const initialSelectedIds: string[] = [];
 
-interface StepComponentProps {
-    step: number,
-    ingredients: Ingredient[],
-    updateIngredients: (ingredients: Ingredient[]) => void
-    preferences: DietaryPreference[]
-    updatePreferences: (preferences: DietaryPreference[]) => void
-    editInputs: () => void
-    handleIngredientSubmit: () => void
-    generatedRecipes: Recipe[]
-    updateSelectedRecipes: (ids: string[]) => void
-    selectedRecipes: string[]
-    handleRecipeSubmit: (recipes: Recipe[]) => void
-}
-
-function StepComponent({
-    step,
-    ingredients,
-    updateIngredients,
-    preferences,
-    updatePreferences,
-    editInputs,
-    handleIngredientSubmit,
-    generatedRecipes,
-    selectedRecipes,
-    updateSelectedRecipes,
-    handleRecipeSubmit
-}: StepComponentProps) {
-    switch (step) {
-        case 0:
-            return (
-                <IngredientForm
-                    ingredients={ingredients}
-                    updateIngredients={updateIngredients}
-                    generatedRecipes={generatedRecipes}
-                />
-            );
-        case 1:
-            return (
-                <DietaryPreferences
-                    preferences={preferences}
-                    updatePreferences={updatePreferences}
-                    generatedRecipes={generatedRecipes}
-                />
-            )
-        case 2:
-            return (
-                <ReviewComponent
-                    ingredients={ingredients}
-                    dietaryPreference={preferences}
-                    onEdit={editInputs}
-                    onSubmit={handleIngredientSubmit}
-                    generatedRecipes={generatedRecipes}
-                />
-            )
-        case 3:
-            return (
-                <SelectRecipesComponent
-                    generatedRecipes={generatedRecipes}
-                    selectedRecipes={selectedRecipes}
-                    updateSelectedRecipes={updateSelectedRecipes}
-                />
-            )
-        case 4:
-            return (
-                <ReviewRecipesComponent
-                    generatedRecipes={generatedRecipes}
-                    selectedRecipes={selectedRecipes}
-                    handleRecipeSubmit={handleRecipeSubmit}
-                />
-            )
-        default:
-            return <h1 className="text-center">Not ready yet!</h1>;
-    }
-
-}
-
-function Navigation() {
+function Navigation({ ingredientList }: { ingredientList: IngredientDocumentType[] }) {
     const [step, setStep] = useState(0);
     const [ingredients, setIngredients] = useState(initialIngridients)
     const [preferences, setPreferences] = useState(initialPreferences)
@@ -196,6 +118,7 @@ function Navigation() {
                     :
                     <StepComponent
                         step={step}
+                        ingredientList={ingredientList}
                         ingredients={ingredients}
                         updateIngredients={(ingredients: Ingredient[]) => setIngredients(ingredients)}
                         preferences={preferences}
@@ -212,5 +135,9 @@ function Navigation() {
         </>
     )
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return await getServerSidePropsUtility(context, 'api/get-ingredients', 'ingredientList')
+};
 
 export default withAuth(Navigation);

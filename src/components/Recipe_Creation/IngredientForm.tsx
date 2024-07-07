@@ -3,8 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
-import ingredientList from './ingredientList';
-import { Ingredient, Recipe } from '../../types/index'
+import { Ingredient, Recipe, IngredientDocumentType } from '../../types/index'
 
 
 type comboIngredient = { id: number, name: string }
@@ -27,12 +26,17 @@ const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient, onDelete: (id:
     )
 }
 
+interface IngredientListProps { 
+    ingredientList: IngredientDocumentType[]
+    ingredientUpdate: (val: string | undefined) => void, 
+    generatedRecipes: Recipe[] 
+}
 
-function IngredientList({ ingredientUpdate, generatedRecipes }: { ingredientUpdate: (val: string | undefined) => void, generatedRecipes: Recipe[] }) {
+function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: IngredientListProps) {
     const [selectedIngredient, setSelectedIngredient] = useState(initialComboIngredient)
     const [query, setQuery] = useState('')
 
-    const filteredIngredients: comboIngredient[] =
+    const filteredIngredients: IngredientDocumentType[] =
         query === ''
             ? ingredientList
             : ingredientList.filter((ingredient) => {
@@ -77,7 +81,7 @@ function IngredientList({ ingredientUpdate, generatedRecipes }: { ingredientUpda
                 >
                     {filteredIngredients.map((ingredient) => (
                         <ComboboxOption
-                            key={ingredient.id}
+                            key={ingredient._id}
                             value={ingredient}
                             className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-black/10"
                         >
@@ -92,12 +96,14 @@ function IngredientList({ ingredientUpdate, generatedRecipes }: { ingredientUpda
 }
 
 interface IngredientFormProps {
+    ingredientList: IngredientDocumentType[],
     ingredients: Ingredient[],
     updateIngredients: (ingredients: Ingredient[]) => void
     generatedRecipes: Recipe[]
 }
 
 export default function IngredientForm({
+    ingredientList,
     ingredients,
     updateIngredients,
     generatedRecipes
@@ -131,7 +137,11 @@ export default function IngredientForm({
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-3 lg:px-8">
                 <div className="mt-0 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" action="#" method="POST">
-                        <IngredientList ingredientUpdate={(val) => handleChange(val, 'name')} generatedRecipes={generatedRecipes} />
+                        <IngredientList
+                            ingredientList={ingredientList}
+                            ingredientUpdate={(val) => handleChange(val, 'name')}
+                            generatedRecipes={generatedRecipes}
+                        />
                         <div>
                             <div className="flex items-center justify-between">
                                 <label htmlFor="number" className="block text-sm font-medium leading-6 text-gray-900">
