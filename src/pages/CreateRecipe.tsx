@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@headlessui/react'
 import { useRouter } from 'next/router';
+import { v4 as uuidv4 } from 'uuid';
 import withAuth from '../components/withAuth';
 import IngredientForm from '../components/Recipe_Creation/IngredientForm';
 import DietaryPreferences from '../components/Recipe_Creation/DietaryPreferences';
@@ -11,7 +12,7 @@ import Loading from '../components/Loading';
 import { getRecipesFromAPI, saveRecipes } from '../components/Recipe_Creation/call_api';
 import { Ingredient, DietaryPreference, Recipe } from '../types/index'
 
-const steps = ['Add Ingredients', 'Choose Diet', 'Review Ingredients', 'Select Recipes', 'Review and Save Recipes']
+const steps = ['Choose Ingredients', 'Choose Diet', 'Review and Create Recipes', 'Select Recipes', 'Review and Save Recipes']
 
 
 const initialIngridients: Ingredient[] = []
@@ -104,6 +105,13 @@ function Navigation() {
     const [isLoading, setIsLoading] = useState(false)
 
     const router = useRouter();
+    const { oldIngredients } = router.query;
+
+    useEffect(() => {
+        if (oldIngredients && Array.isArray(oldIngredients)) {
+            setIngredients(oldIngredients.map(i => ({ name: i, quantity: null, id: uuidv4() })))
+        }
+    }, [oldIngredients])
 
     const updateStep = (val: number) => {
         let newStep = step + val
@@ -118,7 +126,7 @@ function Navigation() {
             let parsedRecipes = JSON.parse(recipes);
             parsedRecipes = parsedRecipes.map((recipe: Recipe, idx: number) => ({
                 ...recipe,
-                openaiPromptId:`${openaiPromptId}-${idx}` // make unique for client key iteration
+                openaiPromptId: `${openaiPromptId}-${idx}` // make unique for client key iteration
             }))
             setIsLoading(false)
             setGeneratedRecipes(parsedRecipes)
@@ -147,7 +155,7 @@ function Navigation() {
     return (
         <>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center justify-center">
-                <span className="text-3xl font-bold text-blue-700 bg-blue-100 rounded-lg p-3 mb-5 mt-5 shadow-md">
+                <span className="text-2xl font-bold text-blue-700 bg-blue-100 rounded-lg p-3 mb-5 mt-5 shadow-md">
                     {steps[step]}
                 </span>
                 <p className="text-black mt-2 font-bold italic text-lg"></p>

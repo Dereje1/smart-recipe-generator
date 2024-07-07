@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { DialogBackdrop, Dialog, DialogPanel, Button } from '@headlessui/react'
 import Image from 'next/image'
 import RecipeCard from '../Recipe_Creation/RecipeCard'
@@ -15,6 +16,16 @@ const formatDate = (date: string) => {
 };
 
 export default function RecipeDisplayModal({ isOpen, close, recipe }: RecipeDialogProps) {
+    const router = useRouter();
+
+    const handleClone = () => {
+        router.push({
+            pathname: '/CreateRecipe',
+            query: {
+                oldIngredients: recipe?.ingredients.map(i => i.name)
+            }
+        })
+    }
 
     if (!recipe) return null
     return (
@@ -48,7 +59,12 @@ export default function RecipeDisplayModal({ isOpen, close, recipe }: RecipeDial
                                         </svg>
                                     </Button>
                                 </div>
-
+                                <Button
+                                    className="self-start ml-2 px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                                    onClick={() => handleClone()}
+                                >
+                                    Clone Ingredients
+                                </Button>
                                 <RecipeCard
                                     recipe={recipe}
                                     selectedRecipes={[]}

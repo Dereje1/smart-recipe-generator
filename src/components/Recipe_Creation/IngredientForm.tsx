@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
@@ -11,7 +12,7 @@ type comboIngredient = { id: number, name: string }
 const initialComboIngredient: comboIngredient = { id: 0, name: '' }
 const initialQuantity: number | null = 0
 
-const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient, onDelete: (id: number) => void }) => {
+const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient, onDelete: (id: string) => void }) => {
     return (
         <div className="flex">
             <span className="flex items-center bg-blue-600 text-white text-sm font-medium me-2 px-2.5 py-0.5 rounded m-2">{`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}
@@ -115,12 +116,12 @@ export default function IngredientForm({
             if (isRepeat) return
             updateIngredients([
                 ...ingredients,
-                { name: val, quantity, id: Date.now() }
+                { name: val, quantity, id: uuidv4() }
             ])
         };
     }
 
-    const deleteIngredient = (id: number) => {
+    const deleteIngredient = (id: string) => {
         if (Boolean(generatedRecipes.length)) return null;
         updateIngredients(ingredients.filter(ingredient => ingredient.id !== id))
     }
@@ -156,7 +157,7 @@ export default function IngredientForm({
                                 <Chip
                                     ingredient={ingredient}
                                     key={ingredient.id}
-                                    onDelete={(id: number) => deleteIngredient(id)}
+                                    onDelete={(id: string) => deleteIngredient(id)}
                                 />
                             ))
                         }

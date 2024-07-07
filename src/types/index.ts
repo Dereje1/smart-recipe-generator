@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 export type Ingredient = {
     name: string
     quantity: number | null
-    id: number
+    id: string
 }
 
 // Type for dietary preferences in client
