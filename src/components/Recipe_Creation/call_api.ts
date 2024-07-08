@@ -24,3 +24,13 @@ export const saveRecipes = async (recipes: Recipe[]) => {
         return null;
     }
 }
+
+export const addIngredient = async (ingredientName: string) => {
+    try {
+        const { data } = await axios.post('/api/validate-ingredient', { ingredientName });
+        return data;
+    } catch (error) {
+        console.error('Failed to add Ingredient:', error);
+        return null;
+    }
+}

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
+import NewIngredientDialog from './NewIngredientDialog';
 import { Ingredient, Recipe, IngredientDocumentType } from '../../types/index'
 
 
@@ -26,10 +27,10 @@ const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient, onDelete: (id:
     )
 }
 
-interface IngredientListProps { 
+interface IngredientListProps {
     ingredientList: IngredientDocumentType[]
-    ingredientUpdate: (val: string | undefined) => void, 
-    generatedRecipes: Recipe[] 
+    ingredientUpdate: (val: string | undefined) => void,
+    generatedRecipes: Recipe[]
 }
 
 function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: IngredientListProps) {
@@ -44,7 +45,7 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
             })
 
     const handleSelectedIngredient = (ingredient: comboIngredient) => {
-        setSelectedIngredient(ingredient);
+        setSelectedIngredient(initialComboIngredient);
         ingredientUpdate(ingredient?.name)
     }
     return (
@@ -134,7 +135,8 @@ export default function IngredientForm({
 
     return (
         <>
-            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-3 lg:px-8">
+            <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-3 lg:px-8">
+                <NewIngredientDialog />
                 <div className="mt-0 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" action="#" method="POST">
                         <IngredientList
