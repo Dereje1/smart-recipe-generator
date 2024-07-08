@@ -23,7 +23,7 @@ const saveOpenaiResponses = async ({ userId, prompt, response }: { userId: strin
     }
 }
 
-const getPrompt = (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[]) => `
+const getRecipeGenerationPrompt = (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[]) => `
 I have the following ingredients: ${JSON.stringify(ingredients)} ${dietaryPreferences.length ? `and dietary preferences: ${dietaryPreferences.join(',')}` : ''}. Please provide me with three different delicious recipes. The response should be in the following JSON format without any additional text or markdown:
 [
     {
@@ -51,13 +51,32 @@ I have the following ingredients: ${JSON.stringify(ingredients)} ${dietaryPrefer
 Please ensure the recipes are diverse and use the ingredients listed. The recipes should follow the dietary preferences provided.The instructions should be ordered but not include the step numbers.
 `;
 
+const getImageGenerationPrompt = (recipeName: string, ingredients: Recipe['ingredients']): string => {
+    const allIngredients = ingredients.map(ingredient => `${ingredient.name}`).join(', ');
+    const prompt = `Create an image of a delicious ${recipeName} made of these ingredients: ${allIngredients}. The image should be visually appealing and showcase the dish in an appetizing manner.`;
+    return prompt;
+};
+const getIngredientValidationPrompt = (ingredientName: string): string => {
+    return `You are a food ingredient validation assistant. Given this ingredient name: ${ingredientName}, you will respond with a JSON object in the following format:
+
+{
+  "isValid": true/false,
+  "possibleVariations": ["variation1", "variation2", "variation3"]
+}
+
+The "isValid" field should be true if the ingredient is commonly used in recipes and false otherwise. The "possibleVariations" field should be an array containing 2 or 3 variations or related ingredients to the provided ingredient name. If no variations or related ingredients are real and commonly used, return an empty array.
+
+Do not include any Markdown formatting or code blocks in your response. Return only valid JSON.`
+}
+
+
 type ResponseType = {
     recipes: string | null
     openaiPromptId: string
 }
 export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[], userId: string): Promise<ResponseType> => {
     try {
-        const prompt = getPrompt(ingredients, dietaryPreferences);
+        const prompt = getRecipeGenerationPrompt(ingredients, dietaryPreferences);
         const response = await openai.chat.completions.create({
             model: 'gpt-4o',
             messages: [{
@@ -95,15 +114,9 @@ const generateImage = (prompt: string): Promise<ImagesResponse> => {
     }
 };
 
-const generatePrompt = (recipeName: string, ingredients: Recipe['ingredients']): string => {
-    const allIngredients = ingredients.map(ingredient => `${ingredient.name}`).join(', ');
-    const prompt = `Create an image of a delicious ${recipeName} made of these ingredients: ${allIngredients}. The image should be visually appealing and showcase the dish in an appetizing manner.`;
-    console.log({ prompt })
-    return prompt;
-};
 
 export const generateImages = async (recipes: Recipe[], userId: string) => {
-    const imagePromises: Promise<ImagesResponse>[] = recipes.map(recipe => generateImage(generatePrompt(recipe.name, recipe.ingredients)));
+    const imagePromises: Promise<ImagesResponse>[] = recipes.map(recipe => generateImage(getImageGenerationPrompt(recipe.name, recipe.ingredients)));
 
     const images = await Promise.all(imagePromises);
 
@@ -121,4 +134,25 @@ export const generateImages = async (recipes: Recipe[], userId: string) => {
     ));
 
     return imagesWithNames;
+};
+
+export const validateIngredient = async (ingredientName:string, userId: string): Promise<string | null> => {
+    try {
+        const prompt = getIngredientValidationPrompt(ingredientName);
+        const response = await openai.chat.completions.create({
+            model: 'gpt-4o',
+            messages: [{
+                role: 'user',
+                content: prompt,
+            }],
+            max_tokens: 800,
+        });
+
+        await saveOpenaiResponses({ userId, prompt, response })
+
+        return response.choices[0].message?.content
+    } catch (error) {
+        console.error('Failed to validate ingredient:', error);
+        throw new Error('Failed to validate ingredient');
+    }
 };

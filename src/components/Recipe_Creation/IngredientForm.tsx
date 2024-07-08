@@ -45,7 +45,7 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
             })
 
     const handleSelectedIngredient = (ingredient: comboIngredient) => {
-        setSelectedIngredient(initialComboIngredient);
+        setSelectedIngredient(ingredient);
         ingredientUpdate(ingredient?.name)
     }
     return (
@@ -104,11 +104,12 @@ interface IngredientFormProps {
 }
 
 export default function IngredientForm({
-    ingredientList,
+    ingredientList: originalIngredientList,
     ingredients,
     updateIngredients,
     generatedRecipes
 }: IngredientFormProps) {
+    const [ingredientList, setIngredientList] = useState(originalIngredientList)
     const [quantity, setQuantity] = useState(initialQuantity);
 
     const handleChange = (val: string | undefined, field: string) => {
@@ -136,7 +137,10 @@ export default function IngredientForm({
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-3 lg:px-8">
-                <NewIngredientDialog />
+                <NewIngredientDialog
+                    ingredientList={ingredientList}
+                    updateIngredientList={(newIngredient) => setIngredientList([...ingredientList, newIngredient])}
+                />
                 <div className="mt-0 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" action="#" method="POST">
                         <IngredientList
@@ -163,6 +167,9 @@ export default function IngredientForm({
                             </div>
                         </div>
                     </form>
+                    {ingredients.length ? <div className="mt-3 text-gray-600 font-bold text-center">
+                        <span>Selected Ingredients:</span>
+                    </div> : null}
                     <div className="flex flex-wrap justify-center mt-2">
                         {
                             ingredients.map(((ingredient: Ingredient) =>
