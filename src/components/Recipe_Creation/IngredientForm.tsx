@@ -10,7 +10,6 @@ import { Ingredient, Recipe, IngredientDocumentType } from '../../types/index'
 type comboIngredient = { id: number, name: string }
 
 const initialComboIngredient: comboIngredient = { id: 0, name: '' }
-const initialQuantity: number | null = 0
 
 const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient, onDelete: (id: string) => void }) => {
     return (
@@ -45,7 +44,7 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
             })
 
     const handleSelectedIngredient = (ingredient: comboIngredient) => {
-        setSelectedIngredient(ingredient);
+        setSelectedIngredient(initialComboIngredient);
         ingredientUpdate(ingredient?.name)
     }
     return (
@@ -110,23 +109,15 @@ export default function IngredientForm({
     generatedRecipes
 }: IngredientFormProps) {
     const [ingredientList, setIngredientList] = useState(originalIngredientList)
-    const [quantity, setQuantity] = useState(initialQuantity);
 
-    const handleChange = (val: string | undefined, field: string) => {
+    const handleChange = (val: string | undefined) => {
         if (!val) return;
-        let updatedVal: string | number | null = val;
-        if (field === 'quantity') {
-            updatedVal = Number(updatedVal);
-            if (updatedVal <= 0) updatedVal = null
-            setQuantity(updatedVal)
-        } else {
-            const isRepeat = ingredients.some(i => i.name === val);
-            if (isRepeat) return
-            updateIngredients([
-                ...ingredients,
-                { name: val, quantity, id: uuidv4() }
-            ])
-        };
+        const isRepeat = ingredients.some(i => i.name === val);
+        if (isRepeat) return
+        updateIngredients([
+            ...ingredients,
+            { name: val, id: uuidv4() }
+        ])
     }
 
     const deleteIngredient = (id: string) => {
@@ -145,27 +136,9 @@ export default function IngredientForm({
                     <form className="space-y-6" action="#" method="POST">
                         <IngredientList
                             ingredientList={ingredientList}
-                            ingredientUpdate={(val) => handleChange(val, 'name')}
+                            ingredientUpdate={(val) => handleChange(val)}
                             generatedRecipes={generatedRecipes}
                         />
-                        <div>
-                            <div className="flex items-center justify-between">
-                                <label htmlFor="number" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Quantity (optional)
-                                </label>
-                            </div>
-                            <div className="mt-2">
-                                <input
-                                    type="number"
-                                    name="quantity"
-                                    placeholder="Quantity"
-                                    value={quantity || 0}
-                                    onChange={(e) => handleChange(e.target.value, 'quantity')}
-                                    className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    disabled={Boolean(generatedRecipes.length)}
-                                />
-                            </div>
-                        </div>
                     </form>
                     {ingredients.length ? <div className="mt-3 text-gray-600 font-bold text-center">
                         <span>Selected Ingredients:</span>

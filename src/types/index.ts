@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export type Ingredient = {
     name: string
-    quantity: number | null
+    quantity?: number | null
     id: string
 }
 
