@@ -13,6 +13,7 @@ export const filterResults = (recipes: ExtendedRecipe[], userId: string) => {
         name: recipe.owner.name,
         image: recipe.owner.image
       },
+      likedBy: recipe.likedBy.map(({ _id, name, image }) => ({ _id, name, image })),
       owns: recipe.owner._id.toString() === userId,
       liked: recipe.likedBy.some(l => l._id.toString() === userId)
     }

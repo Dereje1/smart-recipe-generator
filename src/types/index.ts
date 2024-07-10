@@ -64,7 +64,11 @@ export interface ExtendedRecipe extends Recipe {
     }
     createdAt: string
     updatedAt: string
-    likedBy: mongoose.Types.ObjectId[]
+    likedBy: {
+        _id: string
+        name: string
+        image: string
+    }[]
     owns: boolean
     liked: boolean
 }
