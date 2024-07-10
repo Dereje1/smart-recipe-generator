@@ -6,7 +6,7 @@ import { ExtendedRecipe } from '../../types';
 function ProfileInformation({ recipes }: { recipes: ExtendedRecipe[] }) {
     const { data: session } = useSession();
 
-    if (!session?.user && !session) return null;
+    if (!session || !session.user) return null;
 
     const { user } = session;
 
