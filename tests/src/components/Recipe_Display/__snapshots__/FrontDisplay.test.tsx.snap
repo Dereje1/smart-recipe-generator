@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The single front facing display shall render 1`] = `
+<div>
+  <div
+    class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-3 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full"
+  >
+    <div
+      class="relative w-full h-64"
+    >
+       
+      <img
+        alt="Recipe_1_name"
+        class="rounded-t-lg"
+        data-nimg="fill"
+        decoding="async"
+        fetchpriority="high"
+        sizes="auto"
+        src="/_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=3840&q=75"
+        srcset="/_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=16&q=75 16w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=32&q=75 32w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=48&q=75 48w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=64&q=75 64w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=96&q=75 96w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=128&q=75 128w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=256&q=75 256w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=384&q=75 384w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=640&q=75 640w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=750&q=75 750w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=828&q=75 828w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=1080&q=75 1080w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=1200&q=75 1200w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=1920&q=75 1920w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=2048&q=75 2048w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=3840&q=75 3840w"
+        style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; object-fit: cover; color: transparent;"
+      />
+    </div>
+    <div
+      class="p-5 flex-grow"
+    >
+      <h5
+        class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+      >
+        Recipe_1_name
+      </h5>
+      <p
+        class="font-normal text-gray-700 dark:text-gray-400"
+      >
+        Recipe_1_nutritionalInformation
+      </p>
+    </div>
+    <div
+      class="p-5"
+    >
+      <div
+        class="flex items-center justify-between"
+      >
+        <button
+          class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          data-headlessui-state=""
+          type="button"
+        >
+          See Recipe
+          <svg
+            aria-hidden="true"
+            class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+            fill="none"
+            viewBox="0 0 14 10"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 5h12m0 0L9 1m4 4L9 9"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+        <button
+          class="py-1.5 px-3 hover:text-blue-600 hover:scale-105 hover:shadow text-center border border-gray-300 rounded-md border-gray-400 h-8 text-sm flex items-center gap-1 lg:gap-2"
+          data-headlessui-state=""
+          data-testid="like_button"
+          type="button"
+        >
+          <svg
+            class="size-5"
+            fill="none"
+            stroke="#0070ff"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span>
+            1
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

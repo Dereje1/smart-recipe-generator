@@ -71,6 +71,7 @@ function FrontDisplay({ recipe, showRecipe, updateRecipeList }: FrontDisplayProp
                         className="py-1.5 px-3 hover:text-blue-600 hover:scale-105 hover:shadow text-center border border-gray-300 rounded-md border-gray-400 h-8 text-sm flex items-center gap-1 lg:gap-2"
                         onClick={() => handleRecipeLike(recipe._id)}
                         disabled={recipe.owns}
+                        data-testid="like_button"
                     >
                         {getThumbsup(recipe)}
                         <span>{recipe.likedBy.length}</span>
