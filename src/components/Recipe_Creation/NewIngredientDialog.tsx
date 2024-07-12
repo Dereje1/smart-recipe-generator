@@ -75,7 +75,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
         setIngredientName('');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setMessage('Failed to add ingredient');
     } finally {
       setIsLoading(false);

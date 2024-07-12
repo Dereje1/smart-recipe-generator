@@ -1,0 +1,1049 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The step component shall render the diet preference selection 1`] = `
+<div>
+  <div
+    class="mt-2 ml-5 sm:mx-auto sm:w-full sm:max-w-sm"
+  >
+    <h2
+      class="text-xl font-bold mb-4"
+    >
+      Dietary Preferences
+    </h2>
+    <div
+      aria-disabled="true"
+      class="flex items-center gap-2 mr-5 mb-5 italic"
+      data-disabled=""
+      data-headlessui-state="disabled"
+      disabled=""
+    >
+      <span
+        aria-checked="false"
+        aria-disabled="true"
+        aria-labelledby="headlessui-label-:r9:"
+        class="group size-6 rounded-md bg-black/10 p-1 ring-1 ring-black/15 ring-inset data-[checked]:bg-black"
+        data-disabled=""
+        data-headlessui-state="disabled"
+        id="headlessui-control-:r7:"
+        role="checkbox"
+      >
+        <svg
+          aria-hidden="true"
+          class="hidden size-4 fill-white group-data-[checked]:block"
+          data-slot="icon"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </span>
+      <label
+        class="data-[disabled]:opacity-50"
+        data-disabled=""
+        data-headlessui-state="disabled"
+        for="headlessui-control-:r7:"
+        id="headlessui-label-:r9:"
+      >
+        No Preference
+      </label>
+      <div
+        hidden=""
+        style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
+      />
+    </div>
+    <hr
+      class="mb-4"
+    />
+    <div
+      class="flex flex-wrap"
+    >
+      <div
+        aria-disabled="true"
+        class="flex items-center gap-2 mr-5 mb-5 data-[disabled]:opacity-50"
+        data-disabled=""
+        data-headlessui-state="disabled"
+        disabled=""
+      >
+        <span
+          aria-checked="false"
+          aria-disabled="true"
+          aria-labelledby="headlessui-label-:rc:"
+          class="group size-6 rounded-md bg-black/10 p-1 ring-1 ring-black/15 ring-inset data-[checked]:bg-black"
+          data-disabled=""
+          data-headlessui-state="disabled"
+          id="headlessui-control-:ra:"
+          role="checkbox"
+        >
+          <svg
+            aria-hidden="true"
+            class="hidden size-4 fill-white group-data-[checked]:block"
+            data-slot="icon"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <label
+          data-disabled=""
+          data-headlessui-state="disabled"
+          for="headlessui-control-:ra:"
+          id="headlessui-label-:rc:"
+        >
+          Vegetarian
+        </label>
+        <div
+          hidden=""
+          style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
+        />
+      </div>
+      <div
+        aria-disabled="true"
+        class="flex items-center gap-2 mr-5 mb-5 data-[disabled]:opacity-50"
+        data-disabled=""
+        data-headlessui-state="disabled"
+        disabled=""
+      >
+        <span
+          aria-checked="false"
+          aria-disabled="true"
+          aria-labelledby="headlessui-label-:rf:"
+          class="group size-6 rounded-md bg-black/10 p-1 ring-1 ring-black/15 ring-inset data-[checked]:bg-black"
+          data-disabled=""
+          data-headlessui-state="disabled"
+          id="headlessui-control-:rd:"
+          role="checkbox"
+        >
+          <svg
+            aria-hidden="true"
+            class="hidden size-4 fill-white group-data-[checked]:block"
+            data-slot="icon"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <label
+          data-disabled=""
+          data-headlessui-state="disabled"
+          for="headlessui-control-:rd:"
+          id="headlessui-label-:rf:"
+        >
+          Vegan
+        </label>
+        <div
+          hidden=""
+          style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
+        />
+      </div>
+      <div
+        aria-disabled="true"
+        class="flex items-center gap-2 mr-5 mb-5 data-[disabled]:opacity-50"
+        data-disabled=""
+        data-headlessui-state="disabled"
+        disabled=""
+      >
+        <span
+          aria-checked="false"
+          aria-disabled="true"
+          aria-labelledby="headlessui-label-:ri:"
+          class="group size-6 rounded-md bg-black/10 p-1 ring-1 ring-black/15 ring-inset data-[checked]:bg-black"
+          data-disabled=""
+          data-headlessui-state="disabled"
+          id="headlessui-control-:rg:"
+          role="checkbox"
+        >
+          <svg
+            aria-hidden="true"
+            class="hidden size-4 fill-white group-data-[checked]:block"
+            data-slot="icon"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <label
+          data-disabled=""
+          data-headlessui-state="disabled"
+          for="headlessui-control-:rg:"
+          id="headlessui-label-:ri:"
+        >
+          Gluten-Free
+        </label>
+        <div
+          hidden=""
+          style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
+        />
+      </div>
+      <div
+        aria-disabled="true"
+        class="flex items-center gap-2 mr-5 mb-5 data-[disabled]:opacity-50"
+        data-disabled=""
+        data-headlessui-state="disabled"
+        disabled=""
+      >
+        <span
+          aria-checked="false"
+          aria-disabled="true"
+          aria-labelledby="headlessui-label-:rl:"
+          class="group size-6 rounded-md bg-black/10 p-1 ring-1 ring-black/15 ring-inset data-[checked]:bg-black"
+          data-disabled=""
+          data-headlessui-state="disabled"
+          id="headlessui-control-:rj:"
+          role="checkbox"
+        >
+          <svg
+            aria-hidden="true"
+            class="hidden size-4 fill-white group-data-[checked]:block"
+            data-slot="icon"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <label
+          data-disabled=""
+          data-headlessui-state="disabled"
+          for="headlessui-control-:rj:"
+          id="headlessui-label-:rl:"
+        >
+          Keto
+        </label>
+        <div
+          hidden=""
+          style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
+        />
+      </div>
+      <div
+        aria-disabled="true"
+        class="flex items-center gap-2 mr-5 mb-5 data-[disabled]:opacity-50"
+        data-disabled=""
+        data-headlessui-state="disabled"
+        disabled=""
+      >
+        <span
+          aria-checked="false"
+          aria-disabled="true"
+          aria-labelledby="headlessui-label-:ro:"
+          class="group size-6 rounded-md bg-black/10 p-1 ring-1 ring-black/15 ring-inset data-[checked]:bg-black"
+          data-disabled=""
+          data-headlessui-state="disabled"
+          id="headlessui-control-:rm:"
+          role="checkbox"
+        >
+          <svg
+            aria-hidden="true"
+            class="hidden size-4 fill-white group-data-[checked]:block"
+            data-slot="icon"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <label
+          data-disabled=""
+          data-headlessui-state="disabled"
+          for="headlessui-control-:rm:"
+          id="headlessui-label-:ro:"
+        >
+          Paleo
+        </label>
+        <div
+          hidden=""
+          style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`The step component shall render the ingredient selection form 1`] = `
+<div>
+  <div
+    class="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-3 lg:px-8"
+  >
+    <button
+      class="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out"
+      data-headlessui-state=""
+      type="button"
+    >
+      <svg
+        class="size-6 mr-2"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 4.5v15m7.5-7.5h-15"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      Add New Ingredient
+    </button>
+    <div
+      class="mt-0 sm:mx-auto sm:w-full sm:max-w-sm"
+    >
+      <form
+        action="#"
+        class="space-y-6"
+        method="POST"
+      >
+        <div
+          class="mx-auto w-full pt-6"
+        >
+          <div
+            class="relative"
+          >
+            <input
+              aria-autocomplete="list"
+              aria-expanded="false"
+              class="w-full rounded-lg border border-gray/20 bg-white py-2 pr-8 pl-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+              data-disabled=""
+              data-headlessui-state="disabled"
+              disabled=""
+              id="headlessui-combobox-input-:r2:"
+              placeholder="Choose Ingredient"
+              role="combobox"
+              type="text"
+              value=""
+            />
+            <button
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              class="group absolute inset-y-0 right-0 px-2.5"
+              data-disabled=""
+              data-headlessui-state="disabled"
+              disabled=""
+              id="headlessui-combobox-button-:r3:"
+              tabindex="-1"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="h-5 w-5 text-gray-400"
+                data-slot="icon"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </form>
+      <div
+        class="mt-3 text-gray-600 font-bold text-center"
+      >
+        <span>
+          Selected Ingredients:
+        </span>
+      </div>
+      <div
+        class="flex flex-wrap justify-center mt-2"
+      >
+        <div
+          class="flex"
+        >
+          <span
+            class="flex items-center bg-blue-600 text-white text-sm font-medium me-2 px-2.5 py-0.5 rounded m-2"
+          >
+            undefined
+            <div>
+              <svg
+                class="feather feather-x cursor-pointer hover:text-gray-300 rounded-full w-4 h-4 ml-2"
+                fill="none"
+                height="100%"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="3"
+                viewBox="0 0 24 24"
+                width="100%"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line
+                  x1="18"
+                  x2="6"
+                  y1="6"
+                  y2="18"
+                />
+                <line
+                  x1="6"
+                  x2="18"
+                  y1="6"
+                  y2="18"
+                />
+              </svg>
+            </div>
+          </span>
+        </div>
+        <div
+          class="flex"
+        >
+          <span
+            class="flex items-center bg-blue-600 text-white text-sm font-medium me-2 px-2.5 py-0.5 rounded m-2"
+          >
+            undefined
+            <div>
+              <svg
+                class="feather feather-x cursor-pointer hover:text-gray-300 rounded-full w-4 h-4 ml-2"
+                fill="none"
+                height="100%"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="3"
+                viewBox="0 0 24 24"
+                width="100%"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line
+                  x1="18"
+                  x2="6"
+                  y1="6"
+                  y2="18"
+                />
+                <line
+                  x1="6"
+                  x2="18"
+                  y1="6"
+                  y2="18"
+                />
+              </svg>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`The step component shall render the review and submit recipes component 1`] = `
+<div>
+  <div
+    class="flex flex-col"
+  >
+    <div
+      class="flex flex-wrap"
+    >
+      <div
+        class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10 mb-5"
+      >
+        <div
+          class="px-6 py-4"
+        >
+          <div
+            class="flex justify-between items-center"
+          >
+            <div
+              class="font-bold text-2xl mb-4"
+            >
+              Recipe_1_name
+            </div>
+          </div>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Ingredients:
+          </h3>
+          <ul
+            class="mb-4 flex flex-wrap gap-2"
+          >
+            <li
+              class="flex justify-between gap-x-2"
+            >
+              <span
+                class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+              >
+                Recipe_1_Ingredient_1 (Recipe_1_Ingredient_1_quantity_1)
+              </span>
+            </li>
+            <li
+              class="flex justify-between gap-x-2"
+            >
+              <span
+                class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+              >
+                Recipe_1_Ingredient_2 (Recipe_1_Ingredient_2_quantity_2)
+              </span>
+            </li>
+          </ul>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Dietary Preference:
+          </h3>
+          <div
+            class="mb-5 mt-2 flex flex-wrap gap-2"
+          >
+            <span
+              class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
+            >
+              Recipe_1_preference_1
+            </span>
+            <span
+              class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
+            >
+              Recipe_1_preference_2
+            </span>
+          </div>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Instructions:
+          </h3>
+          <ol
+            class="mb-5 mt-2 space-y-2 bg-gray-50 border border-gray-200 p-4 rounded-lg"
+          >
+            <li
+              class="text-gray-800 text-sm font-medium"
+            >
+              1. Recipe_1_Instructions_1.
+            </li>
+            <li
+              class="text-gray-800 text-sm font-medium"
+            >
+              2. Recipe_1_Instructions_2.
+            </li>
+          </ol>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Additional Information:
+          </h3>
+          <div
+            class="mb-5 mt-2 space-y-2"
+          >
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Tips:
+              </strong>
+               
+              Recipe_1_tips
+            </div>
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Variations:
+              </strong>
+               
+              Recipe_1_variations
+            </div>
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Serving Suggestions:
+              </strong>
+               
+              Recipe_1_servingSuggestions
+            </div>
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Nutritional Information:
+              </strong>
+               
+              Recipe_1_nutritionalInformation
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex w-[300px] max-w-md mx-auto justify-center mb-3"
+    >
+      <button
+        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+        data-headlessui-state=""
+        type="button"
+      >
+        Submit Selected Recipes
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`The step component shall render the review inputs section 1`] = `
+<div>
+  <div
+    class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10"
+  >
+    <div
+      class="px-6 py-4"
+    >
+      <div
+        class="font-bold text-xl mb-2"
+      >
+        Review Your Selections
+      </div>
+      <p
+        class="text-sm text-red-300"
+      >
+        Please select at least 3 ingredients to proceed with recipe creation.
+      </p>
+      <h3
+        class="text-gray-700 font-semibold text-lg"
+      >
+        Ingredients:
+      </h3>
+      <div
+        class="mb-4 flex flex-wrap"
+      >
+        <li
+          class="flex justify-between gap-x-6 py-2"
+        >
+          <div
+            class="flex min-w-0 gap-x-4"
+          >
+            <div
+              class="min-w-0 flex-auto"
+            >
+              <span
+                class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+              >
+                undefined
+              </span>
+            </div>
+          </div>
+        </li>
+        <li
+          class="flex justify-between gap-x-6 py-2"
+        >
+          <div
+            class="flex min-w-0 gap-x-4"
+          >
+            <div
+              class="min-w-0 flex-auto"
+            >
+              <span
+                class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+              >
+                undefined
+              </span>
+            </div>
+          </div>
+        </li>
+      </div>
+      <h3
+        class="text-gray-700 font-semibold text-lg"
+      >
+        Dietary Preference:
+      </h3>
+      <div
+        class="mb-5 mt-2 flex flex-wrap"
+      >
+        <span
+          class="bg-purple-100 text-purple-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300"
+        >
+          preference-1
+        </span>
+        <span
+          class="bg-purple-100 text-purple-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300"
+        >
+          preference-2
+        </span>
+      </div>
+      <div
+        class="flex justify-between mt-4"
+      >
+        <button
+          class="bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-500 data-[disabled]:bg-gray-200"
+          data-disabled=""
+          data-headlessui-state="disabled"
+          disabled=""
+          type="button"
+        >
+          Edit
+        </button>
+        <button
+          class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-sky-500 data-[disabled]:bg-gray-200"
+          data-disabled=""
+          data-headlessui-state="disabled"
+          disabled=""
+          type="button"
+        >
+          Create Recipes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`The step component shall render the select recipes component 1`] = `
+<div>
+  <div
+    class="flex flex-col"
+  >
+    <div
+      class="flex w-[300px] max-w-md mx-auto justify-center"
+    >
+      <button
+        class="bg-white text-black px-4 py-2 rounded-md hover:underline hover:text-blue-500"
+        data-headlessui-state=""
+        type="button"
+      >
+        Select All
+      </button>
+      <button
+        class="bg-white text-black px-4 py-2 rounded-md hover:underline hover:text-blue-500"
+        data-headlessui-state=""
+        type="button"
+      >
+        Unselect All
+      </button>
+    </div>
+    <div
+      class="flex flex-wrap"
+    >
+      <div
+        class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10 mb-5"
+      >
+        <div
+          class="px-6 py-4"
+        >
+          <div
+            class="flex justify-between items-center"
+          >
+            <div
+              class="font-bold text-2xl mb-4"
+            >
+              Recipe_1_name
+            </div>
+            <button
+              aria-checked="true"
+              class="bg-green-500
+          relative inline-flex h-[28px] w-[54px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75"
+              data-checked=""
+              data-headlessui-state="checked"
+              id="headlessui-switch-:rp:"
+              role="switch"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="sr-only"
+              >
+                Use setting
+              </span>
+              <span
+                aria-hidden="true"
+                class="translate-x-7
+            pointer-events-none inline-block h-[24px] w-[23px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
+              />
+            </button>
+          </div>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Ingredients:
+          </h3>
+          <ul
+            class="mb-4 flex flex-wrap gap-2"
+          >
+            <li
+              class="flex justify-between gap-x-2"
+            >
+              <span
+                class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+              >
+                Recipe_1_Ingredient_1 (Recipe_1_Ingredient_1_quantity_1)
+              </span>
+            </li>
+            <li
+              class="flex justify-between gap-x-2"
+            >
+              <span
+                class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+              >
+                Recipe_1_Ingredient_2 (Recipe_1_Ingredient_2_quantity_2)
+              </span>
+            </li>
+          </ul>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Dietary Preference:
+          </h3>
+          <div
+            class="mb-5 mt-2 flex flex-wrap gap-2"
+          >
+            <span
+              class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
+            >
+              Recipe_1_preference_1
+            </span>
+            <span
+              class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
+            >
+              Recipe_1_preference_2
+            </span>
+          </div>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Instructions:
+          </h3>
+          <ol
+            class="mb-5 mt-2 space-y-2 bg-gray-50 border border-gray-200 p-4 rounded-lg"
+          >
+            <li
+              class="text-gray-800 text-sm font-medium"
+            >
+              1. Recipe_1_Instructions_1.
+            </li>
+            <li
+              class="text-gray-800 text-sm font-medium"
+            >
+              2. Recipe_1_Instructions_2.
+            </li>
+          </ol>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Additional Information:
+          </h3>
+          <div
+            class="mb-5 mt-2 space-y-2"
+          >
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Tips:
+              </strong>
+               
+              Recipe_1_tips
+            </div>
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Variations:
+              </strong>
+               
+              Recipe_1_variations
+            </div>
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Serving Suggestions:
+              </strong>
+               
+              Recipe_1_servingSuggestions
+            </div>
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Nutritional Information:
+              </strong>
+               
+              Recipe_1_nutritionalInformation
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10 mb-5"
+      >
+        <div
+          class="px-6 py-4"
+        >
+          <div
+            class="flex justify-between items-center"
+          >
+            <div
+              class="font-bold text-2xl mb-4"
+            >
+              Recipe_2_name
+            </div>
+            <button
+              aria-checked="false"
+              class="bg-gray-300
+          relative inline-flex h-[28px] w-[54px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75"
+              data-headlessui-state=""
+              id="headlessui-switch-:rq:"
+              role="switch"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="sr-only"
+              >
+                Use setting
+              </span>
+              <span
+                aria-hidden="true"
+                class="translate-x-0
+            pointer-events-none inline-block h-[24px] w-[23px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
+              />
+            </button>
+          </div>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Ingredients:
+          </h3>
+          <ul
+            class="mb-4 flex flex-wrap gap-2"
+          >
+            <li
+              class="flex justify-between gap-x-2"
+            >
+              <span
+                class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+              >
+                Recipe_2_Ingredient_1 (Recipe_2_Ingredient_1_quantity_1)
+              </span>
+            </li>
+            <li
+              class="flex justify-between gap-x-2"
+            >
+              <span
+                class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+              >
+                Recipe_2_Ingredient_2 (Recipe_2_Ingredient_2_quantity_2)
+              </span>
+            </li>
+          </ul>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Dietary Preference:
+          </h3>
+          <div
+            class="mb-5 mt-2 flex flex-wrap gap-2"
+          >
+            <span
+              class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
+            >
+              Recipe_2_preference_1
+            </span>
+            <span
+              class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
+            >
+              Recipe_2_preference_2
+            </span>
+          </div>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Instructions:
+          </h3>
+          <ol
+            class="mb-5 mt-2 space-y-2 bg-gray-50 border border-gray-200 p-4 rounded-lg"
+          >
+            <li
+              class="text-gray-800 text-sm font-medium"
+            >
+              1. Recipe_2_Instructions_1.
+            </li>
+            <li
+              class="text-gray-800 text-sm font-medium"
+            >
+              2. Recipe_2_Instructions_2.
+            </li>
+          </ol>
+          <h3
+            class="text-gray-700 font-semibold text-lg"
+          >
+            Additional Information:
+          </h3>
+          <div
+            class="mb-5 mt-2 space-y-2"
+          >
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Tips:
+              </strong>
+               
+              Recipe_2_tips
+            </div>
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Variations:
+              </strong>
+               
+              Recipe_2_variations
+            </div>
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Serving Suggestions:
+              </strong>
+               
+              Recipe_2_servingSuggestions
+            </div>
+            <div
+              class="text-gray-800 text-sm font-medium"
+            >
+              <strong>
+                Nutritional Information:
+              </strong>
+               
+              Recipe_2_nutritionalInformation
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
