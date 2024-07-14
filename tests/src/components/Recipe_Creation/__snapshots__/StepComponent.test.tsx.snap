@@ -51,7 +51,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
       >
         No Preference
       </label>
-      <div
+      <span
         hidden=""
         style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
       />
@@ -102,7 +102,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
         >
           Vegetarian
         </label>
-        <div
+        <span
           hidden=""
           style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
         />
@@ -147,7 +147,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
         >
           Vegan
         </label>
-        <div
+        <span
           hidden=""
           style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
         />
@@ -192,7 +192,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
         >
           Gluten-Free
         </label>
-        <div
+        <span
           hidden=""
           style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
         />
@@ -237,7 +237,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
         >
           Keto
         </label>
-        <div
+        <span
           hidden=""
           style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
         />
@@ -282,7 +282,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
         >
           Paleo
         </label>
-        <div
+        <span
           hidden=""
           style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
         />

@@ -20,21 +20,6 @@ describe('The ingredient input component', () => {
         expect(props.updateIngredients).toHaveBeenLastCalledWith([props.ingredients[1]])
     })
 
-    xit('Will handle selecting ingredients', async () => {
-        // todo: headless ui not rendering the options!!
-        render(<IngredientForm {...props} />)
-
-        const combobutton = screen.getByTestId('combo_button');
-        // get combo box input 
-        fireEvent.click(combobutton)
-        await screen.findByText('Add New Ingredient')
-        const comboInput = screen.getByTestId('combo_test');
-        fireEvent.change(comboInput)
-
-        console.log(screen.debug())
-        //expect(props.updateIngredients).toHaveBeenLastCalledWith('renfrew')
-    })
-
     it('Will open the modal to add a new ingredient to the list', async () => {
         render(<IngredientForm {...props} />)
         const addIngredient = screen.getByText('Add New Ingredient')

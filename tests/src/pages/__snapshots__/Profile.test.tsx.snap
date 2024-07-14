@@ -1,0 +1,196 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Profile component shall render for own recipes 1`] = `
+<div>
+  <div
+    class="flex flex-col items-center"
+  >
+    <div
+      class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-5"
+    >
+      <div
+        class="flex justify-end "
+      />
+      <div
+        class="flex flex-col items-center pb-10 px-4 pt-4"
+      >
+        <img
+          alt="profile-mockuser"
+          class="w-24 h-24 mb-3 rounded-full shadow-lg"
+          data-nimg="1"
+          decoding="async"
+          height="75"
+          loading="lazy"
+          src="/_next/image?url=https%3A%2F%2Fwww.mockimage&w=256&q=75"
+          srcset="/_next/image?url=https%3A%2F%2Fwww.mockimage&w=96&q=75 1x, /_next/image?url=https%3A%2F%2Fwww.mockimage&w=256&q=75 2x"
+          style="color: transparent;"
+          width="75"
+        />
+        <h5
+          class="mb-1 text-xl font-medium text-gray-900 dark:text-white"
+        >
+          mockuser
+        </h5>
+        <span
+          class="text-sm text-gray-500 dark:text-gray-400"
+        >
+          mockEmail
+        </span>
+        <div
+          class="grid grid-cols-3 gap-4 text-center mt-2"
+        >
+          <div>
+            <div
+              class="text-lg font-medium text-black"
+            >
+              1
+            </div>
+            <p
+              class="text-gray-500"
+            >
+              Recipes Created
+            </p>
+          </div>
+          <div>
+            <div
+              class="text-lg font-medium text-black"
+            >
+              1
+            </div>
+            <p
+              class="text-gray-500"
+            >
+              Votes Received
+            </p>
+          </div>
+          <div>
+            <div
+              class="text-lg font-medium text-black"
+            >
+              1
+            </div>
+            <p
+              class="text-gray-500"
+            >
+              Favorites
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex rounded-md w-[200px] justify-between mt-3"
+      role="group"
+    >
+      <button
+        class="text-blue-600 bg-gray-100 py-1.5 px-3 hover:text-blue-600 hover:scale-105 hover:shadow text-center rounded-md h-8 text-sm flex items-center gap-1 lg:gap-2"
+        data-headlessui-state=""
+        type="button"
+      >
+        Created
+      </button>
+      <button
+        class="py-1.5 px-3 hover:text-blue-600 hover:scale-105 hover:shadow text-center rounded-md h-8 text-sm flex items-center gap-1 lg:gap-2"
+        data-headlessui-state=""
+        type="button"
+      >
+        Favorites
+      </button>
+    </div>
+    <div
+      class="flex justify-center items-center min-h-screen p-5 mb-3"
+    >
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+      >
+        <div
+          class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-3 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full"
+        >
+          <div
+            class="relative w-full h-64"
+          >
+             
+            <img
+              alt="Recipe_1_name"
+              class="rounded-t-lg"
+              data-nimg="fill"
+              decoding="async"
+              fetchpriority="high"
+              sizes="auto"
+              src="/_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=3840&q=75"
+              srcset="/_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=16&q=75 16w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=32&q=75 32w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=48&q=75 48w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=64&q=75 64w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=96&q=75 96w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=128&q=75 128w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=256&q=75 256w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=384&q=75 384w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=640&q=75 640w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=750&q=75 750w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=828&q=75 828w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=1080&q=75 1080w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=1200&q=75 1200w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=1920&q=75 1920w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=2048&q=75 2048w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=3840&q=75 3840w"
+              style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; object-fit: cover; color: transparent;"
+            />
+          </div>
+          <div
+            class="p-5 flex-grow"
+          >
+            <h5
+              class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+            >
+              Recipe_1_name
+            </h5>
+            <p
+              class="font-normal text-gray-700 dark:text-gray-400"
+            >
+              Recipe_1_nutritionalInformation
+            </p>
+          </div>
+          <div
+            class="p-5"
+          >
+            <div
+              class="flex items-center justify-between"
+            >
+              <button
+                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                data-headlessui-state=""
+                type="button"
+              >
+                See Recipe
+                <svg
+                  aria-hidden="true"
+                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <button
+                class="py-1.5 px-3 hover:text-blue-600 hover:scale-105 hover:shadow text-center border border-gray-300 rounded-md border-gray-400 h-8 text-sm flex items-center gap-1 lg:gap-2"
+                data-disabled=""
+                data-headlessui-state="disabled"
+                data-testid="like_button"
+                disabled=""
+                type="button"
+              >
+                <svg
+                  class="size-5"
+                  fill="gray"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.493 18.5c-.425 0-.82-.236-.975-.632A7.48 7.48 0 0 1 6 15.125c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75A.75.75 0 0 1 15 2a2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23h-.777ZM2.331 10.727a11.969 11.969 0 0 0-.831 4.398 12 12 0 0 0 .52 3.507C2.28 19.482 3.105 20 3.994 20H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 0 1-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227Z"
+                  />
+                </svg>
+                <span>
+                  1
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

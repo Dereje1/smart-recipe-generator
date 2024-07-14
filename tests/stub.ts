@@ -102,4 +102,28 @@ const stub_recipe_2 = {
     "liked": true
 }
 
+export const ingredientListStub = [
+    {
+        "_id": "668c1011cd79a2aa4b426731",
+        "name": "Test-Ingredient-1",
+        "createdBy": null,
+        "createdAt": "2024-07-08T16:13:05.549Z",
+        "updatedAt": "2024-07-08T16:13:05.549Z",
+    },
+    {
+        "_id": "668c1011cd79a2aa4b426931",
+        "name": "Test-Ingredient-2",
+        "createdBy": null,
+        "createdAt": "2024-07-08T16:13:05.549Z",
+        "updatedAt": "2024-07-08T16:13:05.549Z",
+    },
+    {
+        "_id": "668c1011cd79a2aa4b426932",
+        "name": "Test-Ingredient-3",
+        "createdBy": null,
+        "createdAt": "2024-07-08T16:13:05.549Z",
+        "updatedAt": "2024-07-08T16:13:05.549Z",
+    }
+]
+
 export const stubRecipeBatch =  [stub_recipe_1, stub_recipe_2]
