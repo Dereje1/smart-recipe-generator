@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { Button, Input } from '@headlessui/react'
-import withAuth from '../components/withAuth'
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
 import { getFilteredRecipes, getServerSidePropsUtility, updateRecipeList } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
@@ -54,4 +53,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return await getServerSidePropsUtility(context, 'api/recipes')
 };
 
-export default withAuth(Home);
+export default Home;

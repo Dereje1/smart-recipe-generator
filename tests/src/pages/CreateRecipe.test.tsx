@@ -3,20 +3,6 @@ import { fireEvent, render, screen, } from '@testing-library/react'
 import { getRecipesFromAPI } from "../../../src/components/Recipe_Creation/call_api";
 import { stubRecipeBatch, ingredientListStub } from "../../stub";
 
-jest.mock("next-auth/react", () => ({
-    ...jest.requireActual('next-auth/react'),
-    useSession: jest.fn(() => ({
-        data: {
-            user: {
-                name: "mockuser",
-                image: "https://www.mockimage",
-                email: "mockEmail"
-            },
-        },
-        status: 'authenticated'
-    }))
-}))
-
 jest.mock("../../../src/components/Recipe_Creation/call_api")
 
 const routePushMock = jest.fn()

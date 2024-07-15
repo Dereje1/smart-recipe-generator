@@ -58,6 +58,7 @@ function Header({ user }: HeaderProps) {
                                         alt="logo"
                                         width={62}
                                         height={62}
+                                        priority
                                     />
                                 </div>
                                 <div className="hidden md:block">

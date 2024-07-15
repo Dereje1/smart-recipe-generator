@@ -3,7 +3,6 @@ import { GetServerSideProps } from 'next';
 import { Button } from '@headlessui/react'
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
-import withAuth from '../components/withAuth';
 import Loading from '../components/Loading';
 import StepComponent from '../components/Recipe_Creation/StepComponent';
 import { getRecipesFromAPI, saveRecipes } from '../components/Recipe_Creation/call_api';
@@ -140,4 +139,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return await getServerSidePropsUtility(context, 'api/get-ingredients', 'ingredientList')
 };
 
-export default withAuth(Navigation);
+export default Navigation;

@@ -1,6 +1,5 @@
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
-import withAuth from '../components/withAuth'
 import ProfileInformation from '../components/Profile_Information/ProfileInformation';
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
 import UserRecipeSelector from '../components/Profile_Information/UserRecipeSelector';
@@ -37,4 +36,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return await getServerSidePropsUtility(context, 'api/profile')
 };
 
-export default withAuth(Profile);
+export default Profile;

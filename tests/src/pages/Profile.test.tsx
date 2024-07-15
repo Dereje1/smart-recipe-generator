@@ -2,6 +2,7 @@ import Profile, { getServerSideProps } from "../../../src/pages/Profile";
 import { fireEvent, render, screen } from '@testing-library/react'
 import { stubRecipeBatch } from "../../stub";
 
+/* ProfileInformation sub-component needs to use useSession */
 jest.mock("next-auth/react", () => ({
     ...jest.requireActual('next-auth/react'),
     useSession: jest.fn(() => ({

@@ -1,9 +1,7 @@
 import Home, { getServerSideProps } from "../../../src/pages/Home";
-import { useSession } from "next-auth/react"
 import { fireEvent, render, screen } from '@testing-library/react'
 import { stubRecipeBatch } from "../../stub";
 
-jest.mock("next-auth/react")
 jest.mock("../../../src/utils/utils", () => ({
     ...jest.requireActual("../../../src/utils/utils"),
     getServerSidePropsUtility: jest.fn(() => Promise.resolve('mock_serverside_props_return'))
@@ -19,20 +17,6 @@ jest.mock("next/router", () => ({
 }))
 
 describe('The home component', () => {
-    beforeEach(() => {
-        (useSession as jest.Mock).mockImplementationOnce(() => {
-            return {
-                data: {
-                    user: {
-                        name: "mockuser",
-                        image: "https://www.mockimage",
-                        email: "mockEmail"
-                    },
-                },
-                status: 'authenticated'
-            };
-        });
-    })
     it('shall render', () => {
         render(<Home recipes={stubRecipeBatch} />)
         expect(screen.getByText('Search')).toBeInTheDocument()

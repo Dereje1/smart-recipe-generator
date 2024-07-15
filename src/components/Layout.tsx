@@ -4,6 +4,7 @@ import Header from './Header';
 import Hero from '../pages/Hero';
 import Loading from './Loading'
 
+/* Note all components will be wrapped in this component which in turn is rendered by _app.tsx */
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession();
 
