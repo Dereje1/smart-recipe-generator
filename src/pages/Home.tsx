@@ -50,7 +50,7 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    return await getServerSidePropsUtility(context, 'api/recipes')
+    return await getServerSidePropsUtility(context, 'api/get-recipes')
 };
 
 export default Home;

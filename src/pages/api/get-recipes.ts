@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { authOptions } from "../api/auth/[...nextauth]";
+import { authOptions } from "./auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 import { connectDB } from '../../lib/mongodb';
 import Recipe from '../../lib/models/recipe';
@@ -23,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json(filterResults(allRecipes, session.user.id));
   } catch (error) {
-    console.log(error)
+    console.error(error)
     res.status(500).json({ error: 'Failed to fetch recipes' });
   }
 };
