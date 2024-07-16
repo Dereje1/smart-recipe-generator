@@ -24,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const recipeNames = recipes.map(({ name, ingredients }: Recipe) => ({ name, ingredients }));
 
       // Generate images using OpenAI
-      console.log('Getting images from OpenAI...');
+      console.info('Getting images from OpenAI...');
       const imageResults = await generateImages(recipeNames, session.user.id);
 
       // Prepare images for uploading to S3
@@ -35,7 +35,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }));
 
       // Upload images to S3
-      console.log('Uploading OpenAI images to S3...');
+      console.info('Uploading OpenAI images to S3...');
       const successfullyUploaded = await uploadImagesToS3(openaiImagesArray);
 
       // Update recipe data with image links and owner information
@@ -49,13 +49,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       // Connect to MongoDB and save recipes
       await connectDB();
       await recipe.insertMany(updatedRecipes);
-      console.log(`Successfully saved ${recipes.length} recipes to MongoDB`);
+      console.info(`Successfully saved ${recipes.length} recipes to MongoDB`);
 
 
       res.status(200).json({ status: 'Saved Recipes and generated the Images!' });
     } catch (error) {
       console.error('Failed to send response:', error);
-      res.status(500).json({ error: 'Failed to save recipe' });
+      res.status(500).json({ error: 'Failed to save recipes' });
     }
   } else {
     res.setHeader('Allow', ['POST']);

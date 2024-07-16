@@ -20,7 +20,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         try {
-            console.log('Validating ingredient from OpenAI...');
+            console.info('Validating ingredient from OpenAI...');
             const response = await validateIngredient(ingredientName, userId);
             const parsedResponse = response ? JSON.parse(response) : null;
 

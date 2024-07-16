@@ -161,7 +161,7 @@ describe('Liking a recipe', () => {
         expect(res._getJSONData()).toEqual(stubRecipeBatch[0])
     })
 
-    it('shall interupt....', async () => {
+    it('shall interupt the process if new document is not returned', async () => {
         (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
             user: {
                 id: '6687d83725254486590fec59'

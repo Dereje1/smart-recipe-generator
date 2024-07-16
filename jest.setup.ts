@@ -7,12 +7,13 @@ global.ResizeObserver = jest.fn().mockImplementation(() => ({
     disconnect: jest.fn(),
 }))
 
+// console.error and .info will not show up in tests
 global.console = {
     ...global.console,
-    log: console.log,
     error: jest.fn(),
+    info: jest.fn(),
+    log: console.log,
     warn: console.warn,
-    info: console.info,
     debug: console.debug,
     dir: console.dir,
   };
