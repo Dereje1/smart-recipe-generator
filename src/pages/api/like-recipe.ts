@@ -27,7 +27,7 @@ const toggleLike = async (req: NextApiRequest, res: NextApiResponse) => {
             // Find the recipe by ID
             const recipe = await recipes.findById(recipeId).exec();
             if (!recipe) {
-                res.end();
+                res.end(`Recipe with Id: ${recipeId} not found... exiting`);
                 return;
             }
 
@@ -51,7 +51,7 @@ const toggleLike = async (req: NextApiRequest, res: NextApiResponse) => {
                 .exec() as unknown as ExtendedRecipe;
 
             if (!updatedRecipe) {
-                res.end();
+                res.end(`Recipe with Id: ${recipeId} unable to return document.. exiting`);
                 return;
             }
 
@@ -59,7 +59,7 @@ const toggleLike = async (req: NextApiRequest, res: NextApiResponse) => {
             const [filteredAndUpdatedRecipe] = filterResults([updatedRecipe], session.user.id);
             res.status(200).json(filteredAndUpdatedRecipe);
         } catch (error) {
-            console.log(error);
+            console.error(error);
             res.status(500).json({ error: 'Failed to like recipe' });
         }
     } else {

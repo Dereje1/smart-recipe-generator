@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const response = await generateRecipe(ingredients, dietaryPreferences, session.user.id);
       res.status(200).json(response);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to generate recipe' });
+      res.status(500).json({ error: 'Failed to generate recipes' });
     }
   } else {
     res.setHeader('Allow', ['POST']);

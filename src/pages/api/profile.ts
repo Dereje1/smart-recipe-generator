@@ -27,7 +27,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(200).json(filterResults(profilePins, session.user.id));
 
     } catch (error) {
-        console.log(error)
+        console.error(error)
         res.status(500).json({ error: 'Failed to fetch recipes' });
     }
 };

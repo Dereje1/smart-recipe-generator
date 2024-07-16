@@ -33,6 +33,8 @@ const config: Config = {
     '!**/node_modules/**',
     '!**/vendor/**',
     '!**/scripts/**',
+    '!**/src/types/**',
+    '!**/src/pages/api/api-test.ts',
   ],
 
   // The directory where Jest should output its coverage files
