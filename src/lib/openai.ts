@@ -19,7 +19,7 @@ const saveOpenaiResponses = async ({ userId, prompt, response }: { userId: strin
         return _id
     } catch (error) {
         console.error('Failed to save response to db:', error);
-        throw new Error('Failed to generate recipe');
+        return null
     }
 }
 
@@ -88,7 +88,7 @@ export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferenc
 
         const _id = await saveOpenaiResponses({ userId, prompt, response })
 
-        return { recipes: response.choices[0].message?.content, openaiPromptId: _id }
+        return { recipes: response.choices[0].message?.content, openaiPromptId: _id || 'null-prompt-id' }
     } catch (error) {
         console.error('Failed to generate recipe:', error);
         throw new Error('Failed to generate recipe');
@@ -109,34 +109,39 @@ const generateImage = (prompt: string): Promise<ImagesResponse> => {
         // Return the response containing the image data
         return response;
     } catch (error) {
-        console.error('Error generating image:', error);
         throw new Error('Failed to generate image');
     }
 };
 
 
 export const generateImages = async (recipes: Recipe[], userId: string) => {
-    const imagePromises: Promise<ImagesResponse>[] = recipes.map(recipe => generateImage(getImageGenerationPrompt(recipe.name, recipe.ingredients)));
+    try {
+        const imagePromises: Promise<ImagesResponse>[] = recipes.map(recipe => generateImage(getImageGenerationPrompt(recipe.name, recipe.ingredients)));
 
-    const images = await Promise.all(imagePromises);
+        const images = await Promise.all(imagePromises);
 
-    await saveOpenaiResponses({
-        userId,
-        prompt: `Image generation for recipe names ${recipes.map(r => r.name).join(' ,')} (note: not exact prompt)`,
-        response: images
-    })
+        await saveOpenaiResponses({
+            userId,
+            prompt: `Image generation for recipe names ${recipes.map(r => r.name).join(' ,')} (note: not exact prompt)`,
+            response: images
+        })
 
-    const imagesWithNames = images.map((imageResponse, idx) => (
-        {
-            imgLink: imageResponse.data[0].url,
-            name: recipes[idx].name,
-        }
-    ));
+        const imagesWithNames = images.map((imageResponse, idx) => (
+            {
+                imgLink: imageResponse.data[0].url,
+                name: recipes[idx].name,
+            }
+        ));
 
-    return imagesWithNames;
+        return imagesWithNames;
+    } catch (error) {
+        console.error('Error generating image:', error);
+        throw new Error('Failed to generate image');
+    }
+
 };
 
-export const validateIngredient = async (ingredientName:string, userId: string): Promise<string | null> => {
+export const validateIngredient = async (ingredientName: string, userId: string): Promise<string | null> => {
     try {
         const prompt = getIngredientValidationPrompt(ingredientName);
         const response = await openai.chat.completions.create({
