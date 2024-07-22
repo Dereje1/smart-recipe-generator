@@ -6,8 +6,17 @@ import { authOptions } from "../api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 import { connectDB } from '../../lib/mongodb';
 import recipe from '../../lib/models/recipe';
-import { Recipe } from '../../types';
+import { Recipe, UploadReturnType } from '../../types';
 
+const getS3Link = (uploadResults: UploadReturnType[] | null, location: string) => {
+  const fallbackimg = '/logo.svg'
+  if (!uploadResults) return fallbackimg
+  const filteredResult = uploadResults.filter(result => result.location === location)
+  if (filteredResult[0].uploaded) {
+    return `https://smart-recipe-generator.s3.amazonaws.com/${location}`
+  }
+  return fallbackimg;
+}
 // API handler function
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // Get the user session
@@ -36,13 +45,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       // Upload images to S3
       console.info('Uploading OpenAI images to S3...');
-      const successfullyUploaded = await uploadImagesToS3(openaiImagesArray);
+      const uploadResults = await uploadImagesToS3(openaiImagesArray);
 
       // Update recipe data with image links and owner information
       const updatedRecipes = recipes.map((r: Recipe) => ({
         ...r,
         owner: new mongoose.Types.ObjectId(session.user.id),
-        imgLink: successfullyUploaded ? `https://smart-recipe-generator.s3.amazonaws.com/${r.openaiPromptId}` : 'error uploading img to s3',
+        imgLink: getS3Link(uploadResults, r.openaiPromptId),
         openaiPromptId: r.openaiPromptId.split('-')[0] // Remove client key iteration
       }));
 

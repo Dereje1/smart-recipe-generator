@@ -1,7 +1,8 @@
 import * as https from 'https';
 import { Transform as Stream } from 'stream';
-import { S3Client, PutObjectCommand, PutObjectCommandOutput } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { StreamingBlobPayloadInputTypes } from '@smithy/types';
+import { UploadReturnType } from '../types';
 
 // Define an interface for the upload parameters
 interface UploadToS3Type {
@@ -48,15 +49,15 @@ export const uploadImageToS3 = async ({
     originalImgLink,
     userId,
     location
-}: UploadToS3Type): Promise<PutObjectCommandOutput | null> => {
+}: UploadToS3Type): Promise<UploadReturnType> => {
     try {
         if (!originalImgLink) throw new Error('Image link is undefined');
-        
+
         const s3 = configureS3();
         if (!s3) throw new Error('Unable to configure S3');
-        
+
         const Body = await processImage(originalImgLink);
-        
+
         const command = new PutObjectCommand({
             Bucket: process.env.S3_BUCKET_NAME || '',
             Key: location,
@@ -64,22 +65,28 @@ export const uploadImageToS3 = async ({
             ContentType: 'image/png',
             Tagging: `userId=${userId}`,
         });
-        
-        return s3.send(command);
+        s3.send(command);
+        return {
+            location,
+            uploaded: true
+        }
     } catch (error) {
         console.error(`Error uploading image. ${originalImgLink?.slice(0, 50)}... - ${error}`);
-        return null;
+        return {
+            location,
+            uploaded: false
+        };
     }
 };
 
 // Function to upload multiple images to S3
-export const uploadImagesToS3 = async (openaiImagesArray: UploadToS3Type[]): Promise<boolean> => {
+export const uploadImagesToS3 = async (openaiImagesArray: UploadToS3Type[]): Promise<UploadReturnType[] | null> => {
     try {
-        const imagePromises: Promise<PutObjectCommandOutput | null>[] = openaiImagesArray.map(img => uploadImageToS3(img));
-        await Promise.all(imagePromises);
-        return true;
+        const imagePromises: Promise<UploadReturnType>[] = openaiImagesArray.map(img => uploadImageToS3(img));
+        const results = await Promise.all(imagePromises);
+        return results;
     } catch (error) {
         console.error(error);
-        return false;
+        return null;
     }
 };

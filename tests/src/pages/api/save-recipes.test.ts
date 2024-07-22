@@ -38,7 +38,16 @@ jest.mock('../../../../src/lib/openai', () => ({
 
 // mocks aws upload
 jest.mock('../../../../src/lib/awss3', () => ({
-    uploadImagesToS3: jest.fn(() => Promise.resolve(true))
+    uploadImagesToS3: jest.fn(() => Promise.resolve([
+        {
+            location: '6683b8908475eac9af5fe834',
+            uploaded: true
+        },
+        {
+            location: '6683b8908475eac9af5fe836',
+            uploaded: false
+        }
+    ]))
 }))
 
 describe('Saving recipes', () => {

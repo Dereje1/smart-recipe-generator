@@ -79,3 +79,8 @@ export interface IngredientDocumentType {
     createdBy: string | null,
     createdAt: string,
 }
+
+export interface UploadReturnType { 
+    location: string, 
+    uploaded: boolean 
+}
