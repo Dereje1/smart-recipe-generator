@@ -45,11 +45,13 @@ exports[`The Profile component shall render for own recipes 1`] = `
             >
               1
             </div>
-            <p
-              class="text-gray-500"
+            <button
+              class="bg-white rounded-md text-rose-700 font-bold"
+              data-headlessui-state=""
+              type="button"
             >
               Recipes Created
-            </p>
+            </button>
           </div>
           <div>
             <div
@@ -57,11 +59,13 @@ exports[`The Profile component shall render for own recipes 1`] = `
             >
               1
             </div>
-            <p
-              class="text-gray-500"
+            <button
+              class="bg-white rounded-md text-black hover:text-blue-500 hover:underline"
+              data-headlessui-state=""
+              type="button"
             >
               Votes Received
-            </p>
+            </button>
           </div>
           <div>
             <div
@@ -69,33 +73,16 @@ exports[`The Profile component shall render for own recipes 1`] = `
             >
               1
             </div>
-            <p
-              class="text-gray-500"
+            <button
+              class="bg-white rounded-md text-black hover:text-blue-500 hover:underline"
+              data-headlessui-state=""
+              type="button"
             >
               Favorites
-            </p>
+            </button>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="flex rounded-md w-[200px] justify-between mt-3"
-      role="group"
-    >
-      <button
-        class="text-blue-600 bg-gray-100 py-1.5 px-3 hover:text-blue-600 hover:scale-105 hover:shadow text-center rounded-md h-8 text-sm flex items-center gap-1 lg:gap-2"
-        data-headlessui-state=""
-        type="button"
-      >
-        Created
-      </button>
-      <button
-        class="py-1.5 px-3 hover:text-blue-600 hover:scale-105 hover:shadow text-center rounded-md h-8 text-sm flex items-center gap-1 lg:gap-2"
-        data-headlessui-state=""
-        type="button"
-      >
-        Favorites
-      </button>
     </div>
     <div
       class="flex justify-center items-center min-h-screen p-5 mb-3"

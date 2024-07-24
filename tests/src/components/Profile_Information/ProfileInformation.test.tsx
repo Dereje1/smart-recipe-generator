@@ -17,7 +17,7 @@ describe('The profile page', () => {
                 }, status: 'authenticated'
             };
         });
-        const {container} = render(<ProfileInformation recipes={[]} />)
+        const {container} = render(<ProfileInformation recipes={[]} updateSelection={jest.fn()} selectedDisplay="created"/>)
         
         expect(screen.getByText('mockuser')).toBeInTheDocument();
         expect(screen.getByText('mockEmail')).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe('The profile page', () => {
                 }, status: 'authenticated'
             };
         });
-        const {container} = render(<ProfileInformation recipes={[]} />)
+        const {container} = render(<ProfileInformation recipes={[]} updateSelection={jest.fn()} selectedDisplay="created"/>)
         expect(container.querySelector('img')?.src.includes('www.gravatar')).toBeTruthy();
     })
     it('shall not render if no session', () => {
@@ -46,7 +46,7 @@ describe('The profile page', () => {
                 data: null, status: 'loading'
             };
         });
-        const { container } = render(<ProfileInformation recipes={[]} />)
+        const { container } = render(<ProfileInformation recipes={[]} updateSelection={jest.fn()} selectedDisplay="created"/>)
         expect(container.firstChild).toBeNull();
     })
 
@@ -56,7 +56,7 @@ describe('The profile page', () => {
                 data: {}, status: 'loading'
             };
         });
-        const { container } = render(<ProfileInformation recipes={[]} />)
+        const { container } = render(<ProfileInformation recipes={[]} updateSelection={jest.fn()} selectedDisplay="created"/>)
         expect(container.firstChild).toBeNull();
     })
 })

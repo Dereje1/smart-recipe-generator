@@ -38,9 +38,16 @@ describe('The Profile component', () => {
     })
     it('shall render for favorite recipes', async () => {
         const { container } = render(<Profile recipes={stubRecipeBatch} />)
-        const favoritesButton = await screen.findAllByText('Favorites');
-        fireEvent.click(favoritesButton[1]);
+        const favoritesButton = await screen.findByText('Favorites');
+        fireEvent.click(favoritesButton);
         const likedRecipe = await screen.findByText('Recipe_2_name')
+        expect(likedRecipe).toBeInTheDocument()
+    })
+    it('shall render for favorite recipes', async () => {
+        const { container } = render(<Profile recipes={stubRecipeBatch} />)
+        const votesReceivedButton = await screen.findByText('Votes Received');
+        fireEvent.click(votesReceivedButton);
+        const likedRecipe = await screen.findByText('Recipe_1_name')
         expect(likedRecipe).toBeInTheDocument()
     })
 })

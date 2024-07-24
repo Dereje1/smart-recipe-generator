@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next';
 import { useState } from 'react';
 import ProfileInformation from '../components/Profile_Information/ProfileInformation';
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
-import UserRecipeSelector from '../components/Profile_Information/UserRecipeSelector';
 import { getServerSidePropsUtility, updateRecipeList } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
 
@@ -15,18 +14,19 @@ function Profile({ recipes }: { recipes: ExtendedRecipe[] }) {
     }
 
     const handleDisplaySetting = () => {
-        let view = []
+        let view: ExtendedRecipe[] = []
         if (displaySetting === 'created') {
             view = latestRecipes.filter(r => r.owns);
-        } else {
+        } else if (displaySetting === 'favorites') {
             view = latestRecipes.filter(r => r.liked);
+        } else {
+            view = latestRecipes.filter(r => r.owns && r.likedBy.length > 0);
         }
         return view;
     }
     return (
         <div className="flex flex-col items-center">
-            <ProfileInformation recipes={latestRecipes} />
-            <UserRecipeSelector displaySetting={displaySetting} setDisplaySetting={(val) => setDisplaySetting(val)} />
+            <ProfileInformation recipes={latestRecipes} updateSelection={(val) => setDisplaySetting(val)} selectedDisplay={displaySetting} />
             <ViewRecipes recipes={handleDisplaySetting()} handleRecipeListUpdate={handleRecipeListUpdate} />
         </div>
     )

@@ -2,8 +2,14 @@
 import { useSession } from 'next-auth/react';
 import Image from 'next/image'
 import { ExtendedRecipe } from '../../types';
+import { Button } from '@headlessui/react';
 
-function ProfileInformation({ recipes }: { recipes: ExtendedRecipe[] }) {
+interface ProfileInformationProps {
+    recipes: ExtendedRecipe[]
+    updateSelection: (s: string) => void
+    selectedDisplay: string
+}
+function ProfileInformation({ recipes, updateSelection, selectedDisplay }: ProfileInformationProps) {
     const { data: session } = useSession();
 
     if (!session || !session.user) return null;
@@ -31,15 +37,30 @@ function ProfileInformation({ recipes }: { recipes: ExtendedRecipe[] }) {
                 <div className="grid grid-cols-3 gap-4 text-center mt-2">
                     <div>
                         <div className="text-lg font-medium text-black">{ownedRecipes.length}</div>
-                        <p className="text-gray-500">Recipes Created</p>
+                        <Button
+                            onClick={() => updateSelection('created')}
+                            className={`bg-white rounded-md ${selectedDisplay === 'created' ? 'text-rose-700 font-bold' : 'text-black hover:text-blue-500 hover:underline'}`}
+                        >
+                            Recipes Created
+                        </Button>
                     </div>
                     <div>
-                        <div className="text-lg font-medium text-black">{ votesReceived }</div>
-                        <p className="text-gray-500">Votes Received</p>
+                        <div className="text-lg font-medium text-black">{votesReceived}</div>
+                        <Button
+                            onClick={() => updateSelection('votes received')}
+                            className={`bg-white rounded-md ${selectedDisplay === 'votes received' ? 'text-rose-700 font-bold' : 'text-black hover:text-blue-500 hover:underline'}`}
+                        >
+                            Votes Received
+                        </Button>
                     </div>
                     <div>
                         <div className="text-lg font-medium text-black">{favoriteRecipes.length}</div>
-                        <p className="text-gray-500">Favorites</p>
+                        <Button
+                            onClick={() => updateSelection('favorites')}
+                            className={`bg-white rounded-md ${selectedDisplay === 'favorites' ? 'text-rose-700 font-bold' : 'text-black hover:text-blue-500 hover:underline'}`}
+                        >
+                            Favorites
+                        </Button>
                     </div>
                 </div>
             </div>
