@@ -24,7 +24,7 @@ Smart Recipe Generator is an AI-powered web application that generates unique an
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/yourusername/smart-recipe-generator.git
+    git clone https://github.com/Dereje1/smart-recipe-generator.git
     cd smart-recipe-generator
     ```
 
