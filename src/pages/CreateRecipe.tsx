@@ -67,7 +67,7 @@ function Navigation({ ingredientList }: { ingredientList: IngredientDocumentType
             setGeneratedRecipes(initialRecipes)
             setSelectedRecipeIds(initialSelectedIds)
             setStep(0)
-            router.push('/');
+            router.push('/Profile');
         } catch (error) {
             console.log(error)
         }

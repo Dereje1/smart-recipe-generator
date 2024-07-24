@@ -94,7 +94,7 @@ describe('Start to finish recipe creation and submission', () => {
         fireEvent.click(submitRecipesButton)
         // goes back to ingredient page as router push to home is mocked
         await screen.findByText('Choose Ingredients')
-        expect(routePushMock).toHaveBeenCalledWith('/')
+        expect(routePushMock).toHaveBeenCalledWith('/Profile')
     })
 })
 
