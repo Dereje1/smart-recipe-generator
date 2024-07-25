@@ -9,7 +9,8 @@
     "lint": "next lint",
     "compileTS": "npx tsc --noEmit",
     "test": "jest --watch",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "all_tests":"jest"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.606.0",
