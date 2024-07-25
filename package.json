@@ -10,7 +10,7 @@
     "compileTS": "npx tsc --noEmit",
     "test": "jest --watch",
     "coverage": "jest --coverage",
-    "all_tests":"jest"
+    "all_tests": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.606.0",
@@ -40,6 +40,7 @@
     "@types/uuid": "^10.0.0",
     "autoprefixer": "^10.4.19",
     "aws-sdk-client-mock": "^4.0.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
     "jest": "^29.7.0",
