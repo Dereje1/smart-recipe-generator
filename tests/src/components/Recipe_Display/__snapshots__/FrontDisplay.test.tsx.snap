@@ -3,7 +3,7 @@
 exports[`The single front facing display shall render 1`] = `
 <div>
   <div
-    class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-3 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full"
+    class="max-w-sm bg-gradient-to-r from-slate-200 to-stone-100 border border-gray-200 rounded-lg shadow-lg mt-4 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full"
   >
     <div
       class="relative w-full h-64"
@@ -25,7 +25,7 @@ exports[`The single front facing display shall render 1`] = `
       class="p-5 flex-grow"
     >
       <h5
-        class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+        class="mb-2 text-2xl font-bold tracking-tight text-gray-900 drop-shadow-lg"
       >
         Recipe_1_name
       </h5>
@@ -34,6 +34,20 @@ exports[`The single front facing display shall render 1`] = `
       >
         Recipe_1_nutritionalInformation
       </p>
+    </div>
+    <div
+      class="mx-auto flex"
+    >
+      <span
+        class="bg-yellow-300 text-gray-700 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300"
+      >
+        Recipe_1_preference_1
+      </span>
+      <span
+        class="bg-yellow-300 text-gray-700 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300"
+      >
+        Recipe_1_preference_2
+      </span>
     </div>
     <div
       class="p-5"

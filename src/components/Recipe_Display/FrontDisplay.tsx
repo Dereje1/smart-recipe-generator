@@ -40,7 +40,7 @@ function FrontDisplay({ recipe, showRecipe, updateRecipeList }: FrontDisplayProp
         }
     }
     return (
-        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-3 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full">
+        <div className="max-w-sm bg-gradient-to-r from-slate-200 to-stone-100 border border-gray-200 rounded-lg shadow-lg mt-4 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full">
             <div className="relative w-full h-64"> {/* Add a container for the image */}
                 <Image
                     src={recipe.imgLink}
@@ -53,9 +53,16 @@ function FrontDisplay({ recipe, showRecipe, updateRecipeList }: FrontDisplayProp
                 />
             </div>
             <div className="p-5 flex-grow">
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{recipe.name}</h5>
+                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 drop-shadow-lg">{recipe.name}</h5>
                 <p className="font-normal text-gray-700 dark:text-gray-400">{recipe.additionalInformation.nutritionalInformation}</p>
             </div>
+            <div className="mx-auto flex">
+                    {
+                        recipe.dietaryPreference.map((preference) => (
+                            <span key={preference} className="bg-yellow-300 text-gray-700 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">{preference}</span>
+                        ))
+                    }
+                </div>
             <div className="p-5">
                 <div className="flex items-center justify-between">
                     <Button
