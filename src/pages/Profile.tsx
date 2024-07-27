@@ -25,7 +25,7 @@ function Profile({ recipes }: { recipes: ExtendedRecipe[] }) {
         return view;
     }
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col min-h-screen items-center">
             <ProfileInformation recipes={latestRecipes} updateSelection={(val) => setDisplaySetting(val)} selectedDisplay={displaySetting} />
             <ViewRecipes recipes={handleDisplaySetting()} handleRecipeListUpdate={handleRecipeListUpdate} />
         </div>

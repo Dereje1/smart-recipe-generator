@@ -19,7 +19,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <Header user={session.user}/>
-      <main>{children}</main>
+      <main className="min-h-screen bg-green-50">{children}</main>
     </div>
   );
 };

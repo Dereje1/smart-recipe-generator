@@ -40,7 +40,7 @@ function FrontDisplay({ recipe, showRecipe, updateRecipeList }: FrontDisplayProp
         }
     }
     return (
-        <div className="max-w-sm bg-gradient-to-r from-slate-200 to-stone-100 border border-gray-200 rounded-lg shadow-lg mt-4 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full">
+        <div className="max-w-sm bg-gradient-to-r from-slate-200 to-stone-100 border border-gray-200 rounded-lg shadow-lg mt-4 mb-2 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full">
             <div className="relative w-full h-64"> {/* Add a container for the image */}
                 <Image
                     src={recipe.imgLink}
@@ -59,7 +59,7 @@ function FrontDisplay({ recipe, showRecipe, updateRecipeList }: FrontDisplayProp
             <div className="mx-auto flex">
                     {
                         recipe.dietaryPreference.map((preference) => (
-                            <span key={preference} className="bg-yellow-300 text-gray-700 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">{preference}</span>
+                            <span key={preference} className="chip bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110">{preference}</span>
                         ))
                     }
                 </div>

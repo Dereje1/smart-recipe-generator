@@ -29,8 +29,9 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
     }
 
     return (
-        <>
-            <div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow-md">
+
+        <div className="flex flex-col min-h-screen items-center">
+            <div className="w-full flex items-center justify-between p-4 rounded-lg shadow-md">
                 <Input
                     className="w-full px-4 py-2 text-sm text-gray-700 placeholder-gray-500 bg-white border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-transparent"
                     placeholder="Search..."
@@ -44,8 +45,8 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
                     Search
                 </Button>
             </div>
-            <ViewRecipes recipes={searchView.length ? searchView : latestRecipes} handleRecipeListUpdate={handleRecipeListUpdate}/>
-        </>
+            <ViewRecipes recipes={searchView.length ? searchView : latestRecipes} handleRecipeListUpdate={handleRecipeListUpdate} />
+        </div>
     )
 }
 

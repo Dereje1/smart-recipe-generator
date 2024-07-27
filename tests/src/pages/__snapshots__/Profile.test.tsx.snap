@@ -3,7 +3,7 @@
 exports[`The Profile component shall render for own recipes 1`] = `
 <div>
   <div
-    class="flex flex-col items-center"
+    class="flex flex-col min-h-screen items-center"
   >
     <div
       class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-5"
@@ -91,7 +91,7 @@ exports[`The Profile component shall render for own recipes 1`] = `
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
       >
         <div
-          class="max-w-sm bg-gradient-to-r from-slate-200 to-stone-100 border border-gray-200 rounded-lg shadow-lg mt-4 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full"
+          class="max-w-sm bg-gradient-to-r from-slate-200 to-stone-100 border border-gray-200 rounded-lg shadow-lg mt-4 mb-2 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full"
         >
           <div
             class="relative w-full h-64"
@@ -127,12 +127,12 @@ exports[`The Profile component shall render for own recipes 1`] = `
             class="mx-auto flex"
           >
             <span
-              class="bg-yellow-300 text-gray-700 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300"
+              class="chip bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110"
             >
               Recipe_1_preference_1
             </span>
             <span
-              class="bg-yellow-300 text-gray-700 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300"
+              class="chip bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110"
             >
               Recipe_1_preference_2
             </span>

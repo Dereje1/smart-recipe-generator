@@ -5,7 +5,7 @@ import Dialog from './Dialog'
 import { ExtendedRecipe } from '../../types';
 
 interface ViewRecipesProps {
-    recipes: ExtendedRecipe[], 
+    recipes: ExtendedRecipe[],
     handleRecipeListUpdate: (r: ExtendedRecipe) => void
 }
 const initialDialogContents: ExtendedRecipe | null = null
@@ -26,7 +26,6 @@ function ViewRecipes({ recipes, handleRecipeListUpdate }: ViewRecipesProps) {
                     ))}
                 </div>
             </div>
-
             <Dialog
                 isOpen={Boolean(openDialog)}
                 close={() => setOpenDialog(null)}
