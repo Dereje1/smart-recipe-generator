@@ -29,6 +29,7 @@ export default function Hero() {
                 );
             case 'about':
                 window.open('https://github.com/Dereje1', '_blank');
+                setSelectedPage(null)
                 return (
                     <Landing />
                 );
