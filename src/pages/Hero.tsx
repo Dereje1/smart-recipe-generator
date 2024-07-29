@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { Dialog, DialogPanel } from '@headlessui/react';
@@ -6,7 +7,9 @@ import Image from 'next/image';
 import Product from '../components/Hero_Sections/Product';
 import Features from '../components/Hero_Sections/Features';
 import Landing from '../components/Hero_Sections/Landing';
+import ErrorPage from './auth/error';
 
+// Navigation links for the header
 const navigation = [
     { name: 'Product', key: 'product' },
     { name: 'Features', key: 'features' },
@@ -14,9 +17,15 @@ const navigation = [
 ];
 
 export default function Hero() {
+    // State to manage the mobile menu open/close state
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    // State to manage the currently selected page
     const [selectedPage, setSelectedPage] = useState<string | null>(null);
 
+    // Fetch the current session and status
+    const { data: session } = useSession();
+
+    // Function to render the content based on the selected page
     const renderContent = () => {
         switch (selectedPage) {
             case 'product':
@@ -29,7 +38,7 @@ export default function Hero() {
                 );
             case 'about':
                 window.open('https://github.com/Dereje1', '_blank');
-                setSelectedPage(null)
+                setSelectedPage(null);
                 return (
                     <Landing />
                 );
@@ -40,14 +49,18 @@ export default function Hero() {
         }
     };
 
+    // If the user is logged in, show the error page
+    if (session) return <ErrorPage message='Inaccessible Page' />;
+
     return (
         <div className="bg-white">
+            {/* Header section */}
             <header className="absolute inset-x-0 top-0 z-50">
                 <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
                     <div className="flex lg:flex-1">
                         <a href="#" className="-m-1.5 p-1.5">
                             <span className="sr-only">Smart Recipe Generator</span>
-                            <Image src="/logo.svg" alt="" width={75} height={75} />
+                            <Image src="/logo.svg" alt="Smart Recipe Generator Logo" width={75} height={75} />
                         </a>
                     </div>
                     <div className="flex lg:hidden">
@@ -77,13 +90,14 @@ export default function Hero() {
                         </button>
                     </div>
                 </nav>
+                {/* Mobile menu dialog */}
                 <Dialog className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
                     <div className="fixed inset-0 z-50" />
                     <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                         <div className="flex items-center justify-between">
                             <a href="#" className="-m-1.5 p-1.5">
                                 <span className="sr-only">Smart Recipe Generator</span>
-                                <Image src="/logo.svg" alt="" width={75} height={75} />
+                                <Image src="/logo.svg" alt="Smart Recipe Generator Logo" width={75} height={75} />
                             </a>
                             <button
                                 type="button"
@@ -124,6 +138,7 @@ export default function Hero() {
                 </Dialog>
             </header>
 
+            {/* Main content section */}
             <div className="relative isolate px-6 pt-14 lg:px-8">
                 <div
                     className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"

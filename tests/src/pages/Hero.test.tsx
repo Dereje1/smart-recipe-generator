@@ -1,11 +1,22 @@
-import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react"
 import Hero from "../../../src/pages/Hero";
 import { fireEvent, render, screen } from '@testing-library/react'
+
 
 const mockSignin = jest.fn()
 jest.mock("next-auth/react",()=>({
     ...jest.requireActual("next-auth/react"),
-    signIn: () => mockSignin()
+    signIn: () => mockSignin(),
+    useSession: jest.fn(() => ({
+        data: null,
+        status: 'authenticated'
+    }))
+}))
+
+jest.mock("next/router", () => ({
+    useRouter: jest.fn(() => ({
+        query: {}
+    })),
 }))
 
 describe("The Hero Component",()=>{
@@ -48,5 +59,14 @@ describe("The Hero Component",()=>{
         fireEvent.click(signIn_a)
         fireEvent.click(signIn_b)
         expect(mockSignin).toHaveBeenCalledTimes(2)
+    })
+
+    it('shall render the Error page if the user is already logged in', async ()=>{
+        (useSession as jest.Mock).mockImplementationOnce(() => ({
+            data: 'user is logged in',
+        }))
+        render(<Hero/>)
+        const errorPage = await screen.findByText('Inaccessible Page')
+        expect(errorPage).toBeInTheDocument();
     })
 })

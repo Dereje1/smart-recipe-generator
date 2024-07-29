@@ -44,7 +44,7 @@ exports[`The Layout renders the hero if there is no session 1`] = `
               Smart Recipe Generator
             </span>
             <img
-              alt=""
+              alt="Smart Recipe Generator Logo"
               data-nimg="1"
               decoding="async"
               height="75"
