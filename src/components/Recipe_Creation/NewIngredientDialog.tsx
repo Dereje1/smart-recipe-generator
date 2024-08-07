@@ -60,7 +60,11 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
     setIsLoading(true);
     try {
       const response = await addIngredient(ingredientName);
-      const { message: responseMessage } = response;
+      const { message: responseMessage, error } = response;
+
+      if (error) {
+        throw new Error(error)
+      }
 
       if (responseMessage === 'Success') {
         setMessage(`Successfully added: ${response.newIngredient.name}`);

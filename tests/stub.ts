@@ -126,4 +126,11 @@ export const ingredientListStub = [
     }
 ]
 
-export const stubRecipeBatch =  [stub_recipe_1, stub_recipe_2]
+export const getServerSessionStub = {
+    user: {
+        id: '6687d83725254486590fec59'
+    },
+    expires: 'some time'
+}
+
+export const stubRecipeBatch = [stub_recipe_1, stub_recipe_2]

@@ -4,8 +4,9 @@
 import validateIngredient from '../../../../src/pages/api/validate-ingredient';
 import Ingredient from '../../../../src/lib/models/ingredient';
 import { mockRequestResponse } from '../../../apiMocks';
-import { getServerSession } from 'next-auth';
-import * as op from '../../../../src/lib/openai';
+import * as openai from '../../../../src/lib/openai';
+import * as nextAuth from 'next-auth';
+import { getServerSessionStub } from '../../../stub';
 
 // mock authOptions 
 jest.mock("../../../../src/pages/api/auth/[...nextauth]", () => ({
@@ -30,36 +31,36 @@ jest.mock('../../../../src/lib/openai', () => ({
 }))
 
 describe('Liking a recipe', () => {
-    it('shall not proceed if user is not logged in', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve(null))
-        const { req, res } = mockRequestResponse('POST')
-        await validateIngredient(req, res)
-        expect(res.statusCode).toBe(401)
-        expect(res._getJSONData()).toEqual({ message: 'You must be logged in.' })
+    let getServerSessionSpy: any
+    let validateIngredientSpy: any
+    beforeEach(() => {
+        getServerSessionSpy = jest.spyOn(nextAuth, 'getServerSession')
+        validateIngredientSpy = jest.spyOn(openai, 'validateIngredient');
+    })
+
+    afterEach(() => {
+        jest.resetAllMocks()
     })
 
     it('shall reject requests that do not use the POST method', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
-
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         const { req, res } = mockRequestResponse('GET')
         await validateIngredient(req, res)
         expect(res.statusCode).toBe(405)
-        expect(res._getData()).toEqual('Method GET Not Allowed')
-        expect(res._getHeaders()).toEqual({ allow: ['POST'] })
+        expect(res._getData()).toEqual(JSON.stringify({error:'Method GET Not Allowed'}))
+        expect(res._getHeaders()).toEqual({ allow: ['POST'], 'content-type': 'application/json' })
+    })
+
+    it('shall not proceed if user is not logged in', async () => {
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(null))
+        const { req, res } = mockRequestResponse('POST')
+        await validateIngredient(req, res)
+        expect(res.statusCode).toBe(401)
+        expect(res._getJSONData()).toEqual({ error: 'You must be logged in.' })
     })
 
     it('shall reject request if no ingredient name provided', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
 
         const { req, res } = mockRequestResponse('POST')
         const updatedreq: any = {
@@ -68,16 +69,11 @@ describe('Liking a recipe', () => {
         }
         await validateIngredient(updatedreq, res)
         expect(res.statusCode).toBe(400)
-        expect(res._getJSONData()).toEqual({ message: 'Ingredient name is required' })
+        expect(res._getJSONData()).toEqual({ error: 'Ingredient name is required' })
     })
 
     it('shall respond with error message if openai fails to validate request', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
 
         const { req, res } = mockRequestResponse('POST')
         const updatedreq: any = {
@@ -92,14 +88,8 @@ describe('Liking a recipe', () => {
     })
 
     it('shall appropriately respond for an invalid ingredient name ', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         // change open ai result
-        const validateIngredientSpy = jest.spyOn(op, 'validateIngredient');
         validateIngredientSpy.mockImplementationOnce(() => Promise.resolve(JSON.stringify({
             isValid: false,
             possibleVariations: ['var-1', 'var-2']
@@ -121,14 +111,8 @@ describe('Liking a recipe', () => {
     })
 
     it('shall appropriately respond for an ingredient that already exists in the db', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         // change open ai result
-        const validateIngredientSpy = jest.spyOn(op, 'validateIngredient');
         validateIngredientSpy.mockImplementationOnce(() => Promise.resolve(JSON.stringify({
             isValid: true,
             possibleVariations: ['var-1', 'var-2']
@@ -150,14 +134,8 @@ describe('Liking a recipe', () => {
     })
 
     it('shall add the requested ingredient if valid and does not exist in the db', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         // change open ai result
-        const validateIngredientSpy = jest.spyOn(op, 'validateIngredient');
         validateIngredientSpy.mockImplementationOnce(() => Promise.resolve(JSON.stringify({
             isValid: true,
             possibleVariations: ['var-1', 'var-2']
@@ -183,14 +161,7 @@ describe('Liking a recipe', () => {
     })
 
     it('will respond with error if POST call is rejected', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
-
-        const validateIngredientSpy = jest.spyOn(op, 'validateIngredient');
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         validateIngredientSpy.mockRejectedValueOnce(() => Promise.reject())
 
         const { req, res } = mockRequestResponse('POST')
@@ -202,6 +173,6 @@ describe('Liking a recipe', () => {
         }
         await validateIngredient(updatedreq, res)
         expect(res.statusCode).toBe(500)
-        expect(res._getJSONData()).toEqual({ message: 'Failed to add ingredient' })
+        expect(res._getJSONData()).toEqual({ error: 'Failed to add ingredient' })
     })
 });

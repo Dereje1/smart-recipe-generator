@@ -7,6 +7,8 @@ import Recipe from '../../../../src/lib/models/recipe';
 import { mockRequestResponse } from '../../../apiMocks';
 import { stubRecipeBatch } from '../../../stub';
 import { getServerSession } from 'next-auth';
+import * as nextAuth from 'next-auth';
+import { getServerSessionStub } from '../../../stub';
 
 // mock authOptions 
 jest.mock("../../../../src/pages/api/auth/[...nextauth]", () => ({
@@ -26,6 +28,14 @@ jest.mock('../../../../src/lib/mongodb', () => ({
 }))
 
 describe('Liking a recipe', () => {
+    let getServerSessionSpy: any
+    beforeEach(() => {
+        getServerSessionSpy = jest.spyOn(nextAuth, 'getServerSession')
+    })
+
+    afterEach(() => {
+        jest.resetAllMocks()
+    })
     it('shall reject requests that do not use the PUT method', async () => {
         const { req, res } = mockRequestResponse('GET')
         await likeRecipe(req, res)
@@ -35,7 +45,7 @@ describe('Liking a recipe', () => {
     })
 
     it('shall not proceed if user is not logged in', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve(null))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(null))
         const { req, res } = mockRequestResponse('PUT')
         await likeRecipe(req, res)
         expect(res.statusCode).toBe(401)
@@ -43,12 +53,7 @@ describe('Liking a recipe', () => {
     })
 
     it('shall reject request if the recipe id submitted is invalid', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
 
         Recipe.findById = jest.fn().mockImplementation(
             () => ({
@@ -68,12 +73,7 @@ describe('Liking a recipe', () => {
     })
 
     it('shall reject request if the recipe id is not found', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
 
         Recipe.findById = jest.fn().mockImplementation(
             () => ({
@@ -93,12 +93,7 @@ describe('Liking a recipe', () => {
     })
 
     it('shall like a  recipe if not already liked', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
 
         Recipe.findById = jest.fn().mockImplementation(
             () => ({
@@ -134,12 +129,7 @@ describe('Liking a recipe', () => {
     })
 
     it('shall unlike a  recipe if already liked', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         // update stub to indicate the recipe has already been liked by current user
         const updatedRecipe = {
             ...stubRecipeBatch[0],
@@ -180,12 +170,7 @@ describe('Liking a recipe', () => {
     })
 
     it('shall interupt the process if new document is not returned', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         // update stub to indicate the recipe has already been liked by current user
         const updatedRecipe = {
             ...stubRecipeBatch[0],
@@ -225,12 +210,7 @@ describe('Liking a recipe', () => {
     })
 
     it('will respond with error if PUT call is rejected', async () => {
-        (getServerSession as jest.Mock).mockImplementationOnce(() => Promise.resolve({
-            user: {
-                id: '6687d83725254486590fec59'
-            },
-            expires: 'some time'
-        }))
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
 
         Recipe.findById = jest.fn().mockImplementation(
             () => ({
