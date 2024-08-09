@@ -1,13 +1,17 @@
+
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { DialogBackdrop, Dialog, DialogPanel, Button } from '@headlessui/react'
 import Image from 'next/image'
 import RecipeCard from '../Recipe_Creation/RecipeCard'
+import DeleteDialog from './DeleteDialog';
 import { ExtendedRecipe } from '../../types'
 
 interface RecipeDialogProps {
     isOpen: boolean
     close: () => void
     recipe: ExtendedRecipe | null
+    deleteRecipe: () => void
 }
 
 const formatDate = (date: string) => {
@@ -15,7 +19,9 @@ const formatDate = (date: string) => {
     return `${day} ${mth} ${year}`;
 };
 
-export default function RecipeDisplayModal({ isOpen, close, recipe }: RecipeDialogProps) {
+export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe }: RecipeDialogProps) {
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false); // State to manage delete dialog visibility
+
     const router = useRouter();
 
     const handleClone = () => {
@@ -59,12 +65,20 @@ export default function RecipeDisplayModal({ isOpen, close, recipe }: RecipeDial
                                         </svg>
                                     </Button>
                                 </div>
-                                <Button
-                                    className="self-start ml-2 px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                                    onClick={() => handleClone()}
-                                >
-                                    Clone Ingredients
-                                </Button>
+                                <div className="w-full h-11 flex justify-between items-center px-2">
+                                    <Button
+                                        className="px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                                        onClick={() => handleClone()}
+                                    >
+                                        Clone Ingredients
+                                    </Button>
+                                    {recipe.owns && <Button
+                                        className="px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                                        onClick={() => setIsDeleteDialogOpen(true)}
+                                    >
+                                        Delete Recipe
+                                    </Button>}
+                                </div>
                                 <RecipeCard
                                     recipe={recipe}
                                     selectedRecipes={[]}
@@ -76,6 +90,15 @@ export default function RecipeDisplayModal({ isOpen, close, recipe }: RecipeDial
                     </div>
                 </div>
             </Dialog>
+            <DeleteDialog
+                isOpen={isDeleteDialogOpen}
+                recipeName={recipe.name}
+                closeDialog={() => (setIsDeleteDialogOpen(false))}
+                deleteRecipe={() => {
+                    setIsDeleteDialogOpen(false)
+                    deleteRecipe()
+                }}
+            />
         </>
     )
 }

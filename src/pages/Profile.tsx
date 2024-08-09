@@ -9,8 +9,8 @@ function Profile({ recipes }: { recipes: ExtendedRecipe[] }) {
     const [latestRecipes, setLatestRecipes] = useState(recipes);
     const [displaySetting, setDisplaySetting] = useState('created')
 
-    const handleRecipeListUpdate = (recipe: ExtendedRecipe) => {
-        setLatestRecipes(updateRecipeList(latestRecipes, recipe));
+    const handleRecipeListUpdate = (recipe: ExtendedRecipe | null, deleteId?: string) => {
+        setLatestRecipes(updateRecipeList(latestRecipes, recipe, deleteId));
     }
 
     const handleDisplaySetting = () => {

@@ -106,3 +106,60 @@ exports[`The single front facing display shall render 1`] = `
   </div>
 </div>
 `;
+
+exports[`The single front facing display shall render for a loading recipe 1`] = `
+<div>
+  <div
+    class="max-w-sm bg-gradient-to-r from-slate-200 to-stone-100 border border-gray-200 rounded-lg shadow-lg mt-4 mb-2 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full"
+  >
+    <div
+      class="relative w-full h-64"
+    >
+       
+      <img
+        alt="Recipe_1_name"
+        class="rounded-t-lg"
+        data-nimg="fill"
+        decoding="async"
+        fetchpriority="high"
+        sizes="auto"
+        src="/_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=3840&q=75"
+        srcset="/_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=16&q=75 16w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=32&q=75 32w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=48&q=75 48w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=64&q=75 64w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=96&q=75 96w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=128&q=75 128w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=256&q=75 256w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=384&q=75 384w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=640&q=75 640w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=750&q=75 750w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=828&q=75 828w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=1080&q=75 1080w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=1200&q=75 1200w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=1920&q=75 1920w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=2048&q=75 2048w, /_next/image?url=https%3A%2F%2Fsmart-recipe-generator.s3.amazonaws.com%2FRecipe_1&w=3840&q=75 3840w"
+        style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; object-fit: cover; color: transparent;"
+      />
+    </div>
+    <div
+      class="p-5 flex-grow"
+    >
+      <h5
+        class="mb-2 text-2xl font-bold tracking-tight text-gray-900 drop-shadow-lg"
+      >
+        Recipe_1_name
+      </h5>
+      <p
+        class="font-normal text-gray-700 dark:text-gray-400"
+      >
+        Recipe_1_nutritionalInformation
+      </p>
+    </div>
+    <div
+      class="p-10"
+    >
+      <div
+        class="flex items-center justify-center mt-5"
+      >
+        <div
+          class="relative"
+        >
+          <div
+            class="h-24 w-24 rounded-full border-t-8 border-b-8 border-gray-200"
+          />
+          <div
+            class="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-blue-500 animate-spin"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

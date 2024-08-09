@@ -20,11 +20,14 @@ export const filterResults = (recipes: ExtendedRecipe[], userId: string) => {
   ))
 }
 
-export const updateRecipeList = (oldList: ExtendedRecipe[], newRecipe: ExtendedRecipe) => {
-  const indexOfUpdate = oldList.findIndex((p) => p._id === newRecipe._id);
-  return [
+export const updateRecipeList = (oldList: ExtendedRecipe[], newRecipe: ExtendedRecipe | null, deleteId?: string) => {
+  const indexOfUpdate = oldList.findIndex((p) => p._id === (newRecipe ? newRecipe._id : deleteId));
+  return newRecipe ? [
     ...oldList.slice(0, indexOfUpdate),
     newRecipe,
+    ...oldList.slice(indexOfUpdate + 1),
+  ] : [
+    ...oldList.slice(0, indexOfUpdate),
     ...oldList.slice(indexOfUpdate + 1),
   ];
 };

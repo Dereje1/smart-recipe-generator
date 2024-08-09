@@ -16,7 +16,12 @@ describe('The single front facing display', () => {
         }
     })
     it('shall render', () => {
-        const { container } = render(<FrontDisplay recipe={updatedRecipe} showRecipe={jest.fn()} updateRecipeList={jest.fn()} />)
+        const { container } = render(<FrontDisplay recipe={updatedRecipe} showRecipe={jest.fn()} updateRecipeList={jest.fn()} isLoading={false} />)
+        expect(container).toMatchSnapshot()
+    })
+
+    it('shall render for a loading recipe', () => {
+        const { container } = render(<FrontDisplay recipe={updatedRecipe} showRecipe={jest.fn()} updateRecipeList={jest.fn()} isLoading={true} />)
         expect(container).toMatchSnapshot()
     })
 
@@ -25,7 +30,7 @@ describe('The single front facing display', () => {
             ...updatedRecipe,
             liked: true
         }))
-        const { container } = render(<FrontDisplay recipe={updatedRecipe} showRecipe={jest.fn()} updateRecipeList={updateRecipeListMock} />)
+        const { container } = render(<FrontDisplay recipe={updatedRecipe} showRecipe={jest.fn()} updateRecipeList={updateRecipeListMock} isLoading={false} />)
         fireEvent.click(screen.getByTestId('like_button'));
         await screen.findByText('Recipe_1_name')
         expect(updateRecipeListMock).toHaveBeenCalledWith({...updatedRecipe, liked: true})

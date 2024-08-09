@@ -19,8 +19,8 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
         }
     }, [searchVal, latestRecipes])
 
-    const handleRecipeListUpdate = (recipe: ExtendedRecipe) => {
-        setLatestRecipes(updateRecipeList(latestRecipes, recipe));
+    const handleRecipeListUpdate = (recipe: ExtendedRecipe | null, deleteId?: string) => {
+        setLatestRecipes(updateRecipeList(latestRecipes, recipe, deleteId));
     }
 
     const handleSearch = () => {

@@ -5,10 +5,8 @@ import likeRecipe from '../../../../src/pages/api/like-recipe';
 import mongoose from 'mongoose';
 import Recipe from '../../../../src/lib/models/recipe';
 import { mockRequestResponse } from '../../../apiMocks';
-import { stubRecipeBatch } from '../../../stub';
-import { getServerSession } from 'next-auth';
+import { stubRecipeBatch, getServerSessionStub } from '../../../stub';
 import * as nextAuth from 'next-auth';
-import { getServerSessionStub } from '../../../stub';
 
 // mock authOptions 
 jest.mock("../../../../src/pages/api/auth/[...nextauth]", () => ({
