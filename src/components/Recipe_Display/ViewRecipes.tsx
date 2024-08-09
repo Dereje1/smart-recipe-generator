@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import FrontDisplay from './FrontDisplay'
 import Dialog from './Dialog'
-import { deleteRecipe } from './call_api';
+import { call_api } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
 interface ViewRecipesProps {
@@ -23,7 +23,11 @@ function ViewRecipes({ recipes, handleRecipeListUpdate }: ViewRecipesProps) {
         try {
             setOpenDialog(null)
             setDeleteId(openDialog._id)
-            const response = await deleteRecipe(openDialog._id)
+            const response = await call_api({
+                address: '/api/delete-recipe',
+                method: 'delete',
+                payload: { data: { recipeId: openDialog._id } }
+            })
             const { message, error } = response;
             if (error) {
                 throw new Error(error)

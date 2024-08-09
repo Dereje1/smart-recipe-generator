@@ -6,7 +6,7 @@ import {
 } from '@headlessui/react';
 import pluralize from 'pluralize';
 import clsx from 'clsx';
-import { addIngredient } from './call_api';
+import { call_api } from '../../utils/utils';
 import Loading from '../Loading';
 import { IngredientDocumentType } from '../../types/index';
 
@@ -59,7 +59,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
 
     setIsLoading(true);
     try {
-      const response = await addIngredient(ingredientName);
+      const response = await call_api({ address: '/api/validate-ingredient', method: 'post', payload: { ingredientName } });
       const { message: responseMessage, error } = response;
 
       if (error) {

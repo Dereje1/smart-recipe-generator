@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/react"
 import axios from "axios";
-import { updateRecipeList, getFilteredRecipes, getServerSidePropsUtility } from "../../../src/utils/utils";
+import { updateRecipeList, getFilteredRecipes, getServerSidePropsUtility, call_api } from "../../../src/utils/utils";
 import { stubRecipeBatch } from "../../stub";
 
 jest.mock('axios');
@@ -63,5 +63,17 @@ describe('getServerSideProps abstraction utility', () => {
         axiosSpy.mockImplementationOnce(() => Promise.reject())
         const result = await getServerSidePropsUtility({ req: { headers: { cookie: 'a cookie' } } } as any, '/any')
         expect(result).toEqual({ props: { recipes: [] } })
+    })
+})
+
+describe('The api call making utility', () => {
+    it('shall execute', async () => {
+        (axios.get as jest.Mock).mockImplementationOnce(() => Promise.resolve({ data: 'succesfully executed' }))
+        const ans = await call_api({address: 'mock-address'});
+        expect(ans).toBe('succesfully executed')
+    })
+    it('shall handle failures', async () => {
+        (axios.get as jest.Mock).mockImplementationOnce(() => Promise.reject(new Error('API call failed')))
+        await expect(call_api({ address: 'mock-address' })).rejects.toThrow('API call failed');
     })
 })

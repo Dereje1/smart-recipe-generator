@@ -1,6 +1,6 @@
 import ViewRecipes from "../../../../src/components/Recipe_Display/ViewRecipes";
 import { render, screen, fireEvent } from '@testing-library/react'
-import * as apiCalls from "../../../../src/components/Recipe_Display/call_api";
+import * as apiCalls from "../../../../src/utils/utils";
 import { stubRecipeBatch } from '../../../stub'
 
 const routePushMock = jest.fn()
@@ -12,7 +12,7 @@ jest.mock("next/router", () => ({
     })),
 }))
 
-jest.mock("../../../../src/components/Recipe_Display/call_api")
+jest.mock("../../../../src/utils/utils")
 
 describe('The view recipes component', () => {
     it('shall render all available recipes', () => {
@@ -55,7 +55,7 @@ describe('The view recipes component', () => {
     })
 
     it('shall send request to delete a recipe', async () => {
-        const deleteApi = jest.spyOn(apiCalls, 'deleteRecipe');
+        const deleteApi = jest.spyOn(apiCalls, 'call_api');
         deleteApi.mockImplementationOnce(() => Promise.resolve({
             message: 'succesfully deleted',
             error: null
@@ -74,11 +74,15 @@ describe('The view recipes component', () => {
         //click delete on dialog
         const deleteButton = await screen.findByText('Delete');
         fireEvent.click(deleteButton)
-        expect(deleteApi).toHaveBeenCalledWith('6683b8d38475eac9af5fe838')
+        expect(deleteApi).toHaveBeenCalledWith({
+            "address": "/api/delete-recipe",
+             "method": "delete",
+              "payload": {"data": {"recipeId": "6683b8d38475eac9af5fe838"}}
+        })
     })
 
     it('shall handle errors on request to delete a recipe', async () => {
-        const deleteApi = jest.spyOn(apiCalls, 'deleteRecipe');
+        const deleteApi = jest.spyOn(apiCalls, 'call_api');
         deleteApi.mockImplementationOnce(() => Promise.resolve({
             message: null,
             error: 'an error'
@@ -97,6 +101,10 @@ describe('The view recipes component', () => {
         //click delete on dialog
         const deleteButton = await screen.findByText('Delete');
         fireEvent.click(deleteButton)
-        expect(deleteApi).toHaveBeenCalledWith('6683b8d38475eac9af5fe838')
+        expect(deleteApi).toHaveBeenCalledWith({
+            "address": "/api/delete-recipe",
+             "method": "delete",
+              "payload": {"data": {"recipeId": "6683b8d38475eac9af5fe838"}}
+        })
     })
 })

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 import Loading from '../components/Loading';
 import StepComponent from '../components/Recipe_Creation/StepComponent';
-import { getRecipesFromAPI, saveRecipes } from '../components/Recipe_Creation/call_api';
+import { call_api } from '../utils/utils';
 import { getServerSidePropsUtility } from '../utils/utils';
 import { Ingredient, DietaryPreference, Recipe, IngredientDocumentType } from '../types/index'
 
@@ -43,7 +43,14 @@ function Navigation({ ingredientList }: { ingredientList: IngredientDocumentType
     const handleIngredientSubmit = async () => {
         try {
             setIsLoading(true);
-            const { recipes, openaiPromptId } = await getRecipesFromAPI(ingredients, preferences);
+            const { recipes, openaiPromptId } = await call_api({
+                address: '/api/generate-recipes',
+                method: 'post',
+                payload: {
+                    ingredients,
+                    dietaryPreferences: preferences,
+                }
+            });
             let parsedRecipes = JSON.parse(recipes);
             parsedRecipes = parsedRecipes.map((recipe: Recipe, idx: number) => ({
                 ...recipe,
@@ -60,7 +67,7 @@ function Navigation({ ingredientList }: { ingredientList: IngredientDocumentType
     const handleRecipeSubmit = async (recipes: Recipe[]) => {
         try {
             setIsLoading(true);
-            const result = await saveRecipes(recipes);
+            await call_api({ address: '/api/save-recipes', method: 'post', payload: { recipes } });
             setIsLoading(false)
             setIngredients(initialIngridients)
             setPreferences(initialPreferences)

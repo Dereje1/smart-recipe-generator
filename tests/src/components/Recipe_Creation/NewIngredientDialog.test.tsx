@@ -1,8 +1,8 @@
 import NewIngredientDialog from "../../../../src/components/Recipe_Creation/NewIngredientDialog";
-import { addIngredient } from "../../../../src/components/Recipe_Creation/call_api";
+import * as apiCalls from "../../../../src/utils/utils";
 import { fireEvent, render, screen } from '@testing-library/react'
 
-jest.mock("../../../../src/components/Recipe_Creation/call_api");
+jest.mock("../../../../src/utils/utils");
 
 describe('The new Ingredient Dialog', () => {
     let props: any;
@@ -46,10 +46,11 @@ describe('The new Ingredient Dialog', () => {
     })
 
     it('will submit recipe to api and successfully add to the db', async () => {
-        (addIngredient as jest.Mock).mockImplementationOnce(() => ({
+        const addIngredient = jest.spyOn(apiCalls, 'call_api');
+        addIngredient.mockImplementationOnce(() => Promise.resolve({
             message: 'Success',
-            newIngredient:{
-                name:'ingredient-3'
+            newIngredient: {
+                name: 'ingredient-3'
             }
         }))
         render(<NewIngredientDialog {...props} />)
@@ -61,13 +62,19 @@ describe('The new Ingredient Dialog', () => {
         fireEvent.click(submitButton);
         const message = await screen.findByText('Successfully added: ingredient-3')
         expect(message).toBeInTheDocument();
+        expect(addIngredient).toHaveBeenCalledWith({
+            "address": "/api/validate-ingredient", 
+            "method": "post", 
+            "payload": {"ingredientName": "ingredient-3"}
+        })
     })
 
 
     it('will submit recipe to api and process invalid ingredients', async () => {
-        (addIngredient as jest.Mock).mockImplementationOnce(() => ({
+        const addIngredient = jest.spyOn(apiCalls, 'call_api');
+        addIngredient.mockImplementationOnce(() => Promise.resolve({
             message: 'Invalid',
-            suggested:['ingredient-A', 'ingredient-B', 'ingredient-C']
+            suggested: ['ingredient-A', 'ingredient-B', 'ingredient-C']
         }))
         render(<NewIngredientDialog {...props} />)
         const openButton = await screen.findByText('Add New Ingredient')
@@ -78,10 +85,16 @@ describe('The new Ingredient Dialog', () => {
         fireEvent.click(submitButton);
         const message = await screen.findByText('ingredient-3 is invalid. Try the following suggestions: ingredient-A, ingredient-B, ingredient-C')
         expect(message).toBeInTheDocument();
+        expect(addIngredient).toHaveBeenCalledWith({
+            "address": "/api/validate-ingredient", 
+            "method": "post", 
+            "payload": {"ingredientName": "ingredient-3"}
+        })
     })
 
     it('will submit recipe to api and process validation errors from the api', async () => {
-        (addIngredient as jest.Mock).mockImplementationOnce(() => ({
+        const addIngredient = jest.spyOn(apiCalls, 'call_api');
+        addIngredient.mockImplementationOnce(() => Promise.resolve({
             message: 'erroneous response',
         }))
         render(<NewIngredientDialog {...props} />)
@@ -93,10 +106,16 @@ describe('The new Ingredient Dialog', () => {
         fireEvent.click(submitButton);
         const message = await screen.findByText('An error occurred with validation... check back later: erroneous response')
         expect(message).toBeInTheDocument();
+        expect(addIngredient).toHaveBeenCalledWith({
+            "address": "/api/validate-ingredient", 
+            "method": "post", 
+            "payload": {"ingredientName": "ingredient-3"}
+        })
     })
 
     it('will handle rejected api calls', async () => {
-        (addIngredient as jest.Mock).mockImplementationOnce(() => (Promise.reject()))
+        const addIngredient = jest.spyOn(apiCalls, 'call_api');
+        addIngredient.mockImplementationOnce(() => (Promise.reject()))
         render(<NewIngredientDialog {...props} />)
         const openButton = await screen.findByText('Add New Ingredient')
         fireEvent.click(openButton)
@@ -106,6 +125,11 @@ describe('The new Ingredient Dialog', () => {
         fireEvent.click(submitButton);
         const message = await screen.findByText('Failed to add ingredient')
         expect(message).toBeInTheDocument();
+        expect(addIngredient).toHaveBeenCalledWith({
+            "address": "/api/validate-ingredient", 
+            "method": "post", 
+            "payload": {"ingredientName": "ingredient-3"}
+        })
     })
 
     it('will close the dialog', async () => {

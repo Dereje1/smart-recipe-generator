@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { Button } from '@headlessui/react'
-import { likeRecipe } from './call_api'
+import { call_api } from "../../utils/utils";
 import { ExtendedRecipe } from '../../types';
 import Loading from "../Loading";
 
@@ -35,7 +35,7 @@ function FrontDisplay({ recipe, showRecipe, updateRecipeList, isLoading }: Front
 
     const handleRecipeLike = async (recipeId: string) => {
         try {
-            const result = await likeRecipe(recipeId);
+            const result = await call_api({ address: '/api/like-recipe', method: 'put', payload: { recipeId } })
             updateRecipeList(result);
         } catch (error) {
             console.log(error)
