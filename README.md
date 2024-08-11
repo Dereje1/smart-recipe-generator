@@ -22,6 +22,15 @@ Smart Recipe Generator is an AI-powered web application that generates unique an
 
 ## Installation
 
+#### Prerequisites
+
+| Tool                                       | Version   | Required                         |
+|------------------------------------------|---------|:-------------------------------:|
+| [Node.js](https://nodejs.org/) / npm       | ~20.15.0 / ~10.7.0 | ✅ |
+| [Git](https://git-scm.com/)                | ~2        | ✅ |
+| [Docker Desktop](https://www.docker.com/products/docker-desktop) | ~4.4.2 | |
+| [MongoDB Compass](https://www.mongodb.com/products/compass) | ~1.0.0 | |
+
 1. **Clone the Repository**:
     ```bash
     git clone https://github.com/Dereje1/smart-recipe-generator.git
