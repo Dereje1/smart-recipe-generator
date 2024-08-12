@@ -25,7 +25,7 @@ describe('The home component', () => {
 
     it('shall update the search input box', async () => {
         render(<Home recipes={stubRecipeBatch} />)
-        const input = await screen.findByPlaceholderText('Search...')
+        const input = await screen.findByPlaceholderText('Search recipes by name, ingredient, or type...')
         fireEvent.change(input, { target: { value: 'test-search' } })
         expect(input.getAttribute('value')).toBe('test-search')
     })
@@ -36,10 +36,20 @@ describe('The home component', () => {
         fireEvent.click(searchButton)
         expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
     })
-    it('shall execute the search term', async () => {
+    it('shall execute an empty search and clear the search box', async () => {
         render(<Home recipes={stubRecipeBatch} />)
+        const input = await screen.findByPlaceholderText('Search recipes by name, ingredient, or type...')
+        fireEvent.change(input, { target: { value: 'test-search' } })
+        // make sure recipes are there before firing
+        expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
+        expect(screen.getByText('Recipe_2_name')).toBeInTheDocument()
         const searchButton = await screen.findByText('Search')
+        // make sure no matches are found and screen is cleared after executing empty search
         fireEvent.click(searchButton)
+        expect(screen.queryByText('Recipe_1_name')).not.toBeInTheDocument()
+        const clearButton = await screen.findAllByRole('button')
+        // make sure recipes are back after executing clear
+        fireEvent.click(clearButton[1])
         expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
     })
 })

@@ -15,7 +15,7 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
 
     useEffect(() => {
         if (!searchVal.trim()) {
-            setSearchView([])
+            setSearchView(latestRecipes)
         }
     }, [searchVal, latestRecipes])
 
@@ -34,18 +34,26 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
             <div className="w-full flex items-center justify-between p-4 rounded-lg shadow-md">
                 <Input
                     className="w-full px-4 py-2 text-sm text-gray-700 placeholder-gray-500 bg-white border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-transparent"
-                    placeholder="Search..."
+                    placeholder="Search recipes by name, ingredient, or type..."
                     value={searchVal}
                     onChange={(e) => setSearchVal(e.target.value)}
                 />
                 <Button
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-r-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-100 hover:shadow"
+                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-100 hover:shadow"
                     onClick={handleSearch}
                 >
                     Search
                 </Button>
+                <Button
+                    className="px-1 py-1 text-white font-bold bg-red-600 rounded-r-lg hover:bg-red-800  focus:outline-none focus:ring-red-300 hover:shadow"
+                    onClick={() => setSearchVal('')}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-7">
+                        <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                    </svg>
+                </Button>
             </div>
-            <ViewRecipes recipes={searchView.length ? searchView : latestRecipes} handleRecipeListUpdate={handleRecipeListUpdate} />
+            <ViewRecipes recipes={searchView} handleRecipeListUpdate={handleRecipeListUpdate} />
         </div>
     )
 }
