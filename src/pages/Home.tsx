@@ -45,8 +45,9 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
                     Search
                 </Button>
                 <Button
-                    className="px-1 py-1 text-white font-bold bg-red-600 rounded-r-lg hover:bg-red-800  focus:outline-none focus:ring-red-300 hover:shadow"
+                    className="px-1 py-1 text-black font-bold bg-blue-300 rounded-r-lg hover:enabled:bg-blue-100 focus:enabled:outline-none hover:enabled:shadow data-[disabled]:bg-gray-200 data-[disabled]:text-black/10"
                     onClick={() => setSearchVal('')}
+                    disabled={!searchVal.trim()}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-7">
                         <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
