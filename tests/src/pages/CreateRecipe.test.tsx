@@ -21,14 +21,14 @@ jest.mock("../../../src/utils/utils", () => ({
 
 describe('The creating recipes component', () => {
     it('will increase the current step', async () => {
-        render(<CreateRecipe ingredientList={[]} />)
+        render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: false }} />)
         expect(await screen.findByText('Choose Ingredients')).toBeInTheDocument()
         const nextButton = await screen.findByText('Next')
         fireEvent.click(nextButton)
         expect(await screen.findByText('Choose Diet')).toBeInTheDocument()
     })
     it('will decrease the current step', async () => {
-        render(<CreateRecipe ingredientList={[]} />)
+        render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: false }} />)
         expect(await screen.findByText('Choose Ingredients')).toBeInTheDocument()
         const nextButton = await screen.findByText('Next')
         fireEvent.click(nextButton)
@@ -37,7 +37,10 @@ describe('The creating recipes component', () => {
         fireEvent.click(prevButton)
         expect(await screen.findByText('Choose Ingredients')).toBeInTheDocument()
     })
-
+    it('will not allow recipe creation if limit has been reached', async () => {
+        render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: true }} />)
+        expect(await screen.findByText('Limit Reached')).toBeInTheDocument()
+    })
 })
 
 describe('Start to finish recipe creation and submission', () => {
@@ -49,7 +52,7 @@ describe('Start to finish recipe creation and submission', () => {
             openaiPromptId: "mock-openAI-Prompt-Id"
         }))
 
-        render(<CreateRecipe ingredientList={ingredientListStub} />)
+        render(<CreateRecipe recipeCreationData={{ ingredientList: ingredientListStub, reachedLimit: false }}/>)
         expect(await screen.findByText('Choose Ingredients')).toBeInTheDocument()
         // click button to show options
         const comboButton = await screen.findAllByRole('button');
