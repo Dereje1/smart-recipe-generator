@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 import Loading from '../components/Loading';
 import StepComponent from '../components/Recipe_Creation/StepComponent';
+import LimitReached from '../components/Recipe_Creation/LimitReached';
 import { call_api } from '../utils/utils';
 import { getServerSidePropsUtility } from '../utils/utils';
 import { Ingredient, DietaryPreference, Recipe, IngredientDocumentType } from '../types/index'
@@ -17,7 +18,12 @@ const initialPreferences: DietaryPreference[] = [];
 const initialRecipes: Recipe[] = [];
 const initialSelectedIds: string[] = [];
 
-function Navigation({ ingredientList }: { ingredientList: IngredientDocumentType[] }) {
+function Navigation({ recipeCreationData }: {
+    recipeCreationData: {
+        ingredientList: IngredientDocumentType[]
+        reachedLimit: boolean
+    }
+}) {
     const [step, setStep] = useState(0);
     const [ingredients, setIngredients] = useState(initialIngridients)
     const [preferences, setPreferences] = useState(initialPreferences)
@@ -80,7 +86,11 @@ function Navigation({ ingredientList }: { ingredientList: IngredientDocumentType
         }
     }
 
-    return (
+
+    return recipeCreationData.reachedLimit ? <LimitReached
+        message="You have reached the maximum number of interactions with our AI services. Please try again later."
+        actionText="Go to Home"
+    /> : (
         <>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center justify-center">
                 <span className="text-2xl font-bold text-blue-700 bg-blue-100 rounded-lg p-3 mb-5 mt-5 shadow-md">
@@ -124,7 +134,7 @@ function Navigation({ ingredientList }: { ingredientList: IngredientDocumentType
                     :
                     <StepComponent
                         step={step}
-                        ingredientList={ingredientList}
+                        ingredientList={recipeCreationData.ingredientList}
                         ingredients={ingredients}
                         updateIngredients={(ingredients: Ingredient[]) => setIngredients(ingredients)}
                         preferences={preferences}
@@ -143,7 +153,7 @@ function Navigation({ ingredientList }: { ingredientList: IngredientDocumentType
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    return await getServerSidePropsUtility(context, 'api/get-ingredients', 'ingredientList')
+    return await getServerSidePropsUtility(context, 'api/get-ingredients', 'recipeCreationData')
 };
 
 export default Navigation;

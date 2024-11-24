@@ -21,14 +21,14 @@ jest.mock("../../../src/utils/utils", () => ({
 
 describe('The creating recipes component', () => {
     it('will increase the current step', async () => {
-        render(<CreateRecipe ingredientList={[]} />)
+        render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: false }} />)
         expect(await screen.findByText('Choose Ingredients')).toBeInTheDocument()
         const nextButton = await screen.findByText('Next')
         fireEvent.click(nextButton)
         expect(await screen.findByText('Choose Diet')).toBeInTheDocument()
     })
     it('will decrease the current step', async () => {
-        render(<CreateRecipe ingredientList={[]} />)
+        render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: false }} />)
         expect(await screen.findByText('Choose Ingredients')).toBeInTheDocument()
         const nextButton = await screen.findByText('Next')
         fireEvent.click(nextButton)
@@ -49,7 +49,7 @@ describe('Start to finish recipe creation and submission', () => {
             openaiPromptId: "mock-openAI-Prompt-Id"
         }))
 
-        render(<CreateRecipe ingredientList={ingredientListStub} />)
+        render(<CreateRecipe recipeCreationData={{ ingredientList: ingredientListStub, reachedLimit: false }}/>)
         expect(await screen.findByText('Choose Ingredients')).toBeInTheDocument()
         // click button to show options
         const comboButton = await screen.findAllByRole('button');
