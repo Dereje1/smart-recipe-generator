@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { Button, Input } from '@headlessui/react'
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
+import ScrollToTopButton from '../components/ScrollToTopButton';
 import { getFilteredRecipes, getServerSidePropsUtility, updateRecipeList } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
 
@@ -55,6 +56,7 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
                 </Button>
             </div>
             <ViewRecipes recipes={searchView} handleRecipeListUpdate={handleRecipeListUpdate} />
+            <ScrollToTopButton />
         </div>
     )
 }
