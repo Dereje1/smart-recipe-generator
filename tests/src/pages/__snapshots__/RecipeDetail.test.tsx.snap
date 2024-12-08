@@ -1,0 +1,325 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
+<div>
+  <div
+    class="min-h-screen bg-gray-100 p-4"
+  >
+    <button
+      class="mb-4 flex items-center text-black hover:text-blue-700"
+      data-headlessui-state=""
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="size-6 font-bold"
+        data-slot="icon"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          clip-rule="evenodd"
+          d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
+          fill-rule="evenodd"
+        />
+      </svg>
+       
+    </button>
+    <div
+      class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
+    >
+      <div
+        class="relative w-full h-80"
+      />
+      <div
+        class="p-6"
+      >
+        <h2
+          class="text-2xl font-bold mb-2"
+        >
+          Recipe_1_name
+        </h2>
+         
+        <div
+          class="flex items-center mb-6"
+        >
+          <div
+            class="relative w-12 h-12 rounded-full overflow-hidden mr-4"
+          />
+          <span
+            class="text-gray-700 text-lg"
+          >
+            By 
+            user_1
+          </span>
+           
+        </div>
+        <div
+          class="mb-4"
+        >
+          <h3
+            class="text-xl font-semibold mb-2"
+          >
+            Dietary Preferences
+          </h3>
+           
+          <div
+            class="flex flex-wrap gap-2"
+          >
+             
+            <span
+              class="bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1 rounded-full"
+            >
+              Recipe_1_preference_1
+               
+            </span>
+            <span
+              class="bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1 rounded-full"
+            >
+              Recipe_1_preference_2
+               
+            </span>
+          </div>
+        </div>
+        <div
+          class="mb-4"
+        >
+          <h3
+            class="text-xl font-semibold mb-2"
+          >
+            Ingredients
+          </h3>
+           
+          <ul
+            class="grid grid-cols-1 sm:grid-cols-2 gap-2"
+          >
+             
+            <li
+              class="flex items-center"
+            >
+               
+              <svg
+                aria-hidden="true"
+                class="w-5 h-5 text-green-500 mr-2 flex-shrink-0"
+                data-slot="icon"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+               
+              <span
+                class="text-gray-700"
+              >
+                Recipe_1_Ingredient_1
+                 (Recipe_1_Ingredient_1_quantity_1)
+                 
+              </span>
+            </li>
+            <li
+              class="flex items-center"
+            >
+               
+              <svg
+                aria-hidden="true"
+                class="w-5 h-5 text-green-500 mr-2 flex-shrink-0"
+                data-slot="icon"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+               
+              <span
+                class="text-gray-700"
+              >
+                Recipe_1_Ingredient_2
+                 (Recipe_1_Ingredient_2_quantity_2)
+                 
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div
+          class="mb-4"
+        >
+          <h3
+            class="text-xl font-semibold mb-2"
+          >
+            Instructions
+          </h3>
+           
+          <ol
+            class="list-decimal list-inside space-y-4"
+          >
+             
+            <li
+              class="flex items-start"
+            >
+               
+              <span
+                class="font-bold text-gray-800 mr-3"
+              >
+                1
+                .
+              </span>
+               
+              <p
+                class="text-gray-700"
+              >
+                Recipe_1_Instructions_1.
+              </p>
+               
+            </li>
+            <li
+              class="flex items-start"
+            >
+               
+              <span
+                class="font-bold text-gray-800 mr-3"
+              >
+                2
+                .
+              </span>
+               
+              <p
+                class="text-gray-700"
+              >
+                Recipe_1_Instructions_2.
+              </p>
+               
+            </li>
+          </ol>
+        </div>
+        <div
+          class="mb-6"
+        >
+          <h3
+            class="text-xl font-semibold mb-4 text-gray-800"
+          >
+            Additional Information
+          </h3>
+           
+          <div
+            class="space-y-4"
+          >
+             
+            <div>
+              <h4
+                class="font-medium text-gray-700"
+              >
+                Tips:
+              </h4>
+               
+              <p
+                class="text-gray-600"
+              >
+                Recipe_1_tips
+              </p>
+               
+            </div>
+            <div>
+              <h4
+                class="font-medium text-gray-700"
+              >
+                Variations:
+              </h4>
+               
+              <p
+                class="text-gray-600"
+              >
+                Recipe_1_variations
+              </p>
+               
+            </div>
+            <div>
+              <h4
+                class="font-medium text-gray-700"
+              >
+                Serving Suggestions:
+              </h4>
+               
+              <p
+                class="text-gray-600"
+              >
+                Recipe_1_servingSuggestions
+              </p>
+               
+            </div>
+            <div>
+              <h4
+                class="font-medium text-gray-700"
+              >
+                Nutritional Information:
+              </h4>
+               
+              <p
+                class="text-gray-600"
+              >
+                Recipe_1_nutritionalInformation
+              </p>
+               
+            </div>
+          </div>
+        </div>
+        <svg
+          aria-hidden="true"
+          class="size-8 text-blue-500 mr-2 mb-2"
+          data-slot="icon"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+         
+        <div
+          class="flex items-center"
+        >
+          <div
+            class="flex flex-wrap items-center gap-2"
+          >
+            <div
+              class="flex items-center space-x-2"
+            >
+               
+              <div
+                class="relative w-8 h-8 rounded-full overflow-hidden"
+              >
+                 
+              </div>
+              <span
+                class="text-gray-700"
+              >
+                user_2
+              </span>
+               
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
