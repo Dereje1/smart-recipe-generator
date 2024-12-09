@@ -221,7 +221,7 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
              
             <div>
               <h4
-                class="font-medium text-gray-700"
+                class="font-bold text-gray-700"
               >
                 Tips:
               </h4>
@@ -235,7 +235,7 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
             </div>
             <div>
               <h4
-                class="font-medium text-gray-700"
+                class="font-bold text-gray-700"
               >
                 Variations:
               </h4>
@@ -249,7 +249,7 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
             </div>
             <div>
               <h4
-                class="font-medium text-gray-700"
+                class="font-bold text-gray-700"
               >
                 Serving Suggestions:
               </h4>
@@ -263,7 +263,7 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
             </div>
             <div>
               <h4
-                class="font-medium text-gray-700"
+                class="font-bold text-gray-700"
               >
                 Nutritional Information:
               </h4>

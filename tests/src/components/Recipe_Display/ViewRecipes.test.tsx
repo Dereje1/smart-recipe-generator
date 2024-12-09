@@ -49,8 +49,10 @@ describe('The view recipes component', () => {
         fireEvent.click(screen.getAllByText('See Recipe')[0]);
         await screen.findByText('user_1');
         expect(screen.queryByText('user_1')).toBeInTheDocument();
-        fireEvent.click(screen.getByTestId("open_recipe_dialog"));
-        await screen.findByText('Recipe_1_name');
+        // open popover
+        const popoverbutton = await screen.findAllByRole('button')
+        fireEvent.click(popoverbutton[4])
+        fireEvent.click(screen.getByText('Close'));
         expect(screen.queryByText('user_1')).not.toBeInTheDocument();
     })
 
@@ -68,6 +70,9 @@ describe('The view recipes component', () => {
         await screen.findByText('user_1');
         // user1 is owner of recipe 1
         expect(screen.queryByText('user_1')).toBeInTheDocument();
+        //open popover
+        const popoverbutton = await screen.findAllByRole('button')
+        fireEvent.click(popoverbutton[4])
         //open delete dialog
         const deleteDialogButton = await screen.findByText('Delete Recipe');
         fireEvent.click(deleteDialogButton)
@@ -95,6 +100,9 @@ describe('The view recipes component', () => {
         await screen.findByText('user_1');
         // user1 is owner of recipe 1
         expect(screen.queryByText('user_1')).toBeInTheDocument();
+        //open popover
+        const popoverbutton = await screen.findAllByRole('button')
+        fireEvent.click(popoverbutton[4])
         //open delete dialog
         const deleteDialogButton = await screen.findByText('Delete Recipe');
         fireEvent.click(deleteDialogButton)

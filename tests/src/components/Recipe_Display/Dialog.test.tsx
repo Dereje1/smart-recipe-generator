@@ -20,6 +20,8 @@ describe('The Recipe display modal', () => {
     it('shall handle cloning ingredients', async () => {
         const { container } = render(<RecipeDisplayModal recipe={stub_recipe_1} isOpen close={jest.fn()} deleteRecipe={jest.fn()}/>)
         await screen.findByText('Recipe_1_name')
+        const popoverbutton = await screen.findByRole('button')
+        fireEvent.click(popoverbutton)
         fireEvent.click(screen.getByText('Clone Ingredients'));
         expect(routePushMock).toHaveBeenCalledWith({ "pathname": "/CreateRecipe", "query": { "oldIngredients": ["Recipe_1_Ingredient_1", "Recipe_1_Ingredient_2"] } })
     })
@@ -28,6 +30,8 @@ describe('The Recipe display modal', () => {
         const deleteRecipeMock = jest.fn()
         const { container } = render(<RecipeDisplayModal recipe={stub_recipe_1} isOpen close={jest.fn()} deleteRecipe={deleteRecipeMock}/>)
         await screen.findByText('Recipe_1_name')
+        const popoverbutton = await screen.findByRole('button')
+        fireEvent.click(popoverbutton)
         fireEvent.click(screen.getByText('Delete Recipe'));
         const deleteDialog = await screen.findByText('Permanently delete Recipe_1_name ?')
         expect(deleteDialog).toBeInTheDocument()
@@ -37,6 +41,8 @@ describe('The Recipe display modal', () => {
         const deleteRecipeMock = jest.fn()
         const { container } = render(<RecipeDisplayModal recipe={stub_recipe_1} isOpen close={jest.fn()} deleteRecipe={deleteRecipeMock}/>)
         await screen.findByText('Recipe_1_name')
+        const popoverbutton = await screen.findByRole('button')
+        fireEvent.click(popoverbutton)
         fireEvent.click(screen.getByText('Delete Recipe'));
         const cancelbutton = await screen.findByText('Cancel')
         fireEvent.click(cancelbutton)
@@ -48,6 +54,8 @@ describe('The Recipe display modal', () => {
         const deleteRecipeMock = jest.fn()
         const { container } = render(<RecipeDisplayModal recipe={stub_recipe_1} isOpen close={jest.fn()} deleteRecipe={deleteRecipeMock}/>)
         await screen.findByText('Recipe_1_name')
+        const popoverbutton = await screen.findByRole('button')
+        fireEvent.click(popoverbutton)
         fireEvent.click(screen.getByText('Delete Recipe'));
         const deletebutton = await screen.findByText('Delete')
         fireEvent.click(deletebutton)
