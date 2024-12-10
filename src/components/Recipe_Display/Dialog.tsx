@@ -83,6 +83,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
                                         handleCopy={() => handleCopy(recipe._id)}
                                         closeDialog={close}
                                         deleteDialog={recipe.owns ? () => setIsDeleteDialogOpen(true) : undefined}
+                                        recipeId={recipe._id}
                                     />
                                 </div>
                                 <RecipeCard recipe={recipe} selectedRecipes={[]} removeMargin />
