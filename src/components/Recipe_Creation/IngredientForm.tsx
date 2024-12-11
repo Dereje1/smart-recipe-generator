@@ -1,162 +1,185 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
-import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
-import clsx from 'clsx'
+import { Combobox } from '@headlessui/react';
+import { CheckIcon, ChevronDownIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import clsx from 'clsx';
 import NewIngredientDialog from './NewIngredientDialog';
-import { Ingredient, Recipe, IngredientDocumentType } from '../../types/index'
+import { Ingredient, Recipe, IngredientDocumentType } from '../../types/index';
 
+type ComboIngredient = { id: number; name: string };
 
-type comboIngredient = { id: number, name: string }
+const initialComboIngredient: ComboIngredient = { id: 0, name: '' };
 
-const initialComboIngredient: comboIngredient = { id: 0, name: '' }
-
-const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient, onDelete: (id: string) => void }) => {
+const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient; onDelete: (id: string) => void }) => {
     return (
-        <div className="flex">
-            <span className="flex items-center bg-blue-600 text-white text-sm font-medium me-2 px-2.5 py-0.5 rounded m-2">{`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}
-                <div onClick={() => onDelete(ingredient.id)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x cursor-pointer hover:text-gray-300 rounded-full w-4 h-4 ml-2">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </div>
-            </span>
+        <div className="flex items-center bg-indigo-500 text-white text-sm font-medium px-3 py-1.5 rounded-full m-1">
+            <span>{`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}</span>
+            <button onClick={() => onDelete(ingredient.id)} className="ml-2 focus:outline-none">
+                <XMarkIcon className="w-4 h-4 text-white hover:text-gray-200" />
+            </button>
         </div>
-    )
-}
+    );
+};
 
 interface IngredientListProps {
-    ingredientList: IngredientDocumentType[]
-    ingredientUpdate: (val: string | undefined) => void,
-    generatedRecipes: Recipe[]
+    ingredientList: IngredientDocumentType[];
+    ingredientUpdate: (val: string | undefined) => void;
+    generatedRecipes: Recipe[];
 }
 
 function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: IngredientListProps) {
-    const [selectedIngredient, setSelectedIngredient] = useState(initialComboIngredient)
-    const [query, setQuery] = useState('')
+    const [selectedIngredient, setSelectedIngredient] = useState(initialComboIngredient);
+    const [query, setQuery] = useState('');
 
     const filteredIngredients: IngredientDocumentType[] =
         query === ''
             ? ingredientList
-            : ingredientList.filter((ingredient) => {
-                return ingredient.name.toLowerCase().includes(query.toLowerCase())
-            })
+            : ingredientList.filter((ingredient) =>
+                ingredient.name.toLowerCase().includes(query.toLowerCase())
+            );
 
-    const handleSelectedIngredient = (ingredient: comboIngredient) => {
+    const handleSelectedIngredient = (ingredient: ComboIngredient) => {
         setSelectedIngredient(initialComboIngredient);
-        ingredientUpdate(ingredient?.name)
-    }
+        ingredientUpdate(ingredient?.name);
+    };
+
     return (
-        <div className="mx-auto w-full pt-6">
+        <div className="relative w-full">
             <Combobox
                 value={selectedIngredient}
                 onChange={handleSelectedIngredient}
                 onClose={() => setQuery('')}
-                immediate
                 disabled={Boolean(generatedRecipes.length)}
             >
-                <div className="relative">
-                    <ComboboxInput
+                <div className="relative w-full">
+                    <Combobox.Input
                         className={clsx(
-                            'w-full rounded-lg border border-gray/20 bg-white py-2 pr-8 pl-3 text-base text-gray-900',
-                            'focus:outline-none focus:ring-2 focus:ring-indigo-600'
+                            'w-full rounded-lg border border-gray-300 bg-white py-3 pr-10 pl-4 text-base text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
                         )}
-                        displayValue={(ingredient: comboIngredient) => ingredient?.name}
+                        displayValue={(ingredient: ComboIngredient) => ingredient?.name}
                         onChange={(event) => setQuery(event.target.value)}
-                        placeholder='Choose Ingredient'
+                        placeholder="Select an existing ingredient"
                     />
-                    <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
-                        <ChevronDownIcon className="h-5 w-5 text-gray-400" />
-                    </ComboboxButton>
+                    <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-3">
+                        <ChevronDownIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                    </Combobox.Button>
                 </div>
 
-                <ComboboxOptions
-                    anchor="bottom"
-                    transition
-                    className={clsx(
-                        'w-[var(--input-width)] rounded-xl border border-gray bg-white/100 p-1 [--anchor-gap:var(--spacing-1)] empty:invisible',
-                        'transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0'
-                    )}
-                >
-                    {filteredIngredients.map((ingredient) => (
-                        <ComboboxOption
-                            key={ingredient._id}
-                            value={ingredient}
-                            className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-black/10"
-                        >
-                            <CheckIcon className="invisible size-4 fill-black group-data-[selected]:visible" />
-                            <div className="text-sm/6 text-gray-900">{ingredient.name}</div>
-                        </ComboboxOption>
-                    ))}
-                </ComboboxOptions>
+                {filteredIngredients.length > 0 && (
+                    <Combobox.Options
+                        className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                    >
+                        {filteredIngredients.map((ingredient) => (
+                            <Combobox.Option
+                                key={ingredient._id}
+                                value={ingredient}
+                                className={({ active }) =>
+                                    `cursor-pointer select-none relative py-2 pl-10 pr-4 ${active ? 'text-white bg-indigo-600' : 'text-gray-900'
+                                    }`
+                                }
+                            >
+                                {({ active, selected }) => (
+                                    <>
+                                        <span
+                                            className={`block truncate ${selected ? 'font-medium' : 'font-normal'
+                                                }`}
+                                        >
+                                            {ingredient.name}
+                                        </span>
+                                        {selected && (
+                                            <span
+                                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? 'text-white' : 'text-indigo-600'
+                                                    }`}
+                                            >
+                                                <CheckIcon className="w-5 h-5" aria-hidden="true" />
+                                            </span>
+                                        )}
+                                    </>
+                                )}
+                            </Combobox.Option>
+                        ))}
+                    </Combobox.Options>
+                )}
             </Combobox>
         </div>
-    )
+    );
 }
 
 interface IngredientFormProps {
-    ingredientList: IngredientDocumentType[],
-    ingredients: Ingredient[],
-    updateIngredients: (ingredients: Ingredient[]) => void
-    generatedRecipes: Recipe[]
+    ingredientList: IngredientDocumentType[];
+    ingredients: Ingredient[];
+    updateIngredients: (ingredients: Ingredient[]) => void;
+    generatedRecipes: Recipe[];
 }
 
 export default function IngredientForm({
     ingredientList: originalIngredientList,
     ingredients,
     updateIngredients,
-    generatedRecipes
+    generatedRecipes,
 }: IngredientFormProps) {
-    const [ingredientList, setIngredientList] = useState(originalIngredientList)
+    const [ingredientList, setIngredientList] = useState(originalIngredientList);
+    const [error, setError] = useState<string | null>(null);
 
     const handleChange = (val: string | undefined) => {
         if (!val) return;
-        const isRepeat = ingredients.some(i => i.name === val);
-        if (isRepeat) return
+        const isRepeat = ingredients.some(
+            (i) => i.name.toLowerCase() === val.toLowerCase()
+        );
+        if (isRepeat) {
+            setError('This ingredient is already selected.');
+            return;
+        }
+        setError(null);
         updateIngredients([
             ...ingredients,
-            { name: val, id: uuidv4() }
-        ])
-    }
+            { name: val, id: uuidv4() },
+        ]);
+    };
 
     const deleteIngredient = (id: string) => {
-        if (Boolean(generatedRecipes.length)) return null;
-        updateIngredients(ingredients.filter(ingredient => ingredient.id !== id))
-    }
+        if (Boolean(generatedRecipes.length)) return;
+        updateIngredients(ingredients.filter((ingredient) => ingredient.id !== id));
+    };
 
     return (
-        <>
-            <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-3 lg:px-8">
+        <div
+            className="fixed top-36 mt-32 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
+            style={{ width: '98%' }}
+        >
+            {/* Enhanced "Add New Ingredient" Button */}
+            <div className="flex justify-end w-full">
                 <NewIngredientDialog
                     ingredientList={ingredientList}
                     updateIngredientList={(newIngredient) => setIngredientList([...ingredientList, newIngredient])}
                 />
-                <div className="mt-0 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" method="POST">
-                        <IngredientList
-                            ingredientList={ingredientList}
-                            ingredientUpdate={(val) => handleChange(val)}
-                            generatedRecipes={generatedRecipes}
-                        />
-                    </form>
-                    {ingredients.length ? <div className="mt-3 text-gray-600 font-bold text-center">
-                        <span>Selected Ingredients:</span>
-                    </div> : null}
-                    <div className="flex flex-wrap justify-center mt-2">
-                        {
-                            ingredients.map(((ingredient: Ingredient) =>
-                                <Chip
-                                    ingredient={ingredient}
-                                    key={ingredient.id}
-                                    onDelete={(id: string) => deleteIngredient(id)}
-                                />
-                            ))
-                        }
-                    </div>
-
-                </div>
             </div>
-        </>
-    )
+            <div className="mt-4 w-full">
+                <IngredientList
+                    ingredientList={ingredientList}
+                    ingredientUpdate={(val) => handleChange(val)}
+                    generatedRecipes={generatedRecipes}
+                />
+                {error && (
+                    <p className="mt-2 text-red-500 text-sm">
+                        {error}
+                    </p>
+                )}
+            </div>
+            {ingredients.length > 0 && (
+                <div className="mt-6 w-full">
+                    <h2 className="text-lg font-semibold text-indigo-600 mb-3">Selected Ingredients:</h2>
+                    <div className="flex flex-wrap max-h-32 overflow-y-auto">
+                        {ingredients.map((ingredient: Ingredient) => (
+                            <Chip
+                                ingredient={ingredient}
+                                key={ingredient.id}
+                                onDelete={(id: string) => deleteIngredient(id)}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 }

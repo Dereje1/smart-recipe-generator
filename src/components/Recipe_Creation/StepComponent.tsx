@@ -5,8 +5,6 @@ import SelectRecipesComponent from './SelectRecipes';
 import ReviewRecipesComponent from './ReviewRecipes';
 import { Ingredient, DietaryPreference, Recipe, IngredientDocumentType } from '../../types/index'
 
-
-
 interface StepComponentProps {
     step: number,
     ingredientList: IngredientDocumentType[]
@@ -36,54 +34,59 @@ function StepComponent({
     updateSelectedRecipes,
     handleRecipeSubmit
 }: StepComponentProps) {
-    switch (step) {
-        case 0:
-            return (
-                <IngredientForm
-                    ingredientList={ingredientList}
-                    ingredients={ingredients}
-                    updateIngredients={updateIngredients}
-                    generatedRecipes={generatedRecipes}
-                />
-            );
-        case 1:
-            return (
-                <DietaryPreferences
-                    preferences={preferences}
-                    updatePreferences={updatePreferences}
-                    generatedRecipes={generatedRecipes}
-                />
-            )
-        case 2:
-            return (
-                <ReviewComponent
-                    ingredients={ingredients}
-                    dietaryPreference={preferences}
-                    onEdit={editInputs}
-                    onSubmit={handleIngredientSubmit}
-                    generatedRecipes={generatedRecipes}
-                />
-            )
-        case 3:
-            return (
-                <SelectRecipesComponent
-                    generatedRecipes={generatedRecipes}
-                    selectedRecipes={selectedRecipes}
-                    updateSelectedRecipes={updateSelectedRecipes}
-                />
-            )
-        case 4:
-            return (
-                <ReviewRecipesComponent
-                    generatedRecipes={generatedRecipes}
-                    selectedRecipes={selectedRecipes}
-                    handleRecipeSubmit={handleRecipeSubmit}
-                />
-            )
-        default:
-            return <h1 className="text-center">Not ready yet!</h1>;
-    }
-
+    return (
+        <div className="mt-8">
+            {(() => {
+                switch (step) {
+                    case 0:
+                        return (
+                            <IngredientForm
+                                ingredientList={ingredientList}
+                                ingredients={ingredients}
+                                updateIngredients={updateIngredients}
+                                generatedRecipes={generatedRecipes}
+                            />
+                        );
+                    case 1:
+                        return (
+                            <DietaryPreferences
+                                preferences={preferences}
+                                updatePreferences={updatePreferences}
+                                generatedRecipes={generatedRecipes}
+                            />
+                        )
+                    case 2:
+                        return (
+                            <ReviewComponent
+                                ingredients={ingredients}
+                                dietaryPreference={preferences}
+                                onEdit={editInputs}
+                                onSubmit={handleIngredientSubmit}
+                                generatedRecipes={generatedRecipes}
+                            />
+                        )
+                    case 3:
+                        return (
+                            <SelectRecipesComponent
+                                generatedRecipes={generatedRecipes}
+                                selectedRecipes={selectedRecipes}
+                                updateSelectedRecipes={updateSelectedRecipes}
+                            />
+                        )
+                    case 4:
+                        return (
+                            <ReviewRecipesComponent
+                                generatedRecipes={generatedRecipes}
+                                selectedRecipes={selectedRecipes}
+                                handleRecipeSubmit={handleRecipeSubmit}
+                            />
+                        )
+                    default:
+                        return <h1 className="text-center text-xl font-semibold text-gray-500">Coming Soon!</h1>;
+                }
+            })()}
+        </div>
+    )
 }
 
 export default StepComponent;

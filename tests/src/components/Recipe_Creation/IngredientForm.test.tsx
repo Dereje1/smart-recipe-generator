@@ -13,10 +13,10 @@ describe('The ingredient input component', () => {
     })
     it('Will delete selected ingredients', () => {
         render(<IngredientForm {...props} />)
-        const chip = screen.getByText('added-ingredient-1')
-        // find the clickable x of first ingredient
-        const deleteDiv = chip.childNodes[1]
-        fireEvent.click(deleteDiv);
+        // get all buttons in the ingredient form
+        const allButtons = screen.getAllByRole('button')
+        // Fire second button (added-Ingredient-1 chip)
+        fireEvent.click(allButtons[2]);
         expect(props.updateIngredients).toHaveBeenLastCalledWith([props.ingredients[1]])
     })
 
