@@ -56,6 +56,6 @@ describe('The step component', () => {
     it('shall render a message for a non-existing step', () => {
         const updatedProps = { ...stepComponentProps, step: 5 }
         render(<StepComponent {...updatedProps} />)
-        expect(screen.getByText('Not ready yet!')).toBeInTheDocument();
+        expect(screen.getByText('Coming Soon!')).toBeInTheDocument();
     })
 })

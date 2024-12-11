@@ -1,20 +1,27 @@
 import { useState, useEffect } from 'react';
-import { Checkbox, Field, Label } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/16/solid'
-import { DietaryPreference, Recipe } from '../../types/index'
+import { Checkbox } from '@headlessui/react';
+import { CheckIcon } from '@heroicons/react/24/solid';
+import { DietaryPreference, Recipe } from '../../types/index';
 
-
-const dietaryOptions: DietaryPreference[] = ['Vegetarian', 'Vegan', 'Gluten-Free', 'Keto', 'Paleo'];
+const dietaryOptions: DietaryPreference[] = [
+  'Vegetarian',
+  'Vegan',
+  'Gluten-Free',
+  'Keto',
+  'Paleo',
+];
 
 interface DietaryPreferencesProps {
-  preferences: DietaryPreference[]
-  updatePreferences: (preferences: DietaryPreference[]) => void
-  generatedRecipes: Recipe[]
+  preferences: DietaryPreference[];
+  updatePreferences: (preferences: DietaryPreference[]) => void;
+  generatedRecipes: Recipe[];
 }
 
-const initialPreference: DietaryPreference[] = [];
-
-export default function DietaryPreferences({ preferences, updatePreferences, generatedRecipes }: DietaryPreferencesProps) {
+export default function DietaryPreferences({
+  preferences,
+  updatePreferences,
+  generatedRecipes,
+}: DietaryPreferencesProps) {
   const [noPreference, setNoPreference] = useState(false)
 
   useEffect(() => {
@@ -34,31 +41,50 @@ export default function DietaryPreferences({ preferences, updatePreferences, gen
   }
 
   return (
-    <div className="mt-2 ml-5 sm:mx-auto sm:w-full sm:max-w-sm">
-      <h2 className="text-xl font-bold mb-4">Dietary Preferences</h2>
-      <Field className="flex items-center gap-2 mr-5 mb-5 italic" disabled={Boolean(generatedRecipes.length)}>
+    <div
+      className="fixed top-36 mt-32 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
+      style={{ width: '98%' }}
+    >
+      {/* Enhanced Title */}
+      <h2 className="text-xl font-medium text-gray-800 mb-4 sm:text-2xl">
+        Dietary Preferences
+      </h2>
+
+      {/* "No Preference" Option */}
+      <div className="flex items-center mb-4">
         <Checkbox
           checked={noPreference}
           onChange={handleNoPreference}
-          className="group size-6 rounded-md bg-black/10 p-1 ring-1 ring-black/15 ring-inset data-[checked]:bg-black"
+          className={`h-5 w-5 rounded border border-gray-300 flex items-center justify-center ${noPreference ? 'bg-indigo-600' : 'bg-white'
+            } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+          disabled={Boolean(generatedRecipes.length)}
+          aria-label="No Dietary Preference"
         >
-          <CheckIcon className="hidden size-4 fill-white group-data-[checked]:block" />
+          {noPreference && <CheckIcon className="h-3 w-3 text-white" />}
         </Checkbox>
-        <Label className="data-[disabled]:opacity-50">No Preference</Label>
-      </Field>
+        <span className="ml-3 text-gray-700">No Preference</span>
+      </div>
+
       <hr className="mb-4" />
-      <div className="flex flex-wrap">
+
+      {/* Dietary Options with Wrapped Layout */}
+      <div className="flex flex-wrap gap-3">
         {dietaryOptions.map((option) => (
-          <Field className="flex items-center gap-2 mr-5 mb-5 data-[disabled]:opacity-50" key={option} disabled={noPreference || Boolean(generatedRecipes.length)}>
+          <div key={option} className="flex items-center">
             <Checkbox
               checked={preferences.includes(option)}
               onChange={(e) => handlePreferenceChange(e, option)}
-              className="group size-6 rounded-md bg-black/10 p-1 ring-1 ring-black/15 ring-inset data-[checked]:bg-black"
+              className={`h-5 w-5 rounded border border-gray-300 flex items-center justify-center ${preferences.includes(option) ? 'bg-indigo-600' : 'bg-white'
+                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              disabled={noPreference || Boolean(generatedRecipes.length)}
+              aria-label={option}
             >
-              <CheckIcon className="hidden size-4 fill-white group-data-[checked]:block" />
+              {preferences.includes(option) && (
+                <CheckIcon className="h-3 w-3 text-white" />
+              )}
             </Checkbox>
-            <Label>{option}</Label>
-          </Field>
+            <span className="ml-3 text-gray-700">{option}</span>
+          </div>
         ))}
       </div>
     </div>

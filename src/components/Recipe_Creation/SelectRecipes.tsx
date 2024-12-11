@@ -1,7 +1,8 @@
 import React from 'react';
+import { Button } from '@headlessui/react';
+import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import RecipeCard from './RecipeCard';
 import { Recipe } from '../../types/index'
-import { Button } from '@headlessui/react';
 
 interface SelectRecipesComponentProps {
     generatedRecipes: Recipe[]
@@ -22,16 +23,26 @@ const SelectRecipesComponent = ({ generatedRecipes, selectedRecipes, updateSelec
     }
 
     return (
-        <div className="flex flex-col">
-            <div className="flex w-[300px] max-w-md mx-auto justify-center">
-                <Button className="bg-white text-black px-4 py-2 rounded-md hover:underline hover:text-blue-500" onClick={handleSelectAll}>
+        <div className="flex flex-col mt-40">
+            <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full justify-center">
+                <Button
+                    onClick={handleSelectAll}
+                    className="flex items-center justify-center bg-emerald-500 text-white px-6 py-3 rounded-full hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition duration-300 ease-in-out"
+                    aria-label="Select all recipes"
+                >
+                    <CheckIcon className="w-5 h-5 mr-2" aria-hidden="true" />
                     Select All
                 </Button>
-                <Button className="bg-white text-black px-4 py-2 rounded-md hover:underline hover:text-blue-500" onClick={() => updateSelectedRecipes([])}>
+                <Button
+                    onClick={() => updateSelectedRecipes([])}
+                    className="flex items-center justify-center bg-red-500 text-white px-6 py-3 rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300 ease-in-out"
+                    aria-label="Unselect all recipes"
+                >
+                    <XMarkIcon className="w-5 h-5 mr-2" aria-hidden="true" />
                     Unselect All
                 </Button>
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap max-w-7xl">
                 {
                     generatedRecipes.map((recipe) => (
                         <RecipeCard

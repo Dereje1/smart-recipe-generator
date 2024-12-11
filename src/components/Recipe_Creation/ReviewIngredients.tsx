@@ -1,60 +1,125 @@
 import React from 'react';
-import { Button } from '@headlessui/react'
-import { Ingredient, DietaryPreference, Recipe } from '../../types/index'
+import { Button } from '@headlessui/react';
+import { PencilIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
+import { Ingredient, DietaryPreference, Recipe } from '../../types/index';
 
 interface ReviewComponentProps {
-    ingredients: Ingredient[]
-    dietaryPreference: DietaryPreference[]
-    onSubmit: () => void
-    onEdit: () => void
-    generatedRecipes: Recipe[]
+  ingredients: Ingredient[];
+  dietaryPreference: DietaryPreference[];
+  onSubmit: () => void;
+  onEdit: () => void;
+  generatedRecipes: Recipe[];
 }
 
-const ReviewComponent = ({ ingredients, dietaryPreference, onSubmit, onEdit, generatedRecipes }: ReviewComponentProps) => {
-    return (
-        <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10">
-            <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">Review Your Selections</div>
-                {ingredients.length < 3 ? <p className="text-sm text-red-300">Please select at least 3 ingredients to proceed with recipe creation.</p> : null}
-                <h3 className="text-gray-700 font-semibold text-lg">Ingredients:</h3>
-                <div className="mb-4 flex flex-wrap">
-                    {ingredients.map((ingredient) => (
-                        <li key={ingredient.name} className="flex justify-between gap-x-6 py-2">
-                            <div className="flex min-w-0 gap-x-4">
-                                <div className="min-w-0 flex-auto">
-                                    <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}</span>
-                                </div>
-                            </div>
-                        </li>
-                    ))}
-                </div>
-                <h3 className="text-gray-700 font-semibold text-lg">Dietary Preference:{dietaryPreference.length ? '' : ' None'}</h3>
-                <div className="mb-5 mt-2 flex flex-wrap">
-                    {
-                        dietaryPreference.map((preference) => (
-                            <span key={preference} className="bg-purple-100 text-purple-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">{preference}</span>
-                        ))
-                    }
-                </div>
-                <div className="flex justify-between mt-4">
-                    <Button
-                        onClick={onEdit}
-                        className="bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-500 data-[disabled]:bg-gray-200"
-                        disabled={Boolean(generatedRecipes.length)}
-                    >
-                        Edit
-                    </Button>
-                    <Button
-                        onClick={onSubmit}
-                        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-sky-500 data-[disabled]:bg-gray-200"
-                        disabled={ingredients.length < 3 || Boolean(generatedRecipes.length)}
-                    >
-                        Create Recipes
-                    </Button>
-                </div>
-            </div>
+const ReviewComponent = ({
+  ingredients,
+  dietaryPreference,
+  onSubmit,
+  onEdit,
+  generatedRecipes,
+}: ReviewComponentProps) => {
+  return (
+    <div
+      className="fixed top-36 mt-32 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
+      style={{ width: '98%' }}
+    >
+      <div className="px-6 py-8">
+        {/* Enhanced Title */}
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-medium text-gray-800 sm:text-3xl">
+            Review Your Selections
+          </h2>
+          {ingredients.length < 3 && (
+            <p className="text-sm text-red-500 mt-2">
+              Please select at least 3 ingredients to proceed with recipe creation.
+            </p>
+          )}
         </div>
-    );
+
+        {/* Ingredients Section */}
+        <div className="mb-6">
+          <h3 className="text-gray-700 font-semibold text-lg mb-2">Ingredients:</h3>
+          <ul className="flex flex-wrap gap-2">
+            {ingredients.map((ingredient) => (
+              <li
+                key={ingredient.id}
+                className="flex items-center bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full"
+              >
+                {ingredient.name}
+                {ingredient.quantity && (
+                  <span className="ml-1 text-xs text-green-600">
+                    ({ingredient.quantity})
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Dietary Preferences Section */}
+        <div className="mb-6">
+          <h3 className="text-gray-700 font-semibold text-lg mb-2">
+            Dietary Preferences:{' '}
+            {dietaryPreference.length === 0 && <span className="font-normal text-gray-500">None</span>}
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {dietaryPreference.map((preference) => (
+              <span
+                key={preference}
+                className="bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1 rounded-full"
+              >
+                {preference}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Buttons Section */}
+        <div className="flex justify-between mt-8">
+          {/* Edit Button */}
+          <Button
+            onClick={onEdit}
+            className={`flex items-center justify-center bg-gray-200 text-gray-700 
+                px-2 py-2 sm:px-4 sm:py-2 
+                rounded-full transition duration-300 ease-in-out 
+                hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 
+                ${generatedRecipes.length ? 'cursor-not-allowed opacity-50' : ''}`}
+            disabled={Boolean(generatedRecipes.length)}
+            aria-label="Edit your selections"
+          >
+            <PencilIcon
+              className="w-4 h-4 mr-1 sm:w-5 sm:h-5 sm:mr-2"
+              aria-hidden="true"
+            />
+            <span className="text-sm sm:text-base">Edit</span>
+          </Button>
+
+          {/* Create Recipes Button */}
+          <Button
+            onClick={onSubmit}
+            className={`flex items-center justify-center bg-green-600 text-white 
+                px-2 py-2 sm:px-4 sm:py-2 
+                rounded-full transition duration-300 ease-in-out 
+                hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 
+                ${ingredients.length < 3 || generatedRecipes.length
+                ? 'cursor-not-allowed opacity-50'
+                : ''
+              }`}
+            disabled={ingredients.length < 3 || Boolean(generatedRecipes.length)}
+            aria-label="Create recipes based on your selections"
+          >
+            <span className="text-sm sm:text-base">Create Recipes</span>
+            <ChevronRightIcon
+              className="w-4 h-4 ml-1 sm:w-5 sm:h-5 sm:ml-2"
+              aria-hidden="true"
+            />
+          </Button>
+        </div>
+
+
+      </div>
+    </div>
+  );
 };
 
 export default ReviewComponent;
