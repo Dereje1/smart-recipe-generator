@@ -24,7 +24,7 @@ const saveOpenaiResponses = async ({ userId, prompt, response }: { userId: strin
 }
 
 const getRecipeGenerationPrompt = (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[]) => `
-I have the following ingredients: ${JSON.stringify(ingredients)} ${dietaryPreferences.length ? `and dietary preferences: ${dietaryPreferences.join(',')}` : ''}. Please provide me with three different delicious recipes. The response should be in the following JSON format without any additional text or markdown:
+I have the following ingredients: ${JSON.stringify(ingredients)} ${dietaryPreferences.length ? `and dietary preferences: ${dietaryPreferences.join(',')}` : ''}. Please provide me with three different delicious and diverse recipes. The response should be in the following JSON format without any additional text, markdown, or code formatting (e.g., no backticks):
 [
     {
         "name": "Recipe Name",
@@ -34,28 +34,36 @@ I have the following ingredients: ${JSON.stringify(ingredients)} ${dietaryPrefer
             ...
         ],
         "instructions": [
-            "Step 1",
-            "Step 2",
+            "Do this first.",
+            "Then do this.",
             ...
         ],
         "dietaryPreference": ["Preference 1", "Preference 2", ...],
         "additionalInformation": {
-            "tips": "Some cooking tips or advice.",
-            "variations": "Possible variations of the recipe.",
-            "servingSuggestions": "Suggestions for serving the dish.",
-            "nutritionalInformation": "Nutritional information about the recipe."
+            "tips": "Provide practical cooking tips, such as using the right cookware or ingredient substitutions.",
+            "variations": "Suggest creative variations for the recipe, like adding more vegetables or using different proteins.",
+            "servingSuggestions": "Include ideas for how to serve the dish (e.g., with toast, salad, or specific sauces).",
+            "nutritionalInformation": "Provide approximate nutritional details (e.g., calories, protein, fat, etc.)."
         }
     },
     ...
 ]
-Please ensure the recipes are diverse and use the ingredients listed. The recipes should follow the dietary preferences provided.The instructions should be ordered but not include the step numbers.
+Please ensure the recipes are diverse in type or cuisine (e.g., different meal categories or international flavors) and use all the ingredients listed unless dietary preferences or practicality dictate otherwise. Quantities must include appropriate units (e.g., grams, cups, teaspoons) for precision. Provide clear, detailed instructions suitable for someone with basic cooking skills. The instructions should be ordered but not include step numbers. Additionally, ensure the recipes respect the dietary preferences provided by suggesting suitable alternatives where necessary. The JSON must be valid and parsable without any additional text or formatting outside the JSON structure.
 `;
+
+
+
 
 const getImageGenerationPrompt = (recipeName: string, ingredients: Recipe['ingredients']): string => {
     const allIngredients = ingredients.map(ingredient => `${ingredient.name}`).join(', ');
-    const prompt = `Create an image of a delicious ${recipeName} made of these ingredients: ${allIngredients}. The image should be visually appealing and showcase the dish in an appetizing manner.`;
-    return prompt;
+    const prompt = `
+        Create a high-resolution, photorealistic image of a delicious ${recipeName} made of these ingredients: ${allIngredients}. 
+        The image should be visually appealing, showcasing the dish in an appetizing manner. 
+        It should be plated attractively on a clean white plate with natural lighting, highlighting key ingredients for visual appeal.
+    `;
+    return prompt.trim();
 };
+
 const getIngredientValidationPrompt = (ingredientName: string): string => {
     return `You are a food ingredient validation assistant. Given this ingredient name: ${ingredientName}, you will respond with a JSON object in the following format:
 

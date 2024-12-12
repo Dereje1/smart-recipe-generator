@@ -58,17 +58,44 @@ describe('generating recipes from open ai', () => {
                 id: '2'
             }
         ]
-        const expectedPrompt = "\nI have the following ingredients: [{\"name\":\"ingredient-1\",\"id\":\"1\"},{\"name\":\"ingredient-2\",\"id\":\"2\"}] and dietary preferences: Keto,Vegetarian. Please provide me with three different delicious recipes. The response should be in the following JSON format without any additional text or markdown:\n[\n    {\n        \"name\": \"Recipe Name\",\n        \"ingredients\": [\n            {\"name\": \"Ingredient 1\", \"quantity\": \"quantity and unit\"},\n            {\"name\": \"Ingredient 2\", \"quantity\": \"quantity and unit\"},\n            ...\n        ],\n        \"instructions\": [\n            \"Step 1\",\n            \"Step 2\",\n            ...\n        ],\n        \"dietaryPreference\": [\"Preference 1\", \"Preference 2\", ...],\n        \"additionalInformation\": {\n            \"tips\": \"Some cooking tips or advice.\",\n            \"variations\": \"Possible variations of the recipe.\",\n            \"servingSuggestions\": \"Suggestions for serving the dish.\",\n            \"nutritionalInformation\": \"Nutritional information about the recipe.\"\n        }\n    },\n    ...\n]\nPlease ensure the recipes are diverse and use the ingredients listed. The recipes should follow the dietary preferences provided.The instructions should be ordered but not include the step numbers.\n"
+        const expectedPrompt = `
+I have the following ingredients: [{\"name\":\"ingredient-1\",\"id\":\"1\"},{\"name\":\"ingredient-2\",\"id\":\"2\"}] and dietary preferences: Keto,Vegetarian. Please provide me with three different delicious and diverse recipes. The response should be in the following JSON format without any additional text, markdown, or code formatting (e.g., no backticks):
+[
+    {
+        "name": "Recipe Name",
+        "ingredients": [
+            {"name": "Ingredient 1", "quantity": "quantity and unit"},
+            {"name": "Ingredient 2", "quantity": "quantity and unit"},
+            ...
+        ],
+        "instructions": [
+            "Do this first.",
+            "Then do this.",
+            ...
+        ],
+        "dietaryPreference": ["Preference 1", "Preference 2", ...],
+        "additionalInformation": {
+            "tips": "Provide practical cooking tips, such as using the right cookware or ingredient substitutions.",
+            "variations": "Suggest creative variations for the recipe, like adding more vegetables or using different proteins.",
+            "servingSuggestions": "Include ideas for how to serve the dish (e.g., with toast, salad, or specific sauces).",
+            "nutritionalInformation": "Provide approximate nutritional details (e.g., calories, protein, fat, etc.)."
+        }
+    },
+    ...
+]
+Please ensure the recipes are diverse in type or cuisine (e.g., different meal categories or international flavors) and use all the ingredients listed unless dietary preferences or practicality dictate otherwise. Quantities must include appropriate units (e.g., grams, cups, teaspoons) for precision. Provide clear, detailed instructions suitable for someone with basic cooking skills. The instructions should be ordered but not include step numbers. Additionally, ensure the recipes respect the dietary preferences provided by suggesting suitable alternatives where necessary. The JSON must be valid and parsable without any additional text or formatting outside the JSON structure.
+`;
+
         const result = await generateRecipe(ingredients, ['Keto', 'Vegetarian'], 'mockUserId')
         expect(result).toEqual({
             recipes: '["TEST-RECIPE-A", "TEST-RECIPE-B"]',
             openaiPromptId: 1234
         })
         expect(openai.chat.completions.create).toHaveBeenCalledWith(
-            { 
-                "max_tokens": 1500, 
-                "messages": [{ "content": expectedPrompt, "role": "user" }], 
-                "model": "gpt-4o" 
+            {
+                "max_tokens": 1500,
+                "messages": [{ "content": expectedPrompt, "role": "user" }],
+                "model": "gpt-4o"
             }
         )
     })
@@ -137,7 +164,19 @@ describe('generating images of recipes from open ai', () => {
             { imgLink: 'http:/stub-ai-image-url', name: 'Recipe_1_name' },
             { imgLink: 'http:/stub-ai-image-url', name: 'Recipe_2_name' }
         ])
-        expect(openai.images.generate).toHaveBeenNthCalledWith(1, { "model": "dall-e-3", "n": 1, "prompt": "Create an image of a delicious Recipe_1_name made of these ingredients: Recipe_1_Ingredient_1, Recipe_1_Ingredient_2. The image should be visually appealing and showcase the dish in an appetizing manner.", "size": "1024x1024" })
+        const normalizeWhitespace = (str: string) => str.replace(/\s+/g, ' ').trim();
+
+        const expectedPrompt = normalizeWhitespace("Create a high-resolution, photorealistic image of a delicious Recipe_1_name made of these ingredients: Recipe_1_Ingredient_1, Recipe_1_Ingredient_2. The image should be visually appealing, showcasing the dish in an appetizing manner. It should be plated attractively on a clean white plate with natural lighting, highlighting key ingredients for visual appeal.");
+
+        const call = openai.images.generate.mock.calls[0][0]; // Get the actual call arguments
+        call.prompt = normalizeWhitespace(call.prompt); // Normalize the received prompt
+
+        expect(call).toEqual({
+            model: "dall-e-3",
+            n: 1,
+            prompt: expectedPrompt,
+            size: "1024x1024",
+        });
     })
 
     it('shall throw error if openai can not respond with image', async () => {
@@ -177,10 +216,10 @@ describe('validating ingredients from open ai', () => {
         expect(result).toEqual('mock-ingredient-validation-response')
         //console.log(openai.chat.completions.create.mock.calls[0][0])
         expect(openai.chat.completions.create).toHaveBeenCalledWith(
-            { 
-                "max_tokens": 800, 
-                "messages": [{ "content": expectedPrompt, "role": "user" }], 
-                "model": "gpt-4o" 
+            {
+                "max_tokens": 800,
+                "messages": [{ "content": expectedPrompt, "role": "user" }],
+                "model": "gpt-4o"
             }
         )
     })
