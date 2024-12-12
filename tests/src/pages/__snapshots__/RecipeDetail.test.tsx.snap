@@ -47,13 +47,20 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
           <div
             class="relative w-12 h-12 rounded-full overflow-hidden mr-4"
           />
-          <span
-            class="text-gray-700 text-lg"
-          >
-            By 
-            user_1
-          </span>
-           
+          <div>
+            <span
+              class="text-gray-700 text-lg"
+            >
+              By 
+              user_1
+            </span>
+             
+            <p
+              class="text-sm text-gray-500"
+            >
+              02 Jul 2024
+            </p>
+          </div>
         </div>
         <div
           class="mb-4"

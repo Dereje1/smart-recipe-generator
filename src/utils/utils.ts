@@ -102,3 +102,8 @@ export const call_api = async ({ address, method = 'get', payload }: RESTcallTyp
     throw (error); // Rethrows the error for further handling
   }
 };
+
+export const formatDate = (date: string) => {
+  const [, day, mth, year] = new Date(date).toUTCString().split(' ');
+  return `${day} ${mth} ${year}`;
+};

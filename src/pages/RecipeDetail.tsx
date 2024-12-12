@@ -8,7 +8,7 @@ import { ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
 import { Button } from '@headlessui/react';
 import Loading from "../components/Loading";
 import ErrorPage from "./auth/error";
-import { call_api } from "../utils/utils";
+import { call_api, formatDate } from "../utils/utils";
 import { ExtendedRecipe } from '../types';
 
 export default function RecipeDetail() {
@@ -90,7 +90,10 @@ export default function RecipeDetail() {
                                 className="rounded-full" // Make the image circular
                             />
                         </div>
-                        <span className="text-gray-700 text-lg">By {recipeData.owner.name}</span> {/* Owner's name */}
+                        <div>
+                            <span className="text-gray-700 text-lg">By {recipeData.owner.name}</span> {/* Owner's name */}
+                            <p className="text-sm text-gray-500">{formatDate(recipeData.createdAt)}</p>
+                        </div>
                     </div>
 
                     {/* Dietary Preferences */}

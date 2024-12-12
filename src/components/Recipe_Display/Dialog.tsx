@@ -5,6 +5,7 @@ import Image from 'next/image';
 import RecipeCard from '../Recipe_Creation/RecipeCard';
 import DeleteDialog from './DeleteDialog';
 import { ActionPopover, Alert } from './ActionPopover';
+import { formatDate } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
 interface RecipeDialogProps {
@@ -13,11 +14,6 @@ interface RecipeDialogProps {
     recipe: ExtendedRecipe | null;
     deleteRecipe: () => void;
 }
-
-const formatDate = (date: string) => {
-    const [, day, mth, year] = new Date(date).toUTCString().split(' ');
-    return `${day} ${mth} ${year}`;
-};
 
 export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe }: RecipeDialogProps) {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
