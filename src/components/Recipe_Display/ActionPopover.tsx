@@ -25,17 +25,28 @@ export function ActionPopover({
     deleteDialog,
     recipeId
 }: ActionPopoverProps) {
+
+    const handleOpenRecipe = () => {
+        closeDialog()
+        window.open(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/RecipeDetail?recipeId=${recipeId}`,
+            '_blank',
+            'noopener,noreferrer'
+        )
+    }
+
     return (
         <Popover className="relative">
             <PopoverButton className="flex items-center gap-2">
                 <EllipsisVerticalIcon className="h-7 w-7 text-gray-700 mt-6 mr-2" />
             </PopoverButton>
-            <PopoverPanel className="absolute right-0 z-50 mt-2 w-56 rounded-lg bg-white shadow-lg ring-1 ring-black/10">
+            <PopoverPanel 
+            className="absolute right-0 z-50 mt-2 w-56 rounded-lg bg-white shadow-lg ring-1 ring-black/10">
                 <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={handleClone}>
                     <ClipboardDocumentIcon className="h-5 w-5 text-gray-500" />
                     Clone Ingredients
                 </button>
-                <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={() => window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/RecipeDetail?recipeId=${recipeId}`, '_blank', 'noopener,noreferrer')}>
+                <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={handleOpenRecipe}>
                     <ArrowTopRightOnSquareIcon className="h-5 w-5 text-gray-500" />
                     Open Recipe
                 </button>

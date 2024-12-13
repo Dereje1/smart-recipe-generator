@@ -5,27 +5,6 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
   <div
     class="min-h-screen bg-gray-100 p-4"
   >
-    <button
-      class="mb-4 flex items-center text-black hover:text-blue-700"
-      data-headlessui-state=""
-      type="button"
-    >
-      <svg
-        aria-hidden="true"
-        class="size-6 font-bold"
-        data-slot="icon"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          clip-rule="evenodd"
-          d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
-          fill-rule="evenodd"
-        />
-      </svg>
-       
-    </button>
     <div
       class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
     >

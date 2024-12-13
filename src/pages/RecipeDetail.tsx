@@ -53,14 +53,6 @@ export default function RecipeDetail() {
 
     return (
         <div className="min-h-screen bg-gray-100 p-4">
-            {/* Back Button */}
-            <Button
-                onClick={() => router.push('/')} // Navigate back to the home page on click
-                className="mb-4 flex items-center text-black hover:text-blue-700" // Tailwind CSS classes for styling
-            >
-                <ArrowUturnLeftIcon className="size-6 font-bold" /> {/* Back arrow icon */}
-            </Button>
-
             {/* Recipe Card */}
             <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 {/* Recipe Image using Next.js Image component */}

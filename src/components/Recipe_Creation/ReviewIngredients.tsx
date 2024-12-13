@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@headlessui/react';
 import { PencilIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import { Ingredient, DietaryPreference, Recipe } from '../../types/index';
@@ -18,12 +18,30 @@ const ReviewComponent = ({
   onEdit,
   generatedRecipes,
 }: ReviewComponentProps) => {
+  const [windowHeight, setWindowHeight] = useState(0);
+
+  useEffect(() => {
+    const updateHeight = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
+    // Set initial height
+    updateHeight();
+
+    // Update on window resize
+    window.addEventListener('resize', updateHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateHeight);
+    };
+  }, []);
+
   return (
     <div
-      className="fixed top-36 mt-32 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
+      className="fixed top-36 mt-32 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-xl mx-auto"
       style={{ width: '98%' }}
     >
-      <div className="px-6 py-8">
+      <div className="px-1 py-1">
         {/* Enhanced Title */}
         <div className="text-center mb-6">
           <h2 className="text-2xl font-medium text-gray-800 sm:text-3xl">
@@ -38,8 +56,11 @@ const ReviewComponent = ({
 
         {/* Ingredients Section */}
         <div className="mb-6">
-          <h3 className="text-gray-700 font-semibold text-lg mb-2">Ingredients:</h3>
-          <ul className="flex flex-wrap gap-2">
+          <h3 className="text-gray-700 font-semibold text-lg mb-2">{`${ingredients.length} Ingredient${ingredients.length !== 1 ? 's:' : ':'}`}</h3>
+          <ul
+            className="flex flex-wrap gap-2 w-full sm:max-h-none sm:overflow-y-visible overflow-y-auto"
+            style={{ maxHeight: windowHeight <= 667 ? '60px' : '150px' }}
+          >
             {ingredients.map((ingredient) => (
               <li
                 key={ingredient.id}
@@ -59,10 +80,12 @@ const ReviewComponent = ({
         {/* Dietary Preferences Section */}
         <div className="mb-6">
           <h3 className="text-gray-700 font-semibold text-lg mb-2">
-            Dietary Preferences:{' '}
-            {dietaryPreference.length === 0 && <span className="font-normal text-gray-500">None</span>}
+            {`${dietaryPreference.length} Dietary Preference${dietaryPreference.length !== 1 ? 's:' : ':'}`}
           </h3>
-          <div className="flex flex-wrap gap-2">
+          <div
+            className="flex flex-wrap gap-2 overflow-y-auto"
+            style={{ maxHeight: '70px' }}
+          >
             {dietaryPreference.map((preference) => (
               <span
                 key={preference}
