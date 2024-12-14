@@ -49,7 +49,7 @@ describe('The home component', () => {
         expect(screen.queryByText('Recipe_1_name')).not.toBeInTheDocument()
         const clearButton = await screen.findAllByRole('button')
         // make sure recipes are back after executing clear
-        fireEvent.click(clearButton[1])
+        fireEvent.click(clearButton[0])
         expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
     })
 })
