@@ -59,7 +59,7 @@ const ReviewComponent = ({
           <h3 className="text-gray-700 font-semibold text-lg mb-2">{`${ingredients.length} Ingredient${ingredients.length !== 1 ? 's:' : ':'}`}</h3>
           <ul
             className="flex flex-wrap gap-2 w-full sm:max-h-none sm:overflow-y-visible overflow-y-auto"
-            style={{ maxHeight: windowHeight <= 667 ? '60px' : '150px' }}
+            style={{ maxHeight: windowHeight <= 800 ? '60px' : '150px' }}
           >
             {ingredients.map((ingredient) => (
               <li

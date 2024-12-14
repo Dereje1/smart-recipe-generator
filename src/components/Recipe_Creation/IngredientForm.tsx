@@ -130,6 +130,10 @@ export default function IngredientForm({
             setError('This ingredient is already selected.');
             return;
         }
+        if(ingredients.length >= 10){
+            setError('You can select up to 10 ingredients only.');
+            return
+        }
         setError(null);
         updateIngredients([
             ...ingredients,
