@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Header from './Header';
 import Hero from '../pages/Hero';
@@ -17,7 +17,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (router.pathname === '/_error') {
-    return <ErrorPage message="Page not found"/>
+    return <ErrorPage message="Page not found" />
   }
 
   if (status === 'loading') {
@@ -25,6 +25,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!session) {
+    if (router.pathname === '/RecipeDetail') {
+      signIn('google')
+      return;
+    }
     return <Hero />
   }
 
