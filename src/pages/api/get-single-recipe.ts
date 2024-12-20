@@ -38,10 +38,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             .populate(['owner', 'likedBy', 'comments.user'])
             .lean()
             .exec() as unknown as ExtendedRecipe;
-        
+
         if (!recipe) {
-            res.end(`Recipe with Id: ${recipeId} not found... exiting`);
-            return;
+            return res.status(404).json({ error: `Recipe with Id: ${recipeId} not found... exiting` });
         }
 
         // Filter result based on user session and respond with the filtered recipe

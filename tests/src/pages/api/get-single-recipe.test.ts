@@ -91,7 +91,7 @@ describe('Retrieving a single recipe', () => {
             },
         }
         await getSingleRecipe(updatedreq, res)
-        expect(res._getData()).toEqual('Recipe with Id: 668cee5451bc971a18746fb9 not found... exiting')
+        expect(res._getJSONData()).toEqual({ error: 'Recipe with Id: 668cee5451bc971a18746fb9 not found... exiting' })
     })
 
     it('shall respond with a valid recipe', async () => {
