@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { BellIcon } from '@heroicons/react/24/outline'; // Additional icons
-import {CheckIcon, ExclamationCircleIcon} from '@heroicons/react/24/solid'
+import { CheckIcon, ExclamationCircleIcon } from '@heroicons/react/24/solid';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { call_api } from '../utils/utils';
 import { NotificationType } from '../types';
+import { useRouter } from 'next/router'; // Import for navigation
 
 interface NotificationProps {
     screen?: string;
@@ -13,6 +14,8 @@ const Notifications = ({ screen }: NotificationProps) => {
     const [notifications, setNotifications] = useState<NotificationType[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const router = useRouter(); // Router for navigation
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -48,6 +51,9 @@ const Notifications = ({ screen }: NotificationProps) => {
         }
     };
 
+    // Get the latest 5 notifications
+    const latestNotifications = notifications.slice(0, 5);
+
     return (
         <Popover className="relative">
             <PopoverButton
@@ -73,26 +79,46 @@ const Notifications = ({ screen }: NotificationProps) => {
                 <div className="p-4">
                     {loading && <p className="text-sm text-gray-500">Loading notifications...</p>}
                     {error && <p className="text-sm text-red-500">{error}</p>}
-                    {!loading && !error && notifications.length > 0 && (
-                        <ul className="divide-y divide-gray-200">
-                            {notifications.map((notification) => (
-                                <li
-                                    key={notification._id}
-                                    className={`py-3 px-2 flex items-center space-x-3 rounded-md hover:bg-gray-100 cursor-pointer ${
-                                        notification.read ? 'text-gray-500' : 'text-gray-800 font-bold'
-                                    }`}
-                                    onClick={() => notification.read ? undefined : markAsRead(notification._id)}
+                    {!loading && !error && latestNotifications.length > 0 && (
+                        <>
+                            <ul className="divide-y divide-gray-200">
+                                {latestNotifications.map((notification) => (
+                                    <li
+                                        key={notification._id}
+                                        className={`py-3 px-2 flex items-start space-x-3 rounded-md hover:bg-gray-100 cursor-pointer ${
+                                            notification.read
+                                                ? 'text-gray-500'
+                                                : 'text-gray-800 font-bold'
+                                        }`}
+                                        onClick={() =>
+                                            notification.read
+                                                ? undefined
+                                                : markAsRead(notification._id)
+                                        }
+                                    >
+                                        {/* Icon for read/unread */}
+                                        <div className="flex-shrink-0 flex items-center justify-center h-8 w-8">
+                                            {notification.read ? (
+                                                <CheckIcon className="h-5 w-5 text-green-500" />
+                                            ) : (
+                                                <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+                                            )}
+                                        </div>
+                                        <span className="text-sm flex-1 break-words">
+                                            {notification.message}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+                            {notifications.length > 5 && (
+                                <button
+                                    className="mt-4 w-full text-sm text-blue-500 hover:text-blue-700"
+                                    onClick={() => router.push('/NotificationsPage')} // Navigate to notifications page
                                 >
-                                    {/* Icon for read/unread */}
-                                    {notification.read ? (
-                                        <CheckIcon className="h-8 w-8 text-green-500" />
-                                    ) : (
-                                        <ExclamationCircleIcon className="h-8 w-8 text-red-500" />
-                                    )}
-                                    <span className="text-sm">{notification.message}</span>
-                                </li>
-                            ))}
-                        </ul>
+                                    See All Notifications
+                                </button>
+                            )}
+                        </>
                     )}
                     {!loading && !error && notifications.length === 0 && (
                         <p className="text-sm text-gray-500">You have no notifications.</p>
