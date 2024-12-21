@@ -128,7 +128,8 @@ export const ingredientListStub = [
 
 export const getServerSessionStub = {
     user: {
-        id: '6687d83725254486590fec59'
+        id: '6687d83725254486590fec59',
+        name: 'user_name'
     },
     expires: 'some time'
 }
