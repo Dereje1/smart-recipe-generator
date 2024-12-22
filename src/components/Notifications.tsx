@@ -14,6 +14,7 @@ const Notifications = ({ screen }: NotificationProps) => {
     const [notifications, setNotifications] = useState<NotificationType[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [isSmallScreen, setIsSmallScreen] = useState(false); // for small height screens
 
     const router = useRouter(); // Router for navigation
 
@@ -31,6 +32,23 @@ const Notifications = ({ screen }: NotificationProps) => {
         };
 
         fetchNotifications();
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            // Check if screen height is <= 667px (height of iPhone SE in portrait mode)
+            setIsSmallScreen(window.innerHeight <= 750);
+        };
+
+        // Add event listener for resize
+        window.addEventListener('resize', handleResize);
+        // Initial check
+        handleResize();
+
+        // Cleanup event listener
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
 
     // Count unread notifications
@@ -73,7 +91,7 @@ const Notifications = ({ screen }: NotificationProps) => {
                 )}
             </PopoverButton>
             <PopoverPanel
-                className="absolute right-0 mt-2 w-80 rounded-lg bg-white shadow-lg ring-1 ring-black/10 z-50"
+                className={`${isSmallScreen ? 'absolute right-8 top-0 -mt-32' : 'absolute right-0 mt-2'} w-80 rounded-lg bg-white shadow-lg ring-1 ring-black/10 z-50`}
             >
                 <div className="p-4">
                     {loading && <p className="text-sm text-gray-500">Loading notifications...</p>}
