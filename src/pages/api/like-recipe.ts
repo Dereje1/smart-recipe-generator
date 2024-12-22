@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { connectDB } from '../../lib/mongodb';
 import recipes from '../../lib/models/recipe';
+import notifications from '../../lib/models/notification';
 import { filterResults } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
@@ -29,7 +30,7 @@ const toggleLike = async (req: NextApiRequest, res: NextApiResponse) => {
 
         // Connect to the database
         await connectDB();
-        
+
         // Find the recipe by ID
         const recipe = await recipes.findById(recipeId).exec();
         if (!recipe) {
@@ -52,6 +53,16 @@ const toggleLike = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!updatedRecipe) {
             res.end(`Recipe with Id: ${recipeId} unable to return document.. exiting`);
             return;
+        }
+
+        // Add a notification if the recipe is liked (not unliked)
+        if (!liked) {
+            await notifications.create({
+                userId: recipe.owner, // The owner of the recipe receives the notification
+                type: 'like',
+                recipeId: recipeId,
+                message: `${session.user.name} liked your recipe: "${recipe.name}"`,
+            });
         }
 
         // Filter and update the recipe data

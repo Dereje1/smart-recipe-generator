@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import { signOut } from 'next-auth/react';
+import Notifications from './Notifications';
 
 const userNavigation = [
     { name: 'Your Profile', route: '/Profile' },
@@ -81,15 +82,7 @@ function Header({ user }: HeaderProps) {
                             </div>
                             <div className="hidden md:block">
                                 <div className="ml-4 flex items-center md:ml-6">
-                                    <button
-                                        type="button"
-                                        className="relative rounded-full bg-green-800 p-1 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-800"
-                                    >
-                                        <span className="absolute -inset-1.5" />
-                                        <span className="sr-only">View notifications</span>
-                                        <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                    </button>
-
+                                    <Notifications />
                                     {/* Profile dropdown */}
                                     <Menu as="div" className="relative ml-3">
                                         <div>
@@ -174,14 +167,10 @@ function Header({ user }: HeaderProps) {
                                     <div className="text-base font-medium leading-none text-white">{user?.name}</div>
                                     <div className="text-sm font-medium leading-none text-gray-300">{user?.email}</div>
                                 </div>
-                                <button
-                                    type="button"
-                                    className="relative ml-auto flex-shrink-0 rounded-full bg-green-800 p-1 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-800"
-                                >
-                                    <span className="absolute -inset-1.5" />
-                                    <span className="sr-only">View notifications</span>
-                                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                </button>
+                                {/* Push Notifications button to the right */}
+                                <div className="ml-auto">
+                                    <Notifications screen="mobile" />
+                                </div>
                             </div>
                             <div className="mt-3 space-y-1 px-2">
                                 {userNavigation.map((item) => (

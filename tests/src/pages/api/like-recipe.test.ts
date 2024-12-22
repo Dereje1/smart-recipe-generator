@@ -4,6 +4,7 @@
 import likeRecipe from '../../../../src/pages/api/like-recipe';
 import mongoose from 'mongoose';
 import Recipe from '../../../../src/lib/models/recipe';
+import Notification from '../../../../src/lib/models/notification';
 import { mockRequestResponse } from '../../../apiMocks';
 import { stubRecipeBatch, getServerSessionStub } from '../../../stub';
 import * as nextAuth from 'next-auth';
@@ -24,6 +25,17 @@ jest.mock("next-auth/next");
 jest.mock('../../../../src/lib/mongodb', () => ({
     connectDB: () => Promise.resolve()
 }))
+
+// Mock Recipe schema
+jest.mock('../../../../src/lib/models/recipe', () => ({
+    findById: jest.fn(),
+    findByIdAndUpdate: jest.fn(),
+}));
+
+// Mock Notification schema
+jest.mock('../../../../src/lib/models/notification', () => ({
+    create: jest.fn(),
+}));
 
 describe('Liking a recipe', () => {
     let getServerSessionSpy: any
@@ -109,6 +121,8 @@ describe('Liking a recipe', () => {
             }),
         );
 
+        Notification.create = jest.fn().mockResolvedValue({}); // Mock Notification.create
+
         const { req, res } = mockRequestResponse('PUT')
         const updatedreq: any = {
             ...req,
@@ -122,11 +136,17 @@ describe('Liking a recipe', () => {
             { $addToSet: { likedBy: new mongoose.Types.ObjectId('6687d83725254486590fec59') } },
             { "new": true }
         )
+        expect(Notification.create).toHaveBeenCalledWith({
+            userId: stubRecipeBatch[0].owner,
+            type: 'like',
+            recipeId: 1234,
+            message: `${getServerSessionStub.user.name} liked your recipe: "${stubRecipeBatch[0].name}"`,
+        });
         expect(res.statusCode).toBe(200)
         expect(res._getJSONData()).toEqual(stubRecipeBatch[0])
     })
 
-    it('shall unlike a  recipe if already liked', async () => {
+    it('shall unlike a recipe if already liked but not send a notification', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         // update stub to indicate the recipe has already been liked by current user
         const updatedRecipe = {
@@ -150,6 +170,8 @@ describe('Liking a recipe', () => {
             }),
         );
 
+        Notification.create = jest.fn().mockResolvedValue({}); // Mock Notification.create
+
         const { req, res } = mockRequestResponse('PUT')
         const updatedreq: any = {
             ...req,
@@ -163,6 +185,7 @@ describe('Liking a recipe', () => {
             { $pull: { likedBy: new mongoose.Types.ObjectId('6687d83725254486590fec59') } },
             { "new": true }
         )
+        expect(Notification.create).toHaveBeenCalledTimes(0)
         expect(res.statusCode).toBe(200)
         expect(res._getJSONData()).toEqual(stubRecipeBatch[0])
     })
