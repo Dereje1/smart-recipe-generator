@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router'; // Import for navigation
 import { BellIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'; // Additional icons
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { call_api } from '../utils/utils';
 import { NotificationType } from '../types';
-import { useRouter } from 'next/router'; // Import for navigation
 
 interface NotificationProps {
     screen?: string;
@@ -57,9 +57,8 @@ const Notifications = ({ screen }: NotificationProps) => {
     return (
         <Popover className="relative">
             <PopoverButton
-                className={`relative rounded-full bg-green-800 p-1 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-800 ${
-                    screen === 'mobile' ? 'ml-auto' : ''
-                }`}
+                className={`relative rounded-full bg-green-800 p-1 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-800 ${screen === 'mobile' ? 'ml-auto' : ''
+                    }`}
             >
                 {/* Bell Icon */}
                 <span className="absolute -inset-1.5" />
@@ -80,51 +79,58 @@ const Notifications = ({ screen }: NotificationProps) => {
                     {loading && <p className="text-sm text-gray-500">Loading notifications...</p>}
                     {error && <p className="text-sm text-red-500">{error}</p>}
                     {!loading && !error && latestNotifications.length > 0 && (
-                        <>
-                            <ul className="divide-y divide-gray-200">
-                                {latestNotifications.map(({_id, read, message}) => (
-                                    <li
-                                        key={_id}
-                                        className={`py-3 px-2 flex items-start space-x-3 rounded-md hover:bg-gray-100 ${
-                                            read
-                                                ? 'cursor-default text-gray-500'
-                                                : 'cursor-pointer text-gray-800 font-bold'
+                        <ul className="divide-y divide-gray-200">
+                            {latestNotifications.map(({ _id, read, message, recipeId }) => (
+                                <li
+                                    key={_id}
+                                    className={`py-3 px-2 flex items-start space-x-3 rounded-md hover:bg-gray-100 ${read ? 'text-gray-500' : 'text-gray-800 font-bold'
                                         }`}
-                                        onClick={() =>
-                                            read
-                                                ? undefined
-                                                : markAsRead(_id)
-                                        }
-                                    >
-                                        {/* Icon for read/unread */}
-                                        <div className="flex-shrink-0 flex items-center justify-center h-8 w-8">
-                                            {read ? (
-                                                <CheckIcon className="h-5 w-5 text-green-500" />
-                                            ) : (
-                                                <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-                                            )}
-                                        </div>
-                                        <span className="text-sm flex-1 break-words">
-                                            {message}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                            {notifications.length > 5 && (
-                                <button
-                                    className="mt-4 w-full text-sm text-blue-500 hover:text-blue-700"
-                                    onClick={() => router.push('/NotificationsPage')} // Navigate to notifications page
                                 >
-                                    See All Notifications
-                                </button>
-                            )}
-                        </>
+                                    {/* Icon for read/unread */}
+                                    <div className="flex-shrink-0 flex items-center justify-center h-8 w-8">
+                                        {read ? (
+                                            <CheckIcon className="h-5 w-5 text-green-500" />
+                                        ) : (
+                                            <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+                                        )}
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-sm">{message}</p>
+                                        <div className="flex space-x-2 mt-1">
+                                            {!read && (
+                                                <button
+                                                    className="text-xs text-blue-500 hover:underline"
+                                                    onClick={() => markAsRead(_id)}
+                                                >
+                                                    Mark as Read
+                                                </button>
+                                            )}
+                                            <button
+                                                className="text-xs text-blue-500 hover:underline"
+                                                onClick={() => router.push(`/RecipeDetail?recipeId=${recipeId}`)}
+                                            >
+                                                View Recipe
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                    {notifications.length > 5 && (
+                        <button
+                            className="mt-4 w-full text-sm text-blue-500 hover:text-blue-700"
+                            onClick={() => router.push('/NotificationsPage')}
+                        >
+                            See All Notifications
+                        </button>
                     )}
                     {!loading && !error && notifications.length === 0 && (
                         <p className="text-sm text-gray-500">You have no notifications.</p>
                     )}
                 </div>
             </PopoverPanel>
+
         </Popover>
     );
 };

@@ -8,6 +8,21 @@ jest.mock("../../../src/utils/utils", () => ({
     call_api: jest.fn(() => Promise.resolve('mock marked as read'))
 }))
 
+jest.mock('next/link', () => {
+    return ({ children }: { children: any }) => {
+        return children;
+    };
+});
+
+const routePushMock = jest.fn()
+
+jest.mock("next/router", () => ({
+    useRouter: jest.fn(() => ({
+        pathName: 'mocked Path',
+        push: routePushMock
+    })),
+}))
+
 describe('The home component', () => {
     it('shall render', () => {
         render(<NotificationsPage initialNotifications={stubNotifications} />)
@@ -17,10 +32,13 @@ describe('The home component', () => {
 
     it('shall mark a notification as read', async () => {
         render(<NotificationsPage initialNotifications={stubNotifications} />)
+        // list item for the notification
         const notification = await screen.getByRole('listitem')
+        // Mark as read button
+        const markAsRead = await screen.getByText('Mark as Read')
         // The list text should be bold if unread
         expect(notification.className.includes('text-gray-800 font-bold')).toBeTruthy()
-        fireEvent.click(notification)
+        fireEvent.click(markAsRead)
         await screen.findByText('Notifications')
         // The list text should NOT be bold if read
         expect(notification.className.includes('text-gray-800 font-bold')).toBeFalsy()
