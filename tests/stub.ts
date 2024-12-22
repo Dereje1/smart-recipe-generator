@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 export const stub_recipe_1 = {
     "_id": "6683b8d38475eac9af5fe838",
     "owner": {
@@ -135,3 +137,16 @@ export const getServerSessionStub = {
 }
 
 export const stubRecipeBatch = [stub_recipe_1, stub_recipe_2]
+
+export const stubNotifications = [
+    {
+        _id: 'stub_id_1',
+        userId: '6687d83725254486590fec59' as any,
+        type: 'like' as any,
+        recipeId: 'stub_recipe_id',
+        message: 'stub_message_1',
+        read: false,
+        createdAt:'',
+        updatedAt:''
+    }
+]

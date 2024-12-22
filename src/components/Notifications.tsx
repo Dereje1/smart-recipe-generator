@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { BellIcon } from '@heroicons/react/24/outline'; // Additional icons
-import { CheckIcon, ExclamationCircleIcon } from '@heroicons/react/24/solid';
+import { BellIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'; // Additional icons
+import { CheckIcon } from '@heroicons/react/24/solid';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { call_api } from '../utils/utils';
 import { NotificationType } from '../types';
@@ -82,30 +82,30 @@ const Notifications = ({ screen }: NotificationProps) => {
                     {!loading && !error && latestNotifications.length > 0 && (
                         <>
                             <ul className="divide-y divide-gray-200">
-                                {latestNotifications.map((notification) => (
+                                {latestNotifications.map(({_id, read, message}) => (
                                     <li
-                                        key={notification._id}
+                                        key={_id}
                                         className={`py-3 px-2 flex items-start space-x-3 rounded-md hover:bg-gray-100 cursor-pointer ${
-                                            notification.read
+                                            read
                                                 ? 'text-gray-500'
                                                 : 'text-gray-800 font-bold'
                                         }`}
                                         onClick={() =>
-                                            notification.read
+                                            read
                                                 ? undefined
-                                                : markAsRead(notification._id)
+                                                : markAsRead(_id)
                                         }
                                     >
                                         {/* Icon for read/unread */}
                                         <div className="flex-shrink-0 flex items-center justify-center h-8 w-8">
-                                            {notification.read ? (
+                                            {read ? (
                                                 <CheckIcon className="h-5 w-5 text-green-500" />
                                             ) : (
                                                 <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
                                             )}
                                         </div>
                                         <span className="text-sm flex-1 break-words">
-                                            {notification.message}
+                                            {message}
                                         </span>
                                     </li>
                                 ))}

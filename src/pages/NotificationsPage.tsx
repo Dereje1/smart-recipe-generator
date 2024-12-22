@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { GetServerSideProps } from 'next';
-import { CheckIcon, ExclamationCircleIcon } from '@heroicons/react/24/solid';
+import { CheckIcon } from '@heroicons/react/24/solid';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { NotificationType } from '../types';
 import { call_api, getServerSidePropsUtility } from '../utils/utils';
 
@@ -25,7 +26,7 @@ const NotificationsPage = ({ initialNotifications }: NotificationsPageProps) => 
             console.error('Failed to mark notification as read:', error);
         }
     };
-
+    
     return (
         <div className="max-w-3xl mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Notifications</h1>
@@ -33,25 +34,23 @@ const NotificationsPage = ({ initialNotifications }: NotificationsPageProps) => 
                 <p className="text-sm text-gray-500">You have no notifications.</p>
             ) : (
                 <ul className="divide-y divide-gray-200">
-                    {notifications.map((notification) => (
+                    {notifications.map(({read, _id, message}) => (
                         <li
-                            key={notification._id}
+                            key={_id}
                             className={`py-3 px-2 flex items-center space-x-3 rounded-md hover:bg-gray-100 cursor-pointer ${
-                                notification.read ? 'text-gray-500' : 'text-gray-800 font-bold'
+                                read ? 'text-gray-500' : 'text-gray-800 font-bold'
                             }`}
-                            onClick={() =>
-                                notification.read ? undefined : markAsRead(notification._id)
-                            }
+                            onClick={() => read ? undefined : markAsRead(_id)}
                         >
                             {/* Icon for read/unread */}
                             <div className="flex-shrink-0 flex items-center justify-center h-10 w-10">
-                                {notification.read ? (
+                                {read ? (
                                     <CheckIcon className="h-6 w-6 text-green-500" />
                                 ) : (
                                     <ExclamationCircleIcon className="h-6 w-6 text-red-500" />
                                 )}
                             </div>
-                            <span className="text-sm flex-1">{notification.message}</span>
+                            <span className="text-sm flex-1">{message}</span>
                         </li>
                     ))}
                 </ul>
