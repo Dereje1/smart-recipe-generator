@@ -85,10 +85,10 @@ const Notifications = ({ screen }: NotificationProps) => {
                                 {latestNotifications.map(({_id, read, message}) => (
                                     <li
                                         key={_id}
-                                        className={`py-3 px-2 flex items-start space-x-3 rounded-md hover:bg-gray-100 cursor-pointer ${
+                                        className={`py-3 px-2 flex items-start space-x-3 rounded-md hover:bg-gray-100 ${
                                             read
-                                                ? 'text-gray-500'
-                                                : 'text-gray-800 font-bold'
+                                                ? 'cursor-default text-gray-500'
+                                                : 'cursor-pointer text-gray-800 font-bold'
                                         }`}
                                         onClick={() =>
                                             read

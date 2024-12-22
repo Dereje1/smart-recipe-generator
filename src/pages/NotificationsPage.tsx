@@ -38,7 +38,7 @@ const NotificationsPage = ({ initialNotifications }: NotificationsPageProps) => 
                         <li
                             key={_id}
                             className={`py-3 px-2 flex items-center space-x-3 rounded-md hover:bg-gray-100 cursor-pointer ${
-                                read ? 'text-gray-500' : 'text-gray-800 font-bold'
+                                read ? 'cursor-default text-gray-500' : 'cursor-pointer text-gray-800 font-bold'
                             }`}
                             onClick={() => (read ? undefined : markAsRead(_id))}
                         >
