@@ -19,7 +19,7 @@ exports[`The Layout renders the Loading wheel if session is loading 1`] = `
 </div>
 `;
 
-exports[`The Layout renders the hero if there is no session 1`] = `
+exports[`The Layout renders the hero if the user is not authenticated 1`] = `
 <div>
   <div
     class="bg-white"

@@ -61,7 +61,11 @@ describe('The Layout', () => {
             </Layout>)
         expect(container).toMatchSnapshot()
     })
-    it('renders the hero if there is no session', () => {
+    it('renders the hero if the user is not authenticated', () => {
+        (useSession as jest.Mock).mockImplementationOnce(() => ({
+            data: null,
+            status: "unauthenticated",
+        }))
         const { container } = render(
             <Layout><div>Child component</div>
             </Layout>)

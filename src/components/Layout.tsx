@@ -24,7 +24,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     return <Loading />;
   }
 
-  if (!session) {
+  if (status === 'unauthenticated') {
     if (router.pathname === '/RecipeDetail') {
       signIn('google')
       return;
@@ -32,12 +32,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     return <Hero />
   }
 
-  return (
-    <div>
-      <Header user={session.user} />
-      <main className="min-h-screen bg-green-50">{children}</main>
-    </div>
-  );
+  if (session) {
+    return (
+      <div>
+        <Header user={session.user} />
+        <main className="min-h-screen bg-green-50">{children}</main>
+      </div>
+    );
+  }
+
+  return <Loading />
 };
 
 export default Layout;
