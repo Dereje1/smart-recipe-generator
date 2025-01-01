@@ -3,6 +3,7 @@
  */
 import profile from '../../../../src/pages/api/profile';
 import Recipe from '../../../../src/lib/models/recipe';
+import aigenerated from '../../../../src/lib/models/aigenerated';
 import { mockRequestResponse } from '../../../apiMocks';
 import { stubRecipeBatch, getServerSessionStub } from '../../../stub';
 import * as nextAuth from 'next-auth';
@@ -26,6 +27,11 @@ describe('Getting recipes for the profile page', () => {
   let getServerSessionSpy: any
   beforeEach(() => {
     getServerSessionSpy = jest.spyOn(nextAuth, 'getServerSession')
+    // Set environment variables
+    process.env = {
+      ...process.env,
+      API_REQUEST_LIMIT: '100',
+    };
   })
 
   afterEach(() => {
@@ -49,7 +55,7 @@ describe('Getting recipes for the profile page', () => {
     expect(res._getJSONData()).toEqual({ error: 'You must be logged in.' })
   })
 
-  it('shall return the recipes', async () => {
+  it('shall return the recipes and ai usage', async () => {
     getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
     Recipe.find = jest.fn().mockImplementation(
       () => ({
@@ -60,10 +66,15 @@ describe('Getting recipes for the profile page', () => {
         })),
       }),
     );
+    aigenerated.countDocuments = jest.fn().mockImplementation(
+      () => ({
+        exec: jest.fn().mockResolvedValue(40)
+      }),
+    );
     const { req, res } = mockRequestResponse()
     await profile(req, res)
     expect(res.statusCode).toBe(200)
-    expect(res._getJSONData()).toEqual(stubRecipeBatch)
+    expect(res._getJSONData()).toEqual({ recipes: stubRecipeBatch, AIusage: 40 })
   })
   it('will respond with error if GET is rejected', async () => {
     getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))

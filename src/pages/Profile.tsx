@@ -5,8 +5,15 @@ import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
 import { getServerSidePropsUtility, updateRecipeList } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
 
-function Profile({ recipes }: { recipes: ExtendedRecipe[] }) {
-    const [latestRecipes, setLatestRecipes] = useState(recipes);
+interface ProfileProps {
+    profileData: {
+        recipes: ExtendedRecipe[];
+        AIusage: number
+    }
+}
+
+function Profile({ profileData }: ProfileProps) {
+    const [latestRecipes, setLatestRecipes] = useState(profileData.recipes);
     const [displaySetting, setDisplaySetting] = useState('created')
 
     const handleRecipeListUpdate = (recipe: ExtendedRecipe | null, deleteId?: string) => {
@@ -26,14 +33,19 @@ function Profile({ recipes }: { recipes: ExtendedRecipe[] }) {
     }
     return (
         <div className="flex flex-col min-h-screen items-center">
-            <ProfileInformation recipes={latestRecipes} updateSelection={(val) => setDisplaySetting(val)} selectedDisplay={displaySetting} />
+            <ProfileInformation
+                recipes={latestRecipes}
+                updateSelection={(val) => setDisplaySetting(val)}
+                selectedDisplay={displaySetting}
+                AIusage={profileData.AIusage}
+            />
             <ViewRecipes recipes={handleDisplaySetting()} handleRecipeListUpdate={handleRecipeListUpdate} />
         </div>
     )
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    return await getServerSidePropsUtility(context, 'api/profile')
+    return await getServerSidePropsUtility(context, 'api/profile', 'profileData')
 };
 
 export default Profile;

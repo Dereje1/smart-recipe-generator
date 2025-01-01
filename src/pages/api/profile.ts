@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { connectDB } from '../../lib/mongodb';
 import Recipe from '../../lib/models/recipe';
+import aigenerated from '../../lib/models/aigenerated';
 import { filterResults } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
@@ -40,9 +41,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             .lean()
             .exec() as unknown as ExtendedRecipe[];
 
+        // Count the number of AI-generated entries associated with the user's ID to get overall usage
+        const totalGeneratedCount = await aigenerated.countDocuments({ userId: session.user.id }).exec();
+        const AIusage = Math.min(Math.round((totalGeneratedCount / Number(process.env.API_REQUEST_LIMIT)) * 100), 100);
         // Filter results based on user session and respond with the filtered recipes
         const filteredRecipes = filterResults(profilePins, session.user.id);
-        res.status(200).json(filteredRecipes);
+        res.status(200).json({ recipes: filteredRecipes, AIusage });
     } catch (error) {
         // Handle any errors that occur during fetching recipes
         console.error(error);

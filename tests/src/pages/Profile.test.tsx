@@ -33,18 +33,18 @@ jest.mock("next/router", () => ({
 
 describe('The Profile component', () => {
     it('shall render for own recipes', () => {
-        const { container } = render(<Profile recipes={stubRecipeBatch} />)
+        const { container } = render(<Profile profileData={{ recipes: stubRecipeBatch, AIusage: 40 }} />)
         expect(container).toMatchSnapshot()
     })
     it('shall render for favorite recipes', async () => {
-        const { container } = render(<Profile recipes={stubRecipeBatch} />)
+        const { container } = render(<Profile profileData={{ recipes: stubRecipeBatch, AIusage: 40 }} />)
         const favoritesButton = await screen.findByText('Favorites');
         fireEvent.click(favoritesButton);
         const likedRecipe = await screen.findByText('Recipe_2_name')
         expect(likedRecipe).toBeInTheDocument()
     })
     it('shall render for favorite recipes', async () => {
-        const { container } = render(<Profile recipes={stubRecipeBatch} />)
+        const { container } = render(<Profile profileData={{ recipes: stubRecipeBatch, AIusage: 40 }} />)
         const votesReceivedButton = await screen.findByText('Votes Received');
         fireEvent.click(votesReceivedButton);
         const likedRecipe = await screen.findByText('Recipe_1_name')
