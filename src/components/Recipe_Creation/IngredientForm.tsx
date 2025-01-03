@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Combobox } from '@headlessui/react';
+import { Combobox, ComboboxInput, ComboboxButton, ComboboxOptions, ComboboxOption } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import NewIngredientDialog from './NewIngredientDialog';
@@ -52,7 +52,7 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
                 disabled={Boolean(generatedRecipes.length)}
             >
                 <div className="relative w-full">
-                    <Combobox.Input
+                    <ComboboxInput
                         className={clsx(
                             'w-full rounded-lg border border-gray-300 bg-white py-3 pr-10 pl-4 text-base text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
                         )}
@@ -60,17 +60,17 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
                         onChange={(event) => setQuery(event.target.value)}
                         placeholder="Select an existing ingredient"
                     />
-                    <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <ComboboxButton className="absolute inset-y-0 right-0 flex items-center pr-3">
                         <ChevronDownIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-                    </Combobox.Button>
+                    </ComboboxButton>
                 </div>
 
                 {filteredIngredients.length > 0 && (
-                    <Combobox.Options
+                    <ComboboxOptions
                         className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                     >
                         {filteredIngredients.map((ingredient) => (
-                            <Combobox.Option
+                            <ComboboxOption
                                 key={ingredient._id}
                                 value={ingredient}
                                 className={({ active }) =>
@@ -78,7 +78,7 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
                                     }`
                                 }
                             >
-                                {({ active, selected }) => (
+                                {({ focus, selected }) => (
                                     <>
                                         <span
                                             className={`block truncate ${selected ? 'font-medium' : 'font-normal'
@@ -88,7 +88,7 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
                                         </span>
                                         {selected && (
                                             <span
-                                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? 'text-white' : 'text-indigo-600'
+                                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${focus ? 'text-white' : 'text-indigo-600'
                                                     }`}
                                             >
                                                 <CheckIcon className="w-5 h-5" aria-hidden="true" />
@@ -96,9 +96,9 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
                                         )}
                                     </>
                                 )}
-                            </Combobox.Option>
+                            </ComboboxOption>
                         ))}
-                    </Combobox.Options>
+                    </ComboboxOptions>
                 )}
             </Combobox>
         </div>
