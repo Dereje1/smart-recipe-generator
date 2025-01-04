@@ -4,6 +4,7 @@ import {
   DialogTitle, DialogBackdrop,
   Button, Input, Field, Label
 } from '@headlessui/react';
+import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import pluralize from 'pluralize';
 import clsx from 'clsx';
 import { call_api } from '../../utils/utils';
@@ -91,9 +92,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
       <Button
         onClick={() => setIsOpen(true)}
         className="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 mr-2">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-        </svg>
+        <PlusCircleIcon className="block mr-2 h-6 w-6"/>
         Add New Ingredient
       </Button>
       <Dialog open={isOpen} onClose={() => { }} className="relative z-50">

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
+import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/solid';
 import Loading from '../components/Loading';
 import StepComponent from '../components/Recipe_Creation/StepComponent';
 import LimitReached from '../components/Recipe_Creation/LimitReached';
@@ -127,22 +128,14 @@ function Navigation({
               {/* Prev Button */}
               <button
                 type="button"
-                className={`flex items-center justify-center bg-gray-200 text-gray-700 rounded-full px-4 py-2 transition duration-300 ease-in-out hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${step === 0 ? 'cursor-not-allowed opacity-50' : ''
+                className={`flex items-center justify-center bg-gray-200 text-gray-700 rounded-full px-4 py-2 transition duration-300 ease-in-out hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 ${step === 0 ? 'cursor-not-allowed opacity-50' : ''
                   }`}
                 onClick={() => updateStep(-1)}
                 disabled={step === 0}
                 aria-label="Go to previous step"
               >
                 {/* Left Arrow Icon */}
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
+                <ChevronLeftIcon className="block mr-2 h-5 w-5"/>
                 Prev
               </button>
               {/* Next Button */}
@@ -158,15 +151,7 @@ function Navigation({
               >
                 Next
                 {/* Right Arrow Icon */}
-                <svg
-                  className="w-5 h-5 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
+                <ChevronRightIcon className="block ml-2 h-5 w-5"/>
               </button>
             </div>
           </div>

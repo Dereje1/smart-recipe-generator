@@ -63,17 +63,16 @@ exports[`The single front facing display shall render 1`] = `
           See Recipe
           <svg
             aria-hidden="true"
-            class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-            fill="none"
-            viewBox="0 0 14 10"
+            class="block ml-2 h-5 w-5"
+            data-slot="icon"
+            fill="currentColor"
+            viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M1 5h12m0 0L9 1m4 4L9 9"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              clip-rule="evenodd"
+              d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z"
+              fill-rule="evenodd"
             />
           </svg>
         </button>
@@ -84,9 +83,11 @@ exports[`The single front facing display shall render 1`] = `
           type="button"
         >
           <svg
-            class="size-5"
+            aria-hidden="true"
+            class="block h-6 w-6 text-blue-500"
+            data-slot="icon"
             fill="none"
-            stroke="#0070ff"
+            stroke="currentColor"
             stroke-width="1.5"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
