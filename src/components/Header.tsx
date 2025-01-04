@@ -38,7 +38,7 @@ function Header({ user }: HeaderProps) {
             return
         }
         if (menu.name === 'About') {
-            window.open('https://github.com/Dereje1', '_blank');
+            window.open('https://github.com/Dereje1/smart-recipe-generator', '_blank');
         }
         router.push(menu.route)
     }

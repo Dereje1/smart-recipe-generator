@@ -37,7 +37,7 @@ export default function Hero() {
                     <Features resetPage={() => setSelectedPage(null)} />
                 );
             case 'about':
-                window.open('https://github.com/Dereje1', '_blank');
+                window.open('https://github.com/Dereje1/smart-recipe-generator', '_blank');
                 setSelectedPage(null);
                 return (
                     <Landing />

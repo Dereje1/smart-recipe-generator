@@ -1,6 +1,7 @@
 // SearchBar Component
 import React from 'react';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/16/solid';
+import useWindowSize from './Hooks/useWindowSize';
 
 interface SearchBarProps {
     searchVal: string
@@ -9,6 +10,7 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({ searchVal, setSearchVal, handleSearch }: SearchBarProps) => {
+    const { width } = useWindowSize(); // Get window width
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             handleSearch();
@@ -24,7 +26,7 @@ const SearchBar = ({ searchVal, setSearchVal, handleSearch }: SearchBarProps) =>
                 {/* Input Field */}
                 <input
                     className="w-full pl-10 pr-10 py-2 text-sm text-gray-700 placeholder-gray-600 bg-transparent border-none rounded-full focus:outline-none focus:ring-2 focus:ring-green-200"
-                    placeholder="Search recipes by name, ingredient, or type..."
+                    placeholder={width < 565 ? 'Search recipes...' : 'Search recipes by name, ingredient, or type...'}
                     value={searchVal}
                     onChange={(e) => setSearchVal(e.target.value)}
                     onKeyDown={handleKeyPress}

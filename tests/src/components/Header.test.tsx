@@ -37,7 +37,7 @@ describe('The Header', () => {
             <Header user={{ name: 'mock username' }} />
         )
         fireEvent.click(screen.getByText('About'));
-        expect(global.open).toHaveBeenCalledWith("https://github.com/Dereje1", "_blank")
+        expect(global.open).toHaveBeenCalledWith("https://github.com/Dereje1/smart-recipe-generator", "_blank")
     })
     it('will be empty for a missing user', () => {
         const { container } = render(

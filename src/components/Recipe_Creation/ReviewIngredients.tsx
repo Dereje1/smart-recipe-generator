@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@headlessui/react';
 import { PencilIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import { Ingredient, DietaryPreference, Recipe } from '../../types/index';
+import useWindowSize from '../Hooks/useWindowSize';
 
 interface ReviewComponentProps {
   ingredients: Ingredient[];
@@ -18,23 +19,7 @@ const ReviewComponent = ({
   onEdit,
   generatedRecipes,
 }: ReviewComponentProps) => {
-  const [windowHeight, setWindowHeight] = useState(0);
-
-  useEffect(() => {
-    const updateHeight = () => {
-      setWindowHeight(window.innerHeight);
-    };
-
-    // Set initial height
-    updateHeight();
-
-    // Update on window resize
-    window.addEventListener('resize', updateHeight);
-
-    return () => {
-      window.removeEventListener('resize', updateHeight);
-    };
-  }, []);
+  const { height } = useWindowSize()
 
   return (
     <div
@@ -59,7 +44,7 @@ const ReviewComponent = ({
           <h3 className="text-gray-700 font-semibold text-lg mb-2">{`${ingredients.length} Ingredient${ingredients.length !== 1 ? 's:' : ':'}`}</h3>
           <ul
             className="flex flex-wrap gap-2 w-full sm:max-h-none sm:overflow-y-visible overflow-y-auto"
-            style={{ maxHeight: windowHeight <= 800 ? '60px' : '150px' }}
+            style={{ maxHeight: height <= 800 ? '60px' : '150px' }}
           >
             {ingredients.map((ingredient) => (
               <li
