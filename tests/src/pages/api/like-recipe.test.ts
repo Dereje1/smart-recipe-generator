@@ -34,7 +34,7 @@ jest.mock('../../../../src/lib/models/recipe', () => ({
 
 // Mock Notification schema
 jest.mock('../../../../src/lib/models/notification', () => ({
-    create: jest.fn(),
+    findOneAndUpdate: jest.fn(),
 }));
 
 describe('Liking a recipe', () => {
@@ -121,7 +121,7 @@ describe('Liking a recipe', () => {
             }),
         );
 
-        Notification.create = jest.fn().mockResolvedValue({}); // Mock Notification.create
+        Notification.findOneAndUpdate = jest.fn().mockResolvedValue({}); // Mock Notification.findOneAndUpdate
 
         const { req, res } = mockRequestResponse('PUT')
         const updatedreq: any = {
@@ -136,12 +136,21 @@ describe('Liking a recipe', () => {
             { $addToSet: { likedBy: new mongoose.Types.ObjectId('6687d83725254486590fec59') } },
             { "new": true }
         )
-        expect(Notification.create).toHaveBeenCalledWith({
-            userId: stubRecipeBatch[0].owner,
-            type: 'like',
-            recipeId: 1234,
-            message: `${getServerSessionStub.user.name} liked your recipe: "${stubRecipeBatch[0].name}"`,
-        });
+        expect(Notification.findOneAndUpdate).toHaveBeenCalledWith(
+            {
+                userId: stubRecipeBatch[0].owner,
+                initiatorId: '6687d83725254486590fec59',
+                type: 'like',
+                recipeId: 1234,
+            },
+            {
+                $setOnInsert: {
+                    message: `${getServerSessionStub.user.name} liked your recipe: "${stubRecipeBatch[0].name}"`,
+                    read: false
+                }
+            },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
         expect(res.statusCode).toBe(200)
         expect(res._getJSONData()).toEqual(stubRecipeBatch[0])
     })

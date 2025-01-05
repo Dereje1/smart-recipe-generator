@@ -54,16 +54,30 @@ const toggleLike = async (req: NextApiRequest, res: NextApiResponse) => {
             res.end(`Recipe with Id: ${recipeId} unable to return document.. exiting`);
             return;
         }
-
-        // Add a notification if the recipe is liked (not unliked)
+        /* 
+           Ensure a notification is created only on the first like and not duplicated on repeated likes.
+           If a matching notification already exists (same user, recipe, and type), do nothing.
+           If no matching notification exists, insert a new one with the specified message and `read: false`.
+        */
         if (!liked) {
-            await notifications.create({
-                userId: recipe.owner, // The owner of the recipe receives the notification
-                type: 'like',
-                recipeId: recipeId,
-                message: `${session.user.name} liked your recipe: "${recipe.name}"`,
-            });
+            await notifications.findOneAndUpdate(
+                {
+                    userId: recipe.owner, // The owner of the recipe receives the notification
+                    initiatorId: session.user.id, // The user who liked the recipe
+                    type: 'like',
+                    recipeId: recipeId, // The recipe being liked
+                },
+                {
+                    $setOnInsert: {
+                        message: `${session.user.name} liked your recipe: "${recipe.name}"`,
+                        read: false,
+                    }
+                },
+                { upsert: true, new: true, setDefaultsOnInsert: true }
+            );
         }
+
+
 
         // Filter and update the recipe data
         const [filteredAndUpdatedRecipe] = filterResults([updatedRecipe], session.user.id);

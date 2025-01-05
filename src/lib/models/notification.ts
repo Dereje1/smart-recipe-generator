@@ -1,5 +1,6 @@
 import mongoose, { Model, Schema } from 'mongoose';
 import User from './user'; // Import the User model
+import Recipe from './recipe';
 import { NotificationType } from '../../types';
 
 
@@ -9,7 +10,12 @@ const notificationSchema = new mongoose.Schema<NotificationType>(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: User, // Reference to the User model
+      ref: User, // Reference to the recipient (owner of the recipe)
+      required: true,
+    },
+    initiatorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User, // Reference to the user who performed the action (e.g., liked the recipe)
       required: true,
     },
     type: {
@@ -18,7 +24,8 @@ const notificationSchema = new mongoose.Schema<NotificationType>(
       required: true,
     },
     recipeId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: Recipe, // Reference to the liked recipe
       required: true,
     },
     message: {
@@ -32,6 +39,7 @@ const notificationSchema = new mongoose.Schema<NotificationType>(
   },
   { timestamps: true } // Automatically adds `createdAt` and `updatedAt`
 );
+
 
 // Create the Notification model
 const Notification: Model<NotificationType> =
