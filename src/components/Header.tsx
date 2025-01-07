@@ -45,7 +45,7 @@ function Header({ user }: HeaderProps) {
 
     if (!user) return null;
     return (
-        <Disclosure as="nav" className="sticky top-0 z-50 bg-green-800 shadow-md">
+        <Disclosure as="nav" className="sticky top-0 z-50 bg-green-800 shadow-md" style={{ scrollbarGutter: 'stable' }}>
             {({ open }) => (
                 <>
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

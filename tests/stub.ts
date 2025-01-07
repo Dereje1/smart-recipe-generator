@@ -142,8 +142,9 @@ export const stubNotifications = [
     {
         _id: 'stub_id_1',
         userId: '6687d83725254486590fec59' as any,
+        initiatorId: '6687d83725254486590fec54' as any,
         type: 'like' as any,
-        recipeId: 'stub_recipe_id',
+        recipeId: 'stub_recipe_id' as any,
         message: 'stub_message_1',
         read: false,
         createdAt:'',
