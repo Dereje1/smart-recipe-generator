@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     }, [router])
 
     return loading ? <Loading /> : (
-        <SessionProvider session={session}>
+        <SessionProvider session={session} refetchInterval={5 * 60}>
             <Layout>
                 <Head>
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
