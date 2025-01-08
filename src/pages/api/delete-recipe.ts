@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from './auth/[...nextauth]';
+import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
 import recipes from '../../lib/models/recipe';
 
@@ -10,22 +9,8 @@ import recipes from '../../lib/models/recipe';
  * @param req - The Next.js API request object.
  * @param res - The Next.js API response object.
  */
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) => {
     try {
-        // Only allow GET requests
-        if (req.method !== 'DELETE') {
-            res.setHeader('Allow', ['DELETE']);
-            return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
-        }
-
-        // Get the user session
-        const session = await getServerSession(req, res, authOptions);
-        if (!session) {
-            const error = 'You must be logged in.'
-            console.error(error)
-            return res.status(401).json({ error });
-        }
-
         // Validate recipeId
         const { recipeId } = req.body;
         if (!mongoose.Types.ObjectId.isValid(recipeId)) {
@@ -62,4 +47,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 };
 
-export default handler;
+export default apiMiddleware(['DELETE'], handler);

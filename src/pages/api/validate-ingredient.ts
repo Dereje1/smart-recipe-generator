@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../api/auth/[...nextauth]';
+import { apiMiddleware } from '../../lib/apiMiddleware';
 import { validateIngredient } from '../../lib/openai';
 import Ingredient from '../../lib/models/ingredient';
 import mongoose from 'mongoose';
@@ -10,20 +9,8 @@ import mongoose from 'mongoose';
  * @param req - The Next.js API request object.
  * @param res - The Next.js API response object.
  */
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) => {
     try {
-        // Only allow POST requests
-        if (req.method !== 'POST') {
-            res.setHeader('Allow', ['POST']);
-            return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
-        }
-
-        // Get the user session
-        const session = await getServerSession(req, res, authOptions);
-        if (!session) {
-            return res.status(401).json({ error: 'You must be logged in.' });
-        }
-
         // Extract ingredient name from the request body
         const { ingredientName } = req.body;
         const userId = session.user.id;
@@ -79,4 +66,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 };
 
-export default handler;
+export default apiMiddleware(['POST'], handler);

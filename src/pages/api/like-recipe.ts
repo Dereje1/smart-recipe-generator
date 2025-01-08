@@ -1,27 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../api/auth/[...nextauth]";
+import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
 import recipes from '../../lib/models/recipe';
 import notifications from '../../lib/models/notification';
 import { filterResults } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
-const toggleLike = async (req: NextApiRequest, res: NextApiResponse) => {
+const toggleLike = async (req: NextApiRequest, res: NextApiResponse, session: any) => {
     try {
-        // Only allow PUT requests
-        if (req.method !== 'PUT') {
-            res.setHeader('Allow', ['PUT']);
-            return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
-        }
-
-        // Get the user session
-        const session = await getServerSession(req, res, authOptions);
-        if (!session) {
-            return res.status(401).json({ error: "You must be logged in." });
-        }
-
         // Validate recipeId
         const { recipeId } = req.body;
         if (!mongoose.Types.ObjectId.isValid(recipeId)) {
@@ -88,4 +75,4 @@ const toggleLike = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 };
 
-export default toggleLike;
+export default apiMiddleware(['PUT'], toggleLike);

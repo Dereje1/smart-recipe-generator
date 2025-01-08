@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from './auth/[...nextauth]';
+import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
 import Ingredient from '../../lib/models/ingredient';
 import aigenerated from '../../lib/models/aigenerated';
@@ -14,16 +13,8 @@ type Data = IngredientDocumentType[] | {
 };
 
 // Export the default async handler function for the API route
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+async function handler(req: NextApiRequest, res: NextApiResponse<Data>, session: any) {
     try {
-        // Retrieve the user's session using NextAuth
-        const session = await getServerSession(req, res, authOptions);
-        
-        // If no session exists, respond with a 401 Unauthorized error
-        if (!session) {
-            return res.status(401).json({ error: 'You must be logged in.' });
-        }
-
         // Establish a connection to the MongoDB database
         await connectDB();
 
@@ -56,3 +47,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         res.status(500).json({ error: 'Failed to fetch ingredients' });
     }
 }
+export default apiMiddleware(['GET'], handler);

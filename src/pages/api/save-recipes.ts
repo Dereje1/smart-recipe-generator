@@ -2,8 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
 import { generateImages } from '../../lib/openai';
 import { uploadImagesToS3 } from '../../lib/awss3';
-import { authOptions } from '../api/auth/[...nextauth]';
-import { getServerSession } from 'next-auth/next';
+import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
 import recipe from '../../lib/models/recipe';
 import { Recipe, UploadReturnType } from '../../types';
@@ -29,20 +28,8 @@ const getS3Link = (uploadResults: UploadReturnType[] | null, location: string) =
  * @param req - The Next.js API request object.
  * @param res - The Next.js API response object.
  */
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) => {
     try {
-        // Only allow POST requests
-        if (req.method !== 'POST') {
-            res.setHeader('Allow', ['POST']);
-            return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
-        }
-
-        // Get the user session
-        const session = await getServerSession(req, res, authOptions);
-        if (!session) {
-            return res.status(401).json({ error: 'You must be logged in.' });
-        }
-
         // Extract recipes from the request body
         const { recipes } = req.body;
         const recipeNames = recipes.map(({ name, ingredients }: Recipe) => ({ name, ingredients }));
@@ -84,4 +71,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 };
 
-export default handler;
+export default apiMiddleware(['POST'], handler);
