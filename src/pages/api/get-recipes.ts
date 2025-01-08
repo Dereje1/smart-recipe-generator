@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from './auth/[...nextauth]';
+import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
 import Recipe from '../../lib/models/recipe';
 import { filterResults } from '../../utils/utils';
@@ -11,23 +10,10 @@ import { ExtendedRecipe } from '../../types';
  * @param req - The Next.js API request object.
  * @param res - The Next.js API response object.
  */
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) => {
   try {
-    // Only allow GET requests
-    if (req.method !== 'GET') {
-      res.setHeader('Allow', ['GET']);
-      return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
-    }
-
-    // Get the user session
-    const session = await getServerSession(req, res, authOptions);
-    if (!session) {
-      return res.status(401).json({ error: 'You must be logged in.' });
-    }
-
     // Connect to the database
     await connectDB();
-
     // Fetch all recipes from the database and populate necessary fields
     const allRecipes = await Recipe.find()
       .populate(['owner', 'likedBy', 'comments.user'])
@@ -44,4 +30,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default handler;
+export default apiMiddleware(['GET'], handler);
