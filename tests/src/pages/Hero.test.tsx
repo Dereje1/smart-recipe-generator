@@ -10,7 +10,8 @@ jest.mock("next-auth/react",()=>({
     useSession: jest.fn(() => ({
         data: null,
         status: 'authenticated'
-    }))
+    })),
+    getSession: jest.fn(()=> Promise.resolve())
 }))
 
 jest.mock("next/router", () => ({
@@ -40,7 +41,7 @@ describe("The Hero Component",()=>{
         expect(featureComponent).toBeInTheDocument();
         const backHomeButton = await screen.findByText('Back to Home')
         fireEvent.click(backHomeButton);
-        featureComponent = await await screen.queryByText('Discover the features that make our product unique.')
+        featureComponent = await screen.queryByText('Discover the features that make our product unique.')
         expect(featureComponent).toBeNull()
     })
 
@@ -55,8 +56,9 @@ describe("The Hero Component",()=>{
     it('will sign the user in with both buttons', async ()=>{
         render(<Hero />)
         const signIn_a = await screen.findByText('Log in With Google')
-        const signIn_b = await screen.findByText('Get started')
         fireEvent.click(signIn_a)
+        await screen.getByText('About')
+        const signIn_b = await screen.findByText('Get started')
         fireEvent.click(signIn_b)
         expect(mockSignin).toHaveBeenCalledTimes(2)
     })

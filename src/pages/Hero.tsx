@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react';
+import { useSession, getSession } from 'next-auth/react';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { Dialog, DialogPanel } from '@headlessui/react';
@@ -23,7 +23,7 @@ export default function Hero() {
     const [selectedPage, setSelectedPage] = useState<string | null>(null);
 
     // Fetch the current session and status
-    const { data: session } = useSession();
+    const { data: session, update } = useSession();
 
     // Function to render the content based on the selected page
     const renderContent = () => {
@@ -48,6 +48,19 @@ export default function Hero() {
                 );
         }
     };
+
+    // Ensures the user does not navigate to the sign-in page if a valid session exists.
+    // If a session is already active, it updates the client state instead of prompting sign-in.
+    // Otherwise, it initiates the sign-in process.
+
+    const onAuthenticate = async () => {
+        const sessionIsValid = await getSession()
+        if (!sessionIsValid) {
+            signIn('google')
+            return
+        }
+        update()
+    }
 
     // If the user is logged in, show the error page
     if (session) return <ErrorPage message='Inaccessible Page' />;
@@ -85,7 +98,7 @@ export default function Hero() {
                         ))}
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <button className="text-sm font-semibold leading-6 text-gray-900" onClick={() => signIn('google')}>
+                        <button className="text-sm font-semibold leading-6 text-gray-900" onClick={onAuthenticate}>
                             Log in With Google <span aria-hidden="true">&rarr;</span>
                         </button>
                     </div>
@@ -127,7 +140,7 @@ export default function Hero() {
                                 <div className="py-6">
                                     <button
                                         className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 w-full text-left"
-                                        onClick={() => signIn('google')}
+                                        onClick={onAuthenticate}
                                     >
                                         Log in With Google
                                     </button>
