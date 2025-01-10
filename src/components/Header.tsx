@@ -83,6 +83,15 @@ function Header({ user }: HeaderProps) {
                             <div className="hidden md:block">
                                 <div className="ml-4 flex items-center md:ml-6">
                                     <Notifications />
+                                    {/* Buy Me a Coffee Button */}
+                                    <a
+                                        href="https://www.buymeacoffee.com/dereje"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="ml-4 bg-yellow-400 text-black font-bold py-2 px-4 rounded-lg shadow-md hover:opacity-80 transition"
+                                    >
+                                        ☕ Buy Me a Coffee
+                                    </a>
                                     {/* Profile dropdown */}
                                     <Menu as="div" className="relative ml-3">
                                         <div>
@@ -151,6 +160,17 @@ function Header({ user }: HeaderProps) {
                                     {item.name}
                                 </DisclosureButton>
                             ))}
+                        </div>
+                        {/* ✅ Buy Me a Coffee Button for Mobile */}
+                        <div className="px-2 pb-3">
+                            <a
+                                href="https://www.buymeacoffee.com/dereje"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block text-center bg-yellow-400 text-black font-bold py-2 px-4 rounded-md shadow-md hover:opacity-80 transition"
+                            >
+                                ☕ Buy Me a Coffee
+                            </a>
                         </div>
                         <div className="border-t border-green-700 pb-3 pt-4">
                             <div className="flex items-center px-5">
