@@ -7,13 +7,15 @@ import {
     TrashIcon,
     EllipsisVerticalIcon,
     ArrowTopRightOnSquareIcon,
-    InformationCircleIcon
+    InformationCircleIcon,
+    PlayCircleIcon
 } from '@heroicons/react/16/solid'
 
 interface ActionPopoverProps {
     handleClone: () => void
     handleCopy: () => void
     closeDialog: () => void
+    handlePlayRecipe: () => void
     deleteDialog?: () => void | undefined
     recipeId: string
 }
@@ -23,6 +25,7 @@ export function ActionPopover({
     handleCopy,
     closeDialog,
     deleteDialog,
+    handlePlayRecipe,
     recipeId
 }: ActionPopoverProps) {
 
@@ -53,6 +56,10 @@ export function ActionPopover({
                 <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={handleCopy}>
                     <ClipboardIcon className="h-5 w-5 text-gray-500" />
                     Copy Link
+                </button>
+                <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={handlePlayRecipe}>
+                    <PlayCircleIcon className="h-5 w-5 text-gray-500" />
+                    Play Recipe
                 </button>
                 <div className="my-1 h-px bg-gray-200" />
                 <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={closeDialog}>
