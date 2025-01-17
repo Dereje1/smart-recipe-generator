@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { DialogBackdrop, Dialog, DialogPanel } from '@headlessui/react';
 import Image from 'next/image';
@@ -20,8 +20,31 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [copied, setCopied] = useState(false);
     const [isLoadingAudio, setIsLoadingAudio] = useState(false);
-
+    const audioRef = useRef<HTMLAudioElement | null>(null); // Track the audio instance
     const router = useRouter();
+
+    useEffect(() => {
+        // Stop audio when navigating away
+        const handleRouteChange = () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current = null;
+            }
+        };
+
+        router.events.on('routeChangeStart', handleRouteChange);
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChange);
+        };
+    }, [router.events]);
+
+    useEffect(() => {
+        if (!isOpen && audioRef.current) {
+            // Stop audio playback when the modal is closed
+            audioRef.current.pause();
+            audioRef.current = null;
+        }
+    }, [isOpen]);
 
     const handleClone = () => {
         router.push({
@@ -51,6 +74,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
             // If the audio field exists, play the audio directly
             if (recipe?.audio) {
                 const audio = new Audio(recipe.audio);
+                audioRef.current = audio; // Save the audio instance
                 audio.play();
                 return; // No need to call the API
             }
@@ -87,6 +111,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
 
             // Play the audio
             const audio = new Audio(audioSrc);
+            audioRef.current = audio; // Save the audio instance
             audio.play();
         } catch (error) {
             console.error('Error playing audio:', error);
