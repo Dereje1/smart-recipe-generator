@@ -4,6 +4,7 @@ import { DialogBackdrop, Dialog, DialogPanel } from '@headlessui/react';
 import Image from 'next/image';
 import RecipeCard from '../Recipe_Creation/RecipeCard';
 import DeleteDialog from './DeleteDialog';
+import Loading from '../Loading';
 import { ActionPopover, Alert } from './ActionPopover';
 import { formatDate, call_api } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
@@ -18,6 +19,7 @@ interface RecipeDialogProps {
 export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe }: RecipeDialogProps) {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [copied, setCopied] = useState(false);
+    const [isLoadingAudio, setIsLoadingAudio] = useState(false);
 
     const router = useRouter();
 
@@ -43,25 +45,45 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
             console.error('Failed to copy: ', err);
         }
     };
-
     const handlePlayRecipe = async () => {
         try {
+            setIsLoadingAudio(true)
+            // If the audio field exists, play the audio directly
+            if (recipe?.audio) {
+                const audio = new Audio(recipe.audio);
+                audio.play();
+                return; // No need to call the API
+            }
+
             // Construct the recipe text to send to the API
             const recipeText = `
-              Ingredients: 
-              ${recipe?.ingredients.map((ing) => `${ing.name}: ${ing.quantity}`).join('. ')}.
-      
-              Instructions: 
-              ${recipe?.instructions.join('. ')}
+            Recipe Name: ${recipe?.name}.
+            
+            Ingredients: 
+            ${recipe?.ingredients.map((ing) => `${ing.name}: ${ing.quantity}`).join('. ')}.
+
+            Instructions: 
+            ${recipe?.instructions.join('. ')}.
+
+            Tips: 
+            ${recipe?.additionalInformation.tips}.
+
+            Variations: 
+            ${recipe?.additionalInformation.variations}.
+
+            Serving Suggestions: 
+            ${recipe?.additionalInformation.servingSuggestions}.
             `;
 
             // Send a POST request to the /api/tts endpoint
             const response = await call_api({
-                address:'/api/tts',
+                address: '/api/tts',
                 method: 'post',
-                payload: { text: recipeText }
-            })
-            const audioSrc = `data:audio/mp3;base64,${response.audio}`;
+                payload: { text: recipeText, recipeId: recipe?._id },
+            });
+
+            // The API returns the S3 URL of the uploaded audio
+            const audioSrc = response.audio;
 
             // Play the audio
             const audio = new Audio(audioSrc);
@@ -69,9 +91,10 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
         } catch (error) {
             console.error('Error playing audio:', error);
         } finally {
-            console.log('Done playing audio');
+            setIsLoadingAudio(false)
         }
     };
+
 
     if (!recipe) return null;
 
@@ -112,7 +135,12 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
                                         handlePlayRecipe={handlePlayRecipe}
                                     />
                                 </div>
-                                <RecipeCard recipe={recipe} selectedRecipes={[]} removeMargin />
+                                {
+                                    isLoadingAudio ?
+                                        <Loading />
+                                        :
+                                        <RecipeCard recipe={recipe} selectedRecipes={[]} removeMargin />
+                                }
                             </div>
                         </DialogPanel>
                     </div>
