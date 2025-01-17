@@ -90,3 +90,34 @@ export const uploadImagesToS3 = async (openaiImagesArray: UploadToS3Type[]): Pro
         return null;
     }
 };
+
+// Function to upload audio to S3
+export const uploadAudioToS3 = async ({
+    audioBuffer,
+    fileName,
+}: {
+    audioBuffer: Buffer;
+    fileName: string;
+}): Promise<string> => {
+    try {
+        const s3 = configureS3();
+        if (!s3) throw new Error('Unable to configure S3');
+
+        const command = new PutObjectCommand({
+            Bucket: process.env.S3_BUCKET_NAME || '',
+            Key: `audio/${fileName}`, // Save audio files in an 'audio/' folder
+            Body: audioBuffer,
+            ContentType: 'audio/mpeg',
+        });
+
+        await s3.send(command);
+
+        // Generate the S3 URL for the uploaded file
+        const s3Url = `https://${process.env.S3_BUCKET_NAME}.s3.us-east-1.amazonaws.com/audio/${fileName}`;
+
+        return s3Url;
+    } catch (error) {
+        console.error(`Error uploading audio to S3. File: ${fileName} - ${error}`);
+        throw new Error(`Failed to upload audio to S3: ${error}`);
+    }
+};
