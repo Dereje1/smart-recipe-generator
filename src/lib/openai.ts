@@ -55,7 +55,7 @@ Please ensure the recipes are diverse in type or cuisine (e.g., different meal c
 
 
 const getImageGenerationPrompt = (recipeName: string, ingredients: Recipe['ingredients']): string => {
-    const allIngredients = ingredients.map(ingredient => `${ingredient.name}`).join(', ');
+    const allIngredients = ingredients.map(ingredient => `${ingredient.name} (${ingredient.quantity})`).join(', ');
     const prompt = `
         Create a high-resolution, photorealistic image of a delicious ${recipeName} made of these ingredients: ${allIngredients}. 
         The image should be visually appealing, showcasing the dish in an appetizing manner. 

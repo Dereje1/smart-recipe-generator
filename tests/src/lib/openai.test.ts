@@ -166,7 +166,7 @@ describe('generating images of recipes from open ai', () => {
         ])
         const normalizeWhitespace = (str: string) => str.replace(/\s+/g, ' ').trim();
 
-        const expectedPrompt = normalizeWhitespace("Create a high-resolution, photorealistic image of a delicious Recipe_1_name made of these ingredients: Recipe_1_Ingredient_1, Recipe_1_Ingredient_2. The image should be visually appealing, showcasing the dish in an appetizing manner. It should be plated attractively on a clean white plate with natural lighting, highlighting key ingredients for visual appeal.");
+        const expectedPrompt = normalizeWhitespace("Create a high-resolution, photorealistic image of a delicious Recipe_1_name made of these ingredients: Recipe_1_Ingredient_1 (Recipe_1_Ingredient_1_quantity_1), Recipe_1_Ingredient_2 (Recipe_1_Ingredient_2_quantity_2). The image should be visually appealing, showcasing the dish in an appetizing manner. It should be plated attractively on a clean white plate with natural lighting, highlighting key ingredients for visual appeal.");
 
         const call = openai.images.generate.mock.calls[0][0]; // Get the actual call arguments
         call.prompt = normalizeWhitespace(call.prompt); // Normalize the received prompt
