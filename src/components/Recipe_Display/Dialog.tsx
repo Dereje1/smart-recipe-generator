@@ -5,7 +5,7 @@ import Image from 'next/image';
 import RecipeCard from '../Recipe_Creation/RecipeCard';
 import DeleteDialog from './DeleteDialog';
 import { ActionPopover, Alert } from './ActionPopover';
-import { formatDate } from '../../utils/utils';
+import { formatDate, call_api } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
 interface RecipeDialogProps {
@@ -41,6 +41,35 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
             }, 2000); // Reset after 2 seconds
         } catch (err) {
             console.error('Failed to copy: ', err);
+        }
+    };
+
+    const handlePlayRecipe = async () => {
+        try {
+            // Construct the recipe text to send to the API
+            const recipeText = `
+              Ingredients: 
+              ${recipe?.ingredients.map((ing) => `${ing.name}: ${ing.quantity}`).join('. ')}.
+      
+              Instructions: 
+              ${recipe?.instructions.join('. ')}
+            `;
+
+            // Send a POST request to the /api/tts endpoint
+            const response = await call_api({
+                address:'/api/tts',
+                method: 'post',
+                payload: { text: recipeText }
+            })
+            const audioSrc = `data:audio/mp3;base64,${response.audio}`;
+
+            // Play the audio
+            const audio = new Audio(audioSrc);
+            audio.play();
+        } catch (error) {
+            console.error('Error playing audio:', error);
+        } finally {
+            console.log('Done playing audio');
         }
     };
 
@@ -80,6 +109,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
                                         closeDialog={close}
                                         deleteDialog={recipe.owns ? () => setIsDeleteDialogOpen(true) : undefined}
                                         recipeId={recipe._id}
+                                        handlePlayRecipe={handlePlayRecipe}
                                     />
                                 </div>
                                 <RecipeCard recipe={recipe} selectedRecipes={[]} removeMargin />
