@@ -125,37 +125,50 @@ export const playAudio = async (
   try {
       console.log(`playAudio: Attempting to play audio from URL: ${audioUrl}`);
       const audio = new Audio(audioUrl);
+      audio.preload = 'auto'; // Force preloading
       audioRef.current = audio; // Save the audio instance
 
-      // Track audio loading and playback progress
+      // Log progress of buffering
+      const interval = setInterval(() => {
+          console.log('playAudio: Current readyState:', audio.readyState);
+          if (audio.readyState === 4) {
+              console.log('playAudio: ReadyState reached HAVE_ENOUGH_DATA (4).');
+              clearInterval(interval);
+          }
+      }, 500);
+
       audio.oncanplaythrough = () => {
           console.log('playAudio: Audio can play through.');
-          console.log('playAudio: Audio readyState at canplaythrough:', audio.readyState); // Log state
       };
       audio.onloadeddata = () => {
           console.log('playAudio: Audio loaded data.');
-          console.log('playAudio: Audio readyState at loadeddata:', audio.readyState); // Log state
       };
       audio.onloadedmetadata = () => {
           console.log('playAudio: Audio metadata loaded.');
-          console.log('playAudio: Audio readyState at loadedmetadata:', audio.readyState); // Log state
+          console.log('playAudio: Audio readyState at loadedmetadata:', audio.readyState);
       };
       audio.onerror = (error) => {
           console.error('playAudio: Error loading audio.', error);
+          clearInterval(interval); // Stop logging on error
       };
 
       // Wait for the audio to preload
       await new Promise<void>((resolve, reject) => {
           audio.oncanplaythrough = () => {
               console.log('playAudio: Resolving oncanplaythrough.');
-              console.log('playAudio: Audio readyState just before resolving:', audio.readyState);
+              clearInterval(interval);
               resolve();
           };
           audio.onerror = () => {
               console.error('playAudio: Rejecting due to onerror.');
+              clearInterval(interval);
               reject(new Error('Error loading audio'));
           };
       });
+
+      // Add delay before playback
+      console.log('playAudio: Waiting briefly before playback.');
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       // Attempt playback
       console.log('playAudio: Attempting to start playback.');
