@@ -25,14 +25,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     const client = new TextToSpeechClient({
-      keyFilename: 'google-service-key.json',
+      credentials: JSON.parse(
+        Buffer.from(process.env.GOOGLE_SERVICE_KEY_BASE64 || '', 'base64').toString('utf-8')
+      ),
     });
 
     console.log('Synthesizing text to speech.....')
     // Synthesize speech using Google TTS
     type ssmlGenderType = 'FEMALE' | 'MALE'
     const voiceChoices: ssmlGenderType[] = ['FEMALE', 'MALE'];
-    const ssmlGender = voiceChoices[Math.floor(Math.random() * voiceChoices.length)] 
+    const ssmlGender = voiceChoices[Math.floor(Math.random() * voiceChoices.length)]
     const request: protos.google.cloud.texttospeech.v1.ISynthesizeSpeechRequest = {
       input: { text },
       voice: { languageCode: 'en-US', ssmlGender },
