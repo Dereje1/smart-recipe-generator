@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { apiMiddleware } from '../../lib/apiMiddleware';
+import { connectDB } from '../../lib/mongodb';
 import { TextToSpeechClient, protos } from '@google-cloud/text-to-speech';
 import Recipe from '../../lib/models/recipe';
 import { uploadAudioToS3 } from '../../lib/awss3';
@@ -13,7 +14,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    // Fetch the recipe from the database
+    // Connect to the databaseand Fetch the recipe
+    await connectDB();
     const recipe = await Recipe.findById(recipeId);
     if (!recipe) {
       return res.status(404).json({ message: 'Recipe not found' });
