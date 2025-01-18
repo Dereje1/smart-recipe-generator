@@ -123,7 +123,6 @@ export const playAudio = async (
   audioRef: React.MutableRefObject<HTMLAudioElement | null>
 ): Promise<void> => {
   try {
-      console.log(`playAudio: Attempting to play audio from URL: ${audioUrl}`);
       const audio = new Audio(audioUrl);
       audio.preload = 'auto'; // Force preloading
       audioRef.current = audio; // Save the audio instance
@@ -131,45 +130,26 @@ export const playAudio = async (
       // Explicitly force loading
       audio.load();
 
-      // Debugging logs for audio events
-      audio.onloadedmetadata = () => {
-          console.log('playAudio: Audio metadata loaded.');
-          console.log('playAudio: Audio readyState at loadedmetadata:', audio.readyState);
-      };
-      audio.onloadeddata = () => {
-          console.log('playAudio: Audio loaded data.');
-          console.log('playAudio: Audio readyState at loadeddata:', audio.readyState);
-      };
-      audio.oncanplaythrough = () => {
-          console.log('playAudio: Audio can play through.');
-          console.log('playAudio: Audio readyState at canplaythrough:', audio.readyState);
-      };
-      audio.onerror = (error) => {
-          console.error('playAudio: Error loading audio.', error);
-      };
-
-      // Wait for the audio to preload or fallback to manual fetch if needed
+      // Wait for the audio to preload or timeout
       await new Promise<void>((resolve, reject) => {
           let isResolved = false;
+
           audio.oncanplaythrough = () => {
               if (!isResolved) {
-                  console.log('playAudio: Resolving oncanplaythrough.');
                   isResolved = true;
                   resolve();
               }
           };
+
           audio.onerror = () => {
               if (!isResolved) {
-                  console.error('playAudio: Rejecting due to onerror.');
                   isResolved = true;
                   reject(new Error('Error loading audio'));
               }
           };
 
-          // Fallback: Timeout in case events don't fire
           setTimeout(() => {
               if (!isResolved) {
-                  console.log('playAudio: Fallback timeout reached.');
                   isResolved = true;
                   reject(new Error('Audio loading timeout'));
               }
@@ -177,30 +157,13 @@ export const playAudio = async (
       });
 
       // Attempt playback
-      console.log('playAudio: Attempting to start playback.');
       await audio.play();
-      console.log('playAudio: Playback started successfully.');
   } catch (error: any) {
       console.error(`playAudio: Error playing audio: ${error.message}`);
-
-      // Fallback: Fetch audio as Blob
-      console.log('playAudio: Fetching audio as blob for fallback.');
-      try {
-          const response = await fetch(audioUrl);
-          const blob = await response.blob();
-          const fallbackAudio = new Audio(URL.createObjectURL(blob));
-          audioRef.current = fallbackAudio;
-
-          console.log('playAudio: Fallback audio created. Attempting playback.');
-          await fallbackAudio.play();
-          console.log('playAudio: Fallback playback started successfully.');
-      } catch (fetchError) {
-          console.error('playAudio: Fallback fetch error:', fetchError);
-      }
-
-      throw error; // Rethrow original error for further handling
+      throw error;
   }
 };
+
 
 
 

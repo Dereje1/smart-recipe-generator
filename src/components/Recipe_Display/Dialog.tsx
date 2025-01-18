@@ -71,19 +71,15 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
  
     const handlePlayRecipe = async () => {
         try {
-            console.log('handlePlayRecipe: Start playback process.');
             setIsLoadingAudio(true);
     
             // If the audio field exists, preload and play the audio
             if (recipe?.audio) {
-                console.log('handlePlayRecipe: Audio URL exists, attempting to play.');
                 await playAudio(recipe.audio, audioRef);
-                console.log('handlePlayRecipe: Playback completed.');
                 return; // Exit early, no need to call the API
             }
     
-            // Log recipe text construction
-            console.log('handlePlayRecipe: Constructing recipe text.');
+            // Construct the recipe text
             const recipeText = `
             Here is the recipe for: ${recipe?.name}.
             
@@ -103,25 +99,19 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
             ${recipe?.additionalInformation.servingSuggestions}.
             `;
     
-            // Send a POST request to the /api/tts endpoint
-            console.log('handlePlayRecipe: Sending API request to generate audio.');
+            // Generate audio via API
             const response = await call_api({
                 address: '/api/tts',
                 method: 'post',
                 payload: { text: recipeText, recipeId: recipe?._id },
             });
     
-            // Log the received audio URL
-            console.log('handlePlayRecipe: Received audio URL from API:', response.audio);
-    
             // Preload and play the audio
-            console.log('handlePlayRecipe: Preloading and playing the audio.');
             await playAudio(response.audio, audioRef);
         } catch (error) {
             console.error('handlePlayRecipe: Error playing audio:', error);
         } finally {
             setIsLoadingAudio(false);
-            console.log('handlePlayRecipe: Playback process complete.');
         }
     };
     
