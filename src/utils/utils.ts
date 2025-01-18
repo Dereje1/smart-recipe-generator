@@ -127,15 +127,18 @@ export const playAudio = async (
       const audio = new Audio(audioUrl);
       audioRef.current = audio; // Save the audio instance
 
-      // Log preload progress
+      // Track audio loading and playback progress
       audio.oncanplaythrough = () => {
           console.log('playAudio: Audio can play through.');
+          console.log('playAudio: Audio readyState at canplaythrough:', audio.readyState); // Log state
       };
       audio.onloadeddata = () => {
           console.log('playAudio: Audio loaded data.');
+          console.log('playAudio: Audio readyState at loadeddata:', audio.readyState); // Log state
       };
       audio.onloadedmetadata = () => {
           console.log('playAudio: Audio metadata loaded.');
+          console.log('playAudio: Audio readyState at loadedmetadata:', audio.readyState); // Log state
       };
       audio.onerror = (error) => {
           console.error('playAudio: Error loading audio.', error);
@@ -145,6 +148,7 @@ export const playAudio = async (
       await new Promise<void>((resolve, reject) => {
           audio.oncanplaythrough = () => {
               console.log('playAudio: Resolving oncanplaythrough.');
+              console.log('playAudio: Audio readyState just before resolving:', audio.readyState);
               resolve();
           };
           audio.onerror = () => {
@@ -162,4 +166,5 @@ export const playAudio = async (
       throw error; // Rethrow to allow caller to handle the error
   }
 };
+
 
