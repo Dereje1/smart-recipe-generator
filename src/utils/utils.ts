@@ -118,21 +118,48 @@ export  const sortRecipesHelper = (recipes: ExtendedRecipe[], option: 'recent' |
   return sortedRecipes;
 };
 
-export const playAudio = async (audioUrl: string, audioRef: React.MutableRefObject<HTMLAudioElement | null>): Promise<void> => {
+export const playAudio = async (
+  audioUrl: string,
+  audioRef: React.MutableRefObject<HTMLAudioElement | null>
+): Promise<void> => {
   try {
+      console.log(`playAudio: Attempting to play audio from URL: ${audioUrl}`);
       const audio = new Audio(audioUrl);
       audioRef.current = audio; // Save the audio instance
 
+      // Log preload progress
+      audio.oncanplaythrough = () => {
+          console.log('playAudio: Audio can play through.');
+      };
+      audio.onloadeddata = () => {
+          console.log('playAudio: Audio loaded data.');
+      };
+      audio.onloadedmetadata = () => {
+          console.log('playAudio: Audio metadata loaded.');
+      };
+      audio.onerror = (error) => {
+          console.error('playAudio: Error loading audio.', error);
+      };
+
       // Wait for the audio to preload
       await new Promise<void>((resolve, reject) => {
-          audio.oncanplaythrough = () => resolve();
-          audio.onerror = () => reject(new Error('Error loading audio'));
+          audio.oncanplaythrough = () => {
+              console.log('playAudio: Resolving oncanplaythrough.');
+              resolve();
+          };
+          audio.onerror = () => {
+              console.error('playAudio: Rejecting due to onerror.');
+              reject(new Error('Error loading audio'));
+          };
       });
 
-      // Play the audio after it has loaded
-      audio.play();
-  } catch (error) {
-      console.error(`Error playing audio: ${error}`);
+      // Attempt playback
+      console.log('playAudio: Attempting to start playback.');
+      await audio.play();
+      console.log('playAudio: Playback started successfully.');
+  } catch (error: any) {
+      console.error(`playAudio: Error playing audio: ${error.message}`);
       throw error; // Rethrow to allow caller to handle the error
   }
 };
+

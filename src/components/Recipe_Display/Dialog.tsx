@@ -71,15 +71,19 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
  
     const handlePlayRecipe = async () => {
         try {
+            console.log('handlePlayRecipe: Start playback process.');
             setIsLoadingAudio(true);
     
             // If the audio field exists, preload and play the audio
             if (recipe?.audio) {
+                console.log('handlePlayRecipe: Audio URL exists, attempting to play.');
                 await playAudio(recipe.audio, audioRef);
+                console.log('handlePlayRecipe: Playback completed.');
                 return; // Exit early, no need to call the API
             }
     
-            // Construct the recipe text to send to the API
+            // Log recipe text construction
+            console.log('handlePlayRecipe: Constructing recipe text.');
             const recipeText = `
             Here is the recipe for: ${recipe?.name}.
             
@@ -100,23 +104,27 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
             `;
     
             // Send a POST request to the /api/tts endpoint
+            console.log('handlePlayRecipe: Sending API request to generate audio.');
             const response = await call_api({
                 address: '/api/tts',
                 method: 'post',
                 payload: { text: recipeText, recipeId: recipe?._id },
             });
     
-            // The API returns the S3 URL of the uploaded audio
-            const audioSrc = response.audio;
+            // Log the received audio URL
+            console.log('handlePlayRecipe: Received audio URL from API:', response.audio);
     
             // Preload and play the audio
-            await playAudio(audioSrc, audioRef);
+            console.log('handlePlayRecipe: Preloading and playing the audio.');
+            await playAudio(response.audio, audioRef);
         } catch (error) {
-            console.error('Error playing audio:', error);
+            console.error('handlePlayRecipe: Error playing audio:', error);
         } finally {
             setIsLoadingAudio(false);
+            console.log('handlePlayRecipe: Playback process complete.');
         }
     };
+    
     
 
 
