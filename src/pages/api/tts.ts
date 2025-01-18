@@ -25,7 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     const client = new TextToSpeechClient({
-      keyFilename: 'google-key.json',
+      keyFilename: 'google-service-key.json',
     });
 
     console.log('Synthesizing text to speech.....')
