@@ -128,47 +128,53 @@ export const playAudio = async (
       audio.preload = 'auto'; // Force preloading
       audioRef.current = audio; // Save the audio instance
 
-      // Log progress of buffering
-      const interval = setInterval(() => {
-          console.log('playAudio: Current readyState:', audio.readyState);
-          if (audio.readyState === 4) {
-              console.log('playAudio: ReadyState reached HAVE_ENOUGH_DATA (4).');
-              clearInterval(interval);
-          }
-      }, 500);
+      // Explicitly force loading
+      audio.load();
 
-      audio.oncanplaythrough = () => {
-          console.log('playAudio: Audio can play through.');
-      };
-      audio.onloadeddata = () => {
-          console.log('playAudio: Audio loaded data.');
-      };
+      // Debugging logs for audio events
       audio.onloadedmetadata = () => {
           console.log('playAudio: Audio metadata loaded.');
           console.log('playAudio: Audio readyState at loadedmetadata:', audio.readyState);
       };
+      audio.onloadeddata = () => {
+          console.log('playAudio: Audio loaded data.');
+          console.log('playAudio: Audio readyState at loadeddata:', audio.readyState);
+      };
+      audio.oncanplaythrough = () => {
+          console.log('playAudio: Audio can play through.');
+          console.log('playAudio: Audio readyState at canplaythrough:', audio.readyState);
+      };
       audio.onerror = (error) => {
           console.error('playAudio: Error loading audio.', error);
-          clearInterval(interval); // Stop logging on error
       };
 
-      // Wait for the audio to preload
+      // Wait for the audio to preload or fallback to manual fetch if needed
       await new Promise<void>((resolve, reject) => {
+          let isResolved = false;
           audio.oncanplaythrough = () => {
-              console.log('playAudio: Resolving oncanplaythrough.');
-              clearInterval(interval);
-              resolve();
+              if (!isResolved) {
+                  console.log('playAudio: Resolving oncanplaythrough.');
+                  isResolved = true;
+                  resolve();
+              }
           };
           audio.onerror = () => {
-              console.error('playAudio: Rejecting due to onerror.');
-              clearInterval(interval);
-              reject(new Error('Error loading audio'));
+              if (!isResolved) {
+                  console.error('playAudio: Rejecting due to onerror.');
+                  isResolved = true;
+                  reject(new Error('Error loading audio'));
+              }
           };
-      });
 
-      // Add delay before playback
-      console.log('playAudio: Waiting briefly before playback.');
-      await new Promise((resolve) => setTimeout(resolve, 100));
+          // Fallback: Timeout in case events don't fire
+          setTimeout(() => {
+              if (!isResolved) {
+                  console.log('playAudio: Fallback timeout reached.');
+                  isResolved = true;
+                  reject(new Error('Audio loading timeout'));
+              }
+          }, 5000); // 5 seconds timeout
+      });
 
       // Attempt playback
       console.log('playAudio: Attempting to start playback.');
@@ -176,8 +182,25 @@ export const playAudio = async (
       console.log('playAudio: Playback started successfully.');
   } catch (error: any) {
       console.error(`playAudio: Error playing audio: ${error.message}`);
-      throw error; // Rethrow to allow caller to handle the error
+
+      // Fallback: Fetch audio as Blob
+      console.log('playAudio: Fetching audio as blob for fallback.');
+      try {
+          const response = await fetch(audioUrl);
+          const blob = await response.blob();
+          const fallbackAudio = new Audio(URL.createObjectURL(blob));
+          audioRef.current = fallbackAudio;
+
+          console.log('playAudio: Fallback audio created. Attempting playback.');
+          await fallbackAudio.play();
+          console.log('playAudio: Fallback playback started successfully.');
+      } catch (fetchError) {
+          console.error('playAudio: Fallback fetch error:', fetchError);
+      }
+
+      throw error; // Rethrow original error for further handling
   }
 };
+
 
 
