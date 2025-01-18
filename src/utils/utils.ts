@@ -120,17 +120,24 @@ export  const sortRecipesHelper = (recipes: ExtendedRecipe[], option: 'recent' |
 
 export const playAudio = async (
   audioUrl: string,
-  audioRef: React.MutableRefObject<HTMLAudioElement | null>
+  audioRef: React.MutableRefObject<HTMLAudioElement | null>,
+  onEnd?: () => void // Optional callback when audio finishes
 ): Promise<void> => {
   try {
       const audio = new Audio(audioUrl);
       audio.preload = 'auto'; // Force preloading
       audioRef.current = audio; // Save the audio instance
 
+      // Attach the `ended` event listener
+      audio.onended = () => {
+          console.log('playAudio: Audio playback completed.');
+          if (onEnd) onEnd(); // Call the callback if provided
+      };
+
       // Explicitly force loading
       audio.load();
 
-      // Wait for the audio to preload or timeout
+      // Wait for the audio to preload
       await new Promise<void>((resolve, reject) => {
           let isResolved = false;
 
@@ -163,6 +170,7 @@ export const playAudio = async (
       throw error;
   }
 };
+
 
 
 

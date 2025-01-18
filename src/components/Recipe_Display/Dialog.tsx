@@ -20,6 +20,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [copied, setCopied] = useState(false);
     const [isLoadingAudio, setIsLoadingAudio] = useState(false);
+    const [disableAudio, setDisableAudio] = useState(false)
     const audioRef = useRef<HTMLAudioElement | null>(null); // Track the audio instance
     const router = useRouter();
 
@@ -29,6 +30,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
             if (audioRef.current) {
                 audioRef.current.pause();
                 audioRef.current = null;
+                setDisableAudio(false)
             }
         };
 
@@ -43,6 +45,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
             // Stop audio playback when the modal is closed
             audioRef.current.pause();
             audioRef.current = null;
+            setDisableAudio(false)
         }
     }, [isOpen]);
 
@@ -68,17 +71,19 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
             console.error('Failed to copy: ', err);
         }
     };
- 
+
     const handlePlayRecipe = async () => {
         try {
             setIsLoadingAudio(true);
-    
+            setDisableAudio(true)
             // If the audio field exists, preload and play the audio
             if (recipe?.audio) {
-                await playAudio(recipe.audio, audioRef);
+                await playAudio(recipe.audio, audioRef, () => {
+                    setDisableAudio(false)
+                });
                 return; // Exit early, no need to call the API
             }
-    
+
             // Construct the recipe text
             const recipeText = `
             Here is the recipe for: ${recipe?.name}.
@@ -98,24 +103,26 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
             Serving Suggestions: 
             ${recipe?.additionalInformation.servingSuggestions}.
             `;
-    
+
             // Generate audio via API
             const response = await call_api({
                 address: '/api/tts',
                 method: 'post',
                 payload: { text: recipeText, recipeId: recipe?._id },
             });
-    
+
             // Preload and play the audio
-            await playAudio(response.audio, audioRef);
+            await playAudio(response.audio, audioRef, () => {
+                setDisableAudio(false)
+            });
         } catch (error) {
             console.error('handlePlayRecipe: Error playing audio:', error);
         } finally {
             setIsLoadingAudio(false);
         }
     };
-    
-    
+
+
 
 
     if (!recipe) return null;
@@ -157,6 +164,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
                                             recipeId={recipe._id}
                                             handlePlayRecipe={handlePlayRecipe}
                                             hasAudio={Boolean(recipe.audio)}
+                                            disableAudio={disableAudio}
                                         />
                                     </div>
                                 }

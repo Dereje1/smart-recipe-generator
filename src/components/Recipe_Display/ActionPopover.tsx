@@ -19,6 +19,7 @@ interface ActionPopoverProps {
     deleteDialog?: () => void | undefined
     recipeId: string
     hasAudio: boolean
+    disableAudio: boolean
 }
 
 export function ActionPopover({
@@ -28,7 +29,8 @@ export function ActionPopover({
     deleteDialog,
     handlePlayRecipe,
     recipeId,
-    hasAudio
+    hasAudio,
+    disableAudio
 }: ActionPopoverProps) {
 
     const handleOpenRecipe = () => {
@@ -65,10 +67,12 @@ export function ActionPopover({
                             Copy Link
                         </button>
                         <button
-                            className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={() => {
+                            className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed" onClick={() => {
                                 close()
                                 handlePlayRecipe()
-                            }}>
+                            }}
+                            disabled={disableAudio}
+                            >
                             <PlayCircleIcon className={`h-5 w-5 ${hasAudio ? "text-green-500" : "text-red-500"}`} />
                             Play Recipe
                         </button>
