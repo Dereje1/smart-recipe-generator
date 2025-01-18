@@ -51,6 +51,7 @@ export interface RecipeDocument extends Recipe {
     comments: unPopulatedComment[],
     createdAt: string,
     tags: tagType[],
+    audio?: string
 }
 
 // this is for recipes returned from the db back to the client or those returned from populated mongoose queries
@@ -71,6 +72,7 @@ export interface ExtendedRecipe extends Recipe {
     }[]
     owns: boolean
     liked: boolean
+    audio?: string
 }
 
 export interface IngredientDocumentType {

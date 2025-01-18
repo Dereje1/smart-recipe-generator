@@ -117,3 +117,22 @@ export  const sortRecipesHelper = (recipes: ExtendedRecipe[], option: 'recent' |
   }
   return sortedRecipes;
 };
+
+export const playAudio = async (audioUrl: string, audioRef: React.MutableRefObject<HTMLAudioElement | null>): Promise<void> => {
+  try {
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio; // Save the audio instance
+
+      // Wait for the audio to preload
+      await new Promise<void>((resolve, reject) => {
+          audio.oncanplaythrough = () => resolve();
+          audio.onerror = () => reject(new Error('Error loading audio'));
+      });
+
+      // Play the audio after it has loaded
+      audio.play();
+  } catch (error) {
+      console.error(`Error playing audio: ${error}`);
+      throw error; // Rethrow to allow caller to handle the error
+  }
+};

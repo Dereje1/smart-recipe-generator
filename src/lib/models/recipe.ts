@@ -44,6 +44,7 @@ const recipeSchema = new mongoose.Schema({
         type: [tagSchema],
         default: [],
     },
+    audio: { type: String, required: false }
 }, { timestamps: true });
 
 const Recipe: Model<RecipeDocument> = mongoose.models.Recipe || mongoose.model<RecipeDocument>('Recipe', recipeSchema);

@@ -8,7 +8,11 @@ const routePushMock = jest.fn()
 jest.mock("next/router", () => ({
     useRouter: jest.fn(() => ({
         pathName: 'mocked Path',
-        push: routePushMock
+        push: routePushMock,
+        events:{
+            on: jest.fn(),
+            off: jest.fn()
+        }
     })),
 }))
 
