@@ -18,6 +18,7 @@ interface ActionPopoverProps {
     handlePlayRecipe: () => void
     deleteDialog?: () => void | undefined
     recipeId: string
+    hasAudio: boolean
 }
 
 export function ActionPopover({
@@ -26,7 +27,8 @@ export function ActionPopover({
     closeDialog,
     deleteDialog,
     handlePlayRecipe,
-    recipeId
+    recipeId,
+    hasAudio
 }: ActionPopoverProps) {
 
     const handleOpenRecipe = () => {
@@ -54,7 +56,11 @@ export function ActionPopover({
                             <ArrowTopRightOnSquareIcon className="h-5 w-5 text-gray-500" />
                             Open Recipe
                         </button>
-                        <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={handleCopy}>
+                        <button
+                            className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={() => {
+                                close()
+                                handleCopy()
+                            }}>
                             <ClipboardIcon className="h-5 w-5 text-gray-500" />
                             Copy Link
                         </button>
@@ -63,7 +69,7 @@ export function ActionPopover({
                                 close()
                                 handlePlayRecipe()
                             }}>
-                            <PlayCircleIcon className="h-5 w-5 text-gray-500" />
+                            <PlayCircleIcon className={`h-5 w-5 ${hasAudio ? "text-green-500" : "text-red-500"}`} />
                             Play Recipe
                         </button>
                         <div className="my-1 h-px bg-gray-200" />

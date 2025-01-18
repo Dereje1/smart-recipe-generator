@@ -6,10 +6,6 @@ import { uploadAudioToS3 } from '../../lib/awss3';
 
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const client = new TextToSpeechClient({
-    keyFilename: 'google-key.json',
-  });
-
   const { recipeId, text } = req.body;
 
   if (!recipeId || !text) {
@@ -28,11 +24,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json({ audio: recipe.audio });
     }
 
+    const client = new TextToSpeechClient({
+      keyFilename: 'google-key.json',
+    });
+
     console.log('Synthesizing text to speech.....')
     // Synthesize speech using Google TTS
+    type ssmlGenderType = 'FEMALE' | 'MALE'
+    const voiceChoices: ssmlGenderType[] = ['FEMALE', 'MALE'];
+    const ssmlGender = voiceChoices[Math.floor(Math.random() * voiceChoices.length)] 
     const request: protos.google.cloud.texttospeech.v1.ISynthesizeSpeechRequest = {
       input: { text },
-      voice: { languageCode: 'en-US', ssmlGender: 'FEMALE' },
+      voice: { languageCode: 'en-US', ssmlGender },
       audioConfig: { audioEncoding: 'MP3' },
     };
 
