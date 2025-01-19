@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from 'next/image';
 import { HandThumbUpIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
-import { ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
-import { Button } from '@headlessui/react';
+import { AdjustmentsVerticalIcon } from '@heroicons/react/16/solid'
+import useActionPopover from "../components/Hooks/useActionPopover";
+import { ActionPopover } from "../components/Recipe_Display/ActionPopover";
 import Loading from "../components/Loading";
 import ErrorPage from "./auth/error";
 import { call_api, formatDate } from "../utils/utils";
@@ -21,6 +22,19 @@ export default function RecipeDetail() {
     const [loading, setLoading] = useState<boolean>(true);
     // State to handle any errors during data fetching
     const [error, setError] = useState<string | null>(null);
+
+    const {
+        handleClone,
+        handleCopy,
+        handlePlayRecipe,
+        killAudio,
+        handleDeleteDialog,
+        handleDeleteRecipe,
+        linkCopied,
+        isPlayingAudio,
+        isLoadingAudio,
+        isDeleteDialogOpen
+    } = useActionPopover(recipeData);
 
     useEffect(() => {
         async function fetchRecipe() {
@@ -42,10 +56,22 @@ export default function RecipeDetail() {
         }
     }, [recipeId]); // Dependency array ensures the effect runs when recipeId changes
 
+
+    const deleteAndRemoveRecipe = async () => {
+        try {
+            setLoading(true)
+            const { message, error } = await handleDeleteRecipe();
+            setLoading(false)
+            router.push('/')
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     // Render the ErrorPage component if recipeId is not present
     if (!recipeId) return <ErrorPage message="Invalid Recipe" />;
     // Render the Loading component while data is being fetched
-    if (loading) return <Loading />;
+    if (loading || isLoadingAudio) return <Loading />;
     // Render the ErrorPage component if an error occurred during fetching
     if (error) return <ErrorPage message={error} />;
     // Render a fallback message if no recipe data is found
@@ -69,7 +95,22 @@ export default function RecipeDetail() {
 
                 <div className="p-6">
                     {/* Recipe Title */}
-                    <h2 className="text-2xl font-bold mb-2">{recipeData.name}</h2> {/* Title with styling */}
+                    <div className="">
+                        <ActionPopover
+                            handleClone={handleClone}
+                            handleCopy={handleCopy}
+                            deleteDialog={handleDeleteDialog}
+                            recipe={recipeData}
+                            handlePlayRecipe={handlePlayRecipe}
+                            hasAudio={Boolean(recipeData.audio)}
+                            isPlayingAudio={isPlayingAudio}
+                            linkCopied={linkCopied}
+                            isDeleteDialogOpen={isDeleteDialogOpen}
+                            deleteRecipe={deleteAndRemoveRecipe}
+                            buttonType={<AdjustmentsVerticalIcon className="h-7 w-7 text-gray-700 mr-2" />}
+                        />
+                        <h2 className="text-2xl font-bold mb-2 mt-2">{recipeData.name}</h2> {/* Title with styling */}
+                    </div>
 
                     {/* Owner Information */}
                     <div className="flex items-center mb-6">
