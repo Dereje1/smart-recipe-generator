@@ -1,5 +1,6 @@
 import { useState, useEffect, ReactElement } from 'react';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
+import Image from 'next/image';
 import {
     XMarkIcon,
     ClipboardDocumentIcon,
@@ -11,6 +12,7 @@ import {
     StopCircleIcon
 } from '@heroicons/react/16/solid'
 import DeleteDialog from './DeleteDialog';
+import audioload from '../../assets/audioload.gif';
 import { ExtendedRecipe } from '../../types';
 
 interface ActionPopoverProps {
@@ -22,6 +24,7 @@ interface ActionPopoverProps {
     deleteRecipe: () => void
     recipe: ExtendedRecipe
     hasAudio: boolean
+    isLoadingAudio: boolean
     isPlayingAudio: boolean
     linkCopied: boolean
     isDeleteDialogOpen: boolean
@@ -37,6 +40,7 @@ export function ActionPopover({
     deleteRecipe,
     recipe,
     hasAudio,
+    isLoadingAudio,
     isPlayingAudio,
     linkCopied,
     isDeleteDialogOpen,
@@ -50,6 +54,32 @@ export function ActionPopover({
             `${process.env.NEXT_PUBLIC_API_BASE_URL}/RecipeDetail?recipeId=${recipe._id}`,
             '_blank',
             'noopener,noreferrer'
+        )
+    }
+
+    const getAudioControls = () => {
+        if (isLoadingAudio) {
+            return <Image
+                src={audioload}
+                alt="audio-load-gif"
+                width={150}
+                height={150}
+            />
+        }
+        return (
+            <button
+                className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed" onClick={() => {
+                    handlePlayRecipe()
+                }}
+            >
+                {
+                    isPlayingAudio ?
+                        <StopCircleIcon className="h-5 w-5 text-red-500" /> :
+                        <PlayCircleIcon className={`h-5 w-5 ${hasAudio ? "text-green-500" : "text-blue-500"}`} />
+                }
+
+                {isPlayingAudio ? 'Stop Playing' : 'Play Recipe'}
+            </button>
         )
     }
 
@@ -78,19 +108,7 @@ export function ActionPopover({
                                 <ClipboardIcon className="h-5 w-5 text-gray-500" />
                                 Copy Link
                             </button>
-                            <button
-                                className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed" onClick={() => {
-                                    handlePlayRecipe()
-                                }}
-                            >
-                                {
-                                    isPlayingAudio ?
-                                        <StopCircleIcon className="h-5 w-5 text-red-500" /> :
-                                        <PlayCircleIcon className={`h-5 w-5 ${hasAudio ? "text-green-500" : "text-blue-500"}`} />
-                                }
-
-                                {isPlayingAudio ? 'Stop Playing' : 'Play Recipe'}
-                            </button>
+                            { getAudioControls()}
                             {
                                 (closeDialog || recipe.owns) && <div className="my-1 h-px bg-gray-200" />
                             }

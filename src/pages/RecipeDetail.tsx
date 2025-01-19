@@ -71,7 +71,7 @@ export default function RecipeDetail() {
     // Render the ErrorPage component if recipeId is not present
     if (!recipeId) return <ErrorPage message="Invalid Recipe" />;
     // Render the Loading component while data is being fetched
-    if (loading || isLoadingAudio) return <Loading />;
+    if (loading) return <Loading />;
     // Render the ErrorPage component if an error occurred during fetching
     if (error) return <ErrorPage message={error} />;
     // Render a fallback message if no recipe data is found
@@ -104,6 +104,7 @@ export default function RecipeDetail() {
                             handlePlayRecipe={handlePlayRecipe}
                             hasAudio={Boolean(recipeData.audio)}
                             isPlayingAudio={isPlayingAudio}
+                            isLoadingAudio={isLoadingAudio}
                             linkCopied={linkCopied}
                             isDeleteDialogOpen={isDeleteDialogOpen}
                             deleteRecipe={deleteAndRemoveRecipe}

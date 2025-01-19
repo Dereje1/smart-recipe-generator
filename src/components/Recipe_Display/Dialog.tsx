@@ -63,7 +63,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, removeRecipe
                         >
                             <div className="flex flex-col items-center">
                                 {
-                                    !isLoadingAudio && <div className="flex justify-between items-start w-full">
+                                    <div className="flex justify-between items-start w-full">
                                         <div className="flex items-center mb-2 mt-2 ml-2 bg-gray-100 p-2 rounded-lg">
                                             <Image
                                                 className="h-10 w-10 rounded-full"
@@ -88,6 +88,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, removeRecipe
                                             recipe={recipe}
                                             handlePlayRecipe={handlePlayRecipe}
                                             hasAudio={Boolean(recipe.audio)}
+                                            isLoadingAudio={isLoadingAudio}
                                             isPlayingAudio={isPlayingAudio}
                                             linkCopied={linkCopied}
                                             isDeleteDialogOpen={isDeleteDialogOpen}
@@ -97,7 +98,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, removeRecipe
                                     </div>
                                 }
                                 {
-                                    isLoadingAudio || isLoading ?
+                                    isLoading ?
                                         <Loading />
                                         :
                                         <RecipeCard recipe={recipe} selectedRecipes={[]} removeMargin />
