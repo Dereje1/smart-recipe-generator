@@ -10,6 +10,7 @@ import {
     InformationCircleIcon,
     PlayCircleIcon
 } from '@heroicons/react/16/solid'
+import DeleteDialog from './DeleteDialog';
 import { ExtendedRecipe } from '../../types';
 
 interface ActionPopoverProps {
@@ -17,11 +18,13 @@ interface ActionPopoverProps {
     handleCopy: () => void
     closeDialog: () => void
     handlePlayRecipe: () => void
-    deleteDialog?: () => void | undefined
+    deleteDialog: () => void
+    deleteRecipe: () => void
     recipe: ExtendedRecipe
     hasAudio: boolean
     disableAudio: boolean
     linkCopied: boolean
+    isDeleteDialogOpen: boolean
 }
 
 export function ActionPopover({
@@ -30,10 +33,12 @@ export function ActionPopover({
     closeDialog,
     deleteDialog,
     handlePlayRecipe,
+    deleteRecipe,
     recipe,
     hasAudio,
     disableAudio,
-    linkCopied
+    linkCopied,
+    isDeleteDialogOpen
 }: ActionPopoverProps) {
 
     const handleOpenRecipe = () => {
@@ -85,7 +90,7 @@ export function ActionPopover({
                                 <XMarkIcon className="h-5 w-5 text-gray-500" />
                                 Close
                             </button>
-                            {deleteDialog && <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-red-600 hover:bg-red-50 focus:bg-red-50" onClick={deleteDialog}>
+                            {recipe.owns && <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-red-600 hover:bg-red-50 focus:bg-red-50" onClick={deleteDialog}>
                                 <TrashIcon className="h-5 w-5 text-red-500" />
                                 Delete Recipe
                             </button>}
@@ -95,6 +100,15 @@ export function ActionPopover({
                 </PopoverPanel>
             </Popover>
             {linkCopied && <Alert message={`${recipe.name} copied to clipboard!`} />}
+            <DeleteDialog
+                isOpen={isDeleteDialogOpen}
+                recipeName={recipe.name}
+                closeDialog={deleteDialog}
+                deleteRecipe={() => {
+                    deleteDialog();
+                    deleteRecipe();
+                }}
+            />
         </>
 
     )

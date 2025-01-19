@@ -13,22 +13,14 @@ const initialDialogContents: ExtendedRecipe | null = null
 
 function ViewRecipes({ recipes, handleRecipeListUpdate }: ViewRecipesProps) {
     const [openDialog, setOpenDialog] = useState(initialDialogContents);
-    const [deleteId, setDeleteId] = useState('')
 
     const handleShowRecipe = (recipe: ExtendedRecipe) => {
         setOpenDialog(recipe)
     }
-    const handleDeleteRecipe = async () => {
+    const removeRecipe = async ({ message, error }:{message: string, error: string}) => {
         if (!openDialog) return;
         try {
             setOpenDialog(null)
-            setDeleteId(openDialog._id)
-            const response = await call_api({
-                address: '/api/delete-recipe',
-                method: 'delete',
-                payload: { data: { recipeId: openDialog._id } }
-            })
-            const { message, error } = response;
             if (error) {
                 throw new Error(error)
             }
@@ -37,7 +29,6 @@ function ViewRecipes({ recipes, handleRecipeListUpdate }: ViewRecipesProps) {
             }
         } catch (error) {
             console.error(error)
-            setDeleteId('')
         }
     }
 
@@ -52,7 +43,7 @@ function ViewRecipes({ recipes, handleRecipeListUpdate }: ViewRecipesProps) {
                             recipe={recipe}
                             showRecipe={handleShowRecipe}
                             updateRecipeList={handleRecipeListUpdate}
-                            isLoading={deleteId === recipe._id} />
+                        />
                     ))}
                 </div>
             </div>
@@ -60,7 +51,7 @@ function ViewRecipes({ recipes, handleRecipeListUpdate }: ViewRecipesProps) {
                 isOpen={Boolean(openDialog)}
                 close={() => setOpenDialog(null)}
                 recipe={openDialog}
-                deleteRecipe={handleDeleteRecipe}
+                removeRecipe={removeRecipe}
             />
         </>
     )

@@ -101,12 +101,27 @@ function useActionPopover(recipe: ExtendedRecipe | null) {
         }
     };
 
+    const handleDeleteRecipe = async () => {
+        try {
+            const response = await call_api({
+                address: '/api/delete-recipe',
+                method: 'delete',
+                payload: { data: { recipeId: recipe?._id } }
+            })
+            return response;
+        } catch (error) {
+            console.log('failure!!')
+            console.error(error)
+        }
+    }
+
     return {
         handleClone,
         handleCopy,
         handlePlayRecipe,
         killAudio,
         handleDeleteDialog,
+        handleDeleteRecipe,
         linkCopied,
         isLoadingAudio,
         disableAudio,

@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { DialogBackdrop, Dialog, DialogPanel } from '@headlessui/react';
 import Image from 'next/image';
 import useActionPopover from '../Hooks/useActionPopover';
 import RecipeCard from '../Recipe_Creation/RecipeCard';
-import DeleteDialog from './DeleteDialog';
 import Loading from '../Loading';
 import { ActionPopover } from './ActionPopover';
 import { formatDate } from '../../utils/utils';
@@ -13,16 +12,18 @@ interface RecipeDialogProps {
     isOpen: boolean;
     close: () => void;
     recipe: ExtendedRecipe | null;
-    deleteRecipe: () => void;
+    removeRecipe: ({ message, error }: { message: string, error: string }) => void;
 }
 
-export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe }: RecipeDialogProps) {
+export default function RecipeDisplayModal({ isOpen, close, recipe, removeRecipe }: RecipeDialogProps) {
+    const [isLoading, setIsLoading] = useState(false)
     const {
         handleClone,
         handleCopy,
         handlePlayRecipe,
         killAudio,
         handleDeleteDialog,
+        handleDeleteRecipe,
         linkCopied,
         disableAudio,
         isLoadingAudio,
@@ -36,6 +37,16 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
         }
     }, [isOpen, killAudio]);
 
+    const deleteAndRemoveRecipe = async () => {
+        try {
+            setIsLoading(true)
+            const { message, error } = await handleDeleteRecipe();
+            setIsLoading(false)
+            removeRecipe({ message, error })
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     if (!recipe) return null;
 
@@ -72,17 +83,19 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
                                             handleClone={handleClone}
                                             handleCopy={handleCopy}
                                             closeDialog={close}
-                                            deleteDialog={recipe.owns ? handleDeleteDialog : undefined}
+                                            deleteDialog={handleDeleteDialog}
                                             recipe={recipe}
                                             handlePlayRecipe={handlePlayRecipe}
                                             hasAudio={Boolean(recipe.audio)}
                                             disableAudio={disableAudio}
                                             linkCopied={linkCopied}
+                                            isDeleteDialogOpen={isDeleteDialogOpen}
+                                            deleteRecipe={deleteAndRemoveRecipe}
                                         />
                                     </div>
                                 }
                                 {
-                                    isLoadingAudio ?
+                                    isLoadingAudio || isLoading ?
                                         <Loading />
                                         :
                                         <RecipeCard recipe={recipe} selectedRecipes={[]} removeMargin />
@@ -92,15 +105,6 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
                     </div>
                 </div>
             </Dialog>
-            <DeleteDialog
-                isOpen={isDeleteDialogOpen}
-                recipeName={recipe.name}
-                closeDialog={handleDeleteDialog}
-                deleteRecipe={() => {
-                    handleDeleteDialog();
-                    deleteRecipe();
-                }}
-            />
         </>
     );
 }
