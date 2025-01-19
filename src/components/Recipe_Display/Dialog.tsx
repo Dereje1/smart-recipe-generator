@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { DialogBackdrop, Dialog, DialogPanel } from '@headlessui/react';
 import Image from 'next/image';
+import { EllipsisVerticalIcon } from '@heroicons/react/16/solid'
 import useActionPopover from '../Hooks/useActionPopover';
 import RecipeCard from '../Recipe_Creation/RecipeCard';
 import Loading from '../Loading';
@@ -25,7 +26,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, removeRecipe
         handleDeleteDialog,
         handleDeleteRecipe,
         linkCopied,
-        disableAudio,
+        isPlayingAudio,
         isLoadingAudio,
         isDeleteDialogOpen
     } = useActionPopover(recipe);
@@ -87,10 +88,11 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, removeRecipe
                                             recipe={recipe}
                                             handlePlayRecipe={handlePlayRecipe}
                                             hasAudio={Boolean(recipe.audio)}
-                                            disableAudio={disableAudio}
+                                            isPlayingAudio={isPlayingAudio}
                                             linkCopied={linkCopied}
                                             isDeleteDialogOpen={isDeleteDialogOpen}
                                             deleteRecipe={deleteAndRemoveRecipe}
+                                            buttonType={<EllipsisVerticalIcon className="h-7 w-7 text-gray-700 mt-6 mr-2" />}
                                         />
                                     </div>
                                 }

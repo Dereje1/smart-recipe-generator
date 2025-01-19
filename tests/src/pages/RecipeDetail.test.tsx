@@ -13,6 +13,10 @@ jest.mock("next/router", () => ({
         query: {
             recipeId: 'stub_recipeid'
         },
+        events:{
+            on: jest.fn(),
+            off: jest.fn()
+        }
     })),
 }))
 

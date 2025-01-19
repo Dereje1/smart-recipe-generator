@@ -6,7 +6,7 @@ import { ExtendedRecipe } from '../../types';
 function useActionPopover(recipe: ExtendedRecipe | null) {
     const [linkCopied, setLinkCopied] = useState(false);
     const [isLoadingAudio, setIsLoadingAudio] = useState(false);
-    const [disableAudio, setDisableAudio] = useState(false);
+    const [isPlayingAudio, setIsPlayingAudio] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const router = useRouter();
@@ -17,7 +17,7 @@ function useActionPopover(recipe: ExtendedRecipe | null) {
             if (audioRef.current) {
                 audioRef.current.pause();
                 audioRef.current = null;
-                setDisableAudio(false)
+                setIsPlayingAudio(false)
             }
         };
 
@@ -49,24 +49,28 @@ function useActionPopover(recipe: ExtendedRecipe | null) {
     };
 
     const handleDeleteDialog = () => setIsDeleteDialogOpen((prevState) => !prevState)
-  
+
 
     const killAudio = () => {
         if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current = null;
-            setDisableAudio(false);
+            setIsPlayingAudio(false);
             setIsLoadingAudio(false); // Ensure loading state is reset
         }
     }
 
     const handlePlayRecipe = async () => {
         try {
+            if (isPlayingAudio) {
+                killAudio()
+                return
+            }
             setIsLoadingAudio(true);
-            setDisableAudio(true);
+            setIsPlayingAudio(true);
             if (recipe?.audio) {
                 await playAudio(recipe.audio, audioRef, () => {
-                    setDisableAudio(false);
+                    setIsPlayingAudio(false);
                 });
                 return;
             }
@@ -92,7 +96,7 @@ function useActionPopover(recipe: ExtendedRecipe | null) {
             });
 
             await playAudio(response.audio, audioRef, () => {
-                setDisableAudio(false);
+                setIsPlayingAudio(false);
             });
         } catch (error) {
             console.error('Error playing audio:', error);
@@ -110,7 +114,6 @@ function useActionPopover(recipe: ExtendedRecipe | null) {
             })
             return response;
         } catch (error) {
-            console.log('failure!!')
             console.error(error)
         }
     }
@@ -124,7 +127,7 @@ function useActionPopover(recipe: ExtendedRecipe | null) {
         handleDeleteRecipe,
         linkCopied,
         isLoadingAudio,
-        disableAudio,
+        isPlayingAudio,
         isDeleteDialogOpen
     };
 }
