@@ -98,7 +98,7 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, removeRecipe
                                             }}
                                             data={{
                                                 recipe,
-                                                buttonType: <EllipsisVerticalIcon className="h-7 w-7 text-gray-700 mt-6 mr-2" />,
+                                                buttonType: <EllipsisVerticalIcon className="h-6 w-6 text-gray-700" />,
                                             }}
 
                                         />

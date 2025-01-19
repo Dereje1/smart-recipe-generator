@@ -21,21 +21,21 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
           >
             <button
               aria-expanded="false"
-              class="flex items-center gap-2 focus:outline-none ml-auto"
+              class="flex items-center justify-center w-12 h-12 ml-auto bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 active:bg-gray-300 transition-all duration-200"
               data-headlessui-state=""
               id="headlessui-popover-button-:r2:"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="h-7 w-7 text-gray-700 mr-2"
+                class="h-6 w-6 text-gray-700"
                 data-slot="icon"
                 fill="currentColor"
                 viewBox="0 0 16 16"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M7.25 13.25V7.5h1.5v5.75a.75.75 0 0 1-1.5 0ZM8.75 2.75V5h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75V2.75a.75.75 0 0 1 1.5 0ZM2.25 9.5a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5H4.5V2.75a.75.75 0 0 0-1.5 0V9.5h-.75ZM10 10.25a.75.75 0 0 1 .75-.75h.75V2.75a.75.75 0 0 1 1.5 0V9.5h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75ZM3 12v1.25a.75.75 0 0 0 1.5 0V12H3ZM11.5 13.25V12H13v1.25a.75.75 0 0 1-1.5 0Z"
+                  d="M2 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM6.5 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM12.5 6.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"
                 />
               </svg>
             </button>

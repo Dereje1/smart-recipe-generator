@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from 'next/image';
 import { HandThumbUpIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
-import { AdjustmentsVerticalIcon } from '@heroicons/react/16/solid'
+import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid'
 import useActionPopover from "../components/Hooks/useActionPopover";
 import { ActionPopover } from "../components/Recipe_Display/ActionPopover";
 import Loading from "../components/Loading";
@@ -113,7 +113,7 @@ export default function RecipeDetail() {
                             }}
                             data={{
                                 recipe: recipeData,
-                                buttonType: <AdjustmentsVerticalIcon className="h-7 w-7 text-gray-700 mr-2" />
+                                buttonType: <EllipsisHorizontalIcon className="h-6 w-6 text-gray-700" />
                             }}
 
                         />
