@@ -81,19 +81,26 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, removeRecipe
                                             </div>
                                         </div>
                                         <ActionPopover
-                                            handleClone={handleClone}
-                                            handleCopy={handleCopy}
-                                            closeDialog={close}
-                                            deleteDialog={handleDeleteDialog}
-                                            recipe={recipe}
-                                            handlePlayRecipe={handlePlayRecipe}
-                                            hasAudio={Boolean(recipe.audio)}
-                                            isLoadingAudio={isLoadingAudio}
-                                            isPlayingAudio={isPlayingAudio}
-                                            linkCopied={linkCopied}
-                                            isDeleteDialogOpen={isDeleteDialogOpen}
-                                            deleteRecipe={deleteAndRemoveRecipe}
-                                            buttonType={<EllipsisVerticalIcon className="h-7 w-7 text-gray-700 mt-6 mr-2" />}
+                                            handlers={{
+                                                handleClone,
+                                                handleCopy,
+                                                closeDialog: close,
+                                                handlePlayRecipe,
+                                                deleteDialog: handleDeleteDialog,
+                                                deleteRecipe: deleteAndRemoveRecipe,
+                                            }}
+                                            states={{
+                                                hasAudio: Boolean(recipe.audio),
+                                                isLoadingAudio,
+                                                isPlayingAudio,
+                                                linkCopied,
+                                                isDeleteDialogOpen,
+                                            }}
+                                            data={{
+                                                recipe,
+                                                buttonType: <EllipsisVerticalIcon className="h-7 w-7 text-gray-700 mt-6 mr-2" />,
+                                            }}
+
                                         />
                                     </div>
                                 }

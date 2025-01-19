@@ -95,20 +95,27 @@ export default function RecipeDetail() {
 
                 <div className="p-6">
                     {/* Recipe Title */}
-                    <div className="">
+                    <div>
                         <ActionPopover
-                            handleClone={handleClone}
-                            handleCopy={handleCopy}
-                            deleteDialog={handleDeleteDialog}
-                            recipe={recipeData}
-                            handlePlayRecipe={handlePlayRecipe}
-                            hasAudio={Boolean(recipeData.audio)}
-                            isPlayingAudio={isPlayingAudio}
-                            isLoadingAudio={isLoadingAudio}
-                            linkCopied={linkCopied}
-                            isDeleteDialogOpen={isDeleteDialogOpen}
-                            deleteRecipe={deleteAndRemoveRecipe}
-                            buttonType={<AdjustmentsVerticalIcon className="h-7 w-7 text-gray-700 mr-2" />}
+                            handlers={{
+                                handleClone,
+                                handleCopy,
+                                deleteDialog: handleDeleteDialog,
+                                handlePlayRecipe,
+                                deleteRecipe: deleteAndRemoveRecipe,
+                            }}
+                            states={{
+                                hasAudio: Boolean(recipeData.audio),
+                                isLoadingAudio,
+                                isPlayingAudio,
+                                linkCopied,
+                                isDeleteDialogOpen,
+                            }}
+                            data={{
+                                recipe: recipeData,
+                                buttonType: <AdjustmentsVerticalIcon className="h-7 w-7 text-gray-700 mr-2" />
+                            }}
+
                         />
                         <h2 className="text-2xl font-bold mb-2 mt-2">{recipeData.name}</h2> {/* Title with styling */}
                     </div>

@@ -14,9 +14,7 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
       <div
         class="p-6"
       >
-        <div
-          class=""
-        >
+        <div>
           <div
             class="relative"
             data-headlessui-state=""

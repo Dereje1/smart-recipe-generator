@@ -16,49 +16,41 @@ import audioload from '../../assets/audioload.gif';
 import { ExtendedRecipe } from '../../types';
 
 interface ActionPopoverProps {
-    handleClone: () => void
-    handleCopy: () => void
-    closeDialog?: () => void
-    handlePlayRecipe: () => void
-    deleteDialog: () => void
-    deleteRecipe: () => void
-    recipe: ExtendedRecipe
-    hasAudio: boolean
-    isLoadingAudio: boolean
-    isPlayingAudio: boolean
-    linkCopied: boolean
-    isDeleteDialogOpen: boolean
-    buttonType: ReactElement
+    handlers: {
+        handleClone: () => void;
+        handleCopy: () => void;
+        closeDialog?: () => void;
+        handlePlayRecipe: () => void;
+        deleteDialog: () => void;
+        deleteRecipe: () => void;
+    };
+    states: {
+        hasAudio: boolean;
+        isLoadingAudio: boolean;
+        isPlayingAudio: boolean;
+        linkCopied: boolean;
+        isDeleteDialogOpen: boolean;
+    };
+    data: {
+        recipe: ExtendedRecipe;
+        buttonType: ReactElement;
+    };
 }
 
-export function ActionPopover({
-    handleClone,
-    handleCopy,
-    closeDialog,
-    deleteDialog,
-    handlePlayRecipe,
-    deleteRecipe,
-    recipe,
-    hasAudio,
-    isLoadingAudio,
-    isPlayingAudio,
-    linkCopied,
-    isDeleteDialogOpen,
-    buttonType
-}: ActionPopoverProps) {
+export function ActionPopover({handlers, states, data}: ActionPopoverProps) {
 
     const handleOpenRecipe = () => {
-        if (!closeDialog) return;
-        closeDialog()
+        if (!handlers.closeDialog) return;
+        handlers.closeDialog()
         window.open(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/RecipeDetail?recipeId=${recipe._id}`,
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/RecipeDetail?recipeId=${data.recipe._id}`,
             '_blank',
             'noopener,noreferrer'
         )
     }
 
     const getAudioControls = () => {
-        if (isLoadingAudio) {
+        if (states.isLoadingAudio) {
             return <Image
                 src={audioload}
                 alt="audio-load-gif"
@@ -69,16 +61,16 @@ export function ActionPopover({
         return (
             <button
                 className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed" onClick={() => {
-                    handlePlayRecipe()
+                    handlers.handlePlayRecipe()
                 }}
             >
                 {
-                    isPlayingAudio ?
+                    states.isPlayingAudio ?
                         <StopCircleIcon className="h-5 w-5 text-red-500" /> :
-                        <PlayCircleIcon className={`h-5 w-5 ${hasAudio ? "text-green-500" : "text-blue-500"}`} />
+                        <PlayCircleIcon className={`h-5 w-5 ${states.hasAudio ? "text-green-500" : "text-blue-500"}`} />
                 }
 
-                {isPlayingAudio ? 'Stop Playing' : 'Play Recipe'}
+                {states.isPlayingAudio ? 'Stop Playing' : 'Play Recipe'}
             </button>
         )
     }
@@ -87,36 +79,36 @@ export function ActionPopover({
         <>
             <Popover className="relative">
                 <PopoverButton className="flex items-center gap-2 focus:outline-none ml-auto">
-                    {buttonType}
+                    {data.buttonType}
                 </PopoverButton>
                 <PopoverPanel className="absolute right-0 z-50 mt-2 w-56 rounded-lg bg-white shadow-lg ring-1 ring-black/10">
                     {({ close }) => (
                         <>
-                            <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={handleClone}>
+                            <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={handlers.handleClone}>
                                 <ClipboardDocumentIcon className="h-5 w-5 text-gray-500" />
                                 Clone Ingredients
                             </button>
-                            {closeDialog && <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={handleOpenRecipe}>
+                            {handlers.closeDialog && <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={handleOpenRecipe}>
                                 <ArrowTopRightOnSquareIcon className="h-5 w-5 text-gray-500" />
                                 Open Recipe
                             </button>}
                             <button
                                 className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={() => {
                                     close()
-                                    handleCopy()
+                                    handlers.handleCopy()
                                 }}>
                                 <ClipboardIcon className="h-5 w-5 text-gray-500" />
                                 Copy Link
                             </button>
                             { getAudioControls()}
                             {
-                                (closeDialog || recipe.owns) && <div className="my-1 h-px bg-gray-200" />
+                                (handlers.closeDialog || data.recipe.owns) && <div className="my-1 h-px bg-gray-200" />
                             }
-                            {closeDialog && <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={closeDialog}>
+                            {handlers.closeDialog && <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={handlers.closeDialog}>
                                 <XMarkIcon className="h-5 w-5 text-gray-500" />
                                 Close
                             </button>}
-                            {recipe.owns && <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-red-600 hover:bg-red-50 focus:bg-red-50" onClick={deleteDialog}>
+                            {data.recipe.owns && <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-red-600 hover:bg-red-50 focus:bg-red-50" onClick={handlers.deleteDialog}>
                                 <TrashIcon className="h-5 w-5 text-red-500" />
                                 Delete Recipe
                             </button>}
@@ -125,14 +117,14 @@ export function ActionPopover({
                     )}
                 </PopoverPanel>
             </Popover>
-            {linkCopied && <Alert message={`${recipe.name} copied to clipboard!`} />}
+            {states.linkCopied && <Alert message={`${data.recipe.name} copied to clipboard!`} />}
             <DeleteDialog
-                isOpen={isDeleteDialogOpen}
-                recipeName={recipe.name}
-                closeDialog={deleteDialog}
+                isOpen={states.isDeleteDialogOpen}
+                recipeName={data.recipe.name}
+                closeDialog={handlers.deleteDialog}
                 deleteRecipe={() => {
-                    deleteDialog();
-                    deleteRecipe();
+                    handlers.deleteDialog();
+                    handlers.deleteRecipe();
                 }}
             />
         </>
