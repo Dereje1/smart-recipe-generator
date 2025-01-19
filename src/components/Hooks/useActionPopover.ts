@@ -100,6 +100,7 @@ function useActionPopover(recipe: ExtendedRecipe | null) {
             });
         } catch (error) {
             console.error('Error playing audio:', error);
+            killAudio()
         } finally {
             setIsLoadingAudio(false);
         }
