@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { DialogBackdrop, Dialog, DialogPanel } from '@headlessui/react';
 import Image from 'next/image';
+import useActionPopover from '../Hooks/useActionPopover';
 import RecipeCard from '../Recipe_Creation/RecipeCard';
 import DeleteDialog from './DeleteDialog';
 import Loading from '../Loading';
-import { ActionPopover, Alert } from './ActionPopover';
-import { formatDate, call_api, playAudio } from '../../utils/utils';
+import { ActionPopover } from './ActionPopover';
+import { formatDate } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
 interface RecipeDialogProps {
@@ -17,112 +17,24 @@ interface RecipeDialogProps {
 }
 
 export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe }: RecipeDialogProps) {
-    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-    const [copied, setCopied] = useState(false);
-    const [isLoadingAudio, setIsLoadingAudio] = useState(false);
-    const [disableAudio, setDisableAudio] = useState(false)
-    const audioRef = useRef<HTMLAudioElement | null>(null); // Track the audio instance
-    const router = useRouter();
+    const {
+        handleClone,
+        handleCopy,
+        handlePlayRecipe,
+        killAudio,
+        handleDeleteDialog,
+        linkCopied,
+        disableAudio,
+        isLoadingAudio,
+        isDeleteDialogOpen
+    } = useActionPopover(recipe);
 
     useEffect(() => {
-        // Stop audio when navigating away
-        const handleRouteChange = () => {
-            if (audioRef.current) {
-                audioRef.current.pause();
-                audioRef.current = null;
-                setDisableAudio(false)
-            }
-        };
-
-        router.events.on('routeChangeStart', handleRouteChange);
-        return () => {
-            router.events.off('routeChangeStart', handleRouteChange);
-        };
-    }, [router.events]);
-
-    useEffect(() => {
-        if (!isOpen && audioRef.current) {
-            // Stop audio playback when the modal is closed
-            audioRef.current.pause();
-            audioRef.current = null;
-            setDisableAudio(false)
+        // Stop audio playback when the modal is closed
+        if (!isOpen) {
+            killAudio()
         }
-    }, [isOpen]);
-
-    const handleClone = () => {
-        router.push({
-            pathname: '/CreateRecipe',
-            query: {
-                oldIngredients: recipe?.ingredients.map(i => i.name)
-            }
-        });
-    };
-
-    const handleCopy = async (recipeId: string) => {
-        try {
-            await navigator.clipboard.writeText(
-                `${process.env.NEXT_PUBLIC_API_BASE_URL}/RecipeDetail?recipeId=${recipeId}`
-            );
-            setCopied(true);
-            setTimeout(() => {
-                setCopied(false)
-            }, 2000); // Reset after 2 seconds
-        } catch (err) {
-            console.error('Failed to copy: ', err);
-        }
-    };
-
-    const handlePlayRecipe = async () => {
-        try {
-            setIsLoadingAudio(true);
-            setDisableAudio(true)
-            // If the audio field exists, preload and play the audio
-            if (recipe?.audio) {
-                await playAudio(recipe.audio, audioRef, () => {
-                    setDisableAudio(false)
-                });
-                return; // Exit early, no need to call the API
-            }
-
-            // Construct the recipe text
-            const recipeText = `
-            Here is the recipe for: ${recipe?.name}.
-            
-            Ingredients: 
-            ${recipe?.ingredients.map((ing) => `${ing.name}: ${ing.quantity}`).join('. ')}.
-    
-            Instructions: 
-            ${recipe?.instructions.join('. ')}.
-    
-            Tips: 
-            ${recipe?.additionalInformation.tips}.
-    
-            Variations: 
-            ${recipe?.additionalInformation.variations}.
-    
-            Serving Suggestions: 
-            ${recipe?.additionalInformation.servingSuggestions}.
-            `;
-
-            // Generate audio via API
-            const response = await call_api({
-                address: '/api/tts',
-                method: 'post',
-                payload: { text: recipeText, recipeId: recipe?._id },
-            });
-
-            // Preload and play the audio
-            await playAudio(response.audio, audioRef, () => {
-                setDisableAudio(false)
-            });
-        } catch (error) {
-            console.error('handlePlayRecipe: Error playing audio:', error);
-        } finally {
-            setIsLoadingAudio(false);
-        }
-    };
-
-
+    }, [isOpen, killAudio]);
 
 
     if (!recipe) return null;
@@ -158,13 +70,14 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
                                         </div>
                                         <ActionPopover
                                             handleClone={handleClone}
-                                            handleCopy={() => handleCopy(recipe._id)}
+                                            handleCopy={handleCopy}
                                             closeDialog={close}
-                                            deleteDialog={recipe.owns ? () => setIsDeleteDialogOpen(true) : undefined}
-                                            recipeId={recipe._id}
+                                            deleteDialog={recipe.owns ? handleDeleteDialog : undefined}
+                                            recipe={recipe}
                                             handlePlayRecipe={handlePlayRecipe}
                                             hasAudio={Boolean(recipe.audio)}
                                             disableAudio={disableAudio}
+                                            linkCopied={linkCopied}
                                         />
                                     </div>
                                 }
@@ -182,17 +95,12 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, deleteRecipe
             <DeleteDialog
                 isOpen={isDeleteDialogOpen}
                 recipeName={recipe.name}
-                closeDialog={() => setIsDeleteDialogOpen(false)}
+                closeDialog={handleDeleteDialog}
                 deleteRecipe={() => {
-                    setIsDeleteDialogOpen(false);
+                    handleDeleteDialog();
                     deleteRecipe();
                 }}
             />
-            {copied && (
-                <div id="alert-container">
-                    <Alert message={`${recipe.name} copied to clipboard!`} />
-                </div>
-            )}
         </>
     );
 }
