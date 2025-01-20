@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { apiMiddleware } from '../../lib/apiMiddleware';
-import Notification from '../../lib/models/notification';
+import Notification from '../../models/notification';
 import { connectDB } from '../../lib/mongodb';
 
 /**

@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import { Ingredient, DietaryPreference, Recipe } from '../types/index'
-import aiGenerated from './models/aigenerated';
+import aiGenerated from '../models/aigenerated';
 import { connectDB } from '../lib/mongodb';
 import { ImagesResponse } from 'openai/resources';
 

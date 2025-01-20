@@ -1,7 +1,7 @@
 import mongoose, { Model, Schema } from 'mongoose';
 import User from './user'; // Import the User model
 import Recipe from './recipe';
-import { NotificationType } from '../../types';
+import { NotificationType } from '../types';
 
 
 

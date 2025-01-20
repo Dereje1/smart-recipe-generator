@@ -2,8 +2,8 @@
  * @jest-environment node
  */
 import profile from '../../../../src/pages/api/profile';
-import Recipe from '../../../../src/lib/models/recipe';
-import aigenerated from '../../../../src/lib/models/aigenerated';
+import Recipe from '../../../../src/models/recipe';
+import aigenerated from '../../../../src/models/aigenerated';
 import { mockRequestResponse } from '../../../apiMocks';
 import { stubRecipeBatch, getServerSessionStub } from '../../../stub';
 import * as nextAuth from 'next-auth';

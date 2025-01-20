@@ -4,7 +4,7 @@ import { generateImages } from '../../lib/openai';
 import { uploadImagesToS3 } from '../../lib/awss3';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
-import recipe from '../../lib/models/recipe';
+import recipe from '../../models/recipe';
 import { Recipe, UploadReturnType } from '../../types';
 
 /**

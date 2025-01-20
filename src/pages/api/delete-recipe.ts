@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
-import recipes from '../../lib/models/recipe';
+import recipes from '../../models/recipe';
 
 /**
  * API handler for deleting a recipe.

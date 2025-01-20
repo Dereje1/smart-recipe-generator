@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
 import { TextToSpeechClient, protos } from '@google-cloud/text-to-speech';
-import Recipe from '../../lib/models/recipe';
+import Recipe from '../../models/recipe';
 import { uploadAudioToS3 } from '../../lib/awss3';
 
 

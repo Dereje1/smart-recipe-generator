@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
-import Ingredient from '../../lib/models/ingredient';
-import aigenerated from '../../lib/models/aigenerated';
+import Ingredient from '../../models/ingredient';
+import aigenerated from '../../models/aigenerated';
 import { IngredientDocumentType } from '../../types';
 
 // Define the possible shapes of the API response

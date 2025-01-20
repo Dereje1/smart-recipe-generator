@@ -1,6 +1,6 @@
 import mongoose, { Model }  from 'mongoose';
 import User from './user';
-import { RecipeDocument } from '../../types/index'
+import { RecipeDocument } from '../types/index'
 
 const commentSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: User },

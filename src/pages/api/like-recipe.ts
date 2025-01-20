@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
-import recipes from '../../lib/models/recipe';
-import notifications from '../../lib/models/notification';
+import recipes from '../../models/recipe';
+import notifications from '../../models/notification';
 import { filterResults } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
@@ -26,7 +26,7 @@ const toggleLike = async (req: NextApiRequest, res: NextApiResponse, session: an
         }
 
         // Toggle the like status
-        const liked = recipe.likedBy.some((r) => r.toString() === session.user.id);
+        const liked = recipe.likedBy.some((r: mongoose.Types.ObjectId) => r.toString() === session.user.id);
         const update = liked
             ? { $pull: { likedBy: new mongoose.Types.ObjectId(session.user.id) } }
             : { $addToSet: { likedBy: new mongoose.Types.ObjectId(session.user.id) } };

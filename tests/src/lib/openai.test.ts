@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import { generateRecipe, generateImages, validateIngredient } from "../../../src/lib/openai";
-import aigenerated from "../../../src/lib/models/aigenerated";
+import aigenerated from "../../../src/models/aigenerated";
 import OpenAI from 'openai';
 import { stubRecipeBatch } from "../../stub";
 /* Mock open ai api */

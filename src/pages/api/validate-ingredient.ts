@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { validateIngredient } from '../../lib/openai';
-import Ingredient from '../../lib/models/ingredient';
+import Ingredient from '../../models/ingredient';
 import mongoose from 'mongoose';
 
 /**

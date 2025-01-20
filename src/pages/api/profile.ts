@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
-import Recipe from '../../lib/models/recipe';
-import aigenerated from '../../lib/models/aigenerated';
+import Recipe from '../../models/recipe';
+import aigenerated from '../../models/aigenerated';
 import { filterResults } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 

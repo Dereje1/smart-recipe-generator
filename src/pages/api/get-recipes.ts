@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
-import Recipe from '../../lib/models/recipe';
+import Recipe from '../../models/recipe';
 import { filterResults } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 

@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import getNotifications from '../../../../src/pages/api/get-notifications';
-import Notification from '../../../../src/lib/models/notification';
+import Notification from '../../../../src/models/notification';
 import { mockRequestResponse } from '../../../apiMocks';
 import { stubNotifications, getServerSessionStub } from '../../../stub';
 import * as nextAuth from 'next-auth';

@@ -1,6 +1,6 @@
 import mongoose, { Model }  from 'mongoose';
 import User from './user';
-import { IngredientDocumentType } from '../../types';
+import { IngredientDocumentType } from '../types';
 
 
 // define the schema for our user model

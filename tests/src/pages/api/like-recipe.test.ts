@@ -3,8 +3,8 @@
  */
 import likeRecipe from '../../../../src/pages/api/like-recipe';
 import mongoose from 'mongoose';
-import Recipe from '../../../../src/lib/models/recipe';
-import Notification from '../../../../src/lib/models/notification';
+import Recipe from '../../../../src/models/recipe';
+import Notification from '../../../../src/models/notification';
 import { mockRequestResponse } from '../../../apiMocks';
 import { stubRecipeBatch, getServerSessionStub } from '../../../stub';
 import * as nextAuth from 'next-auth';
@@ -27,13 +27,13 @@ jest.mock('../../../../src/lib/mongodb', () => ({
 }))
 
 // Mock Recipe schema
-jest.mock('../../../../src/lib/models/recipe', () => ({
+jest.mock('../../../../src/models/recipe', () => ({
     findById: jest.fn(),
     findByIdAndUpdate: jest.fn(),
 }));
 
 // Mock Notification schema
-jest.mock('../../../../src/lib/models/notification', () => ({
+jest.mock('../../../../src/models/notification', () => ({
     findOneAndUpdate: jest.fn(),
 }));
 
