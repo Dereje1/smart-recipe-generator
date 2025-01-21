@@ -32,7 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       ),
     });
 
-    console.log('Synthesizing text to speech.....')
+    console.info('Synthesizing text to speech.....')
     // Synthesize speech using Google TTS
     type ssmlGenderType = 'FEMALE' | 'MALE'
     const voiceChoices: ssmlGenderType[] = ['FEMALE', 'MALE'];
@@ -48,7 +48,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (!audioContent) {
       throw new Error('Audio content is empty');
     }
-    console.log('Uploading audio to s3....')
+    console.info('Uploading audio to s3....')
     // Upload the audio file to S3
     const s3Url = await uploadAudioToS3({
       audioBuffer: Buffer.from(audioContent), // Buffer from Google TTS API
@@ -58,7 +58,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Update the recipe with the S3 URL
     recipe.audio = s3Url;
     await recipe.save();
-    console.log('Saved generated audio to S3')
+    console.info('Saved generated audio to S3')
     // Return the audio URL
     return res.status(200).json({ audio: s3Url });
   } catch (error) {

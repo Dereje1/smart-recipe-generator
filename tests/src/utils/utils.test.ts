@@ -1,8 +1,9 @@
 import { getSession } from "next-auth/react"
 import axios from "axios";
-import { updateRecipeList, getFilteredRecipes, getServerSidePropsUtility, call_api } from "../../../src/utils/utils";
+import { updateRecipeList, getFilteredRecipes, getServerSidePropsUtility, call_api, playAudio } from "../../../src/utils/utils";
 import { stubRecipeBatch } from "../../stub";
 
+jest.useFakeTimers();
 jest.mock('axios');
 jest.mock("next-auth/react")
 
@@ -69,7 +70,7 @@ describe('getServerSideProps abstraction utility', () => {
 describe('The api call making utility', () => {
     it('shall execute', async () => {
         (axios.get as jest.Mock).mockImplementationOnce(() => Promise.resolve({ data: 'succesfully executed' }))
-        const ans = await call_api({address: 'mock-address'});
+        const ans = await call_api({ address: 'mock-address' });
         expect(ans).toBe('succesfully executed')
     })
     it('shall handle failures', async () => {
@@ -77,3 +78,131 @@ describe('The api call making utility', () => {
         await expect(call_api({ address: 'mock-address' })).rejects.toThrow('API call failed');
     })
 })
+
+/*
+Note: this entire function was tested by GPT4-o, had to tweak jest.timers() and ordering to make it work
+see original @: gpt-testing.md
+*/
+
+describe('playAudio', () => {
+    let mockAudioInstance: jest.Mocked<HTMLAudioElement>;
+    let mockAudioRef: { current: HTMLAudioElement | null };
+
+    beforeEach(() => {
+        // Mock the HTMLAudioElement
+        mockAudioInstance = {
+            preload: '',
+            load: jest.fn(),
+            play: jest.fn(),
+            oncanplaythrough: null,
+            onerror: null,
+            onended: null,
+        } as unknown as jest.Mocked<HTMLAudioElement>;
+
+        // Mock Audio constructor
+        jest.spyOn(global, 'Audio').mockImplementation(() => mockAudioInstance);
+
+        // Mock the audioRef
+        mockAudioRef = { current: null };
+    });
+
+    afterEach(() => {
+        jest.restoreAllMocks();
+        jest.clearAllMocks();
+    });
+
+    test('should preload and play audio successfully', async () => {
+        // Simulate successful loading
+        const playMock = jest.fn().mockResolvedValue(undefined);
+        mockAudioInstance.play = playMock;
+
+        const onEndMock = jest.fn();
+
+        // Trigger preload success
+        const preloadTrigger = () => {
+            if (mockAudioInstance.oncanplaythrough) {
+                mockAudioInstance.oncanplaythrough(new Event('canplaythrough'));
+            }
+        };
+
+        setTimeout(preloadTrigger, 100);
+        // Start the function
+        const result = playAudio('mock-audio-url', mockAudioRef, onEndMock);
+        jest.runAllTimers(); // advance timers
+        await expect(result).resolves.toBeUndefined();
+
+        // Assertions
+        expect(mockAudioInstance.load).toHaveBeenCalledTimes(1);
+        expect(playMock).toHaveBeenCalledTimes(1);
+        expect(mockAudioRef.current).toBe(mockAudioInstance as HTMLAudioElement);
+    });
+
+    test('should call onEnd when audio finishes playing', async () => {
+        const playMock = jest.fn().mockResolvedValue(undefined);
+        mockAudioInstance.play = playMock;
+
+        const onEndMock = jest.fn();
+
+        const preloadTrigger = () => {
+            if (mockAudioInstance.oncanplaythrough) {
+                mockAudioInstance.oncanplaythrough(new Event('canplaythrough'));
+            }
+        };
+
+        setTimeout(preloadTrigger, 100);
+
+        const endTrigger = () => {
+            if (mockAudioInstance.onended) {
+                mockAudioInstance.onended(new Event('ended'));
+            }
+        };
+
+        setTimeout(endTrigger, 200);
+        const result = playAudio('mock-audio-url', mockAudioRef, onEndMock);
+        jest.runAllTimers();
+        // Assertions
+        expect(onEndMock).toHaveBeenCalledTimes(1);
+    });
+
+    test('should handle audio loading error', async () => {
+        const errorTrigger = () => {
+            if (mockAudioInstance.onerror) {
+                mockAudioInstance.onerror(new Event('error'));
+            }
+        };
+
+        setTimeout(errorTrigger, 100);
+        const result = playAudio('mock-audio-url', mockAudioRef);
+        jest.runAllTimers();
+        await expect(result).rejects.toThrow('Error loading audio');
+    });
+
+    test('should handle audio loading timeout', async () => {
+        const preloadTrigger = () => {
+            if (mockAudioInstance.oncanplaythrough) {
+                mockAudioInstance.oncanplaythrough(new Event('canplaythrough'));
+            }
+        };
+
+        setTimeout(preloadTrigger, 11000); // Beyond 10-second timeout
+        const result = playAudio('mock-audio-url', mockAudioRef);
+        jest.runAllTimers();
+        await expect(result).rejects.toThrow('Audio loading timeout');
+    });
+
+    test('should handle audio playback error', async () => {
+        const playMock = jest.fn().mockRejectedValue(new Error('Playback error'));
+        mockAudioInstance.play = playMock;
+
+        const preloadTrigger = () => {
+            if (mockAudioInstance.oncanplaythrough) {
+                mockAudioInstance.oncanplaythrough(new Event('canplaythrough'));
+            }
+        };
+
+        setTimeout(preloadTrigger, 100);
+        const result = playAudio('mock-audio-url', mockAudioRef);
+        jest.runAllTimers();
+        await expect(result).rejects.toThrow('Playback error');
+    });
+});

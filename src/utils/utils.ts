@@ -130,7 +130,6 @@ export const playAudio = async (
 
       // Attach the `ended` event listener
       audio.onended = () => {
-          console.log('playAudio: Audio playback completed.');
           if (onEnd) onEnd(); // Call the callback if provided
       };
 
