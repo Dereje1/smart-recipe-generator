@@ -108,7 +108,7 @@ describe('useActionPopover', () => {
         expect(call_api).toHaveBeenCalledWith({
             address: '/api/tts',
             method: 'post',
-            payload: { text: expect.stringContaining('Here is the recipe for: Recipe_1_name.'), recipeId: '6683b8d38475eac9af5fe838' },
+            payload: { text: expect.stringContaining('Welcome to this recipe for Recipe_1_name'), recipeId: '6683b8d38475eac9af5fe838' },
         });
         expect(playAudio).toHaveBeenCalledWith(
             'generated-audio-link',

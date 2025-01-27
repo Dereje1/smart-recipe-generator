@@ -3,6 +3,51 @@ import { useRouter } from 'next/router';
 import { call_api, playAudio } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
+function formatRecipeForAudio(recipe: ExtendedRecipe | null): string {
+    if(!recipe) return ''
+    const { name, ingredients, instructions, dietaryPreference, additionalInformation } = recipe;
+  
+    const ingredientList = ingredients
+      .map((ingredient) => `- ${ingredient.quantity} of ${ingredient.name}`)
+      .join('\n');
+    
+    const instructionList = instructions
+      .map((instruction, index) => `${index + 1}. ${instruction}`)
+      .join('\n');
+  
+    const dietaryPreferences = dietaryPreference.map((pref) => `- ${pref}`).join('\n');
+  
+    return `
+  Welcome to this recipe for ${name}.
+  
+  Dietary Preferences
+  This recipe is perfect for:
+  ${dietaryPreferences}
+  
+  Ingredients You'll Need
+  ${ingredientList}
+  
+  Instructions
+  Let's get started!
+  
+  ${instructionList}
+  
+  Additional Information
+  
+  Tips:
+  ${additionalInformation.tips}
+  
+  Variations:
+  ${additionalInformation.variations}
+  
+  Serving Suggestions:
+  ${additionalInformation.servingSuggestions}
+  
+  Nutritional Information:
+  ${additionalInformation.nutritionalInformation}
+  `;
+  }
+
 function useActionPopover(recipe: ExtendedRecipe | null) {
     const [linkCopied, setLinkCopied] = useState(false);
     const [isLoadingAudio, setIsLoadingAudio] = useState(false);
@@ -75,19 +120,7 @@ function useActionPopover(recipe: ExtendedRecipe | null) {
                 return;
             }
 
-            const recipeText = `
-            Here is the recipe for: ${recipe?.name}.
-            Ingredients: 
-            ${recipe?.ingredients.map((ing) => `${ing.name}: ${ing.quantity}`).join('. ')}.
-            Instructions: 
-            ${recipe?.instructions.join('. ')}.
-            Tips: 
-            ${recipe?.additionalInformation.tips}.
-            Variations: 
-            ${recipe?.additionalInformation.variations}.
-            Serving Suggestions: 
-            ${recipe?.additionalInformation.servingSuggestions}.
-            `;
+            const recipeText = formatRecipeForAudio(recipe)
 
             const response = await call_api({
                 address: '/api/tts',
