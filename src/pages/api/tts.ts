@@ -4,9 +4,11 @@ import { connectDB } from '../../lib/mongodb';
 import { TextToSpeechClient, protos } from '@google-cloud/text-to-speech';
 import Recipe from '../../models/recipe';
 import { uploadAudioToS3 } from '../../lib/awss3';
+import { getTTS } from '../../lib/openai'
+import { filterResults } from '../../utils/utils';
+import { ExtendedRecipe } from '../../types';
 
-
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse, session: any) {
   const { recipeId, text } = req.body;
 
   if (!recipeId || !text) {
@@ -25,33 +27,37 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (recipe.audio) {
       return res.status(200).json({ audio: recipe.audio });
     }
-
-    const client = new TextToSpeechClient({
-      credentials: JSON.parse(
-        Buffer.from(process.env.GOOGLE_SERVICE_KEY_BASE64 || '', 'base64').toString('utf-8')
-      ),
-    });
-
-    console.info('Synthesizing text to speech.....')
-    // Synthesize speech using Google TTS
-    type ssmlGenderType = 'FEMALE' | 'MALE'
-    const voiceChoices: ssmlGenderType[] = ['FEMALE', 'MALE'];
-    const ssmlGender = voiceChoices[Math.floor(Math.random() * voiceChoices.length)]
-    const request: protos.google.cloud.texttospeech.v1.ISynthesizeSpeechRequest = {
-      input: { text },
-      voice: { languageCode: 'en-US', ssmlGender },
-      audioConfig: { audioEncoding: 'MP3' },
-    };
-
-    const [response] = await client.synthesizeSpeech(request);
-    const audioContent = response.audioContent;
-    if (!audioContent) {
-      throw new Error('Audio content is empty');
-    }
+    /*
+        const client = new TextToSpeechClient({
+          credentials: JSON.parse(
+            Buffer.from(process.env.GOOGLE_SERVICE_KEY_BASE64 || '', 'base64').toString('utf-8')
+          ),
+        });
+    
+        console.info('Synthesizing text to speech.....')
+        // Synthesize speech using Google TTS
+        type ssmlGenderType = 'FEMALE' | 'MALE'
+        const voiceChoices: ssmlGenderType[] = ['FEMALE', 'MALE'];
+        const ssmlGender = voiceChoices[Math.floor(Math.random() * voiceChoices.length)]
+        const request: protos.google.cloud.texttospeech.v1.ISynthesizeSpeechRequest = {
+          input: { text },
+          voice: { languageCode: 'en-US', ssmlGender },
+          audioConfig: { audioEncoding: 'MP3' },
+        };
+    
+        const [response] = await client.synthesizeSpeech(request);
+        const audioContent = response.audioContent;
+        if (!audioContent) {
+          throw new Error('Audio content is empty');
+        }
+        */
+    // Filter result based on user session and respond with the filtered recipe
+    const leanRecipe = recipe.toObject() as unknown as ExtendedRecipe;
+    const audioBuffer = await getTTS(leanRecipe, session.user.id)
     console.info('Uploading audio to s3....')
     // Upload the audio file to S3
     const s3Url = await uploadAudioToS3({
-      audioBuffer: Buffer.from(audioContent), // Buffer from Google TTS API
+      audioBuffer, // Buffer from Google TTS API
       fileName: `${recipeId}.mp3`,
     });
 

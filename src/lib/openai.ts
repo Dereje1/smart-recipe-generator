@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { Ingredient, DietaryPreference, Recipe } from '../types/index'
+import { Ingredient, DietaryPreference, Recipe, ExtendedRecipe } from '../types/index'
 import aiGenerated from '../models/aigenerated';
 import { connectDB } from '../lib/mongodb';
 import { ImagesResponse } from 'openai/resources';
@@ -77,6 +77,43 @@ The "isValid" field should be true if the ingredient is commonly used in recipes
 Do not include any Markdown formatting or code blocks in your response. Return only valid JSON.`
 }
 
+const getRecipeNarrationPrompt = (recipe: ExtendedRecipe) => {
+    if (!recipe || !recipe.name || !recipe.ingredients || !recipe.instructions) {
+        return "Invalid recipe data. Please provide a valid recipe.";
+    }
+
+    const { name, ingredients, instructions, additionalInformation } = recipe;
+
+    return `Convert the following recipe into a **well-paced, engaging, and professional spoken narration**. 
+- The tone should be **warm yet polished**, like a seasoned chef or expert guide. 
+- Keep it **detailed but not overly long**—avoid dragging, but don’t rush through it.  
+- Ensure **smooth transitions between steps** so it feels natural and easy to follow.
+
+---
+
+### Recipe: **${name}**
+
+#### Ingredients:
+${ingredients.map(ing => `- **${ing.quantity}** of **${ing.name}**`).join("\n")}
+
+#### Instructions:
+${instructions.map((step, index) => `${index + 1}. ${step}`).join("\n")}
+
+${additionalInformation?.variations ? `#### Variations:\n${additionalInformation.variations}\n` : ""}
+${additionalInformation?.servingSuggestions ? `#### Serving Suggestions:\n${additionalInformation.servingSuggestions}\n` : ""}
+${additionalInformation?.nutritionalInformation ? `#### Nutritional Info:\n${additionalInformation.nutritionalInformation}\n` : ""}
+
+---
+
+🎙 **Narration Guidelines:**  
+- Begin with an **intriguing opening** to set the mood.  
+- Read ingredients **clearly but efficiently**—avoid listing them like a robot.  
+- Guide the user **step-by-step with natural transitions**, making it feel like a real-time walkthrough.  
+- End with a **brief wrap-up that reinforces the dish’s appeal** and an invitation to enjoy it.  
+- **Keep it around 60-90 seconds**—engaging, but not rushed.
+
+Make it sound **refined, enjoyable, and expertly delivered**, ensuring users feel guided by a pro.`;
+};
 
 type ResponseType = {
     recipes: string | null
@@ -167,5 +204,53 @@ export const validateIngredient = async (ingredientName: string, userId: string)
     } catch (error) {
         console.error('Failed to validate ingredient:', error);
         throw new Error('Failed to validate ingredient');
+    }
+};
+
+const getRecipeNarration = async (recipe: ExtendedRecipe, userId: string): Promise<string | null> => {
+    try {
+        const prompt = getRecipeNarrationPrompt(recipe);
+        console.info('Getting recipe narration text from OpenAI...')
+        const response = await openai.chat.completions.create({
+            model: 'gpt-4o',
+            messages: [{
+                role: 'user',
+                content: prompt,
+            }],
+            max_tokens: 1500,
+        });
+
+        const _id = await saveOpenaiResponses({ userId, prompt, response })
+
+        return response.choices[0].message?.content
+    } catch (error) {
+        console.error('Failed to generate recipe:', error);
+        throw new Error('Failed to generate recipe');
+    }
+};
+
+export const getTTS = async (recipe: ExtendedRecipe, userId: string): Promise<Buffer> => {
+    try {
+        const text = await getRecipeNarration(recipe, userId);
+        if (!text) throw new Error('Unable to get text for recipe narration');
+        // randomly choose a voice type from the available options
+        type voiceTypes = 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer'
+        const voiceChoices: voiceTypes[] = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
+        const voice = voiceChoices[Math.floor(Math.random() * voiceChoices.length)]
+        console.info('Getting recipe narration audio from OpenAI...')
+        const mp3 = await openai.audio.speech.create({
+            model: "tts-1",
+            voice,
+            input: text,
+        });
+
+        const buffer = Buffer.from(await mp3.arrayBuffer());
+
+        await saveOpenaiResponses({ userId, prompt: text, response: mp3 })
+
+        return buffer
+    } catch (error) {
+        console.error('Failed to generate recipe:', error);
+        throw new Error('Failed to generate recipe');
     }
 };
