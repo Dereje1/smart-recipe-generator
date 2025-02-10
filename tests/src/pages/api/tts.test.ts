@@ -6,7 +6,6 @@ import Recipe from '../../../../src/models/recipe';
 import { mockRequestResponse } from '../../../apiMocks';
 import { stubRecipeBatch, getServerSessionStub } from '../../../stub';
 import * as nextAuth from 'next-auth';
-import { TextToSpeechClient } from '@google-cloud/text-to-speech';
 
 // mock authOptions 
 jest.mock("../../../../src/pages/api/auth/[...nextauth]", () => ({
@@ -23,12 +22,10 @@ jest.mock('../../../../src/lib/mongodb', () => ({
     connectDB: () => Promise.resolve()
 }))
 
-/* Mock google cloud tts api */
-const mockTTSInstance = {
-    synthesizeSpeech: jest.fn(() => Promise.resolve([{ audioContent: 'some-response' }])),
-};
-
-jest.mock('@google-cloud/text-to-speech', () => ({ TextToSpeechClient: jest.fn(() => mockTTSInstance) }));
+//use to mock utility that calls openai
+jest.mock("../../../../src/lib/openai", () => ({
+    getTTS: jest.fn()
+}))
 
 // mocks aws upload
 jest.mock('../../../../src/lib/awss3', () => ({
@@ -60,7 +57,7 @@ describe('Converting Text To Speech', () => {
         const { req, res } = mockRequestResponse('POST')
         await tts(req, res)
         expect(res.statusCode).toBe(400)
-        expect(res._getJSONData()).toEqual({ "message": "Missing recipeId or text" })
+        expect(res._getJSONData()).toEqual({ "message": "Missing recipeId" })
     })
     it('shall return with error if recipe id is not sent', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
@@ -70,7 +67,6 @@ describe('Converting Text To Speech', () => {
             ...req,
             body: {
                 recipeId: 'stub_recipe_id',
-                text: 'stub_text_to_convert'
             }
         }
         await tts(updatedreq, res)
@@ -86,7 +82,6 @@ describe('Converting Text To Speech', () => {
             ...req,
             body: {
                 recipeId: 'stub_recipe_id',
-                text: 'stub_text_to_convert'
             }
         }
         await tts(updatedreq, res)
@@ -99,6 +94,7 @@ describe('Converting Text To Speech', () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub));
         Recipe.findById = jest.fn().mockImplementation(() => ({
             save: jest.fn().mockResolvedValue(true), // Mock save method
+            toObject: jest.fn()
         }));
         // Mock request and response
         const { req, res } = mockRequestResponse('POST');
@@ -106,7 +102,6 @@ describe('Converting Text To Speech', () => {
             ...req,
             body: {
                 recipeId: 'stub_recipe_id',
-                text: 'stub_text_to_convert',
             },
         };
 
@@ -116,14 +111,6 @@ describe('Converting Text To Speech', () => {
         // Assertions
         expect(res.statusCode).toBe(200);
         expect(res._getJSONData()).toEqual({ audio: 'mock-audio-link' });
-
-        // Verify TextToSpeechClient mock was used
-        const mockClient = new TextToSpeechClient();
-        expect(mockClient.synthesizeSpeech).toHaveBeenCalledWith({
-            input: { text: 'stub_text_to_convert' },
-            voice: { languageCode: 'en-US', ssmlGender: expect.any(String) },
-            audioConfig: { audioEncoding: 'MP3' },
-        });
     });
 
     it('will respond with error if POST is rejected', async () => {

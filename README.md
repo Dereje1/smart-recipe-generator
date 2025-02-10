@@ -56,7 +56,6 @@ Smart Recipe Generator is an AI-powered web application that generates unique an
     MONGO_URI=your-mongodb-uri
     S3_BUCKET_NAME=your-s3-bucket-name
     API_REQUEST_LIMIT=maximum-api-requests
-    GOOGLE_SERVICE_KEY_BASE64=your-base64-encoded-google-service-key
     ```
 
     If you wish and have Docker, you can run MongoDB locally using:

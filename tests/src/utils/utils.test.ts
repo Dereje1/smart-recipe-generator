@@ -184,7 +184,7 @@ describe('playAudio', () => {
             }
         };
 
-        setTimeout(preloadTrigger, 11000); // Beyond 10-second timeout
+        setTimeout(preloadTrigger, 21000); // Beyond 10-second timeout
         const result = playAudio('mock-audio-url', mockAudioRef);
         jest.runAllTimers();
         await expect(result).rejects.toThrow('Audio loading timeout');

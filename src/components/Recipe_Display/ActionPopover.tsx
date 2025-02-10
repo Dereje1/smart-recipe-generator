@@ -13,6 +13,7 @@ import {
 } from '@heroicons/react/16/solid'
 import DeleteDialog from './DeleteDialog';
 import audioload from '../../assets/audioload.gif';
+import audioGenerate from '../../assets/audiogenerate.gif'
 import { ExtendedRecipe } from '../../types';
 
 interface ActionPopoverProps {
@@ -37,7 +38,7 @@ interface ActionPopoverProps {
     };
 }
 
-export function ActionPopover({handlers, states, data}: ActionPopoverProps) {
+export function ActionPopover({ handlers, states, data }: ActionPopoverProps) {
 
     const handleOpenRecipe = () => {
         if (!handlers.closeDialog) return;
@@ -52,9 +53,9 @@ export function ActionPopover({handlers, states, data}: ActionPopoverProps) {
     const getAudioControls = () => {
         if (states.isLoadingAudio) {
             return <Image
-                src={audioload}
+                src={states.hasAudio ? audioload : audioGenerate}
                 alt="audio-load-gif"
-                width={150}
+                width={220}
                 height={150}
             />
         }
@@ -70,7 +71,7 @@ export function ActionPopover({handlers, states, data}: ActionPopoverProps) {
                         <PlayCircleIcon className={`h-5 w-5 ${states.hasAudio ? "text-green-500" : "text-blue-500"}`} />
                 }
 
-                {states.isPlayingAudio ? 'Stop Playing' : 'Play Recipe'}
+                {states.isPlayingAudio ? 'Stop Playing' : `${states.hasAudio ? 'Play Recipe' : 'Generate Audio'}`}
             </button>
         )
     }
@@ -100,7 +101,7 @@ export function ActionPopover({handlers, states, data}: ActionPopoverProps) {
                                 <ClipboardIcon className="h-5 w-5 text-gray-500" />
                                 Copy Link
                             </button>
-                            { getAudioControls()}
+                            {getAudioControls()}
                             {
                                 (handlers.closeDialog || data.recipe.owns) && <div className="my-1 h-px bg-gray-200" />
                             }

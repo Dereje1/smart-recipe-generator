@@ -84,10 +84,10 @@ const getRecipeNarrationPrompt = (recipe: ExtendedRecipe) => {
 
     const { name, ingredients, instructions, additionalInformation } = recipe;
 
-    return `Convert the following recipe into a **well-paced, engaging, and professional spoken narration**. 
-- The tone should be **warm yet polished**, like a seasoned chef or expert guide. 
-- Keep it **detailed but not overly long**—avoid dragging, but don’t rush through it.  
-- Ensure **smooth transitions between steps** so it feels natural and easy to follow.
+    return `Convert the following recipe into a **clear, well-paced, and engaging spoken narration**.  
+- The tone should be **natural, informative, and confident**, like a professional chef explaining a recipe in a calm and collected manner.  
+- Keep it **concise and instructional**, focusing on delivering the steps in an **efficient and natural way** without excessive enthusiasm.  
+- Transitions should be **smooth but to the point**—avoid over-explaining or dramatizing the process.  
 
 ---
 
@@ -106,14 +106,15 @@ ${additionalInformation?.nutritionalInformation ? `#### Nutritional Info:\n${add
 ---
 
 🎙 **Narration Guidelines:**  
-- Begin with an **intriguing opening** to set the mood.  
-- Read ingredients **clearly but efficiently**—avoid listing them like a robot.  
-- Guide the user **step-by-step with natural transitions**, making it feel like a real-time walkthrough.  
-- End with a **brief wrap-up that reinforces the dish’s appeal** and an invitation to enjoy it.  
-- **Keep it around 60-90 seconds**—engaging, but not rushed.
+- Deliver the narration in a **calm and professional manner**, without excessive excitement.  
+- Read ingredients **clearly and efficiently**—avoid unnecessary emphasis or dramatization.  
+- Guide the user **step-by-step with smooth but direct transitions**, keeping it **practical and instructional**.  
+- End with a **brief, professional wrap-up**, reinforcing the dish’s appeal in a **neutral and informative way**.  
+- **Keep it around 60-90 seconds**—engaging but not rushed.  
 
-Make it sound **refined, enjoyable, and expertly delivered**, ensuring users feel guided by a pro.`;
+Ensure the narration **sounds knowledgeable and practical**, maintaining a **professional and refined delivery.**`;
 };
+
 
 type ResponseType = {
     recipes: string | null
@@ -224,8 +225,8 @@ const getRecipeNarration = async (recipe: ExtendedRecipe, userId: string): Promi
 
         return response.choices[0].message?.content
     } catch (error) {
-        console.error('Failed to generate recipe:', error);
-        throw new Error('Failed to generate recipe');
+        console.error('Failed to generate recipe narration:', error);
+        throw new Error('Failed to generate recipe narration');
     }
 };
 
@@ -250,7 +251,7 @@ export const getTTS = async (recipe: ExtendedRecipe, userId: string): Promise<Bu
 
         return buffer
     } catch (error) {
-        console.error('Failed to generate recipe:', error);
-        throw new Error('Failed to generate recipe');
+        console.error('Failed to generate tts:', error);
+        throw new Error('Failed to generate tts');
     }
 };
