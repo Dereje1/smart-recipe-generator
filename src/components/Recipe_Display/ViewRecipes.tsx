@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import FrontDisplay from './FrontDisplay'
 import Dialog from './Dialog'
-import { call_api } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
 interface ViewRecipesProps {
@@ -52,6 +51,10 @@ function ViewRecipes({ recipes, handleRecipeListUpdate }: ViewRecipesProps) {
                 close={() => setOpenDialog(null)}
                 recipe={openDialog}
                 removeRecipe={removeRecipe}
+                handleRecipeListUpdate={(args)=>{
+                    handleRecipeListUpdate(args)
+                    setOpenDialog(args)
+                }}
             />
         </>
     )

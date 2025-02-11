@@ -44,7 +44,7 @@ describe('useActionPopover', () => {
     });
 
     test('handleClone navigates to the recipe creation page with query', () => {
-        const { result } = renderHook(() => useActionPopover(stub_recipe_1));
+        const { result } = renderHook(() => useActionPopover(stub_recipe_1, jest.fn()));
 
         act(() => {
             result.current.handleClone();
@@ -62,7 +62,7 @@ describe('useActionPopover', () => {
         const clipboardWriteMock = jest.fn();
         Object.assign(navigator, { clipboard: { writeText: clipboardWriteMock } });
 
-        const { result } = renderHook(() => useActionPopover(stub_recipe_1));
+        const { result } = renderHook(() => useActionPopover(stub_recipe_1, jest.fn()));
 
         await act(async () => {
             await result.current.handleCopy();
@@ -82,7 +82,7 @@ describe('useActionPopover', () => {
 
     test('handlePlayRecipe calls playAudio when recipe has audio', async () => {
         const mockAudioRecipe = { ...stub_recipe_1, audio: 'audio-link' };
-        const { result } = renderHook(() => useActionPopover(mockAudioRecipe));
+        const { result } = renderHook(() => useActionPopover(mockAudioRecipe, jest.fn()));
 
         await act(async () => {
             await result.current.handlePlayRecipe();
@@ -96,10 +96,10 @@ describe('useActionPopover', () => {
         expect(result.current.isPlayingAudio).toBe(true);
     });
 
-    test('handlePlayRecipe generates and plays audio when recipe has no audio', async () => {
+    test('handlePlayRecipe generates and pauses the audio when recipe has no audio', async () => {
         (call_api as jest.Mock).mockResolvedValue({ audio: 'generated-audio-link' });
 
-        const { result } = renderHook(() => useActionPopover(stub_recipe_1));
+        const { result } = renderHook(() => useActionPopover(stub_recipe_1, jest.fn()));
 
         await act(async () => {
             await result.current.handlePlayRecipe();
@@ -110,15 +110,10 @@ describe('useActionPopover', () => {
             method: 'post',
             payload: { recipeId: '6683b8d38475eac9af5fe838' },
         });
-        expect(playAudio).toHaveBeenCalledWith(
-            'generated-audio-link',
-            expect.any(Object),
-            expect.any(Function)
-        );
     });
 
     test('killAudio stops playback and resets states', () => {
-        const { result } = renderHook(() => useActionPopover(stub_recipe_1));
+        const { result } = renderHook(() => useActionPopover(stub_recipe_1, jest.fn()));
 
         act(() => {
             result.current.killAudio();
@@ -131,7 +126,7 @@ describe('useActionPopover', () => {
     test('handleDeleteRecipe calls delete API', async () => {
         (call_api as jest.Mock).mockResolvedValue({ success: true });
 
-        const { result } = renderHook(() => useActionPopover(stub_recipe_1));
+        const { result } = renderHook(() => useActionPopover(stub_recipe_1, jest.fn()));
 
         let response;
         await act(async () => {

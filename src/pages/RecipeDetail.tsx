@@ -23,6 +23,17 @@ export default function RecipeDetail() {
     // State to handle any errors during data fetching
     const [error, setError] = useState<string | null>(null);
 
+    const updateRecipe = (audioLink: string) => {
+        setRecipeData((prevRecipdata) => {
+            if (!prevRecipdata) return null; // Ensure we're not working with null
+
+            return {
+                ...prevRecipdata, // Keep all existing properties
+                audio: audioLink, // Update only what's necessary
+            };
+        });
+    }
+
     const {
         handleClone,
         handleCopy,
@@ -34,7 +45,7 @@ export default function RecipeDetail() {
         isPlayingAudio,
         isLoadingAudio,
         isDeleteDialogOpen
-    } = useActionPopover(recipeData);
+    } = useActionPopover(recipeData, updateRecipe);
 
     useEffect(() => {
         async function fetchRecipe() {

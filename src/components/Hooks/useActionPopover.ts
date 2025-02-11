@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { call_api, playAudio } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
-function useActionPopover(recipe: ExtendedRecipe | null) {
+function useActionPopover(recipe: ExtendedRecipe | null, updateRecipe: (audioLink: string) => void) {
     const [linkCopied, setLinkCopied] = useState(false);
     const [isLoadingAudio, setIsLoadingAudio] = useState(false);
     const [isPlayingAudio, setIsPlayingAudio] = useState(false);
@@ -80,10 +80,9 @@ function useActionPopover(recipe: ExtendedRecipe | null) {
                 method: 'post',
                 payload: { recipeId: recipe?._id },
             });
-
-            await playAudio(response.audio, audioRef, () => {
-                setIsPlayingAudio(false);
-            });
+            // just update the recipe and pause playing for a newly generated audio
+            updateRecipe(response.audio)
+            setIsPlayingAudio(false)
         } catch (error) {
             console.error('Error playing audio:', error);
             killAudio()
