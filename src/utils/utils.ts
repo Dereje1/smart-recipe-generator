@@ -21,16 +21,16 @@ export const filterResults = (recipes: ExtendedRecipe[], userId: string) => {
 }
 
 // Updates the recipe list by either replacing or removing a recipe from the list
-export const updateRecipeList = (oldList: ExtendedRecipe[], newRecipe: ExtendedRecipe | null, deleteId?: string) => {
-  const indexOfUpdate = oldList.findIndex((p) => p._id === (newRecipe ? newRecipe._id : deleteId));
-  return newRecipe ? [
-    ...oldList.slice(0, indexOfUpdate), // Preserves recipes before the updated one
-    newRecipe, // Inserts the updated recipe
-    ...oldList.slice(indexOfUpdate + 1), // Preserves recipes after the updated one
-  ] : [
-    ...oldList.slice(0, indexOfUpdate), // Preserves recipes before the deleted one
-    ...oldList.slice(indexOfUpdate + 1), // Removes the deleted recipe
-  ];
+export const updateRecipeList = (
+  oldList: ExtendedRecipe[],
+  newRecipe: ExtendedRecipe | null,
+  deleteId?: string
+) => {
+  if (!newRecipe && !deleteId) return oldList
+  const id = newRecipe ? newRecipe._id : deleteId;
+  return newRecipe
+    ? oldList.map(recipe => (recipe._id === id ? newRecipe : recipe))
+    : oldList.filter(recipe => recipe._id !== id);
 };
 
 // Filters recipes based on search criteria in name, ingredients, or dietary preferences
@@ -108,12 +108,12 @@ export const formatDate = (date: string) => {
   return `${day} ${mth} ${year}`;
 };
 
-export  const sortRecipesHelper = (recipes: ExtendedRecipe[], option: 'recent' | 'popular'): ExtendedRecipe[] => {
+export const sortRecipesHelper = (recipes: ExtendedRecipe[], option: 'recent' | 'popular'): ExtendedRecipe[] => {
   const sortedRecipes = [...recipes];
   if (option === 'recent') {
-      sortedRecipes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    sortedRecipes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   } else if (option === 'popular') {
-      sortedRecipes.sort((a, b) => (b.likedBy.length || 0) - (a.likedBy.length || 0));
+    sortedRecipes.sort((a, b) => (b.likedBy.length || 0) - (a.likedBy.length || 0));
   }
   return sortedRecipes;
 };
@@ -124,49 +124,49 @@ export const playAudio = async (
   onEnd?: () => void // Optional callback when audio finishes
 ): Promise<void> => {
   try {
-      const audio = new Audio(audioUrl);
-      audio.preload = 'auto'; // Force preloading
-      audioRef.current = audio; // Save the audio instance
+    const audio = new Audio(audioUrl);
+    audio.preload = 'auto'; // Force preloading
+    audioRef.current = audio; // Save the audio instance
 
-      // Attach the `ended` event listener
-      audio.onended = () => {
-          if (onEnd) onEnd(); // Call the callback if provided
+    // Attach the `ended` event listener
+    audio.onended = () => {
+      if (onEnd) onEnd(); // Call the callback if provided
+    };
+
+    // Explicitly force loading
+    audio.load();
+
+    // Wait for the audio to preload
+    await new Promise<void>((resolve, reject) => {
+      let isResolved = false;
+
+      audio.oncanplaythrough = () => {
+        if (!isResolved) {
+          isResolved = true;
+          resolve();
+        }
       };
 
-      // Explicitly force loading
-      audio.load();
+      audio.onerror = () => {
+        if (!isResolved) {
+          isResolved = true;
+          reject(new Error('Error loading audio'));
+        }
+      };
 
-      // Wait for the audio to preload
-      await new Promise<void>((resolve, reject) => {
-          let isResolved = false;
+      setTimeout(() => {
+        if (!isResolved) {
+          isResolved = true;
+          reject(new Error('Audio loading timeout'));
+        }
+      }, 20000); // 20 seconds timeout
+    });
 
-          audio.oncanplaythrough = () => {
-              if (!isResolved) {
-                  isResolved = true;
-                  resolve();
-              }
-          };
-
-          audio.onerror = () => {
-              if (!isResolved) {
-                  isResolved = true;
-                  reject(new Error('Error loading audio'));
-              }
-          };
-
-          setTimeout(() => {
-              if (!isResolved) {
-                  isResolved = true;
-                  reject(new Error('Audio loading timeout'));
-              }
-          }, 20000); // 20 seconds timeout
-      });
-
-      // Attempt playback
-      await audio.play();
+    // Attempt playback
+    await audio.play();
   } catch (error: any) {
-      console.error(`playAudio: Error playing audio: ${error.message}`);
-      throw error;
+    console.error(`playAudio: Error playing audio: ${error.message}`);
+    throw error;
   }
 };
 

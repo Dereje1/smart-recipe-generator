@@ -4,7 +4,7 @@
 import nock from 'nock';
 import { S3Client } from '@aws-sdk/client-s3';
 import { mockClient } from 'aws-sdk-client-mock';
-import { uploadImagesToS3 } from "../../../src/lib/awss3";
+import { uploadImagesToS3, uploadAudioToS3 } from "../../../src/lib/awss3";
 
 describe('Uploading images to S3', () => {
     let mockS3Client: any;
@@ -131,5 +131,62 @@ describe('Uploading images to S3', () => {
             { location: 'location-1', uploaded: false },
             { location: 'location-2', uploaded: false }
         ]);
+    });
+});
+
+describe('Uploading audio to S3', () => {
+    let mockS3Client: any;
+
+    // Sample audio to upload
+    const audioMock = {
+        audioBuffer: Buffer.from('mock buffer'),
+        fileName: 's3-audio-key',
+    }
+
+    beforeEach(() => {
+        // Set environment variables
+        process.env = {
+            ...process.env,
+            S3_BUCKET_NAME: 'stub-bucket-name',
+            AWS_ACCESS_KEY_ID: 'stub-accesskey',
+            AWS_SECRET_ACCESS_KEY: 'stub-secret-key',
+        };
+
+        // Mock AWS S3 client
+        mockS3Client = mockClient(S3Client);
+    });
+
+    it('will upload the audio to S3 successfully', async () => {
+        // Call the function to upload images
+        const ans = await uploadAudioToS3(audioMock);
+
+        // Extract call arguments from the mock
+        const [params1] = mockS3Client.send.args;
+
+        // Validate the parameters for the first image upload
+        expect(params1[0].input).toEqual({
+            Bucket: 'stub-bucket-name',
+            Key: 'audio/s3-audio-key',
+            Body: Buffer.from('mock buffer'),
+            ContentType: 'audio/mpeg',
+        });
+
+        expect(ans).toBe('https://stub-bucket-name.s3.us-east-1.amazonaws.com/audio/s3-audio-key')
+    });
+
+    it('will handle error if s3client cannot be configured', async () => {
+        // Update environment variables to simulate configuration error
+        process.env = {
+            ...process.env,
+            S3_BUCKET_NAME: 'stub-bucket-name',
+            AWS_ACCESS_KEY_ID: undefined,
+            AWS_SECRET_ACCESS_KEY: 'stub-secret-key',
+        };
+        try {
+            // Call the function to upload images
+           await uploadAudioToS3(audioMock);;
+        } catch (error) {
+            expect(error).toEqual(new Error('Failed to upload audio to S3: Error: Unable to configure S3'))
+        }
     });
 });

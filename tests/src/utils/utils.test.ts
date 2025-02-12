@@ -9,13 +9,18 @@ jest.mock("next-auth/react")
 
 
 describe('Refreshing a list of recipes', () => {
-    it('will update a lit of recipes', () => {
-        const newRecipe = {
+    it('will modify a list of recipes', () => {
+        const modifiedRecipe = {
             ...stubRecipeBatch[1],
             likedBy: []
         }
-        const updatedList = updateRecipeList(stubRecipeBatch, newRecipe);
+        const updatedList = updateRecipeList(stubRecipeBatch, modifiedRecipe);
         expect(updatedList[1].likedBy).toEqual([])
+    })
+    it('will remove from a list of recipes', () => {
+        expect(stubRecipeBatch.length).toBe(2)
+        const updatedList = updateRecipeList(stubRecipeBatch, null, '6683b8d38475eac9af5fe838');
+        expect(updatedList.length).toBe(1)
     })
 })
 
