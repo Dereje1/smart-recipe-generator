@@ -73,6 +73,7 @@ export interface ExtendedRecipe extends Recipe {
     owns: boolean
     liked: boolean
     audio?: string
+    tags: tagType[]
 }
 
 export interface IngredientDocumentType {

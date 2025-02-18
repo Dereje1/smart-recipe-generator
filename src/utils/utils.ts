@@ -36,11 +36,17 @@ export const updateRecipeList = (
 // Filters recipes based on search criteria in name, ingredients, or dietary preferences
 export const getFilteredRecipes = (recipes: ExtendedRecipe[], search: string | null) => {
   if (!search) return recipes;
-  const filteredRecipes = recipes.filter(({ name, ingredients, dietaryPreference }) => {
+  const filteredRecipes = recipes.filter(({ name, ingredients, dietaryPreference, tags }) => {
     const isFoundInName = name.toLowerCase().includes(search); // Matches search with recipe name
     const isFoundInIngredients = ingredients.filter(ingredient => ingredient.name.toLowerCase().includes(search)); // Matches search with ingredients
     const isFoundInDiets = dietaryPreference.filter(diet => diet.toLowerCase().includes(search)); // Matches search with dietary preferences
-    return isFoundInName || Boolean(isFoundInIngredients.length) || Boolean(isFoundInDiets.length);
+    const isFoundInTags = tags.filter(t => t.tag.toLowerCase().includes(search)); // Matches search with dietary preferences
+    return (
+      isFoundInName ||
+      Boolean(isFoundInIngredients.length) ||
+      Boolean(isFoundInDiets.length) ||
+      Boolean(isFoundInTags.length)
+    );
   });
   return filteredRecipes;
 };
