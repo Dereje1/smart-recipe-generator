@@ -27,7 +27,7 @@ jest.mock('../../../../src/lib/mongodb', () => ({
 
 //open ai validation
 jest.mock('../../../../src/lib/openai', () => ({
-    generateImages: jest.fn()
+    generateImages: jest.fn(),
 }))
 
 // mocks aws upload
@@ -86,7 +86,7 @@ describe('Saving recipes', () => {
         ]))
 
         Recipe.insertMany = jest.fn().mockImplementation(
-            () => Promise.resolve(),
+            () => Promise.resolve([]),
         );
         const { req, res } = mockRequestResponse('POST')
         const updatedreq: any = {
