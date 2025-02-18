@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
-import { generateImages } from '../../lib/openai';
+import { generateImages, generateRecipeTags } from '../../lib/openai';
 import { uploadImagesToS3 } from '../../lib/awss3';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
 import recipe from '../../models/recipe';
-import { Recipe, UploadReturnType } from '../../types';
+import { Recipe, UploadReturnType, ExtendedRecipe } from '../../types';
 
 /**
  * Helper function to get the S3 link for an uploaded image.
@@ -59,8 +59,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
 
         // Connect to MongoDB and save recipes
         await connectDB();
-        await recipe.insertMany(updatedRecipes);
+        const savedRecipes = await recipe.insertMany(updatedRecipes);
         console.info(`Successfully saved ${recipes.length} recipes to MongoDB`);
+
+        // Run `generateRecipeTags` asynchronously in the background
+        savedRecipes.forEach((r) => {
+            generateRecipeTags(r as ExtendedRecipe, session.user.id)
+                .catch((error) => console.error(`Failed to generate tags for recipe ${r.name}:`, error));
+        });
 
         // Respond with success message
         res.status(200).json({ status: 'Saved Recipes and generated the Images!' });

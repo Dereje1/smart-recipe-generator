@@ -3,6 +3,7 @@ import { Ingredient, DietaryPreference, Recipe, ExtendedRecipe } from '../types/
 import aiGenerated from '../models/aigenerated';
 import { connectDB } from '../lib/mongodb';
 import { ImagesResponse } from 'openai/resources';
+import recipeModel from '../models/recipe';
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -114,6 +115,31 @@ ${additionalInformation?.nutritionalInformation ? `#### Nutritional Info:\n${add
 
 Ensure the narration **sounds knowledgeable and practical**, maintaining a **professional and refined delivery.**`;
 };
+
+
+const getRecipeTaggingPrompt = (recipe: ExtendedRecipe) => {
+    const { name, ingredients, dietaryPreference, additionalInformation } = recipe;
+
+    // Extract ingredient names
+    const ingredientNames = ingredients.map(ingredient => ingredient.name).join(', ');
+
+    // Extract additional information
+    const { tips, variations, servingSuggestions, nutritionalInformation } = additionalInformation;
+
+    // Construct the prompt
+    const prompt = `Please provide 10 unique, single-word tags for the following recipe in a pure JSON array format. The tags should accurately and specifically describe the recipe, including its name, main ingredients, dietary preferences, and additional information. Do not number the tags. Your response should only include a single JSON array and must NOT be wrapped in JSON markdown markers.
+
+Recipe Name: ${name}
+Main Ingredients: ${ingredientNames}
+Dietary Preferences: ${dietaryPreference.join(', ')}
+Additional Information:
+- Tips: ${tips}
+- Variations: ${variations}
+- Serving Suggestions: ${servingSuggestions}
+- Nutritional Information: ${nutritionalInformation}`;
+
+    return prompt;
+}
 
 
 type ResponseType = {
@@ -253,5 +279,48 @@ export const getTTS = async (recipe: ExtendedRecipe, userId: string): Promise<Bu
     } catch (error) {
         console.error('Failed to generate tts:', error);
         throw new Error('Failed to generate tts');
+    }
+};
+
+export const generateRecipeTags = async (recipe: ExtendedRecipe, userId: string): Promise<undefined> => {
+    try {
+        const prompt = getRecipeTaggingPrompt(recipe);
+        const response = await openai.chat.completions.create({
+            model: 'gpt-4o',
+            messages: [{
+                role: 'user',
+                content: prompt,
+            }],
+            max_tokens: 1500,
+        });
+
+        const _id = await saveOpenaiResponses({ userId, prompt, response })
+
+        const [tagsObject] = response.choices;
+        const rawTags = tagsObject.message?.content?.trim();
+        let tagsArray: string[] = [];
+        if (rawTags) {
+            try {
+                tagsArray = JSON.parse(rawTags);
+                if (!Array.isArray(tagsArray) || tagsArray.some(tag => typeof tag !== 'string')) {
+                    throw new Error('Invalid JSON structure: Expected an array of strings.');
+                }
+            } catch (jsonError) {
+                console.error('JSON parsing error:', jsonError);
+                console.error('Received malformed JSON:', rawTags);
+                // Decide whether to throw an error or continue without tags
+                throw new Error('Failed to parse tags from OpenAI response.');
+            }
+        }
+        if (tagsArray.length) {
+            const tags = tagsArray.map((tag: string) => ({ tag }));
+            const update = { $set: { tags } };
+            console.info(`Adding tags -> ${tagsArray} for new recipe -> ${recipe.name} from OpenAI api`);
+            await recipeModel.findByIdAndUpdate(recipe._id, update);
+        }
+        return
+    } catch (error) {
+        console.error('Failed to generate tags for the recipe:', error);
+        throw new Error('Failed to generate tags for the recipe');
     }
 };
