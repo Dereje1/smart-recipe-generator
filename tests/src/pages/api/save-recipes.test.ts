@@ -28,6 +28,7 @@ jest.mock('../../../../src/lib/mongodb', () => ({
 //open ai validation
 jest.mock('../../../../src/lib/openai', () => ({
     generateImages: jest.fn(),
+    generateRecipeTags: () => Promise.resolve()
 }))
 
 // mocks aws upload
@@ -62,7 +63,7 @@ describe('Saving recipes', () => {
         expect(res._getData()).toEqual(JSON.stringify({ error: 'Method GET Not Allowed' }))
         expect(res._getHeaders()).toEqual({ allow: ['POST'], 'content-type': 'application/json' })
     })
-    
+
     it('shall not proceed if user is not logged in', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(null))
         const { req, res } = mockRequestResponse('POST')
@@ -86,7 +87,7 @@ describe('Saving recipes', () => {
         ]))
 
         Recipe.insertMany = jest.fn().mockImplementation(
-            () => Promise.resolve([]),
+            () => Promise.resolve(stubRecipeBatch),
         );
         const { req, res } = mockRequestResponse('POST')
         const updatedreq: any = {

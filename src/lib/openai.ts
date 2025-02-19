@@ -309,7 +309,7 @@ export const generateRecipeTags = async (recipe: ExtendedRecipe, userId: string)
                 console.error('JSON parsing error:', jsonError);
                 console.error('Received malformed JSON:', rawTags);
                 // Decide whether to throw an error or continue without tags
-                throw new Error('Failed to parse tags from OpenAI response.');
+                throw new Error(`Failed to parse tags from OpenAI response. --> ${jsonError}`);
             }
         }
         if (tagsArray.length) {
@@ -321,6 +321,6 @@ export const generateRecipeTags = async (recipe: ExtendedRecipe, userId: string)
         return
     } catch (error) {
         console.error('Failed to generate tags for the recipe:', error);
-        throw new Error('Failed to generate tags for the recipe');
+        throw new Error(`Failed to generate tags for the recipe --> ${error}`);
     }
 };

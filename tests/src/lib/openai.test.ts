@@ -1,8 +1,9 @@
 /**
  * @jest-environment node
  */
-import { generateRecipe, generateImages, validateIngredient, getTTS } from "../../../src/lib/openai";
+import { generateRecipe, generateImages, validateIngredient, getTTS, generateRecipeTags } from "../../../src/lib/openai";
 import aigenerated from "../../../src/models/aigenerated";
+import recipe from "../../../src/models/recipe";
 import OpenAI from 'openai';
 import { stubRecipeBatch } from "../../stub";
 /* Mock open ai api */
@@ -308,5 +309,70 @@ describe('generating audio from open ai', () => {
             expect(error).toEqual(new Error('Failed to generate tts'))
         }
 
+    })
+})
+
+describe('generating recipe tags from openAI', () => {
+    let openai: any;
+    beforeEach(() => {
+        openai = new OpenAI();
+    });
+    afterEach(() => {
+        openai = undefined
+    });
+    it('shall generate tags given a recipe', async () => {
+        // mock opena ai chat completion
+        openai.chat.completions.create = jest.fn().mockImplementation(() => Promise.resolve(
+            {
+                choices: [{ message: { content: JSON.stringify(["tag1", "tag2"]) } }]
+            }
+        ))
+        // mock db create querys
+        aigenerated.create = jest.fn().mockImplementation(
+            () => Promise.resolve({ _id: 1234 }),
+        );
+        recipe.findByIdAndUpdate = jest.fn().mockImplementation(
+            () => Promise.resolve()
+        );
+
+        const expectedPrompt = 'Please provide 10 unique, single-word tags for the following recipe in a pure JSON array format. The tags should accurately and specifically describe the recipe, including its name, main ingredients, dietary preferences, and additional information. Do not number the tags. Your response should only include a single JSON array and must NOT be wrapped in JSON markdown markers.\n\nRecipe Name: Recipe_1_name\nMain Ingredients: Recipe_1_Ingredient_1, Recipe_1_Ingredient_2\nDietary Preferences: Recipe_1_preference_1, Recipe_1_preference_2\nAdditional Information:\n- Tips: Recipe_1_tips\n- Variations: Recipe_1_variations\n- Serving Suggestions: Recipe_1_servingSuggestions\n- Nutritional Information: Recipe_1_nutritionalInformation'
+
+        const result = await generateRecipeTags(stubRecipeBatch[0], 'mockUserId')
+        expect(result).toEqual(undefined)
+        //console.log(openai.chat.completions.create.mock.calls[0][0])
+        expect(openai.chat.completions.create).toHaveBeenCalledWith(
+            {
+                "max_tokens": 1500,
+                "messages": [{ "content": expectedPrompt, "role": "user" }],
+                "model": "gpt-4o"
+            }
+        )
+    })
+
+    it('shall throw an error if it fails to parse the reponse from open ai', async () => {
+        // mock opena ai chat completion
+        openai.chat.completions.create = jest.fn().mockImplementation(() => Promise.resolve(
+            {
+                choices: [{
+                    message: {
+                        content: JSON.stringify({
+                            "invalid json": true
+                        })
+                    }
+                }]
+            }
+        ))
+        // mock db create querys
+        aigenerated.create = jest.fn().mockImplementation(
+            () => Promise.resolve({ _id: 1234 }),
+        );
+        recipe.findByIdAndUpdate = jest.fn().mockImplementation(
+            () => Promise.resolve()
+        );
+        try {
+            await generateRecipeTags(stubRecipeBatch[0], 'mockUserId')
+        } catch (error) {
+            expect(error).toEqual(new Error('Failed to generate tags for the recipe --> Error: Failed to parse tags from OpenAI response. --> Error: Invalid JSON structure: Expected an array of strings.'))
+        }
     })
 })

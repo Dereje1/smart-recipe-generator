@@ -20,12 +20,26 @@ jest.mock("next/router", () => ({
 
 describe('The Recipe display modal', () => {
     it('shall render', async () => {
-        const { container } = render(<RecipeDisplayModal recipe={stub_recipe_1} isOpen close={jest.fn()} removeRecipe={jest.fn()} />)
+        const { container } = render(
+            <RecipeDisplayModal
+                recipe={stub_recipe_1}
+                isOpen
+                close={jest.fn()}
+                removeRecipe={jest.fn()}
+                handleRecipeListUpdate={jest.fn()}
+            />)
         await screen.findByText('Recipe_1_name')
         // expect(container).toMatchSnapshot() <-- todo: container and screen contents not matching... why ?
     })
     it('shall handle cloning ingredients', async () => {
-        const { container } = render(<RecipeDisplayModal recipe={stub_recipe_1} isOpen close={jest.fn()} removeRecipe={jest.fn()} />)
+        const { container } = render(
+            <RecipeDisplayModal
+                recipe={stub_recipe_1}
+                isOpen
+                close={jest.fn()}
+                removeRecipe={jest.fn()}
+                handleRecipeListUpdate={jest.fn()}
+            />)
         await screen.findByText('Recipe_1_name')
         const popoverbutton = await screen.findByRole('button')
         fireEvent.click(popoverbutton)
@@ -35,7 +49,14 @@ describe('The Recipe display modal', () => {
 
     it('shall open the delete dialog', async () => {
         const deleteRecipeMock = jest.fn()
-        const { container } = render(<RecipeDisplayModal recipe={stub_recipe_1} isOpen close={jest.fn()} removeRecipe={deleteRecipeMock} />)
+        const { container } = render(
+            <RecipeDisplayModal
+                recipe={stub_recipe_1}
+                isOpen
+                close={jest.fn()}
+                removeRecipe={jest.fn()}
+                handleRecipeListUpdate={jest.fn()}
+            />)
         await screen.findByText('Recipe_1_name')
         const popoverbutton = await screen.findByRole('button')
         fireEvent.click(popoverbutton)
@@ -46,7 +67,14 @@ describe('The Recipe display modal', () => {
 
     it('shall cancel the delete recipe dialog', async () => {
         const deleteRecipeMock = jest.fn()
-        const { container } = render(<RecipeDisplayModal recipe={stub_recipe_1} isOpen close={jest.fn()} removeRecipe={deleteRecipeMock} />)
+        const { container } = render(
+            <RecipeDisplayModal
+                recipe={stub_recipe_1}
+                isOpen
+                close={jest.fn()}
+                removeRecipe={jest.fn()}
+                handleRecipeListUpdate={jest.fn()}
+            />)
         await screen.findByText('Recipe_1_name')
         const popoverbutton = await screen.findByRole('button')
         fireEvent.click(popoverbutton)
@@ -61,7 +89,13 @@ describe('The Recipe display modal', () => {
         const deleteRecipe = jest.spyOn(apiCalls, 'call_api');
         deleteRecipe.mockImplementationOnce(() => Promise.resolve({ message: 'succesfully deleted', error: null }))
         const removeRecipeMock = jest.fn()
-        const { container } = render(<RecipeDisplayModal recipe={stub_recipe_1} isOpen close={jest.fn()} removeRecipe={removeRecipeMock} />)
+        const { container } = render(
+            <RecipeDisplayModal
+                recipe={stub_recipe_1}
+                isOpen close={jest.fn()}
+                removeRecipe={removeRecipeMock}
+                handleRecipeListUpdate={jest.fn()}
+            />)
         await screen.findByText('Recipe_1_name')
         const popoverbutton = await screen.findByRole('button')
         fireEvent.click(popoverbutton)
