@@ -44,7 +44,7 @@ export const stub_recipe_1 = {
         },
     ],
     "comments": [],
-    "tags": [],
+    "tags": [{ tag: 'specialtag', _id: 'stub_tag_id' }],
     "createdAt": "2024-07-02T08:22:43.168Z",
     "updatedAt": "2024-07-06T15:13:00.968Z",
     "__v": 0,
@@ -147,7 +147,7 @@ export const stubNotifications = [
         recipeId: 'stub_recipe_id' as any,
         message: 'stub_message_1',
         read: false,
-        createdAt:'',
-        updatedAt:''
+        createdAt: '',
+        updatedAt: ''
     }
 ]
