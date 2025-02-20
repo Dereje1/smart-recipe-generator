@@ -61,6 +61,7 @@ describe('Uploading images to S3', () => {
             Body: Buffer.from('Processed Image data 1'),
             ContentType: 'image/png',
             Tagging: 'userId=mockUserId',
+            CacheControl: "public, max-age=2592000",
         });
 
         // Validate the parameters for the second image upload
@@ -70,6 +71,7 @@ describe('Uploading images to S3', () => {
             Body: Buffer.from('Processed Image data 2'),
             ContentType: 'image/png',
             Tagging: 'userId=mockUserId',
+            CacheControl: "public, max-age=2592000",
         });
 
         // Validate the returned result
@@ -169,6 +171,7 @@ describe('Uploading audio to S3', () => {
             Key: 'audio/s3-audio-key',
             Body: Buffer.from('mock buffer'),
             ContentType: 'audio/mpeg',
+            CacheControl: "public, max-age=2592000",
         });
 
         expect(ans).toBe('https://stub-bucket-name.s3.us-east-1.amazonaws.com/audio/s3-audio-key')

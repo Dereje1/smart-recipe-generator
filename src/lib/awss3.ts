@@ -64,6 +64,7 @@ export const uploadImageToS3 = async ({
             Body,
             ContentType: 'image/png',
             Tagging: `userId=${userId}`,
+            CacheControl: "public, max-age=2592000", // ✅ Apply 30-day cache
         });
         s3.send(command);
         return {
@@ -108,6 +109,7 @@ export const uploadAudioToS3 = async ({
             Key: `audio/${fileName}`, // Save audio files in an 'audio/' folder
             Body: audioBuffer,
             ContentType: 'audio/mpeg',
+            CacheControl: "public, max-age=2592000", // ✅ Apply 30-day cache
         });
 
         await s3.send(command);
