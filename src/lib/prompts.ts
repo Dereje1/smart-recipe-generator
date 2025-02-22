@@ -39,16 +39,24 @@ export const getImageGenerationPrompt = (recipeName: string, ingredients: Recipe
 };
 
 export const getIngredientValidationPrompt = (ingredientName: string): string => {
-    return `You are a food ingredient validation assistant. Given this ingredient name: ${ingredientName}, you will respond with a JSON object in the following format:
+    const prompt = `Act as a Food Ingredient Validation Assistant. Given the ingredient name: ${ingredientName}, your task is to evaluate the ingredient and return a JSON object with exactly two keys:
 
-{
-  "isValid": true/false,
-  "possibleVariations": ["variation1", "variation2", "variation3"]
-}
+{ "isValid": true/false, "possibleVariations": ["variation1", "variation2", "variation3"] }
 
-The "isValid" field should be true if the ingredient is commonly used in recipes and false otherwise. The "possibleVariations" field should be an array containing 2 or 3 variations or related ingredients to the provided ingredient name. If no variations or related ingredients are real and commonly used, return an empty array.
+Rules:
 
-Do not include any Markdown formatting or code blocks in your response. Return only valid JSON.`
+The isValid field must be true if the ingredient is commonly used in recipes, and false otherwise.
+The possibleVariations field must contain an array of 2 to 3 valid variations, alternative names, or related ingredients for the given ingredient.
+If the ingredient appears to be a misspelling, include the corrected name(s) in this array.
+If there are no recognized variations or corrections, return an empty array for possibleVariations.
+The output must be strictly valid JSON without any additional text, markdown formatting, or code blocks.
+Examples: 
+Input: "cheese" Expected Output: { "isValid": true, "possibleVariations": ["cheddar", "mozzarella", "parmesan"] }
+
+Input: "breakfast" Expected Output: { "isValid": false, "possibleVariations": [] }
+
+Input: "cuscus" Expected Output: { "isValid": false, "possibleVariations": ["couscous"] }`;
+    return prompt;
 }
 
 export const getRecipeNarrationPrompt = (recipe: ExtendedRecipe) => {
