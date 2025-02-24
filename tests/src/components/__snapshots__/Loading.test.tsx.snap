@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`The Loading spinner renders 1`] = `
+exports[`Loading Component renders the default spinner 1`] = `
 <div>
   <div
     class="flex items-center justify-center mt-5"

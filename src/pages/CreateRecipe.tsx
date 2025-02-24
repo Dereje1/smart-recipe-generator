@@ -36,6 +36,8 @@ function Navigation({
   const [generatedRecipes, setGeneratedRecipes] = useState(initialRecipes);
   const [selectedRecipeIds, setSelectedRecipeIds] = useState(initialSelectedIds);
   const [isLoading, setIsLoading] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [loadingType, setLoadingType] = useState<'generation' | 'saving'>('generation')
 
   const router = useRouter();
   const { oldIngredients } = router.query;
@@ -57,6 +59,9 @@ function Navigation({
   const handleIngredientSubmit = async () => {
     try {
       setIsLoading(true);
+      setIsComplete(false);
+      setLoadingType('generation');
+
       const { recipes, openaiPromptId } = await call_api({
         address: '/api/generate-recipes',
         method: 'post',
@@ -70,9 +75,13 @@ function Navigation({
         ...recipe,
         openaiPromptId: `${openaiPromptId}-${idx}`, // Make unique for client key iteration
       }));
-      setIsLoading(false);
+
       setGeneratedRecipes(parsedRecipes);
-      setStep(step + 1);
+      setIsComplete(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        setStep(step + 1);
+      }, 500); // Smooth transition after completion
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -82,25 +91,30 @@ function Navigation({
   const handleRecipeSubmit = async (recipes: Recipe[]) => {
     try {
       setIsLoading(true);
+      setIsComplete(false);
+      setLoadingType('saving');
       await call_api({
         address: '/api/save-recipes',
         method: 'post',
         payload: { recipes },
       });
-      setIsLoading(false);
-      setIngredients(initialIngredients);
-      setPreferences(initialPreferences);
-      setGeneratedRecipes(initialRecipes);
-      setSelectedRecipeIds(initialSelectedIds);
-      setStep(0);
-      router.push('/Profile');
+      setIsComplete(true);
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setIngredients(initialIngredients);
+        setPreferences(initialPreferences);
+        setGeneratedRecipes(initialRecipes);
+        setSelectedRecipeIds(initialSelectedIds);
+        setStep(0);
+        router.push('/Profile');
+      }, 500);
     } catch (error) {
       console.log(error);
       setIsLoading(false);
     }
   };
 
-  // Determine if current step is 4 or 5 (index 3 or 4)
   const isWideLayout = step >= 3;
 
   return recipeCreationData.reachedLimit ? (
@@ -134,7 +148,6 @@ function Navigation({
                 disabled={step === 0}
                 aria-label="Go to previous step"
               >
-                {/* Left Arrow Icon */}
                 <ChevronLeftIcon className="block mr-2 h-5 w-5"/>
                 Prev
               </button>
@@ -142,42 +155,40 @@ function Navigation({
               <button
                 type="button"
                 className={`flex items-center justify-center bg-indigo-600 text-white rounded-full px-4 py-2 transition duration-300 ease-in-out hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${step === steps.length - 1 || (step === 2 && !generatedRecipes.length)
-                    ? 'cursor-not-allowed opacity-50'
-                    : ''
+                  ? 'cursor-not-allowed opacity-50'
+                  : ''
                   }`}
                 onClick={() => updateStep(+1)}
                 disabled={step === steps.length - 1 || (step === 2 && !generatedRecipes.length)}
                 aria-label="Go to next step"
               >
                 Next
-                {/* Right Arrow Icon */}
-                <ChevronRightIcon className="block ml-2 h-5 w-5"/>
+                <ChevronRightIcon className="block ml-2 h-5 w-5" />
               </button>
             </div>
           </div>
         </div>
       </div>
+
       {/* Main content area adjusted for fixed navigation */}
-      <>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <StepComponent
-            step={step}
-            ingredientList={recipeCreationData.ingredientList}
-            ingredients={ingredients}
-            updateIngredients={(ingredients: Ingredient[]) => setIngredients(ingredients)}
-            preferences={preferences}
-            updatePreferences={(preferences: DietaryPreference[]) => setPreferences(preferences)}
-            editInputs={() => setStep(0)}
-            handleIngredientSubmit={handleIngredientSubmit}
-            generatedRecipes={generatedRecipes}
-            updateSelectedRecipes={(selectedIds) => setSelectedRecipeIds(selectedIds)}
-            selectedRecipes={selectedRecipeIds}
-            handleRecipeSubmit={handleRecipeSubmit}
-          />
-        )}
-      </>
+      {isLoading ? (
+        <Loading isProgressBar isComplete={isComplete} loadingType={loadingType}/>
+      ) : (
+        <StepComponent
+          step={step}
+          ingredientList={recipeCreationData.ingredientList}
+          ingredients={ingredients}
+          updateIngredients={setIngredients}
+          preferences={preferences}
+          updatePreferences={setPreferences}
+          editInputs={() => setStep(0)}
+          handleIngredientSubmit={handleIngredientSubmit}
+          generatedRecipes={generatedRecipes}
+          updateSelectedRecipes={setSelectedRecipeIds}
+          selectedRecipes={selectedRecipeIds}
+          handleRecipeSubmit={handleRecipeSubmit}
+        />
+      )}
     </div>
   );
 }
