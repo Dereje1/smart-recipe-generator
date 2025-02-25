@@ -33,22 +33,4 @@ describe('The recipe selection component', () => {
         fireEvent.click(firstRecipe);
         expect(props.updateSelectedRecipes).toHaveBeenCalledWith([])
     })
-
-    it('shall handle selecting all recipes', () => {
-        render(<SelectRecipesComponent {...props} />)
-        const selectAllButton = screen.getByText('Select All')
-        fireEvent.click(selectAllButton);
-        expect(props.updateSelectedRecipes).toHaveBeenCalledWith(["6683b8908475eac9af5fe834", "6683b8908475eac9af5fe836"])
-    })
-
-    it('shall handle de-selecting all recipes', () => {
-        const updatedProps = {
-            ...props,
-            selectedRecipes: ["6683b8908475eac9af5fe834", "6683b8908475eac9af5fe836"]
-        }
-        render(<SelectRecipesComponent {...props} />)
-        const selectAllButton = screen.getByText('Unselect All')
-        fireEvent.click(selectAllButton);
-        expect(props.updateSelectedRecipes).toHaveBeenCalledWith([])
-    })
 })

@@ -123,73 +123,71 @@ function Navigation({
       actionText="Go to Home"
     />
   ) : (
-    <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-100 to-white p-8">
-      {/* Fixed container for navigation */}
-      <div className="fixed top-20 inset-x-0 flex flex-col items-center justify-center p-2">
-        <div
-          className={`w-full bg-white shadow-lg rounded-2xl p-8 transition-all duration-300 ease-in-out ${isWideLayout ? 'max-w-7xl' : 'max-w-3xl'
-            }`}
-        >
-          <div className="flex flex-col items-center">
-            {/* Combined Header with Enhanced Styling */}
-            <div className="text-center">
-              <h2 className="text-lg font-medium text-gray-800 sm:text-2xl md:text-3xl">
-                Step {step + 1}: {steps[step]}
-              </h2>
-            </div>
-            {/* Enhanced Navigation Buttons */}
-            <div className="flex justify-between w-full mt-6">
-              {/* Prev Button */}
-              <button
-                type="button"
-                className={`flex items-center justify-center bg-gray-200 text-gray-700 rounded-full px-4 py-2 transition duration-300 ease-in-out hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 ${step === 0 ? 'cursor-not-allowed opacity-50' : ''
-                  }`}
-                onClick={() => updateStep(-1)}
-                disabled={step === 0}
-                aria-label="Go to previous step"
-              >
-                <ChevronLeftIcon className="block mr-2 h-5 w-5"/>
-                Prev
-              </button>
-              {/* Next Button */}
-              <button
-                type="button"
-                className={`flex items-center justify-center bg-indigo-600 text-white rounded-full px-4 py-2 transition duration-300 ease-in-out hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${step === steps.length - 1 || (step === 2 && !generatedRecipes.length)
-                  ? 'cursor-not-allowed opacity-50'
-                  : ''
-                  }`}
-                onClick={() => updateStep(+1)}
-                disabled={step === steps.length - 1 || (step === 2 && !generatedRecipes.length)}
-                aria-label="Go to next step"
-              >
-                Next
-                <ChevronRightIcon className="block ml-2 h-5 w-5" />
-              </button>
-            </div>
-          </div>
+<div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-100 to-white p-8">
+  {/* Fixed Navigation */}
+  <div className="fixed top-20 inset-x-0 flex flex-col items-center justify-center p-2 z-20">
+    <div
+      className={`w-full bg-white shadow-lg rounded-2xl p-8 transition-all duration-300 ease-in-out ${isWideLayout ? 'max-w-7xl' : 'max-w-3xl'}`}
+    >
+      <div className="flex flex-col items-center">
+        <div className="text-center">
+          <h2 className="text-lg font-medium text-gray-800 sm:text-2xl md:text-3xl">
+            Step {step + 1}: {steps[step]}
+          </h2>
+        </div>
+
+        <div className="flex justify-between w-full mt-6">
+          {/* Prev Button */}
+          <button
+            type="button"
+            className={`flex items-center justify-center bg-gray-200 text-gray-700 rounded-full px-4 py-2 transition duration-300 ease-in-out hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 ${step === 0 ? 'cursor-not-allowed opacity-50' : ''}`}
+            onClick={() => updateStep(-1)}
+            disabled={step === 0}
+            aria-label="Go to previous step"
+          >
+            <ChevronLeftIcon className="block mr-2 h-5 w-5"/>
+            Prev
+          </button>
+
+          {/* Next Button */}
+          <button
+            type="button"
+            className={`flex items-center justify-center bg-indigo-600 text-white rounded-full px-4 py-2 transition duration-300 ease-in-out hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${step === steps.length - 1 || (step === 2 && !generatedRecipes.length) ? 'cursor-not-allowed opacity-50' : ''}`}
+            onClick={() => updateStep(+1)}
+            disabled={step === steps.length - 1 || (step === 2 && !generatedRecipes.length)}
+            aria-label="Go to next step"
+          >
+            Next
+            <ChevronRightIcon className="block ml-2 h-5 w-5" />
+          </button>
         </div>
       </div>
-
-      {/* Main content area adjusted for fixed navigation */}
-      {isLoading ? (
-        <Loading isProgressBar isComplete={isComplete} loadingType={loadingType}/>
-      ) : (
-        <StepComponent
-          step={step}
-          ingredientList={recipeCreationData.ingredientList}
-          ingredients={ingredients}
-          updateIngredients={setIngredients}
-          preferences={preferences}
-          updatePreferences={setPreferences}
-          editInputs={() => setStep(0)}
-          handleIngredientSubmit={handleIngredientSubmit}
-          generatedRecipes={generatedRecipes}
-          updateSelectedRecipes={setSelectedRecipeIds}
-          selectedRecipes={selectedRecipeIds}
-          handleRecipeSubmit={handleRecipeSubmit}
-        />
-      )}
     </div>
+  </div>
+
+  {/* Main Content with Top Padding to Avoid Overlap */}
+  <div className="w-full pt-40 overflow-auto max-w-7xl">
+    {isLoading ? (
+      <Loading isProgressBar isComplete={isComplete} loadingType={loadingType}/>
+    ) : (
+      <StepComponent
+        step={step}
+        ingredientList={recipeCreationData.ingredientList}
+        ingredients={ingredients}
+        updateIngredients={setIngredients}
+        preferences={preferences}
+        updatePreferences={setPreferences}
+        editInputs={() => setStep(0)}
+        handleIngredientSubmit={handleIngredientSubmit}
+        generatedRecipes={generatedRecipes}
+        updateSelectedRecipes={setSelectedRecipeIds}
+        selectedRecipes={selectedRecipeIds}
+        handleRecipeSubmit={handleRecipeSubmit}
+      />
+    )}
+  </div>
+</div>
+
   );
 }
 

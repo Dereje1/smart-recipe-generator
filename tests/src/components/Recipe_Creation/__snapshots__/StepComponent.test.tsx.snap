@@ -299,10 +299,10 @@ exports[`The step component shall render the review and submit recipes component
     class="mt-8"
   >
     <div
-      class="flex flex-col mt-40"
+      class="flex flex-col mt-10"
     >
       <div
-        class="flex flex-wrap max-w-7xl"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         <div
           class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative mt-10 mb-5 overflow-x-hidden"
@@ -311,10 +311,14 @@ exports[`The step component shall render the review and submit recipes component
             class="px-6 py-4 relative"
           >
             <div
-              class="flex justify-between items-center"
+              class="flex justify-between items-stretch w-full"
             >
               <div
-                class="font-bold text-2xl mb-4"
+                class="font-bold text-lg sm:text-xl lg:text-2xl mb-4 
+            w-full
+            
+        "
+                title="Recipe_1_name"
               >
                 Recipe_1_name
               </div>
@@ -442,7 +446,7 @@ exports[`The step component shall render the review and submit recipes component
               fill-rule="evenodd"
             />
           </svg>
-          Submit Selected Recipes
+          Submit Selected (1) Recipes
         </button>
       </div>
     </div>
@@ -598,174 +602,118 @@ exports[`The step component shall render the select recipes component 1`] = `
     class="mt-8"
   >
     <div
-      class="flex flex-col mt-40"
+      class="flex flex-col"
     >
-      <div
-        class="flex flex-col sm:flex-row gap-4 mb-6 w-full justify-center"
+      <p
+        class="text-center text-gray-500 text-sm mb-4"
       >
-        <button
-          aria-label="Select all recipes"
-          class="flex items-center justify-center bg-emerald-500 text-white px-6 py-3 rounded-full hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition duration-300 ease-in-out"
-          data-headlessui-state=""
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="w-5 h-5 mr-2"
-            data-slot="icon"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              clip-rule="evenodd"
-              d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z"
-              fill-rule="evenodd"
-            />
-          </svg>
-          Select All
-        </button>
-        <button
-          aria-label="Unselect all recipes"
-          class="flex items-center justify-center bg-red-500 text-white px-6 py-3 rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300 ease-in-out"
-          data-headlessui-state=""
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="w-5 h-5 mr-2"
-            data-slot="icon"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              clip-rule="evenodd"
-              d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
-              fill-rule="evenodd"
-            />
-          </svg>
-          Unselect All
-        </button>
-      </div>
+        Use the switch on each recipe to select or unselect.
+      </p>
       <div
-        class="flex flex-wrap max-w-7xl"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
       >
-        <div
-          class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative mt-10 mb-5 overflow-x-hidden"
-        >
+        <div>
           <div
-            class="px-6 py-4 relative"
+            class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative mt-10 mb-5 overflow-x-hidden"
           >
             <div
-              class="flex justify-between items-center"
+              class="px-6 py-4 relative"
             >
               <div
-                class="font-bold text-2xl mb-4"
+                class="flex justify-between items-stretch w-full"
               >
-                Recipe_1_name
+                <div
+                  class="font-bold text-lg sm:text-xl lg:text-2xl mb-4 
+            truncate max-w-[65%] sm:max-w-[75%] lg:max-w-[85%]
+            cursor-pointer
+        "
+                  title=""
+                >
+                  Recipe_1_name
+                </div>
+                <button
+                  aria-checked="true"
+                  class="
+                relative inline-flex flex-shrink-0
+                bg-green-500
+                h-[20px] w-[40px] sm:h-[28px] sm:w-[54px]
+                cursor-pointer rounded-full border-2 border-transparent
+                transition-colors duration-200 ease-in-out focus:outline-none
+            "
+                  data-checked=""
+                  data-headlessui-state="checked"
+                  id="headlessui-switch-:rd:"
+                  role="switch"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="sr-only"
+                  >
+                    Use setting
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="
+                    pointer-events-none inline-block
+                    h-[16px] w-[16px] sm:h-[24px] sm:w-[23px]
+                    translate-x-5 sm:translate-x-7
+                    transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out
+                "
+                  />
+                </button>
               </div>
-              <button
-                aria-checked="true"
-                class="bg-green-500 relative inline-flex h-[28px] w-[54px] cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
-                data-checked=""
-                data-headlessui-state="checked"
-                id="headlessui-switch-:rd:"
-                role="switch"
-                tabindex="0"
-                type="button"
+              <h3
+                class="text-gray-700 font-semibold text-lg"
+              >
+                Ingredients:
+              </h3>
+              <ul
+                class="mb-4 flex flex-wrap gap-2"
+              >
+                <li>
+                  <span
+                    class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+                  >
+                    Recipe_1_Ingredient_1 (Recipe_1_Ingredient_1_quantity_1)
+                  </span>
+                </li>
+                <li>
+                  <span
+                    class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+                  >
+                    Recipe_1_Ingredient_2 (Recipe_1_Ingredient_2_quantity_2)
+                  </span>
+                </li>
+              </ul>
+              <h3
+                class="text-gray-700 font-semibold text-lg"
+              >
+                Dietary Preference:
+              </h3>
+              <div
+                class="mb-5 mt-2 flex flex-wrap gap-2"
               >
                 <span
-                  class="sr-only"
+                  class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
                 >
-                  Use setting
+                  Recipe_1_preference_1
                 </span>
                 <span
-                  aria-hidden="true"
-                  class="translate-x-7 pointer-events-none inline-block h-[24px] w-[23px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
-                />
-              </button>
-            </div>
-            <h3
-              class="text-gray-700 font-semibold text-lg"
-            >
-              Ingredients:
-            </h3>
-            <ul
-              class="mb-4 flex flex-wrap gap-2"
-            >
-              <li>
-                <span
-                  class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+                  class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
                 >
-                  Recipe_1_Ingredient_1 (Recipe_1_Ingredient_1_quantity_1)
+                  Recipe_1_preference_2
                 </span>
-              </li>
-              <li>
-                <span
-                  class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
-                >
-                  Recipe_1_Ingredient_2 (Recipe_1_Ingredient_2_quantity_2)
-                </span>
-              </li>
-            </ul>
-            <h3
-              class="text-gray-700 font-semibold text-lg"
-            >
-              Dietary Preference:
-            </h3>
-            <div
-              class="mb-5 mt-2 flex flex-wrap gap-2"
-            >
-              <span
-                class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
-              >
-                Recipe_1_preference_1
-              </span>
-              <span
-                class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
-              >
-                Recipe_1_preference_2
-              </span>
-            </div>
-            <button
-              aria-expanded="false"
-              class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
-              data-headlessui-state=""
-              id="headlessui-disclosure-button-:re:"
-              type="button"
-            >
-              <span>
-                Instructions
-              </span>
-              <svg
-                aria-hidden="true"
-                class="w-5 h-5 transform transition-transform duration-300 "
-                data-slot="icon"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
-                  fill-rule="evenodd"
-                />
-              </svg>
-            </button>
-            <div
-              class="mt-4"
-              data-headlessui-state=""
-            >
+              </div>
               <button
                 aria-expanded="false"
                 class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
                 data-headlessui-state=""
-                id="headlessui-disclosure-button-:rg:"
+                id="headlessui-disclosure-button-:re:"
                 type="button"
               >
                 <span>
-                  Additional Information
+                  Instructions
                 </span>
                 <svg
                   aria-hidden="true"
@@ -782,123 +730,140 @@ exports[`The step component shall render the select recipes component 1`] = `
                   />
                 </svg>
               </button>
+              <div
+                class="mt-4"
+                data-headlessui-state=""
+              >
+                <button
+                  aria-expanded="false"
+                  class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
+                  data-headlessui-state=""
+                  id="headlessui-disclosure-button-:rg:"
+                  type="button"
+                >
+                  <span>
+                    Additional Information
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    class="w-5 h-5 transform transition-transform duration-300 "
+                    data-slot="icon"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        <div
-          class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative mt-10 mb-5 overflow-x-hidden"
-        >
+        <div>
           <div
-            class="px-6 py-4 relative"
+            class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative mt-10 mb-5 overflow-x-hidden"
           >
             <div
-              class="flex justify-between items-center"
+              class="px-6 py-4 relative"
             >
               <div
-                class="font-bold text-2xl mb-4"
+                class="flex justify-between items-stretch w-full"
               >
-                Recipe_2_name
+                <div
+                  class="font-bold text-lg sm:text-xl lg:text-2xl mb-4 
+            truncate max-w-[65%] sm:max-w-[75%] lg:max-w-[85%]
+            cursor-pointer
+        "
+                  title=""
+                >
+                  Recipe_2_name
+                </div>
+                <button
+                  aria-checked="false"
+                  class="
+                relative inline-flex flex-shrink-0
+                bg-gray-300
+                h-[20px] w-[40px] sm:h-[28px] sm:w-[54px]
+                cursor-pointer rounded-full border-2 border-transparent
+                transition-colors duration-200 ease-in-out focus:outline-none
+            "
+                  data-headlessui-state=""
+                  id="headlessui-switch-:ri:"
+                  role="switch"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="sr-only"
+                  >
+                    Use setting
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="
+                    pointer-events-none inline-block
+                    h-[16px] w-[16px] sm:h-[24px] sm:w-[23px]
+                    translate-x-0
+                    transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out
+                "
+                  />
+                </button>
               </div>
-              <button
-                aria-checked="false"
-                class="bg-gray-300 relative inline-flex h-[28px] w-[54px] cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
-                data-headlessui-state=""
-                id="headlessui-switch-:ri:"
-                role="switch"
-                tabindex="0"
-                type="button"
+              <h3
+                class="text-gray-700 font-semibold text-lg"
+              >
+                Ingredients:
+              </h3>
+              <ul
+                class="mb-4 flex flex-wrap gap-2"
+              >
+                <li>
+                  <span
+                    class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+                  >
+                    Recipe_2_Ingredient_1 (Recipe_2_Ingredient_1_quantity_1)
+                  </span>
+                </li>
+                <li>
+                  <span
+                    class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+                  >
+                    Recipe_2_Ingredient_2 (Recipe_2_Ingredient_2_quantity_2)
+                  </span>
+                </li>
+              </ul>
+              <h3
+                class="text-gray-700 font-semibold text-lg"
+              >
+                Dietary Preference:
+              </h3>
+              <div
+                class="mb-5 mt-2 flex flex-wrap gap-2"
               >
                 <span
-                  class="sr-only"
+                  class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
                 >
-                  Use setting
+                  Recipe_2_preference_1
                 </span>
                 <span
-                  aria-hidden="true"
-                  class="translate-x-0 pointer-events-none inline-block h-[24px] w-[23px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
-                />
-              </button>
-            </div>
-            <h3
-              class="text-gray-700 font-semibold text-lg"
-            >
-              Ingredients:
-            </h3>
-            <ul
-              class="mb-4 flex flex-wrap gap-2"
-            >
-              <li>
-                <span
-                  class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
+                  class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
                 >
-                  Recipe_2_Ingredient_1 (Recipe_2_Ingredient_1_quantity_1)
+                  Recipe_2_preference_2
                 </span>
-              </li>
-              <li>
-                <span
-                  class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded"
-                >
-                  Recipe_2_Ingredient_2 (Recipe_2_Ingredient_2_quantity_2)
-                </span>
-              </li>
-            </ul>
-            <h3
-              class="text-gray-700 font-semibold text-lg"
-            >
-              Dietary Preference:
-            </h3>
-            <div
-              class="mb-5 mt-2 flex flex-wrap gap-2"
-            >
-              <span
-                class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
-              >
-                Recipe_2_preference_1
-              </span>
-              <span
-                class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
-              >
-                Recipe_2_preference_2
-              </span>
-            </div>
-            <button
-              aria-expanded="false"
-              class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
-              data-headlessui-state=""
-              id="headlessui-disclosure-button-:rj:"
-              type="button"
-            >
-              <span>
-                Instructions
-              </span>
-              <svg
-                aria-hidden="true"
-                class="w-5 h-5 transform transition-transform duration-300 "
-                data-slot="icon"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
-                  fill-rule="evenodd"
-                />
-              </svg>
-            </button>
-            <div
-              class="mt-4"
-              data-headlessui-state=""
-            >
+              </div>
               <button
                 aria-expanded="false"
                 class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
                 data-headlessui-state=""
-                id="headlessui-disclosure-button-:rl:"
+                id="headlessui-disclosure-button-:rj:"
                 type="button"
               >
                 <span>
-                  Additional Information
+                  Instructions
                 </span>
                 <svg
                   aria-hidden="true"
@@ -915,6 +880,36 @@ exports[`The step component shall render the select recipes component 1`] = `
                   />
                 </svg>
               </button>
+              <div
+                class="mt-4"
+                data-headlessui-state=""
+              >
+                <button
+                  aria-expanded="false"
+                  class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
+                  data-headlessui-state=""
+                  id="headlessui-disclosure-button-:rl:"
+                  type="button"
+                >
+                  <span>
+                    Additional Information
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    class="w-5 h-5 transform transition-transform duration-300 "
+                    data-slot="icon"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>

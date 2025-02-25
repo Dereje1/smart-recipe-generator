@@ -21,9 +21,9 @@ const ReviewRecipesComponent = ({ generatedRecipes, selectedRecipes, handleRecip
     }, [generatedRecipes, selectedRecipes])
 
     return (
-        <div className="flex flex-col mt-40">
+        <div className="flex flex-col mt-10">
 
-            <div className="flex flex-wrap max-w-7xl">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {
                     finalRecipes.map((recipe) => (
                         <RecipeCard
@@ -42,7 +42,7 @@ const ReviewRecipesComponent = ({ generatedRecipes, selectedRecipes, handleRecip
                         aria-label="Submit selected recipes"
                     >
                         <CheckIcon className="w-5 h-5 mr-2" aria-hidden="true" />
-                        Submit Selected Recipes
+                        {`Submit Selected (${finalRecipes.length}) Recipes`}
                     </Button>
                 ) : (
                     <div className="text-center text-red-500 font-medium px-4 py-3 rounded-lg bg-red-100">

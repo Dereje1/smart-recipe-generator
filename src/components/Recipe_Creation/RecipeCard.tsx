@@ -1,6 +1,7 @@
 import { Switch, Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { Recipe } from '../../types/index';
+import { useState } from 'react';
 
 interface RecipeCardProps {
     recipe: Recipe;
@@ -11,6 +12,7 @@ interface RecipeCardProps {
 }
 
 const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch, removeMargin }: RecipeCardProps) => {
+    const [isExpanded, setIsExpanded] = useState(false);
     const parentClassName = `max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative ${removeMargin ? '' : 'mt-10 mb-5'}`;
 
     return (
@@ -18,8 +20,18 @@ const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch
             <div className="px-6 py-4 relative">
 
                 {/* === Recipe Title and Optional Switch === */}
-                <div className="flex justify-between items-center">
-                    <div className="font-bold text-2xl mb-4">{recipe.name}</div>
+                <div className="flex justify-between items-stretch w-full">
+                    {/* Recipe Name - Expandable Only If Switch Exists */}
+                    <div
+                        className={`font-bold text-lg sm:text-xl lg:text-2xl mb-4 
+            ${showSwitch && !isExpanded ? 'truncate max-w-[65%] sm:max-w-[75%] lg:max-w-[85%]' : 'w-full'}
+            ${showSwitch ? 'cursor-pointer' : ''}
+        `}
+                        onClick={() => showSwitch && setIsExpanded(!isExpanded)}
+                        title={!showSwitch ? recipe.name : ''} // Tooltip for non-switch titles
+                    >
+                        {recipe.name}
+                    </div>
 
                     {/* Optional Switch to Select Recipe */}
                     {showSwitch && (
@@ -28,20 +40,28 @@ const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch
                             onChange={() =>
                                 handleRecipeSelection ? handleRecipeSelection(recipe.openaiPromptId) : undefined
                             }
-                            className={`${
-                                selectedRecipes.includes(recipe.openaiPromptId) ? 'bg-green-500' : 'bg-gray-300'
-                            } relative inline-flex h-[28px] w-[54px] cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none`}
+                            className={`
+                relative inline-flex flex-shrink-0
+                ${selectedRecipes.includes(recipe.openaiPromptId) ? 'bg-green-500' : 'bg-gray-300'}
+                h-[20px] w-[40px] sm:h-[28px] sm:w-[54px]
+                cursor-pointer rounded-full border-2 border-transparent
+                transition-colors duration-200 ease-in-out focus:outline-none
+            `}
                         >
                             <span className="sr-only">Use setting</span>
                             <span
                                 aria-hidden="true"
-                                className={`${
-                                    selectedRecipes.includes(recipe.openaiPromptId) ? 'translate-x-7' : 'translate-x-0'
-                                } pointer-events-none inline-block h-[24px] w-[23px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                                className={`
+                    pointer-events-none inline-block
+                    h-[16px] w-[16px] sm:h-[24px] sm:w-[23px]
+                    ${selectedRecipes.includes(recipe.openaiPromptId) ? 'translate-x-5 sm:translate-x-7' : 'translate-x-0'}
+                    transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out
+                `}
                             />
                         </Switch>
                     )}
                 </div>
+
 
                 {/* === Ingredients Section === */}
                 <h3 className="text-gray-700 font-semibold text-lg">Ingredients:</h3>
@@ -78,9 +98,8 @@ const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch
                             </DisclosureButton>
 
                             <DisclosurePanel
-                                className={`mt-2 px-4 pt-4 pb-2 text-sm leading-relaxed bg-gray-50 border border-gray-200 rounded-lg space-y-2 transition-all duration-300 ease-in-out ${
-                                    open ? 'opacity-100 max-h-[500px]' : 'opacity-0 max-h-0'
-                                } overflow-hidden`}
+                                className={`mt-2 px-4 pt-4 pb-2 text-sm leading-relaxed bg-gray-50 border border-gray-200 rounded-lg space-y-2 transition-all duration-300 ease-in-out ${open ? 'opacity-100 max-h-[500px]' : 'opacity-0 max-h-0'
+                                    } overflow-hidden`}
                             >
                                 <ol className="list-decimal ml-5 space-y-2">
                                     {recipe.instructions.map((instruction, idx) => (
@@ -104,9 +123,8 @@ const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch
                             </DisclosureButton>
 
                             <DisclosurePanel
-                                className={`mt-2 px-4 pt-4 pb-2 text-xs leading-relaxed bg-gray-50 border border-gray-200 rounded-lg space-y-2 transition-all duration-300 ease-in-out ${
-                                    open ? 'opacity-100 max-h-[500px]' : 'opacity-0 max-h-0'
-                                } overflow-hidden`}
+                                className={`mt-2 px-4 pt-4 pb-2 text-sm leading-relaxed bg-gray-50 border border-gray-200 rounded-lg space-y-2 transition-all duration-300 ease-in-out ${open ? 'opacity-100 max-h-[500px]' : 'opacity-0 max-h-0'
+                                    } overflow-hidden`}
                             >
                                 <div><strong>Tips:</strong> {recipe.additionalInformation.tips}</div>
                                 <div><strong>Variations:</strong> {recipe.additionalInformation.variations}</div>

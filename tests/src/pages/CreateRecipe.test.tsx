@@ -93,12 +93,13 @@ describe('Start to finish recipe creation and submission', () => {
         // select all recipes and move to submission
         const selectRecipesPage = await screen.findByText('Step 4: Select Recipes')
         expect(selectRecipesPage).toBeInTheDocument()
-        const selectAllButton = screen.getByText('Select All')
-        fireEvent.click(selectAllButton);
+        const switches = screen.getAllByRole('switch')
+        fireEvent.click(switches[0]);
+        fireEvent.click(switches[1]);
         fireEvent.click(nextButton)
         const rescipeSubmissionPage = await screen.findByText('Step 5: Review and Save Recipes')
         expect(rescipeSubmissionPage).toBeInTheDocument()
-        const submitRecipesButton = await screen.findByText('Submit Selected Recipes')
+        const submitRecipesButton = await screen.findByText('Submit Selected (2) Recipes')
         fireEvent.click(submitRecipesButton)
         // goes back to ingredient page as router push to home is mocked
         await screen.findByText('Step 1: Choose Ingredients')
