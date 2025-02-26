@@ -88,9 +88,12 @@ function Header({ user }: HeaderProps) {
                                         href="https://www.buymeacoffee.com/dereje"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="ml-4 bg-yellow-400 text-black font-bold py-2 px-4 rounded-lg shadow-md hover:opacity-80 transition"
+                                        className="ml-4 text-black relative group transition-opacity hover:opacity-80"
                                     >
-                                        ☕ Buy Me a Coffee
+                                        ☕
+                                        <span className="absolute left-0 top-full mt-1 w-max bg-white text-black text-sm px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition">
+                                            Buy Me a Coffee
+                                        </span>
                                     </a>
                                     {/* Profile dropdown */}
                                     <Menu as="div" className="relative ml-3">
@@ -167,9 +170,21 @@ function Header({ user }: HeaderProps) {
                                 href="https://www.buymeacoffee.com/dereje"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block text-center bg-yellow-400 text-black font-bold py-2 px-4 rounded-md shadow-md hover:opacity-80 transition"
+                                className="ml-4 text-black relative transition-opacity"
+                                onClick={(e) => {
+                                    const tooltip = e.currentTarget.querySelector(".tooltip");
+                                    if (tooltip) {
+                                        tooltip.classList.remove("hidden");
+                                        setTimeout(() => tooltip.classList.add("hidden"), 2000); // Hide after 2 seconds
+                                    }
+                                }}
                             >
-                                ☕ Buy Me a Coffee
+                                ☕
+                                <span
+                                    className="tooltip absolute left-1/2 -translate-x-1/2 top-full mt-2 w-max bg-white text-black text-xs px-2 py-1 rounded shadow-md hidden"
+                                >
+                                    Buy Me a Coffee
+                                </span>
                             </a>
                         </div>
                         <div className="border-t border-green-700 pb-3 pt-4">
