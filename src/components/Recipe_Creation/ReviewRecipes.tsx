@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import RecipeCard from './RecipeCard';
+import RecipeCard from '../RecipeCard';
 import { Button } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { Recipe } from '../../types/index'

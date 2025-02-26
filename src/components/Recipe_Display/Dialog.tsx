@@ -3,7 +3,7 @@ import { DialogBackdrop, Dialog, DialogPanel } from '@headlessui/react';
 import Image from 'next/image';
 import { EllipsisVerticalIcon } from '@heroicons/react/16/solid'
 import useActionPopover from '../Hooks/useActionPopover';
-import RecipeCard from '../Recipe_Creation/RecipeCard';
+import RecipeCard from '../RecipeCard';
 import Loading from '../Loading';
 import { ActionPopover } from './ActionPopover';
 import { formatDate } from '../../utils/utils';

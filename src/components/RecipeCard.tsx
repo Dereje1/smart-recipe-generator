@@ -1,6 +1,6 @@
 import { Switch, Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
-import { Recipe } from '../../types/index';
+import { Recipe } from '../types/index';
 import { useState } from 'react';
 
 interface RecipeCardProps {
