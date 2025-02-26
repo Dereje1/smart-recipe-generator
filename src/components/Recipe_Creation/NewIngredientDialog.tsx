@@ -115,7 +115,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
                 onChange={handleInputChange}
               />
             </Field>
-            <div className="text-red-400 font-bold h-[30px] mb-2">
+            <div className="text-red-400 font-bold mb-2">
               <span>{message}</span>
             </div>
             {isLoading ? <Loading /> :
