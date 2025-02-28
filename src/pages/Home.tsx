@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import { ClockIcon, FireIcon } from '@heroicons/react/24/solid';
 import SearchBar from '../components/SearchBar';
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
-import ScrollToTopButton from '../components/ScrollToTopButton';
+import FloatingActionButtons from '../components/FloatingActionButtons';
 import { getFilteredRecipes, getServerSidePropsUtility, updateRecipeList, sortRecipesHelper } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
 
@@ -93,7 +93,7 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
             </div>
 
             <ViewRecipes recipes={searchView} handleRecipeListUpdate={handleRecipeListUpdate} />
-            <ScrollToTopButton />
+            <FloatingActionButtons />
         </div>
     );
 }

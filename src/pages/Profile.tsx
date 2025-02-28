@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
 import ProfileInformation from '../components/Profile_Information/ProfileInformation';
+import ProfileStickyBanner from '../components/Profile_Information/ProfileStickyBanner';
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
 import { getServerSidePropsUtility, updateRecipeList } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
@@ -33,6 +34,8 @@ function Profile({ profileData }: ProfileProps) {
     }
     return (
         <div className="flex flex-col min-h-screen items-center">
+            {/* Show banner only if user has no recipes */}
+            <ProfileStickyBanner userHasRecipes={latestRecipes.filter(r => r.owns).length !== 0} />
             <ProfileInformation
                 recipes={latestRecipes}
                 updateSelection={(val) => setDisplaySetting(val)}

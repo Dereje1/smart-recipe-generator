@@ -11,9 +11,9 @@ const userNavigation = [
 ]
 
 const navigation = [
-    { name: 'Home', route: '/Home' },
-    { name: 'Create Recipes', route: '/CreateRecipe' },
-    { name: 'About', route: '/' },
+    { name: 'Home', route: '/Home', style: 'text-gray-300 hover:bg-green-700 hover:text-white' },
+    { name: 'Create Recipes', route: '/CreateRecipe', style: 'bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition-all animate-pulse' },
+    { name: 'About', route: '/', style: 'text-gray-300 hover:bg-green-700 hover:text-white' },
 ]
 
 function classNames(...classes: string[]) {
@@ -68,7 +68,7 @@ function Header({ user }: HeaderProps) {
                                                 className={classNames(
                                                     item.route === router.pathname
                                                         ? 'bg-green-50 text-gray-800'
-                                                        : 'text-gray-300 hover:bg-green-700 hover:text-white',
+                                                        : item.style,
                                                     'rounded-md px-3 py-2 text-sm font-medium',
                                                 )}
                                                 aria-current={item.route === router.pathname ? 'page' : undefined}
@@ -154,7 +154,7 @@ function Header({ user }: HeaderProps) {
                                 <DisclosureButton
                                     key={item.name}
                                     className={classNames(
-                                        item.route === router.pathname ? 'bg-green-50 text-gray-800' : 'text-gray-300 hover:bg-green-700 hover:text-white',
+                                        item.route === router.pathname ? 'bg-green-50 text-gray-800' : item.style,
                                         'block rounded-md px-3 py-2 text-base font-medium',
                                     )}
                                     aria-current={item.route === router.pathname ? 'page' : undefined}
