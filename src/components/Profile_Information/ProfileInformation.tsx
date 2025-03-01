@@ -29,7 +29,7 @@ function ProfileInformation({ recipes, updateSelection, selectedDisplay, AIusage
     };
 
     return (
-        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-5">
+        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow mt-5">
             <div className="flex justify-end"></div>
             <div className="flex flex-col items-center pb-10 px-4 pt-4">
                 <Image

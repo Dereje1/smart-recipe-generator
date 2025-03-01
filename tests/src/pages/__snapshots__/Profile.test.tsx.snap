@@ -6,7 +6,7 @@ exports[`The Profile component shall render for own recipes 1`] = `
     class="flex flex-col min-h-screen items-center"
   >
     <div
-      class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-5"
+      class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow mt-5"
     >
       <div
         class="flex justify-end"

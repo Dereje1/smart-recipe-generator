@@ -81,6 +81,7 @@ ${ingredients.map(ing => `- **${ing.quantity}** of **${ing.name}**`).join("\n")}
 #### Instructions:
 ${instructions.map((step, index) => `${index + 1}. ${step}`).join("\n")}
 
+${additionalInformation?.tips ? `#### Tips:\n${additionalInformation.tips}\n` : ""}
 ${additionalInformation?.variations ? `#### Variations:\n${additionalInformation.variations}\n` : ""}
 ${additionalInformation?.servingSuggestions ? `#### Serving Suggestions:\n${additionalInformation.servingSuggestions}\n` : ""}
 ${additionalInformation?.nutritionalInformation ? `#### Nutritional Info:\n${additionalInformation.nutritionalInformation}\n` : ""}
