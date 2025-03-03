@@ -18,13 +18,20 @@ const openai = new OpenAI({
 });
 
 // Save OpenAI responses in the database for logging/tracking
-const saveOpenaiResponses = async ({ userId, prompt, response }: { userId: string, prompt: string, response: any }) => {
+type SaveOpenaiResponsesType = {
+    userId: string;
+    prompt: string;
+    response: any;
+    model?: string;
+};
+const saveOpenaiResponses = async ({ userId, prompt, response, model }: SaveOpenaiResponsesType) => {
     try {
         await connectDB();
         const { _id } = await aiGenerated.create({
             userId,
             prompt,
             response,
+            model,
         });
         return _id;
     } catch (error) {
@@ -42,15 +49,16 @@ type ResponseType = {
 export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[], userId: string): Promise<ResponseType> => {
     try {
         const prompt = getRecipeGenerationPrompt(ingredients, dietaryPreferences);
+        const model = 'gpt-4o';
         const response = await openai.chat.completions.create({
-            model: 'gpt-4o',
+            model,
             messages: [{
                 role: 'user',
                 content: prompt,
             }],
             max_tokens: 1500,
         });
-        const _id = await saveOpenaiResponses({ userId, prompt, response });
+        const _id = await saveOpenaiResponses({ userId, prompt, response, model });
         return { recipes: response.choices[0].message?.content, openaiPromptId: _id || 'null-prompt-id' };
     } catch (error) {
         console.error('Failed to generate recipe:', error);
@@ -59,10 +67,10 @@ export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferenc
 };
 
 // Generate an image using DALL-E by sending an image generation prompt to OpenAI
-const generateImage = (prompt: string): Promise<ImagesResponse> => {
+const generateImage = (prompt: string, model: string): Promise<ImagesResponse> => {
     try {
         const response = openai.images.generate({
-            model: 'dall-e-3',
+            model,
             prompt,
             n: 1,
             size: '1024x1024',
@@ -76,14 +84,16 @@ const generateImage = (prompt: string): Promise<ImagesResponse> => {
 // Generate images for an array of recipes and return image links paired with recipe names
 export const generateImages = async (recipes: Recipe[], userId: string) => {
     try {
+        const model = 'dall-e-3';
         const imagePromises: Promise<ImagesResponse>[] = recipes.map(recipe =>
-            generateImage(getImageGenerationPrompt(recipe.name, recipe.ingredients))
+            generateImage(getImageGenerationPrompt(recipe.name, recipe.ingredients), model)
         );
         const images = await Promise.all(imagePromises);
         await saveOpenaiResponses({
             userId,
             prompt: `Image generation for recipe names ${recipes.map(r => r.name).join(' ,')} (note: not exact prompt)`,
-            response: images
+            response: images,
+            model
         });
         // Map each image response to its corresponding recipe name
         const imagesWithNames = images.map((imageResponse, idx) => ({
@@ -101,15 +111,16 @@ export const generateImages = async (recipes: Recipe[], userId: string) => {
 export const validateIngredient = async (ingredientName: string, userId: string): Promise<string | null> => {
     try {
         const prompt = getIngredientValidationPrompt(ingredientName);
+        const model = 'gpt-4o';
         const response = await openai.chat.completions.create({
-            model: 'gpt-4o',
+            model,
             messages: [{
                 role: 'user',
                 content: prompt,
             }],
             max_tokens: 800,
         });
-        await saveOpenaiResponses({ userId, prompt, response });
+        await saveOpenaiResponses({ userId, prompt, response, model });
         return response.choices[0].message?.content;
     } catch (error) {
         console.error('Failed to validate ingredient:', error);
@@ -122,15 +133,16 @@ const getRecipeNarration = async (recipe: ExtendedRecipe, userId: string): Promi
     try {
         const prompt = getRecipeNarrationPrompt(recipe);
         console.info('Getting recipe narration text from OpenAI...');
+        const model = 'gpt-4o';
         const response = await openai.chat.completions.create({
-            model: 'gpt-4o',
+            model,
             messages: [{
                 role: 'user',
                 content: prompt,
             }],
             max_tokens: 1500,
         });
-        const _id = await saveOpenaiResponses({ userId, prompt, response });
+        const _id = await saveOpenaiResponses({ userId, prompt, response, model });
         return response.choices[0].message?.content;
     } catch (error) {
         console.error('Failed to generate recipe narration:', error);
@@ -148,13 +160,14 @@ export const getTTS = async (recipe: ExtendedRecipe, userId: string): Promise<Bu
         const voiceChoices: voiceTypes[] = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
         const voice = voiceChoices[Math.floor(Math.random() * voiceChoices.length)];
         console.info('Getting recipe narration audio from OpenAI...');
+        const model = 'tts-1';
         const mp3 = await openai.audio.speech.create({
-            model: "tts-1",
+            model,
             voice,
             input: text,
         });
         const buffer = Buffer.from(await mp3.arrayBuffer());
-        await saveOpenaiResponses({ userId, prompt: text, response: mp3 });
+        await saveOpenaiResponses({ userId, prompt: text, response: mp3, model });
         return buffer;
     } catch (error) {
         console.error('Failed to generate tts:', error);
@@ -166,15 +179,16 @@ export const getTTS = async (recipe: ExtendedRecipe, userId: string): Promise<Bu
 export const generateRecipeTags = async (recipe: ExtendedRecipe, userId: string): Promise<undefined> => {
     try {
         const prompt = getRecipeTaggingPrompt(recipe);
+        const model = 'gpt-4o';
         const response = await openai.chat.completions.create({
-            model: 'gpt-4o',
+            model,
             messages: [{
                 role: 'user',
                 content: prompt,
             }],
             max_tokens: 1500,
         });
-        const _id = await saveOpenaiResponses({ userId, prompt, response });
+        await saveOpenaiResponses({ userId, prompt, response, model });
         const [tagsObject] = response.choices;
         const rawTags = tagsObject.message?.content?.trim();
         let tagsArray: string[] = [];
