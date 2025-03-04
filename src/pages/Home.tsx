@@ -30,7 +30,7 @@ function Home() {
         const fetchRecipes = async () => {
             setLoading(true);
             try {
-                const recipes = await call_api({
+                const {recipes} = await call_api({
                     address: `/api/get-recipes`,
                     method: 'get',
                 });

@@ -27,7 +27,7 @@ describe('The home component', () => {
     beforeEach(() => {
     //mock recipe retrieval
         getRecipesFromAPI = jest.spyOn(apiCalls, 'call_api');
-        getRecipesFromAPI.mockImplementationOnce(() => Promise.resolve(stubRecipeBatch))
+        getRecipesFromAPI.mockImplementationOnce(() => Promise.resolve({recipes: stubRecipeBatch}))
     });
     afterEach(()=>{
         getRecipesFromAPI = null;

@@ -14,15 +14,30 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
   try {
     // Connect to the database
     await connectDB();
-    // Fetch all recipes from the database and populate necessary fields
+
+    // ✅ Step 2: Get `page` and `limit` from query params (with defaults)
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 12; // Default to 12 recipes per request
+    const skip = (page - 1) * limit;
+
+    // ✅ Step 2: Get total number of recipes
+    const totalRecipes = await Recipe.countDocuments();
+    // ✅ Step 2: Fetch paginated recipes
     const allRecipes = await Recipe.find()
       .populate(['owner', 'likedBy', 'comments.user'])
-      .lean()
-      .exec() as unknown as ExtendedRecipe[];
+      .sort({ createdAt: -1 }) // Show latest recipes first
+      .skip(skip)
+      .limit(limit)
+      .lean() as unknown as ExtendedRecipe[];
 
     // Filter results based on user session and respond with the filtered recipes
     const filteredRecipes = filterResults(allRecipes, session.user.id);
-    res.status(200).json(filteredRecipes);
+    res.status(200).json({
+      recipes: filteredRecipes,
+      totalRecipes,
+      totalPages: Math.ceil(totalRecipes / limit),
+      currentPage: page,
+    });
   } catch (error) {
     // Handle any errors that occur during fetching recipes
     console.error(error);
