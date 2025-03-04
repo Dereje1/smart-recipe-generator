@@ -1,10 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
-import { GetServerSideProps } from 'next';
 import { ClockIcon, FireIcon } from '@heroicons/react/24/solid';
 import SearchBar from '../components/SearchBar';
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
 import FloatingActionButtons from '../components/FloatingActionButtons';
-import { getFilteredRecipes, getServerSidePropsUtility, updateRecipeList, sortRecipesHelper } from '../utils/utils';
+import { getFilteredRecipes, updateRecipeList, sortRecipesHelper, call_api } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
 
 const initialSearchView: ExtendedRecipe[] = []
@@ -13,17 +12,41 @@ type latestRecipes = {
     updateIndex: string | null
 }
 
-function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
+function Home() {
     const [latestRecipes, setLatestRecipes] = useState<latestRecipes>({
-        recipes,
+        recipes:[],
         updateIndex: null
     });
     const [searchVal, setSearchVal] = useState('');
     const [searchView, setSearchView] = useState(initialSearchView);
     const [sortOption, setSortOption] = useState<'recent' | 'popular'>('popular'); // New state
+    const [loading, setLoading] = useState(false);
 
     // Create refs to store the *previous* values
     const prevLatestRecipes = useRef(latestRecipes);
+
+     // ✅ Step #1: Fetch Recipes on Component Mount (Replacing getServerSideProps)
+     useEffect(() => {
+        const fetchRecipes = async () => {
+            setLoading(true);
+            try {
+                const recipes = await call_api({
+                    address: `/api/get-recipes`,
+                    method: 'get',
+                });
+                setLatestRecipes({
+                    recipes,
+                    updateIndex: null
+                });
+                setSearchView(sortRecipesHelper(recipes, sortOption)); // Default sorting
+            } catch (error) {
+                console.error('Error fetching recipes:', error);
+            }
+            setLoading(false);
+        };
+
+        fetchRecipes();
+    }, [sortOption]);
 
     useEffect(() => {
         if (prevLatestRecipes.current !== latestRecipes) {
@@ -91,15 +114,13 @@ function Home({ recipes }: { recipes: ExtendedRecipe[] }) {
                     Most Popular
                 </button>
             </div>
+            {/* Show loading indicator when fetching */}
+            {loading ? <p className="text-gray-500">Loading recipes...</p> : null}
 
             <ViewRecipes recipes={searchView} handleRecipeListUpdate={handleRecipeListUpdate} />
             <FloatingActionButtons />
         </div>
     );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    return await getServerSidePropsUtility(context, 'api/get-recipes');
-};
 
 export default Home;
