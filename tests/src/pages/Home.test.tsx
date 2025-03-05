@@ -24,6 +24,14 @@ jest.mock("next/router", () => ({
 
 describe('The home component', () => {
     let getRecipesFromAPI;
+    beforeAll(() => {
+        global.IntersectionObserver = class IntersectionObserver {
+            constructor() {}
+            observe() {}
+            unobserve() {}
+            disconnect() {}
+        } as any;
+    });
     beforeEach(() => {
     //mock recipe retrieval
         getRecipesFromAPI = jest.spyOn(apiCalls, 'call_api');
