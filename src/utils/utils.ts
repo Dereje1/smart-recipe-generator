@@ -132,16 +132,6 @@ export const formatDate = (date: string) => {
   return `${day} ${mth} ${year}`;
 };
 
-export const sortRecipesHelper = (recipes: ExtendedRecipe[], option: 'recent' | 'popular'): ExtendedRecipe[] => {
-  const sortedRecipes = [...recipes];
-  if (option === 'recent') {
-    sortedRecipes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  } else if (option === 'popular') {
-    sortedRecipes.sort((a, b) => (b.likedBy.length || 0) - (a.likedBy.length || 0));
-  }
-  return sortedRecipes;
-};
-
 export const playAudio = async (
   audioUrl: string,
   audioRef: React.MutableRefObject<HTMLAudioElement | null>,

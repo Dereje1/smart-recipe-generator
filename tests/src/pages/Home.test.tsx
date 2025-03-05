@@ -1,10 +1,12 @@
-import Home, { getServerSideProps } from "../../../src/pages/Home";
+import Home from "../../../src/pages/Home";
 import { fireEvent, render, screen } from '@testing-library/react'
 import { stubRecipeBatch } from "../../stub";
+import * as apiCalls from "../../../src/utils/utils";
 
 jest.mock("../../../src/utils/utils", () => ({
     ...jest.requireActual("../../../src/utils/utils"),
-    getServerSidePropsUtility: jest.fn(() => Promise.resolve('mock_serverside_props_return'))
+    getServerSidePropsUtility: jest.fn(() => Promise.resolve('mock_serverside_props_return')),
+    call_api: jest.fn()
 }))
 
 const routePushMock = jest.fn()
@@ -13,7 +15,7 @@ jest.mock("next/router", () => ({
     useRouter: jest.fn(() => ({
         pathName: 'mocked Path',
         push: routePushMock,
-        events:{
+        events: {
             on: jest.fn(),
             off: jest.fn()
         }
@@ -21,27 +23,45 @@ jest.mock("next/router", () => ({
 }))
 
 describe('The home component', () => {
-    it('shall render', () => {
-        render(<Home recipes={stubRecipeBatch} />)
+    let getRecipesFromAPI;
+    beforeAll(() => {
+        global.IntersectionObserver = class IntersectionObserver {
+            constructor() {}
+            observe() {}
+            unobserve() {}
+            disconnect() {}
+        } as any;
+    });
+    beforeEach(() => {
+    //mock recipe retrieval
+        getRecipesFromAPI = jest.spyOn(apiCalls, 'call_api');
+        getRecipesFromAPI.mockImplementationOnce(() => Promise.resolve({recipes: stubRecipeBatch}))
+    });
+    afterEach(()=>{
+        getRecipesFromAPI = null;
+    })
+    it('shall render', async () => {
+        render(<Home />)
+        await screen.findByText('Search')
         expect(screen.getByText('Search')).toBeInTheDocument()
         expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
     })
 
     it('shall update the search input box', async () => {
-        render(<Home recipes={stubRecipeBatch} />)
+        render(<Home />)
         const input = await screen.findByPlaceholderText('Search recipes by name, ingredient, or type...')
         fireEvent.change(input, { target: { value: 'test-search' } })
         expect(input.getAttribute('value')).toBe('test-search')
     })
 
     it('shall execute the search term', async () => {
-        render(<Home recipes={stubRecipeBatch} />)
+        render(<Home />)
         const searchButton = await screen.findByText('Search')
         fireEvent.click(searchButton)
         expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
     })
     it('shall execute an empty search and clear the search box', async () => {
-        render(<Home recipes={stubRecipeBatch} />)
+        render(<Home />)
         const input = await screen.findByPlaceholderText('Search recipes by name, ingredient, or type...')
         fireEvent.change(input, { target: { value: 'test-search' } })
         // make sure recipes are there before firing
@@ -55,13 +75,5 @@ describe('The home component', () => {
         // make sure recipes are back after executing clear
         fireEvent.click(clearButton[0])
         expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
-    })
-})
-
-
-describe('updating the serverside props', () => {
-    it('shall update', async () => {
-        const response = await getServerSideProps('' as any);
-        expect(response).toBe('mock_serverside_props_return')
     })
 })

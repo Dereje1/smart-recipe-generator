@@ -51,30 +51,28 @@ describe('Getting recipes for the home page', () => {
 
   it('shall return the recipes', async () => {
     getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
-    Recipe.find = jest.fn().mockImplementation(
+    Recipe.countDocuments = jest.fn().mockImplementation(() => 500);
+
+    Recipe.aggregate = jest.fn().mockImplementation(
       () => ({
-        populate: jest.fn().mockImplementation(() => ({
-          lean: jest.fn().mockImplementation(() => ({
-            exec: jest.fn().mockResolvedValue(stubRecipeBatch),
-          }))
-        })),
+          exec: jest.fn().mockResolvedValue(stubRecipeBatch),
       }),
-    );
+  );
     const { req, res } = mockRequestResponse()
     await recipes(req, res)
     expect(res.statusCode).toBe(200)
-    expect(res._getJSONData()).toEqual(stubRecipeBatch)
+
+    expect(res._getJSONData()).toEqual({
+      recipes: stubRecipeBatch,
+      totalRecipes: 500,
+      totalPages: 42,
+      currentPage: 1,
+    })
   })
   it('will respond with error if GET is rejected', async () => {
     getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
-    Recipe.find = jest.fn().mockImplementation(
-      () => ({
-        populate: jest.fn().mockImplementation(() => ({
-          lean: jest.fn().mockImplementation(() => ({
-            exec: jest.fn().mockRejectedValue(new Error('Mocked rejection')),
-          }))
-        })),
-      }),
+    Recipe.countDocuments = jest.fn().mockImplementation(
+      () => jest.fn().mockRejectedValue(new Error('Mocked rejection'))
     );
     const { req, res } = mockRequestResponse()
     await recipes(req, res)
