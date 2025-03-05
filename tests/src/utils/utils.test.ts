@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/react"
 import axios from "axios";
-import { updateRecipeList, getFilteredRecipes, getServerSidePropsUtility, call_api, playAudio } from "../../../src/utils/utils";
+import { updateRecipeList, getServerSidePropsUtility, call_api, playAudio } from "../../../src/utils/utils";
 import { stubRecipeBatch } from "../../stub";
 
 jest.useFakeTimers();
@@ -23,44 +23,6 @@ describe('Refreshing a list of recipes', () => {
         expect(updatedList.length).toBe(1)
     })
 })
-
-describe('Filtering recipes (search)', () => {
-    it('will return the full list if no search term is provided', () => {
-      const result = getFilteredRecipes(stubRecipeBatch, null);
-      expect(result).toEqual(stubRecipeBatch);
-    });
-  
-    it('will filter by name', () => {
-      const result = getFilteredRecipes(stubRecipeBatch, 'recipe_1');
-      expect(result).toEqual([stubRecipeBatch[0]]);
-    });
-  
-    it('will filter by ingredients', () => {
-      const result = getFilteredRecipes(stubRecipeBatch, 'recipe_2_ingredi');
-      expect(result).toEqual([stubRecipeBatch[1]]);
-    });
-  
-    it('will filter by dietary preferences', () => {
-      const result = getFilteredRecipes(stubRecipeBatch, 'recipe_1_preference_1');
-      expect(result).toEqual([stubRecipeBatch[0]]);
-    });
-  
-    // New test case: primary tag search should take precedence.
-    // Assume stubRecipeBatch[0] has a tag that includes 'specialtag'.
-    it('will filter exclusively by tags when tag matches exist', () => {
-      const result = getFilteredRecipes(stubRecipeBatch, 'specialtag');
-      // Even if other recipes match via name/ingredients/diet, only those with a matching tag should be returned.
-      expect(result).toEqual([stubRecipeBatch[0]]);
-    });
-  
-    // New test case: fallback search should be used if no tag matches are found.
-    // Assume no recipe has a tag that includes 'Recipe_2_name', but stubRecipeBatch[1] matches via name, ingredient, or dietary preference.
-    it('will use fallback search (name, ingredients, dietary preferences) when no tag matches exist', () => {
-      const result = getFilteredRecipes(stubRecipeBatch, 'Recipe_2_name');
-      expect(result).toEqual([stubRecipeBatch[1]]);
-    });
-  });
-  
 
 describe('getServerSideProps abstraction utility', () => {
     let axiosSpy: any;

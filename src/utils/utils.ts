@@ -33,42 +33,6 @@ export const updateRecipeList = (
     : oldList.filter(recipe => recipe._id !== id);
 };
 
-/**
- * Filters recipes based on a search query.
- * 
- * The function first attempts to find recipes where any tag includes the search term.
- * If any tag matches are found, those recipes are returned exclusively.
- * Otherwise, it falls back to searching within the recipe's name, ingredients, and dietary preferences.
- *
- * @param recipes - The array of recipes to filter.
- * @param search - The search query string.
- * @returns An array of recipes filtered according to the search criteria.
- */
-export const getFilteredRecipes = (recipes: ExtendedRecipe[], search: string | null): ExtendedRecipe[] => {
-  // If no search term is provided, return all recipes.
-  if (!search) return recipes;
-  const searchLower = search.toLowerCase();
-
-  // Primary search: filter recipes by checking if any tag contains the search term.
-  const tagMatches = recipes.filter(({ tags }) =>
-    tags.some(tagObj => tagObj.tag.toLowerCase().includes(searchLower))
-  );
-
-  // If there are any tag matches, return them exclusively.
-  if (tagMatches.length > 0) {
-    return tagMatches;
-  }
-
-  // Fallback search: if no tag matches were found, search in name, ingredients, and dietary preferences.
-  return recipes.filter(({ name, ingredients, dietaryPreference }) => {
-    const nameMatches = name.toLowerCase().includes(searchLower);
-    const ingredientMatches = ingredients.some(ingredient => ingredient.name.toLowerCase().includes(searchLower));
-    const dietMatches = dietaryPreference.some(diet => diet.toLowerCase().includes(searchLower));
-
-    return nameMatches || ingredientMatches || dietMatches;
-  });
-};
-
 // Utility to fetch data on server-side while ensuring user authentication
 export const getServerSidePropsUtility = async (context: GetServerSidePropsContext, address: string, propskey: string = 'recipes') => {
   try {

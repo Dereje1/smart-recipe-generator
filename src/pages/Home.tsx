@@ -4,7 +4,7 @@ import SearchBar from '../components/SearchBar';
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
 import FloatingActionButtons from '../components/FloatingActionButtons';
 import Loading from '../components/Loading';
-import { getFilteredRecipes, updateRecipeList, call_api } from '../utils/utils';
+import { updateRecipeList, call_api } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
 
 type LatestRecipes = {
@@ -28,9 +28,6 @@ const Home = () => {
             if (loading || page > totalPages) return;
             setLoading(true);
             try {
-                if (page === 1) {
-                    setLatestRecipes({ recipes: [], updateIndex: null })
-                }
                 const { recipes, totalPages: newTotalPages } = await call_api({
                     address: `/api/get-recipes?page=${page}&limit=12&sortOption=${sortOption}`,
                     method: 'get',
@@ -74,7 +71,7 @@ const Home = () => {
         if (observerRef.current) observerRef.current.disconnect();
 
         observerRef.current = new IntersectionObserver((entries) => {
-            if (entries[0]?.isIntersecting && page < totalPages) {
+            if (entries[0]?.isIntersecting && page < totalPages && !searchVal.trim()) {
                 setPage((prevPage) => prevPage + 1);
             }
         }, { threshold: 0.5 });
@@ -93,13 +90,18 @@ const Home = () => {
         });
     };
 
-    const handleSearch = () => {
-        const filteredRecipes = getFilteredRecipes(latestRecipes.recipes, searchVal.trim().toLowerCase());
+    const handleSearch = async () => {
+        if (!searchVal.trim()) return;
+        setSearchView([])
+        setLoading(true)
+        const filteredRecipes = await call_api({ address: `/api/search-recipes?query=${encodeURIComponent(searchVal)}` });
+        setLoading(false)
         setSearchView(filteredRecipes);
     };
 
     const sortRecipes = (option: 'recent' | 'popular') => {
         if (sortOption === option) return;
+        setLatestRecipes({ recipes: [], updateIndex: null })
         setSortOption(option);
         setPage(1)
     };
@@ -112,16 +114,18 @@ const Home = () => {
             <div className="flex space-x-4 mt-4 mb-4">
                 <button
                     onClick={() => sortRecipes('recent')}
-                    className={`flex items-center px-4 py-2 rounded shadow-md transition duration-300 ${sortOption === 'recent' ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300 hover:shadow-lg'
+                    className={`disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-white flex items-center px-4 py-2 rounded shadow-md transition duration-300 ${sortOption === 'recent' ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300 hover:shadow-lg'
                         }`}
+                    disabled={Boolean(searchVal.trim())}
                 >
                     <ClockIcon className="h-5 w-5 mr-2" />
                     Most Recent
                 </button>
                 <button
                     onClick={() => sortRecipes('popular')}
-                    className={`flex items-center px-4 py-2 rounded shadow-md transition duration-300 ${sortOption === 'popular' ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300 hover:shadow-lg'
+                    className={`disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-white flex items-center px-4 py-2 rounded shadow-md transition duration-300 ${sortOption === 'popular' ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300 hover:shadow-lg"'
                         }`}
+                    disabled={Boolean(searchVal.trim())}
                 >
                     <FireIcon className="h-5 w-5 mr-2" />
                     Most Popular
