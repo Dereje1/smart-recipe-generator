@@ -71,7 +71,7 @@ describe('The home component', () => {
         // make sure no matches are found and screen is cleared after executing empty search
         fireEvent.click(searchButton)
         expect(screen.queryByText('Recipe_1_name')).not.toBeInTheDocument()
-        const clearButton = await screen.findAllByRole('button')
+        const clearButton = screen.getAllByRole('button')
         // make sure recipes are back after executing clear
         fireEvent.click(clearButton[0])
         expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
