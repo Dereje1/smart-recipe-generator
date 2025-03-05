@@ -52,17 +52,12 @@ describe('Getting recipes for the home page', () => {
   it('shall return the recipes', async () => {
     getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
     Recipe.countDocuments = jest.fn().mockImplementation(() => 500);
-    Recipe.find = jest.fn().mockImplementation(() => ({
-      populate: jest.fn().mockImplementation(() => ({
-        sort: jest.fn().mockImplementation(() => ({
-          skip: jest.fn().mockImplementation(() => ({
-            limit: jest.fn().mockImplementation(() => ({
-              lean: jest.fn().mockResolvedValue(stubRecipeBatch),
-            })),
-          })),
-        })),
-      })),
-    }));
+
+    Recipe.aggregate = jest.fn().mockImplementation(
+      () => ({
+          exec: jest.fn().mockResolvedValue(stubRecipeBatch),
+      }),
+  );
     const { req, res } = mockRequestResponse()
     await recipes(req, res)
     expect(res.statusCode).toBe(200)

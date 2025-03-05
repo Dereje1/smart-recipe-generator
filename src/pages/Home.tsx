@@ -4,7 +4,7 @@ import SearchBar from '../components/SearchBar';
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
 import FloatingActionButtons from '../components/FloatingActionButtons';
 import Loading from '../components/Loading';
-import { getFilteredRecipes, updateRecipeList, sortRecipesHelper, call_api } from '../utils/utils';
+import { getFilteredRecipes, updateRecipeList, call_api } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
 
 type LatestRecipes = {
@@ -22,7 +22,6 @@ const Home = () => {
     const [totalPages, setTotalPages] = useState(1);
 
     const observerRef = useRef<IntersectionObserver | null>(null);
-    const prevLatestRecipes = useRef(latestRecipes);
 
     useEffect(() => {
         const fetchRecipes = async () => {
@@ -40,10 +39,7 @@ const Home = () => {
                     recipes: [...prev.recipes, ...recipes],
                     updateIndex: null
                 }));
-                setSearchView((prevSearchView) => [
-                    ...prevSearchView,
-                    ...sortRecipesHelper(recipes, sortOption)
-                ]);
+                setSearchView((prevSearchView) => prevSearchView.length ? prevSearchView : latestRecipes.recipes);
                 setTotalPages(newTotalPages);
             } catch (error) {
                 console.error('Error fetching recipes:', error);
@@ -56,18 +52,8 @@ const Home = () => {
     }, [sortOption, page]);
 
     useEffect(() => {
-        if (prevLatestRecipes.current !== latestRecipes) {
-            const newRecipe = latestRecipes.recipes.find(r => r._id === latestRecipes.updateIndex) || null;
-            setSearchView((prevSearchView) => updateRecipeList(prevSearchView, newRecipe));
-            prevLatestRecipes.current = latestRecipes;
-        }
-
         if (!searchVal.trim()) {
-            setSearchView((prevSearchView) =>
-                prevSearchView.length !== latestRecipes.recipes.length
-                    ? sortRecipesHelper(latestRecipes.recipes, sortOption)
-                    : prevSearchView
-            );
+            setSearchView(latestRecipes.recipes); // ✅ Directly set recipes without sorting
         }
     }, [searchVal, latestRecipes, sortOption]);
 
