@@ -4,7 +4,31 @@ import { connectDB } from '../../lib/mongodb';
 import Recipe from '../../models/recipe';
 import { filterResults } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
-import mongoose from 'mongoose';
+import mongoose, { PipelineStage } from 'mongoose';
+
+const aggreagteHelper = (sortOption: string, skip: number, limit: number): PipelineStage[] => {
+  const base: PipelineStage[] = [
+    { $skip: skip }, // ✅ Apply pagination AFTER sorting
+    { $limit: limit },
+    { $lookup: { from: "users", localField: "owner", foreignField: "_id", as: "owner" } }, // ✅ Fetch owner details
+    { $lookup: { from: "users", localField: "likedBy", foreignField: "_id", as: "likedBy" } }, // ✅ Populate likedBy array
+    { $unwind: "$owner" }, // ✅ Convert `owner` from an array to a single object
+    { $lookup: { from: "comments", localField: "comments.user", foreignField: "_id", as: "comments.user" } } // ✅ Populate comments with user details
+  ];
+
+  if (sortOption === 'popular') {
+    return [
+      { $set: { likeCount: { $size: { $ifNull: ["$likedBy", []] } } } },  // ✅ Compute `likeCount` dynamically
+      { $sort: { likeCount: -1 } },
+      ...base
+    ];
+  }
+
+  return [
+    { $sort: { createdAt: -1 } }, // Sort by creation date, field already exists no need for $set
+    ...base
+  ];
+};
 
 /**
  * API handler for fetching paginated and sorted recipes.
@@ -12,6 +36,7 @@ import mongoose from 'mongoose';
  * @param res - The Next.js API response object.
  * @param session - The user session from `apiMiddleware`.
  */
+
 const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) => {
   try {
     // ✅ Connect to the database
@@ -33,32 +58,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
     const totalRecipes = await Recipe.countDocuments();
 
     // ✅ Fetch sorted & paginated recipes using aggregation
-    const allRecipes = await Recipe.aggregate([
-      {
-        $set: { likeCount: { $size: { $ifNull: ["$likedBy", []] } } } // ✅ Compute `likeCount` dynamically
-      },
-      {
-        $sort: sortOption === 'popular' ? { likeCount: -1 } : { createdAt: -1 } // ✅ Sort by likes or creation date
-      },
-      {
-        $skip: skip // ✅ Apply pagination AFTER sorting
-      },
-      {
-        $limit: limit
-      },
-      {
-        $lookup: { from: "users", localField: "owner", foreignField: "_id", as: "owner" } // ✅ Fetch owner details
-      },
-      {
-        $lookup: { from: "users", localField: "likedBy", foreignField: "_id", as: "likedBy" } // ✅ Populate likedBy array
-      },
-      {
-        $unwind: "$owner" // ✅ Convert `owner` from an array to a single object
-      },
-      {
-        $lookup: { from: "comments", localField: "comments.user", foreignField: "_id", as: "comments.user" } // ✅ Populate comments with user details
-      }
-    ]).exec() as unknown as ExtendedRecipe[];
+    const allRecipes = await Recipe.aggregate(aggreagteHelper(sortOption, skip, limit)).exec() as unknown as ExtendedRecipe[];
 
     // ✅ Convert `_id` back to `ObjectId` to prevent breaking `filterResults()`
     const processedRecipes = allRecipes.map(recipe => ({
