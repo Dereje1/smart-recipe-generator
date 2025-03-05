@@ -18,14 +18,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
     // ✅ Step 2: Get `page` and `limit` from query params (with defaults)
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 12; // Default to 12 recipes per request
+    const sortOption = req.query.sortOption as string || 'popular'; // ✅ Get `sortOption`, default to 'popular'
     const skip = (page - 1) * limit;
+
+    // ✅ Determine sort order
+    // 🔹 TODO: MongoDB does not natively sort arrays like `{ likedBy: -1 }`.
+    // This currently works but is not ideal. We need a more robust approach,
+    // such as using an aggregation pipeline or pre-computed like counts.
+    const sortCriteria: Record<string, 1 | -1> = sortOption === 'popular' ? { likedBy: -1 } : { createdAt: -1 };
 
     // ✅ Step 2: Get total number of recipes
     const totalRecipes = await Recipe.countDocuments();
     // ✅ Step 2: Fetch paginated recipes
     const allRecipes = await Recipe.find()
       .populate(['owner', 'likedBy', 'comments.user'])
-      .sort({ createdAt: -1 }) // Show latest recipes first
+      .sort(sortCriteria) // Show latest recipes first
       .skip(skip)
       .limit(limit)
       .lean() as unknown as ExtendedRecipe[];
