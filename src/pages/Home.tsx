@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { ClockIcon, FireIcon } from '@heroicons/react/24/solid';
 import SearchBar from '../components/SearchBar';
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
@@ -22,6 +22,7 @@ const Home = () => {
     const [totalPages, setTotalPages] = useState(1);
 
     const observerRef = useRef<IntersectionObserver | null>(null);
+    const searchTimeout = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const fetchRecipes = async () => {
@@ -90,14 +91,21 @@ const Home = () => {
         });
     };
 
-    const handleSearch = async () => {
+    const handleSearch = useCallback(() => {
         if (!searchVal.trim()) return;
-        setSearchView([])
-        setLoading(true)
-        const filteredRecipes = await call_api({ address: `/api/search-recipes?query=${encodeURIComponent(searchVal)}` });
-        setLoading(false)
-        setSearchView(filteredRecipes);
-    };
+    
+        if (searchTimeout.current) clearTimeout(searchTimeout.current);
+    
+        searchTimeout.current = setTimeout(async () => {
+            setSearchView([]);
+            setLoading(true);
+            const filteredRecipes = await call_api({
+                address: `/api/search-recipes?query=${encodeURIComponent(searchVal)}`,
+            });
+            setLoading(false);
+            setSearchView(filteredRecipes);
+        }, 500); // Adjust debounce delay (500ms)
+    }, [searchVal]);
 
     const sortRecipes = (option: 'recent' | 'popular') => {
         if (sortOption === option) return;

@@ -1,5 +1,5 @@
 import Home from "../../src/pages/Home";
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { stubRecipeBatch } from "../stub";
 import * as apiCalls from "../../src/utils/utils";
 
@@ -70,7 +70,9 @@ describe('The home component', () => {
         const searchButton = await screen.findByText('Search')
         // make sure no matches are found and screen is cleared after executing empty search
         fireEvent.click(searchButton)
-        expect(screen.queryByText('Recipe_1_name')).not.toBeInTheDocument()
+        await waitFor(()=>{
+            expect(screen.queryByText('Recipe_1_name')).not.toBeInTheDocument()
+        })
         const clearButton = screen.getAllByRole('button')
         // make sure recipes are back after executing clear
         fireEvent.click(clearButton[0])
