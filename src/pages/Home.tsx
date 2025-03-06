@@ -50,7 +50,7 @@ const Home = () => {
 
     useEffect(() => {
         if (!searchVal.trim()) {
-            setSearchView(latestRecipes.recipes); // ✅ Directly set recipes without sorting
+            setSearchView(latestRecipes.recipes); // Directly set recipes without sorting
         }
     }, [searchVal, latestRecipes, sortOption]);
 
@@ -80,7 +80,7 @@ const Home = () => {
 
         return () => observerRef.current?.disconnect();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchView]); // ✅ Runs when new recipes load
+    }, [searchView]); // Runs when new recipes load
 
 
     const handleRecipeListUpdate = (recipe: ExtendedRecipe | null, deleteId?: string) => {

@@ -49,15 +49,12 @@ describe('Getting recipes for the home page', () => {
     expect(res._getJSONData()).toEqual({ error: 'You must be logged in.' })
   })
 
-  it('shall return the recipes', async () => {
+  it('shall return the most popular recipes', async () => {
     getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
     Recipe.countDocuments = jest.fn().mockImplementation(() => 500);
 
-    Recipe.aggregate = jest.fn().mockImplementation(
-      () => ({
-          exec: jest.fn().mockResolvedValue(stubRecipeBatch),
-      }),
-  );
+    Recipe.aggregate = jest.fn().mockResolvedValue(stubRecipeBatch);
+
     const { req, res } = mockRequestResponse()
     await recipes(req, res)
     expect(res.statusCode).toBe(200)
@@ -68,7 +65,125 @@ describe('Getting recipes for the home page', () => {
       totalPages: 42,
       currentPage: 1,
     })
+    // for popular
+    expect(Recipe.aggregate).toHaveBeenCalledWith([
+      {
+        "$set": {
+          "likeCount": {
+            "$size": {
+              "$ifNull": [
+                "$likedBy",
+                []
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$sort": {
+          "likeCount": -1
+        }
+      },
+      {
+        "$skip": 0
+      },
+      {
+        "$limit": 12
+      },
+      {
+        "$lookup": {
+          "as": "owner",
+          "foreignField": "_id",
+          "from": "users",
+          "localField": "owner"
+        }
+      },
+      {
+        "$lookup": {
+          "as": "likedBy",
+          "foreignField": "_id",
+          "from": "users",
+          "localField": "likedBy"
+        }
+      },
+      {
+        "$unwind": "$owner"
+      },
+      {
+        "$lookup": {
+          "as": "comments.user",
+          "foreignField": "_id",
+          "from": "comments",
+          "localField": "comments.user"
+        }
+      }
+    ])
   })
+
+  it('shall return the most recent recipes', async () => {
+    getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
+    Recipe.countDocuments = jest.fn().mockImplementation(() => 500);
+
+    Recipe.aggregate = jest.fn().mockResolvedValue(stubRecipeBatch);
+
+    const { req, res } = mockRequestResponse()
+    const updatedreq: any = {
+      ...req,
+      query: { sortOption: "recent" }
+    }
+    await recipes(updatedreq, res)
+
+    expect(res.statusCode).toBe(200)
+
+    expect(res._getJSONData()).toEqual({
+      recipes: stubRecipeBatch,
+      totalRecipes: 500,
+      totalPages: 42,
+      currentPage: 1,
+    })
+    // for popular
+    expect(Recipe.aggregate).toHaveBeenCalledWith([
+      {
+        "$sort": {
+          "createdAt": -1
+        }
+      },
+      {
+        "$skip": 0
+      },
+      {
+        "$limit": 12
+      },
+      {
+        "$lookup": {
+          "as": "owner",
+          "foreignField": "_id",
+          "from": "users",
+          "localField": "owner"
+        }
+      },
+      {
+        "$lookup": {
+          "as": "likedBy",
+          "foreignField": "_id",
+          "from": "users",
+          "localField": "likedBy"
+        }
+      },
+      {
+        "$unwind": "$owner"
+      },
+      {
+        "$lookup": {
+          "as": "comments.user",
+          "foreignField": "_id",
+          "from": "comments",
+          "localField": "comments.user"
+        }
+      }
+    ])
+  })
+
   it('will respond with error if GET is rejected', async () => {
     getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
     Recipe.countDocuments = jest.fn().mockImplementation(

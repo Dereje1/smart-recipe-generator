@@ -6,7 +6,7 @@ import { filterResults } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
 /**
- * API handler for fetching notifications for the logged-in user.
+ * API handler for searching rescipes (currently only by tags).
  * @param req - The Next.js API request object.
  * @param res - The Next.js API response object.
  */

@@ -23,28 +23,28 @@ jest.mock("next/router", () => ({
 }))
 
 describe('The home component', () => {
-    let getRecipesFromAPI;
+    let getRecipesFromAPI: any;
     beforeAll(() => {
         global.IntersectionObserver = class IntersectionObserver {
-            constructor() {}
-            observe() {}
-            unobserve() {}
-            disconnect() {}
+            constructor() { }
+            observe() { }
+            unobserve() { }
+            disconnect() { }
         } as any;
     });
     beforeEach(() => {
-    //mock recipe retrieval
+        //mock recipe retrieval
         getRecipesFromAPI = jest.spyOn(apiCalls, 'call_api');
-        getRecipesFromAPI.mockImplementationOnce(() => Promise.resolve({recipes: stubRecipeBatch}))
+        getRecipesFromAPI.mockResolvedValue({ recipes: stubRecipeBatch });
     });
-    afterEach(()=>{
+    afterEach(() => {
         getRecipesFromAPI = null;
     })
     it('shall render', async () => {
         render(<Home />)
         await screen.findByText('Search')
         expect(screen.getByText('Search')).toBeInTheDocument()
-        expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
+        expect(await screen.findByText('Recipe_1_name')).toBeInTheDocument()
     })
 
     it('shall update the search input box', async () => {
@@ -75,5 +75,26 @@ describe('The home component', () => {
         // make sure recipes are back after executing clear
         fireEvent.click(clearButton[0])
         expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
+    })
+    it('shall filter by recent', async () => {
+        render(<Home />)
+        const recentButton = await screen.findByText('Most Recent')
+        fireEvent.click(recentButton)
+        expect(await screen.findByText('Recipe_1_name')).toBeInTheDocument()
+        expect(getRecipesFromAPI.mock.calls).toEqual([
+            [
+                {
+                    address: '/api/get-recipes?page=1&limit=12&sortOption=popular',
+                    method: 'get'
+                }
+            ],
+            [
+                {
+                    address: '/api/get-recipes?page=1&limit=12&sortOption=recent',
+                    method: 'get'
+                }
+            ]
+        ]
+        )
     })
 })

@@ -52,7 +52,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
     const totalRecipes = await Recipe.countDocuments();
 
     // Fetch sorted & paginated recipes using aggregation
-    const allRecipes = await Recipe.aggregate(aggreagteHelper(sortOption, skip, limit)).exec() as unknown as ExtendedRecipe[];
+    const allRecipes = await Recipe.aggregate(aggreagteHelper(sortOption, skip, limit)) as unknown as ExtendedRecipe[];
 
     // Convert `_id` back to `ObjectId` to prevent breaking `filterResults()`
     const processedRecipes = allRecipes.map(recipe => ({
