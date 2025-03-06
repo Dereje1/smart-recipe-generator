@@ -18,12 +18,16 @@
 - **GPT-4 Recipe Generation**: Create unique recipes based on user-selected ingredients and dietary preferences.
 - **DALL·E Image Generation**: Automatically generate high-quality images of the recipes.
 - **Text-to-Speech (TTS)**: Narrate recipes aloud using AI-driven speech synthesis.
+- **AI-Generated Tags**: Recipes are automatically tagged with relevant keywords for better searchability.
 
 ### 📋 **Core Features**
 - **User Authentication**: Secure login via Google OAuth using NextAuth.js.
 - **Ingredient Selection**: Choose from a database of ingredients or add your own.
 - **Dietary Preferences**: Support for vegan, gluten-free, keto, paleo, and more.
 - **Recipe Management**: Like, save, and share recipes.
+- **Infinite Scrolling**: Browse recipes seamlessly without pagination buttons.
+- **Sort by Popularity or Newest**: View recipes sorted by likes or creation date.
+- **Tag-Based Search**: Find recipes using AI-generated tags for ingredients and dietary relevance.
 - **Notifications**: Get real-time updates on activity (likes, comments, etc.).
 - **Mobile-Responsive UI**: Fully optimized for all devices.
 
@@ -83,7 +87,9 @@ App will be live at [http://localhost:3000](http://localhost:3000).
 2. **Select Ingredients** and **Dietary Preferences**.
 3. **Generate Recipes** powered by **GPT-4**.
 4. **View AI-Generated Images** and **Play Narrations**.
-5. **Save, Like, and Share** your favorite recipes.
+5. **Search Recipes** using AI-generated tags.
+6. **Browse Recipes** with infinite scrolling and sorting by newest or most liked.
+7. **Save, Like, and Share** your favorite recipes.
 
 ---
 
