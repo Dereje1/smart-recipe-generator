@@ -108,16 +108,24 @@ export const getRecipeTaggingPrompt = (recipe: ExtendedRecipe) => {
     const { tips, variations, servingSuggestions, nutritionalInformation } = additionalInformation;
 
     // Construct the prompt
-    const prompt = `Please provide 10 unique, single-word tags for the following recipe in a pure JSON array format. The tags should accurately and specifically describe the recipe, including its name, main ingredients, dietary preferences, and additional information. Do not number the tags. Your response should only include a single JSON array and must NOT be wrapped in JSON markdown markers.
+    const prompt = `Please generate **10 unique, single-word tags** for the following recipe in a **pure JSON array format**. These tags should:
+    
+    1. **Accurately describe the recipe** based on its name, main ingredients, dietary preferences, and additional information.
+    2. **Be commonly used search terms** that people might enter when looking for recipes like this.
+    3. **Include popular keywords** related to the recipe type, cuisine, or dietary category.
+    4. **Be concise and simple**, avoiding overly technical or uncommon terms.
+    
+    **Do not number the tags.** Your response must be a single JSON array without any markdown or additional formatting.
 
-Recipe Name: ${name}
-Main Ingredients: ${ingredientNames}
-Dietary Preferences: ${dietaryPreference.join(', ')}
-Additional Information:
-- Tips: ${tips}
-- Variations: ${variations}
-- Serving Suggestions: ${servingSuggestions}
-- Nutritional Information: ${nutritionalInformation}`;
+    **Recipe Details:**
+    - **Recipe Name**: ${name}
+    - **Main Ingredients**: ${ingredientNames}
+    - **Dietary Preferences**: ${dietaryPreference.join(', ')}
+    - **Additional Information**:
+      - **Tips**: ${tips}
+      - **Variations**: ${variations}
+      - **Serving Suggestions**: ${servingSuggestions}
+      - **Nutritional Information**: ${nutritionalInformation}`;
 
     return prompt;
 }

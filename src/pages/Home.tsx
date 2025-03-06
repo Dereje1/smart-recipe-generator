@@ -100,7 +100,7 @@ const Home = () => {
             setSearchView([]);
             setLoading(true);
             const filteredRecipes = await call_api({
-                address: `/api/search-recipes?query=${encodeURIComponent(searchVal)}`,
+                address: `/api/search-recipes?query=${encodeURIComponent(searchVal.trim())}`,
             });
             setLoading(false);
             setSearchView(filteredRecipes);
