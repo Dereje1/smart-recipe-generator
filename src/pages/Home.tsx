@@ -89,13 +89,17 @@ const Home = () => {
             recipes: updateRecipeList(latestRecipes.recipes, recipe, deleteId),
             updateIndex: recipe?._id || null
         });
+        setSearchView((prevSearchView) => prevSearchView.length ?
+            updateRecipeList(prevSearchView, recipe, deleteId) :
+            latestRecipes.recipes
+        );
     };
 
     const handleSearch = useCallback(() => {
         if (!searchVal.trim()) return;
-    
+
         if (searchTimeout.current) clearTimeout(searchTimeout.current);
-    
+
         searchTimeout.current = setTimeout(async () => {
             setSearchView([]);
             setLoading(true);

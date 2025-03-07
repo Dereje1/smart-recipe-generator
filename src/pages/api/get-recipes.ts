@@ -54,18 +54,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
     // Fetch sorted & paginated recipes using aggregation
     const allRecipes = await Recipe.aggregate(aggreagteHelper(sortOption, skip, limit)) as unknown as ExtendedRecipe[];
 
-    // Convert `_id` back to `ObjectId` to prevent breaking `filterResults()`
-    const processedRecipes = allRecipes.map(recipe => ({
-      ...recipe,
-      _id: new mongoose.Types.ObjectId(recipe._id), // Ensure `_id` is `ObjectId`
-      owner: {
-        ...recipe.owner,
-        _id: new mongoose.Types.ObjectId(recipe.owner._id) // Ensure `owner._id` is `ObjectId`
-      }
-    })) as unknown as ExtendedRecipe[];
-
     // Filter results based on user session before responding
-    const filteredRecipes = filterResults(processedRecipes, session.user.id);
+    const filteredRecipes = filterResults(allRecipes, session.user.id);
 
     res.status(200).json({
       recipes: filteredRecipes,
