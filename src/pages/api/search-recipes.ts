@@ -21,12 +21,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
         await connectDB();
 
         const recipes = await Recipe.find({
-            "tags.tag": { $regex: query, $options: 'i' } // Search within the tags array
+            "tags.tag": { $regex: `\\b${query}.*`, $options: "i" } // Matches words starting with 'query'
         })
         .populate(['owner', 'likedBy', 'comments.user'])
-        .limit(Number(limit)) // Limit the number of results
+        .limit(Number(limit))
         .lean() as unknown as ExtendedRecipe[];
-
+        
         return res.status(200).json(filterResults(recipes,session.user.id) );
     } catch (error) {
         console.error('Error searching recipes by tags:', error);
