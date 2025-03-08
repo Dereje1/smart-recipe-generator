@@ -157,7 +157,7 @@ describe('Liking a recipe', () => {
         }
         await validateIngredient(updatedreq, res)
         expect(res.statusCode).toBe(200)
-        expect(res._getJSONData()).toEqual({ message: 'Success', newIngredient: 'mock-added-ingredient' })
+        expect(res._getJSONData()).toEqual({ message: 'Success', newIngredient: 'mock-added-ingredient', suggested: ['var-1', 'var-2'] })
     })
 
     it('will respond with error if POST call is rejected', async () => {

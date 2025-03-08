@@ -68,7 +68,8 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
       }
 
       if (responseMessage === 'Success') {
-        setMessage(`Successfully added: ${response.newIngredient.name}`);
+        const possibleSuggestions = response.suggested.join(', ');
+        setMessage(`Successfully added: ${response.newIngredient.name}${possibleSuggestions ? `\nAdditional suggestions: ${possibleSuggestions}` : ''}`);
         updateIngredientList(response.newIngredient);
         setIngredientName('');
       } else if (responseMessage === 'Invalid') {
@@ -92,7 +93,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
       <Button
         onClick={() => setIsOpen(true)}
         className="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
-        <PlusCircleIcon className="block mr-2 h-6 w-6"/>
+        <PlusCircleIcon className="block mr-2 h-6 w-6" />
         Add New Ingredient
       </Button>
       <Dialog open={isOpen} onClose={() => { }} className="relative z-50">
@@ -115,7 +116,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
                 onChange={handleInputChange}
               />
             </Field>
-            <div className="text-red-400 font-bold mb-2">
+            <div className="text-red-400 font-bold mb-2" style={{ whiteSpace: 'pre-line' }}>
               <span>{message}</span>
             </div>
             {isLoading ? <Loading /> :

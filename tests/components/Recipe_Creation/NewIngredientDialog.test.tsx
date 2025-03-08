@@ -50,8 +50,9 @@ describe('The new Ingredient Dialog', () => {
         addIngredient.mockImplementationOnce(() => Promise.resolve({
             message: 'Success',
             newIngredient: {
-                name: 'ingredient-3'
-            }
+                name: 'ingredient-3',
+            },
+            suggested: ['ingredient-A', 'ingredient-B', 'ingredient-C']
         }))
         render(<NewIngredientDialog {...props} />)
         const openButton = await screen.findByText('Add New Ingredient')
@@ -60,7 +61,7 @@ describe('The new Ingredient Dialog', () => {
         fireEvent.change(input, { target: { value: 'ingredient-3' } })
         const submitButton = await screen.findByText('Submit')
         fireEvent.click(submitButton);
-        const message = await screen.findByText('Successfully added: ingredient-3')
+        const message = await screen.findByText(/^Successfully added: ingredient-3/)
         expect(message).toBeInTheDocument();
         expect(addIngredient).toHaveBeenCalledWith({
             "address": "/api/validate-ingredient", 

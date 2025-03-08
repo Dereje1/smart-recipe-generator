@@ -38,7 +38,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
                     });
                     return res.status(200).json({
                         message: 'Success',
-                        newIngredient
+                        newIngredient,
+                        suggested: parsedResponse.possibleVariations
                     });
                 } else {
                     // Respond with error if ingredient already exists
