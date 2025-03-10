@@ -4,6 +4,7 @@ import SearchBar from '../components/SearchBar';
 import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
 import FloatingActionButtons from '../components/FloatingActionButtons';
 import Loading from '../components/Loading';
+import PopularTags from '../components/PopularTags';
 import { updateRecipeList, call_api } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
 
@@ -11,6 +12,11 @@ type LatestRecipes = {
     recipes: ExtendedRecipe[];
     updateIndex: string | null;
 };
+
+interface Tag {
+    _id: string;
+    count: number;
+}
 
 const Home = () => {
     const [latestRecipes, setLatestRecipes] = useState<LatestRecipes>({ recipes: [], updateIndex: null });
@@ -20,6 +26,7 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [popularTags, setPopularTags] = useState<Tag[]>([]);
 
     const observerRef = useRef<IntersectionObserver | null>(null);
     const searchTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -29,7 +36,7 @@ const Home = () => {
             if (loading || page > totalPages) return;
             setLoading(true);
             try {
-                const { recipes, totalPages: newTotalPages } = await call_api({
+                const { recipes, totalPages: newTotalPages, popularTags: newPopularTags } = await call_api({
                     address: `/api/get-recipes?page=${page}&limit=12&sortOption=${sortOption}`,
                     method: 'get',
                 });
@@ -39,6 +46,7 @@ const Home = () => {
                 }));
                 setSearchView((prevSearchView) => prevSearchView.length ? prevSearchView : latestRecipes.recipes);
                 setTotalPages(newTotalPages);
+                setPopularTags(newPopularTags)
             } catch (error) {
                 console.error('Error fetching recipes:', error);
             }
@@ -118,10 +126,35 @@ const Home = () => {
         setPage(1)
     };
 
+    const handleTagSearch = async (tag: string) => {
+        if (searchVal === tag) {
+            // If the same tag is clicked again, reset to all recipes
+            setSearchVal("");
+            setSearchView(latestRecipes.recipes);
+            return;
+        }
+
+        // Set searchVal to the selected tag for UI purposes
+        setSearchVal(tag);
+        setSearchView([]); // Clear previous results
+        setLoading(true);
+
+        try {
+            const filteredRecipes = await call_api({
+                address: `/api/search-recipes?query=${encodeURIComponent(tag)}`,
+            });
+            setSearchView(filteredRecipes);
+        } catch (error) {
+            console.error("Error fetching recipes by tag:", error);
+        }
+
+        setLoading(false);
+    };
+
     return (
         <div className="flex flex-col min-h-screen items-center px-4">
             <SearchBar searchVal={searchVal} setSearchVal={setSearchVal} handleSearch={handleSearch} />
-
+            <PopularTags tags={popularTags} onTagToggle={handleTagSearch} searchVal={searchVal} />
             {/* Sorting Buttons */}
             <div className="flex space-x-4 mt-4 mb-4">
                 <button

@@ -4,7 +4,7 @@ import { connectDB } from '../../lib/mongodb';
 import Recipe from '../../models/recipe';
 import { filterResults } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
-import mongoose, { PipelineStage } from 'mongoose';
+import { PipelineStage } from 'mongoose';
 
 const aggreagteHelper = (sortOption: string, skip: number, limit: number): PipelineStage[] => {
   const base: PipelineStage[] = [
@@ -48,11 +48,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
     const sortOption = req.query.sortOption as string || 'popular'; // Default: `popular`
     const skip = (page - 1) * limit;
 
-    // Get total number of recipes for pagination
-    const totalRecipes = await Recipe.countDocuments();
+    // Execute all queries in parallel using Promise.all()
+    const [allRecipes, popularTags, totalRecipes] = await Promise.all([
+      // Query 1: Fetch sorted & paginated recipes
+      Recipe.aggregate(aggreagteHelper(sortOption, skip, limit)) as unknown as ExtendedRecipe[],
 
-    // Fetch sorted & paginated recipes using aggregation
-    const allRecipes = await Recipe.aggregate(aggreagteHelper(sortOption, skip, limit)) as unknown as ExtendedRecipe[];
+      // Query 2: Compute the most common tags from `tags.tags`
+      Recipe.aggregate([
+        { $unwind: "$tags" }, // Unwind `tags` sub-document first
+        { $unwind: "$tags.tag" }, // Then unwind `tags.tags` array inside it
+        { $group: { _id: "$tags.tag", count: { $sum: 1 } } }, // Count occurrences of each tag
+        { $sort: { count: -1 } }, // Sort tags by frequency (descending)
+        { $limit: 20 } // Get the top 20 most popular tags
+      ]),
+
+      // Query 3: Get total number of recipes for pagination
+      Recipe.countDocuments()
+    ]);
 
     // Filter results based on user session before responding
     const filteredRecipes = filterResults(allRecipes, session.user.id);
@@ -62,6 +74,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
       totalRecipes,
       totalPages: Math.ceil(totalRecipes / limit),
       currentPage: page,
+      popularTags
     });
 
   } catch (error) {

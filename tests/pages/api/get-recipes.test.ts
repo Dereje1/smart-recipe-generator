@@ -53,7 +53,10 @@ describe('Getting recipes for the home page', () => {
     getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
     Recipe.countDocuments = jest.fn().mockImplementation(() => 500);
 
-    Recipe.aggregate = jest.fn().mockResolvedValue(stubRecipeBatch);
+    // Mock `Recipe.aggregate` for `allRecipes`
+    Recipe.aggregate = jest.fn()
+      .mockResolvedValueOnce(stubRecipeBatch)  // First call: allRecipes
+      .mockResolvedValueOnce(['tag-1', 'tag-2']); // Second call: popularTags
 
     const { req, res } = mockRequestResponse()
     await recipes(req, res)
@@ -64,9 +67,10 @@ describe('Getting recipes for the home page', () => {
       totalRecipes: 500,
       totalPages: 42,
       currentPage: 1,
+      popularTags: ['tag-1', 'tag-2']
     })
-    // for popular
-    expect(Recipe.aggregate).toHaveBeenCalledWith([
+    // for popular lookup
+    expect(Recipe.aggregate).toHaveBeenNthCalledWith(1,[
       {
         "$set": {
           "likeCount": {
@@ -118,13 +122,25 @@ describe('Getting recipes for the home page', () => {
         }
       }
     ])
+
+    // for popular tags lookup
+    expect(Recipe.aggregate).toHaveBeenNthCalledWith(2, [
+      { $unwind: "$tags" },
+      { $unwind: "$tags.tag" },
+      { $group: { _id: "$tags.tag", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 20 }
+    ])
   })
 
   it('shall return the most recent recipes', async () => {
     getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
     Recipe.countDocuments = jest.fn().mockImplementation(() => 500);
 
-    Recipe.aggregate = jest.fn().mockResolvedValue(stubRecipeBatch);
+    // Mock `Recipe.aggregate` for `allRecipes`
+    Recipe.aggregate = jest.fn()
+      .mockResolvedValueOnce(stubRecipeBatch)  // First call: allRecipes
+      .mockResolvedValueOnce(['tag-1', 'tag-2']); // Second call: popularTags
 
     const { req, res } = mockRequestResponse()
     const updatedreq: any = {
@@ -140,9 +156,10 @@ describe('Getting recipes for the home page', () => {
       totalRecipes: 500,
       totalPages: 42,
       currentPage: 1,
+      popularTags: ['tag-1', 'tag-2']
     })
-    // for popular
-    expect(Recipe.aggregate).toHaveBeenCalledWith([
+    // for recent lookup
+    expect(Recipe.aggregate).toHaveBeenNthCalledWith(1, [
       {
         "$sort": {
           "createdAt": -1
@@ -181,6 +198,14 @@ describe('Getting recipes for the home page', () => {
           "localField": "comments.user"
         }
       }
+    ])
+    // for popular tags lookup
+    expect(Recipe.aggregate).toHaveBeenNthCalledWith(2, [
+      { $unwind: "$tags" },
+      { $unwind: "$tags.tag" },
+      { $group: { _id: "$tags.tag", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 20 }
     ])
   })
 

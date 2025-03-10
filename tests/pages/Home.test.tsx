@@ -35,7 +35,7 @@ describe('The home component', () => {
     beforeEach(() => {
         //mock recipe retrieval
         getRecipesFromAPI = jest.spyOn(apiCalls, 'call_api');
-        getRecipesFromAPI.mockResolvedValue({ recipes: stubRecipeBatch });
+        getRecipesFromAPI.mockResolvedValue({ recipes: stubRecipeBatch, popularTags: [] });
     });
     afterEach(() => {
         getRecipesFromAPI = null;
