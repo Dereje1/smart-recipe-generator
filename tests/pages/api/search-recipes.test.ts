@@ -62,12 +62,19 @@ describe('Searching recipes', () => {
         Recipe.find = jest.fn().mockImplementation(
             () => ({
                 populate: jest.fn().mockImplementation(() => ({
-                    limit: jest.fn().mockImplementation(() => ({
-                        lean: jest.fn().mockResolvedValue([stub_recipe_1]),
-                    }))
+                    skip: jest.fn().mockImplementation(() => ({
+                        limit: jest.fn().mockImplementation(() => ({
+                            lean: jest.fn().mockResolvedValue([stub_recipe_1]),
+                        }))
+                    })),
                 })),
             }),
         );
+        // Mock `Recipe.aggregate` for `allRecipes`
+        Recipe.aggregate = jest.fn()
+            .mockResolvedValueOnce(['tag-1', 'tag-2']); // popularTags
+
+        Recipe.countDocuments = jest.fn().mockImplementation(() => 50);
         const { req, res } = mockRequestResponse()
         const updatedreq: any = {
             ...req,
@@ -75,7 +82,14 @@ describe('Searching recipes', () => {
         }
         await searchRecipes(updatedreq, res)
         expect(res.statusCode).toBe(200)
-        expect(res._getJSONData()).toEqual([stub_recipe_1])
+        expect(res._getJSONData()).toEqual(        {
+            recipes: [stub_recipe_1],
+            totalRecipes: 50,
+            totalPages: 5,
+            currentPage: 1,
+            popularTags: ["tag-1", "tag-2"], // Now consistent across all requests!
+        })
+
     })
     it('will respond with error if GET is rejected', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))

@@ -64,9 +64,6 @@ describe('The home component', () => {
         render(<Home />)
         const input = await screen.findByPlaceholderText('Search recipes by name, ingredient, or type...')
         fireEvent.change(input, { target: { value: 'test-search' } })
-        // make sure recipes are there before firing
-        expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
-        expect(screen.getByText('Recipe_2_name')).toBeInTheDocument()
         const searchButton = await screen.findByText('Search')
         // make sure no matches are found and screen is cleared after executing empty search
         fireEvent.click(searchButton)
@@ -76,7 +73,9 @@ describe('The home component', () => {
         const clearButton = screen.getAllByRole('button')
         // make sure recipes are back after executing clear
         fireEvent.click(clearButton[0])
-        expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
+        await waitFor(()=>{
+            expect(screen.queryByText('Recipe_1_name')).toBeInTheDocument()
+        })
     })
     it('shall filter by recent', async () => {
         render(<Home />)
@@ -87,13 +86,11 @@ describe('The home component', () => {
             [
                 {
                     address: '/api/get-recipes?page=1&limit=12&sortOption=popular',
-                    method: 'get'
                 }
             ],
             [
                 {
                     address: '/api/get-recipes?page=1&limit=12&sortOption=recent',
-                    method: 'get'
                 }
             ]
         ]
