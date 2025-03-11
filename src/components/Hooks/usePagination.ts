@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { call_api } from "../../utils/utils";
+import { call_api, updateRecipeList } from "../../utils/utils";
 import { ExtendedRecipe } from '../../types';
 
 interface Tag {
@@ -75,11 +75,15 @@ export const usePagination = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [endpoint, sortOption, page, searchQuery, searchTrigger]); // 🔹 Only fetch if search is confirmed
 
+    const handleRecipeListUpdate = (r: ExtendedRecipe | null, deleteId?: string)=>{
+        setData((prev) => updateRecipeList(prev, r, deleteId)); // update with client changes
+    }
     return {
         data,
         loading,
         popularTags,
         totalPages,
         loadMore: () => setPage((prev) => prev + 1), // Function to trigger next page
+        handleRecipeListUpdate
     };
 };

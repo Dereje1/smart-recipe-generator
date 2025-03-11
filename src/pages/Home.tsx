@@ -5,156 +5,92 @@ import ViewRecipes from '../components/Recipe_Display/ViewRecipes';
 import FloatingActionButtons from '../components/FloatingActionButtons';
 import Loading from '../components/Loading';
 import PopularTags from '../components/PopularTags';
-import { updateRecipeList, call_api } from '../utils/utils';
-import { ExtendedRecipe } from '../types';
-
-type LatestRecipes = {
-    recipes: ExtendedRecipe[];
-    updateIndex: string | null;
-};
-
-interface Tag {
-    _id: string;
-    count: number;
-}
+import { usePagination } from '../components/Hooks/usePagination';
 
 const Home = () => {
-    const [latestRecipes, setLatestRecipes] = useState<LatestRecipes>({ recipes: [], updateIndex: null });
     const [searchVal, setSearchVal] = useState('');
-    const [searchView, setSearchView] = useState<ExtendedRecipe[]>([]);
     const [sortOption, setSortOption] = useState<'recent' | 'popular'>('popular');
-    const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [popularTags, setPopularTags] = useState<Tag[]>([]);
+    const [searchTrigger, setSearchTrigger] = useState<true | false>(false);
 
     const observerRef = useRef<IntersectionObserver | null>(null);
     const searchTimeout = useRef<NodeJS.Timeout | null>(null);
 
-    useEffect(() => {
-        const fetchRecipes = async () => {
-            if (loading || page > totalPages) return;
-            setLoading(true);
-            try {
-                const { recipes, totalPages: newTotalPages, popularTags: newPopularTags } = await call_api({
-                    address: `/api/get-recipes?page=${page}&limit=12&sortOption=${sortOption}`,
-                    method: 'get',
-                });
-                setLatestRecipes((prev) => ({
-                    recipes: [...prev.recipes, ...recipes],
-                    updateIndex: null
-                }));
-                setSearchView((prevSearchView) => prevSearchView.length ? prevSearchView : latestRecipes.recipes);
-                setTotalPages(newTotalPages);
-                setPopularTags(newPopularTags)
-            } catch (error) {
-                console.error('Error fetching recipes:', error);
-            }
-            setLoading(false);
-        };
+    const isSearching = searchVal.trim() !== "";
+    const endpoint = isSearching ? "/api/search-recipes" : "/api/get-recipes";
 
-        fetchRecipes();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sortOption, page]);
+    const { data: latestRecipes, loading, popularTags, loadMore, handleRecipeListUpdate } = usePagination({
+        endpoint,
+        sortOption,
+        searchQuery: searchVal,
+        searchTrigger,
+        resetSearchTrigger: () => setSearchTrigger(false),
+    });
 
     useEffect(() => {
-        if (!searchVal.trim()) {
-            setSearchView(latestRecipes.recipes); // Directly set recipes without sorting
-        }
-    }, [searchVal, latestRecipes, sortOption]);
-
-    useEffect(() => {
-        if (!searchView.length) return;
+        if (!latestRecipes.length) return;
 
         // 🔹 TEMPORARY WORKAROUND:
         // Instead of using a React ref, we are directly querying the DOM to attach the observer.
         // This is because React's ref assignment is currently not triggering as expected.
         // Once the root cause is identified, we should refactor this back to the correct React ref approach.
-
         const lastRecipeElement = document.querySelector(".recipe-card:last-child");
-        if (!lastRecipeElement) {
-            console.log("No last recipe found!");
-            return;
-        }
+        if (!lastRecipeElement) return;
 
         if (observerRef.current) observerRef.current.disconnect();
 
         observerRef.current = new IntersectionObserver((entries) => {
-            if (entries[0]?.isIntersecting && page < totalPages && !searchVal.trim()) {
-                setPage((prevPage) => prevPage + 1);
+            if (entries[0]?.isIntersecting && !loading) {
+                loadMore();
+                if (searchVal.trim() && !searchTrigger) {
+                    setSearchTrigger(true);
+                }
             }
         }, { threshold: 0.5 });
 
         observerRef.current.observe(lastRecipeElement);
 
-        return () => observerRef.current?.disconnect();
+        return () => {
+            if (observerRef.current) {
+                observerRef.current.disconnect();
+                observerRef.current = null; // Ensure observerRef is fully reset
+            }
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchView]); // Runs when new recipes load
-
-
-    const handleRecipeListUpdate = (recipe: ExtendedRecipe | null, deleteId?: string) => {
-        setLatestRecipes({
-            recipes: updateRecipeList(latestRecipes.recipes, recipe, deleteId),
-            updateIndex: recipe?._id || null
-        });
-        setSearchView((prevSearchView) => prevSearchView.length ?
-            updateRecipeList(prevSearchView, recipe, deleteId) :
-            latestRecipes.recipes
-        );
-    };
+    }, [latestRecipes, loading]);
 
     const handleSearch = useCallback(() => {
         if (!searchVal.trim()) return;
 
-        if (searchTimeout.current) clearTimeout(searchTimeout.current);
+        if (searchTimeout.current) {
+            clearTimeout(searchTimeout.current);
+            searchTimeout.current = null; // Explicitly reset the timeout reference
+        }
 
-        searchTimeout.current = setTimeout(async () => {
-            setSearchView([]);
-            setLoading(true);
-            const filteredRecipes = await call_api({
-                address: `/api/search-recipes?query=${encodeURIComponent(searchVal.trim())}`,
-            });
-            setLoading(false);
-            setSearchView(filteredRecipes);
-        }, 500); // Adjust debounce delay (500ms)
+        searchTimeout.current = setTimeout(() => {
+            setSearchTrigger(true);
+        }, 500);
     }, [searchVal]);
 
     const sortRecipes = (option: 'recent' | 'popular') => {
-        if (sortOption === option) return;
-        setLatestRecipes({ recipes: [], updateIndex: null })
+        if (sortOption === option || isSearching) return;
         setSortOption(option);
-        setPage(1)
     };
 
     const handleTagSearch = async (tag: string) => {
         if (searchVal === tag) {
-            // If the same tag is clicked again, reset to all recipes
-            setSearchVal("");
-            setSearchView(latestRecipes.recipes);
+            setSearchVal(""); // Reset search if clicking the same tag
             return;
         }
 
-        // Set searchVal to the selected tag for UI purposes
         setSearchVal(tag);
-        setSearchView([]); // Clear previous results
-        setLoading(true);
-
-        try {
-            const filteredRecipes = await call_api({
-                address: `/api/search-recipes?query=${encodeURIComponent(tag)}`,
-            });
-            setSearchView(filteredRecipes);
-        } catch (error) {
-            console.error("Error fetching recipes by tag:", error);
-        }
-
-        setLoading(false);
+        setSearchTrigger(true);
     };
 
     return (
         <div className="flex flex-col min-h-screen items-center px-4">
             <SearchBar searchVal={searchVal} setSearchVal={setSearchVal} handleSearch={handleSearch} />
             <PopularTags tags={popularTags} onTagToggle={handleTagSearch} searchVal={searchVal} />
+
             {/* Sorting Buttons */}
             <div className="flex space-x-4 mt-4 mb-4">
                 <button
@@ -177,7 +113,7 @@ const Home = () => {
                 </button>
             </div>
 
-            <ViewRecipes recipes={searchView} handleRecipeListUpdate={handleRecipeListUpdate} />
+            <ViewRecipes recipes={latestRecipes} handleRecipeListUpdate={handleRecipeListUpdate} />
             <FloatingActionButtons />
 
             {/* Show loading indicator when fetching */}
