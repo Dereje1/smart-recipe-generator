@@ -41,6 +41,8 @@ export const usePagination = ({
     }, [sortOption, endpoint, searchQuery]); // 🔹 Resets when sorting or search starts
 
     useEffect(() => {
+        // Prevents a stale API call when exiting search mode
+        if (searchQuery === "" && searchTrigger && page !== 1) return;
         const fetchRecipes = async () => {
             if (loading || page > totalPages || (searchQuery && !searchTrigger)) return;
             setLoading(true);
@@ -75,7 +77,7 @@ export const usePagination = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [endpoint, sortOption, page, searchQuery, searchTrigger]); // 🔹 Only fetch if search is confirmed
 
-    const handleRecipeListUpdate = (r: ExtendedRecipe | null, deleteId?: string)=>{
+    const handleRecipeListUpdate = (r: ExtendedRecipe | null, deleteId?: string) => {
         setData((prev) => updateRecipeList(prev, r, deleteId)); // update with client changes
     }
     return {
