@@ -27,6 +27,12 @@ const Home = () => {
     });
 
     useEffect(() => {
+        if (!searchVal.trim()) {
+            setSearchTrigger(true)
+        }
+    }, [searchVal])
+    
+    useEffect(() => {
         if (!latestRecipes.length) return;
 
         // 🔹 TEMPORARY WORKAROUND:
@@ -74,6 +80,7 @@ const Home = () => {
     const sortRecipes = (option: 'recent' | 'popular') => {
         if (sortOption === option || isSearching) return;
         setSortOption(option);
+        setSearchTrigger(true);
     };
 
     const handleTagSearch = async (tag: string) => {

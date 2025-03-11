@@ -35,7 +35,7 @@ describe('The home component', () => {
     beforeEach(() => {
         //mock recipe retrieval
         getRecipesFromAPI = jest.spyOn(apiCalls, 'call_api');
-        getRecipesFromAPI.mockResolvedValue({ recipes: stubRecipeBatch, popularTags: [] });
+        getRecipesFromAPI.mockResolvedValue({ recipes: stubRecipeBatch, popularTags: [], currentPage: 1 });
     });
     afterEach(() => {
         getRecipesFromAPI = null;
@@ -61,19 +61,24 @@ describe('The home component', () => {
         expect(screen.getByText('Recipe_1_name')).toBeInTheDocument()
     })
     it('shall execute an empty search and clear the search box', async () => {
+        getRecipesFromAPI.mockClear();
+        getRecipesFromAPI.mockResolvedValue({ recipes: [], popularTags: [], currentPage: 1 })
         render(<Home />)
         const input = await screen.findByPlaceholderText('Search recipes by name, ingredient, or type...')
         fireEvent.change(input, { target: { value: 'test-search' } })
         const searchButton = await screen.findByText('Search')
-        // make sure no matches are found and screen is cleared after executing empty search
+
         fireEvent.click(searchButton)
-        await waitFor(()=>{
+        await waitFor(() => {
             expect(screen.queryByText('Recipe_1_name')).not.toBeInTheDocument()
         })
         const clearButton = screen.getAllByRole('button')
+        // must remock the api returning when
+        getRecipesFromAPI.mockClear();
+        getRecipesFromAPI.mockResolvedValue({ recipes: stubRecipeBatch, popularTags: [], currentPage: 1 })
         // make sure recipes are back after executing clear
         fireEvent.click(clearButton[0])
-        await waitFor(()=>{
+        await waitFor(() => {
             expect(screen.queryByText('Recipe_1_name')).toBeInTheDocument()
         })
     })
@@ -92,7 +97,7 @@ describe('The home component', () => {
                 {
                     address: '/api/get-recipes?page=1&limit=12&sortOption=recent',
                 }
-            ]
+            ],
         ]
         )
     })

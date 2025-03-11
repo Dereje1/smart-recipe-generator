@@ -32,24 +32,37 @@ export const usePagination = ({
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
     const [popularTags, setPopularTags] = useState<Tag[]>([]);
+    const [apiCurrentPage, setApiCurrentPage] = useState(0)
 
     useEffect(() => {
-        // Reset data when sorting option or endpoint changes, but not when only the page updates
+        // Reset state when key dependencies change.
         setData([]);
         setPage(1);
         setTotalPages(1);
-    }, [sortOption, endpoint, searchQuery]); // 🔹 Resets when sorting or search starts
+        setApiCurrentPage(0);
+    }, [endpoint, sortOption, searchQuery]);
 
     useEffect(() => {
-        // Prevents a stale API call when exiting search mode
-        if (searchQuery === "" && searchTrigger && page !== 1) return;
-        const fetchRecipes = async () => {
-            if (loading || page > totalPages || (searchQuery && !searchTrigger)) return;
-            setLoading(true);
+        // Helper function to determine if we should abort the fetch.
+        const shouldAbortFetch = () => {
+            // Prevent a stale API call when exiting search mode.
+            if (!searchQuery.trim() && searchTrigger && page !== 1) return true;
+            if (loading) return true;
+            if (page > totalPages) return true;
+            if (searchQuery && !searchTrigger) return true;
+            if (page === apiCurrentPage && !searchTrigger) return true;
+            return false;
+        };
 
+        if (shouldAbortFetch()) return;
+
+        const fetchRecipes = async () => {
+            setLoading(true);
             try {
                 const apiEndpoint = searchQuery.trim()
-                    ? `/api/search-recipes?query=${encodeURIComponent(searchQuery)}&page=${page}&limit=${limit}`
+                    ? `/api/search-recipes?query=${encodeURIComponent(
+                        searchQuery
+                    )}&page=${page}&limit=${limit}`
                     : `${endpoint}?page=${page}&limit=${limit}&sortOption=${sortOption}`;
 
                 const {
@@ -61,21 +74,23 @@ export const usePagination = ({
 
                 setData((prev) => [...prev, ...recipes]); // Append new results
                 setTotalPages(newTotalPages);
-                setPopularTags(newPopularTags); // Update popular tags
-                // Reset search trigger after first successful search request
+                setPopularTags(newPopularTags);
+                setApiCurrentPage(currentPage);
+
+                // Reset search trigger after first successful search request.
                 if (searchTrigger) {
                     resetSearchTrigger();
                 }
             } catch (error) {
                 console.error("Error fetching recipes:", error);
+            } finally {
+                setLoading(false);
             }
-
-            setLoading(false);
         };
 
         fetchRecipes();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [endpoint, sortOption, page, searchQuery, searchTrigger]); // 🔹 Only fetch if search is confirmed
+    }, [endpoint, sortOption, page, searchQuery, searchTrigger]);
 
     const handleRecipeListUpdate = (r: ExtendedRecipe | null, deleteId?: string) => {
         setData((prev) => updateRecipeList(prev, r, deleteId)); // update with client changes
