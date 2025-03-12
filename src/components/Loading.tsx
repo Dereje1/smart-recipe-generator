@@ -1,16 +1,26 @@
 import { useEffect, useState } from 'react';
 
 const generationMessages = [
-    '🔪 Chopping vegetables...',
-    '🥘 Stirring the pot...',
-    '🍳 Heating the pan...',
-    '🧂 Adding a pinch of flavor...',
-    '🍅 Tossing in the tomatoes...',
-    '🔥 Turning up the heat...',
-    '🧁 Sprinkling some creativity...',
-    '🍽️ Plating your dish...',
-    '🥄 Taste-testing the recipe...',
-    '🧑‍🍳 Putting on the chef’s hat...',
+    '🔪 Chopping up some fresh ingredients...',
+    '🥘 Stirring the pot with expert precision...',
+    '🍳 Heating the pan to the perfect temperature...',
+    '🧂 Adding a pinch of magic (and salt)...',
+    '🍅 Tossing in the tomatoes—watch out for splashes!',
+    '🔥 Turning up the heat for that perfect sear...',
+    '🧁 Sprinkling in some creativity and flavor...',
+    '🍽️ Plating the dish like a Michelin-star chef...',
+    '🥄 Taste-testing... hmm, needs just a little more zest!',
+    '🧑‍🍳 Adjusting the seasoning like a pro...',
+    '🥖 Tearing up some fresh bread for the side...',
+    '🍋 Squeezing in a bit of citrus for balance...',
+    '🍷 Deglazing the pan with a splash of wine...',
+    '🌀 Blending flavors together into something amazing...',
+    '💡 A spark of inspiration—trying a new twist on the recipe!',
+    '🌿 Garnishing with a touch of fresh herbs...',
+    '⏳ Giving it time to simmer and develop rich flavors...',
+    '🎨 Perfecting the presentation—food is art, after all!',
+    '📸 Snapping a pic before serving—this one’s a beauty!',
+    '🥢 Arranging everything just right before the final reveal...',
 ];
 
 const savingMessages = [
@@ -56,7 +66,7 @@ const Loading = ({
                     return prev;
                 }
 
-                const newProgress = prev + Math.floor(Math.random() * 8) + 4;
+                const newProgress = prev + Math.floor(Math.random() * 4) + 2;
 
                 if (newProgress < 90) {
                     const messages = loadingType === 'saving' ? savingMessages : generationMessages;

@@ -72,7 +72,7 @@ function reducer(state: PaginationState, action: PaginationAction): PaginationSt
         data: [...state.data, ...action.payload.recipes],
         page: action.payload.currentPage,
         totalPages: action.payload.totalPages,
-        popularTags: action.payload.popularTags,
+        popularTags: state.popularTags.length ? state.popularTags : action.payload.popularTags,
         apiCurrentPage: action.payload.currentPage,
       };
     case "FETCH_FAILURE":

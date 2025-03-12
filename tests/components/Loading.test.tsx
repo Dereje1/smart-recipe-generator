@@ -15,7 +15,7 @@ describe('Loading Component', () => {
     render(<Loading isProgressBar loadingType="generation" />);
 
     // Check for initial generation message
-    expect(screen.getByText(/Chopping vegetables/i)).toBeInTheDocument();
+    expect(screen.getByText(/Chopping up some fresh ingredients/i)).toBeInTheDocument();
 
     // Check if progress bar exists
     const progressBar = screen.getByRole('progressbar');
@@ -50,7 +50,7 @@ describe('Loading Component', () => {
 
     // Fast-forward to trigger the final message
     act(() => {
-      jest.advanceTimersByTime(20000); // Simulate 20 seconds
+      jest.advanceTimersByTime(30000); // Simulate 20 seconds
     });
 
     const finalMessage = await screen.findByText(/Putting it all together/i);
@@ -67,7 +67,7 @@ describe('Loading Component', () => {
 
     // Fast-forward to trigger the final message
     act(() => {
-      jest.advanceTimersByTime(20000); // Simulate 20 seconds
+      jest.advanceTimersByTime(30000); // Simulate 20 seconds
     });
 
     const finalMessage = await screen.findByText(/Finalizing your recipe/i);
