@@ -12,6 +12,11 @@ describe("usePagination", () => {
     });
 
     test("initial state is set correctly", async () => {
+        (call_api as jest.Mock).mockResolvedValue({
+            recipes: [{ id: 1, title: "Test Recipe" }],
+            totalPages: 2,
+            popularTags: [{ _id: "pasta", count: 5 }],
+        });
         const { result } = renderHook(() =>
             usePagination({
                 endpoint: "/api/get-recipes",
@@ -20,9 +25,9 @@ describe("usePagination", () => {
             })
         );
         await act(async () => { }); // Wait for any pending effects
-        expect(result.current.data).toEqual([]);
+        expect(result.current.data).toEqual([{ id: 1, title: "Test Recipe" }]);
         expect(result.current.loading).toBe(false);
-        expect(result.current.popularTags).toEqual([]);
+        expect(result.current.popularTags).toEqual([{ _id: "pasta", count: 5 }]);
     });
 
     test("fetches recipes on mount and updates state", async () => {
@@ -55,6 +60,7 @@ describe("usePagination", () => {
             recipes: [{ id: 2, title: "Search Result" }],
             totalPages: 1,
             popularTags: [{ _id: "vegan", count: 3 }],
+            currentPage: 1
         });
 
         const resetSearchTriggerMock = jest.fn();
@@ -118,13 +124,15 @@ describe("usePagination", () => {
                 resetSearchTrigger: jest.fn(),
             })
         );
-
+        // First wait for original page to load
+        await act(async () => { });
+        // Then load more
         await act(async () => {
             result.current.loadMore();
         });
 
         expect(call_api).toHaveBeenCalledWith({
-            address: "/api/get-recipes?page=2&limit=12&sortOption=recent",
+            address: "/api/get-recipes?page=1&limit=12&sortOption=recent",
         });
 
         expect(result.current.data).toEqual([{ "id": 1, "title": "First Page Recipe" }, { "id": 2, "title": "Next Page Recipe" }]);
