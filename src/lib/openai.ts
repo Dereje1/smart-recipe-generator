@@ -205,7 +205,7 @@ export const generateRecipeTags = async (recipe: ExtendedRecipe, userId: string)
             }
         }
         if (tagsArray.length) {
-            const tags = tagsArray.map((tag: string) => ({ tag }));
+            const tags = tagsArray.map((tag: string) => ({ tag: tag.toLowerCase() }));
             const update = { $set: { tags } };
             console.info(`Adding tags -> ${tagsArray} for new recipe -> ${recipe.name} from OpenAI api`);
             await recipeModel.findByIdAndUpdate(recipe._id, update);
