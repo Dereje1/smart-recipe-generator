@@ -41,7 +41,7 @@ interface unPopulatedComment {
     user: mongoose.Types.ObjectId,
     comment: string,
     createdAt: string,
-  }
+}
 
 
 export interface RecipeDocument extends Recipe {
@@ -58,7 +58,7 @@ export interface RecipeDocument extends Recipe {
 export interface ExtendedRecipe extends Recipe {
     _id: string
     imgLink: string
-    owner:{
+    owner: {
         _id: string
         name: string
         image: string
@@ -83,9 +83,9 @@ export interface IngredientDocumentType {
     createdAt: string,
 }
 
-export interface UploadReturnType { 
-    location: string, 
-    uploaded: boolean 
+export interface UploadReturnType {
+    location: string,
+    uploaded: boolean
 }
 
 // Define the interface for the Notification model
@@ -99,4 +99,11 @@ export interface NotificationType {
     read: boolean; // Whether the notification has been read
     createdAt: string; // Auto-generated timestamp
     updatedAt: string; // Auto-generated timestamp
+}
+
+export interface PaginationQueryType {
+    page?: string,
+    limit?: string,
+    sortOption?: string,
+    query?: string
 }

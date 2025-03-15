@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import Recipe from '../../models/recipe';
 import { connectDB } from '../../lib/mongodb';
-import { filterResults } from '../../utils/utils';
-import { ExtendedRecipe } from '../../types';
+import { filterResults, paginationQueryHelper } from '../../utils/utils';
+import { ExtendedRecipe, PaginationQueryType } from '../../types';
 
 /**
  * API handler for searching recipes (currently only by tags).
@@ -13,16 +13,11 @@ import { ExtendedRecipe } from '../../types';
  */
 const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) => {
     try {
-        const { query, page = 1, limit = 12 } = req.query;
+        const { page, limit, skip, query } = paginationQueryHelper(req.query as unknown as PaginationQueryType)
 
-        if (!query || typeof query !== 'string') {
+        if (!query) {
             return res.status(400).json({ error: 'Search query (tag) is required' });
         }
-
-        // Convert pagination values to numbers
-        const pageNumber = Number(page);
-        const limitNumber = Number(limit);
-        const skip = (pageNumber - 1) * limitNumber; // Calculate pagination offset
 
         // Connect to the database
         await connectDB();
@@ -33,7 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
             Recipe.find({ "tags.tag": { $regex: `\\b${query}.*`, $options: "i" } })
                 .populate(['owner', 'likedBy', 'comments.user'])
                 .skip(skip)
-                .limit(limitNumber)
+                .limit(limit)
                 .lean() as unknown as ExtendedRecipe[],
 
             // 🔹 Fetch `popularTags` from the ENTIRE collection (not just filtered results)
@@ -52,8 +47,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
         return res.status(200).json({
             recipes: filterResults(recipes, session.user.id),
             totalRecipes,
-            totalPages: Math.ceil(totalRecipes / limitNumber),
-            currentPage: pageNumber,
+            totalPages: Math.ceil(totalRecipes / limit),
+            currentPage: page,
             popularTags, // ✅ Ensures consistent tag data across requests
         });
 

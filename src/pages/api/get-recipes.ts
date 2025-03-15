@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
 import Recipe from '../../models/recipe';
-import { filterResults } from '../../utils/utils';
-import { ExtendedRecipe } from '../../types';
+import { filterResults, paginationQueryHelper } from '../../utils/utils';
+import { ExtendedRecipe, PaginationQueryType } from '../../types';
 import { PipelineStage } from 'mongoose';
 
 const aggreagteHelper = (sortOption: string, skip: number, limit: number): PipelineStage[] => {
@@ -42,12 +42,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
     // Connect to the database
     await connectDB();
 
-    // Extract pagination & sorting parameters
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 12; // Default: 12 recipes per page
-    const sortOption = req.query.sortOption as string || 'popular'; // Default: `popular`
-    const skip = (page - 1) * limit;
-
+    const { page, limit, sortOption, skip } = paginationQueryHelper(req.query as unknown as PaginationQueryType)
     // Execute all queries in parallel using Promise.all()
     const [allRecipes, popularTags, totalRecipes] = await Promise.all([
       // Query 1: Fetch sorted & paginated recipes

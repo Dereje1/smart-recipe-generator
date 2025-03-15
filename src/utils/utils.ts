@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getSession } from 'next-auth/react';
-import { ExtendedRecipe } from "../types";
+import { ExtendedRecipe, PaginationQueryType } from "../types";
 import { GetServerSidePropsContext } from "next";
 
 // Filters the results by enhancing recipe information with ownership and liked status for the user
@@ -148,7 +148,12 @@ export const playAudio = async (
   }
 };
 
+export const paginationQueryHelper = (queryObj: PaginationQueryType) => {
+  const page = Number(queryObj.page) || 1;
+  const limit = Number(queryObj.limit) || 12; // Default: 12 recipes per page
+  const skip = (page - 1) * limit;
+  const sortOption = typeof queryObj.sortOption === 'string' ? queryObj.sortOption : 'popular';
+  const query = typeof queryObj.query === 'string' ? queryObj.query : undefined;
 
-
-
-
+  return { page, limit, skip, sortOption, query };
+};
