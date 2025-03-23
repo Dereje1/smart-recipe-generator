@@ -149,7 +149,7 @@ export const usePagination = ({
       dispatch({ type: "FETCH_START" });
       try {
         const apiEndpoint = searchQuery.trim()
-          ? `${endpoint}?query=${encodeURIComponent(searchQuery)}&page=${pageToFetch}&limit=${limit}`
+          ? `${endpoint}?query=${encodeURIComponent(searchQuery.trim())}&page=${pageToFetch}&limit=${limit}`
           : `${endpoint}?page=${pageToFetch}&limit=${limit}&sortOption=${sortOption}`;
 
         const { currentPage, popularTags, recipes, totalPages } = await call_api({ address: apiEndpoint });

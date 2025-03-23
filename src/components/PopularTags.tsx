@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import Image from 'next/image';
 import useWindowSize from "./Hooks/useWindowSize";
+import tagLoad from '../assets/tagload.gif';
 
 interface Tag {
     _id: string;
@@ -30,23 +32,27 @@ const PopularTags = ({ tags, onTagToggle, searchVal }: PopularTagsProps) => {
     };
 
     // Adjust tag display count based on screen size
-    const sliceAmount = width < 640 ? 7 : width < 1024 ? 10 : 20;
+    const sliceAmount = width < 640 ? 8 : width < 1024 ? 10 : 20;
 
     return (
         <div className='w-full py-4'>
             <h2 className='text-lg font-semibold text-gray-800 mb-2'>🔥 Popular Tags</h2>
             <div className='flex flex-wrap gap-2'>
                 {tags.length === 0 ? (
-                    <p className='text-gray-500'>No popular tags available.</p>
+                        <Image
+                            src={tagLoad}
+                            alt="tag-load-gif"
+                            width={40}
+                            height={40}
+                        />
                 ) : (
                     tags.slice(0, sliceAmount).map(({ _id, count }) => (
                         <button
                             key={_id}
-                            className={`px-3 py-1 text-sm font-medium rounded-lg transition ${
-                                activeTag === _id
-                                    ? 'bg-green-700 text-white'
-                                    : 'bg-green-200 text-green-800 hover:bg-green-300'
-                            }`}
+                            className={`px-3 py-1 text-sm font-medium rounded-lg transition ${activeTag === _id
+                                ? 'bg-green-700 text-white'
+                                : 'bg-green-200 text-green-800 hover:bg-green-300'
+                                }`}
                             onClick={() => handleTagClick(_id)}
                         >
                             {_id} ({count})
