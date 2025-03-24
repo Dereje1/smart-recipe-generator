@@ -20,7 +20,7 @@ interface UsePaginationProps {
 type PaginationAction =
   | { type: "RESET"; payload: { searchQuery: string; sortOption: string } }
   | { type: "FETCH_START" }
-  | { type: "FETCH_SUCCESS"; payload: { recipes: ExtendedRecipe[]; currentPage: number; totalPages: number; popularTags: Tag[] } }
+  | { type: "FETCH_SUCCESS"; payload: { recipes: ExtendedRecipe[]; currentPage: number; totalPages: number; popularTags: Tag[], totalRecipes: number } }
   | { type: "FETCH_FAILURE" }
   | { type: "INCREMENT_PAGE" }
   | { type: "UPDATE_RECIPES"; payload: { recipe: ExtendedRecipe | null; deleteId?: string } };
@@ -35,6 +35,7 @@ interface PaginationState {
   apiCurrentPage: number; // Tracks the last fetched page to avoid redundant calls
   searchQuery: string;
   sortOption: string;
+  totalRecipes: number
 }
 
 // Initial state factory, using the initial searchQuery and sortOption
@@ -47,6 +48,7 @@ const initialState = (searchQuery: string, sortOption: string): PaginationState 
   apiCurrentPage: 0,
   searchQuery,
   sortOption,
+  totalRecipes: 0
 });
 
 // Reducer function to manage state transitions
@@ -61,6 +63,7 @@ function reducer(state: PaginationState, action: PaginationAction): PaginationSt
         apiCurrentPage: 0,
         searchQuery: action.payload.searchQuery,
         sortOption: action.payload.sortOption,
+        totalRecipes: 0
       };
     case "FETCH_START":
       return { ...state, loading: true };
@@ -74,6 +77,7 @@ function reducer(state: PaginationState, action: PaginationAction): PaginationSt
         totalPages: action.payload.totalPages,
         popularTags: state.popularTags.length ? state.popularTags : action.payload.popularTags,
         apiCurrentPage: action.payload.currentPage,
+        totalRecipes: action.payload.totalRecipes
       };
     case "FETCH_FAILURE":
       return { ...state, loading: false };
@@ -152,10 +156,10 @@ export const usePagination = ({
           ? `${endpoint}?query=${encodeURIComponent(searchQuery.trim())}&page=${pageToFetch}&limit=${limit}`
           : `${endpoint}?page=${pageToFetch}&limit=${limit}&sortOption=${sortOption}`;
 
-        const { currentPage, popularTags, recipes, totalPages } = await call_api({ address: apiEndpoint });
+        const { currentPage, popularTags, recipes, totalPages, totalRecipes } = await call_api({ address: apiEndpoint });
         dispatch({
           type: "FETCH_SUCCESS",
-          payload: { recipes, currentPage, totalPages, popularTags },
+          payload: { recipes, currentPage, totalPages, popularTags, totalRecipes },
         });
 
         // Reset the search trigger after a successful search request.
@@ -197,6 +201,7 @@ export const usePagination = ({
     loading: state.loading,
     popularTags: state.popularTags,
     totalPages: state.totalPages,
+    totalRecipes: state.totalRecipes,
     loadMore,
     handleRecipeListUpdate,
   };

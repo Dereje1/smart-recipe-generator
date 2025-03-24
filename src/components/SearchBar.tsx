@@ -7,9 +7,10 @@ interface SearchBarProps {
     searchVal: string
     setSearchVal: (val: string) => void
     handleSearch: () => void
+    totalRecipes: number
 }
 
-const SearchBar = ({ searchVal, setSearchVal, handleSearch }: SearchBarProps) => {
+const SearchBar = ({ searchVal, setSearchVal, handleSearch, totalRecipes }: SearchBarProps) => {
     const { width } = useWindowSize(); // Get window width
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
@@ -34,12 +35,17 @@ const SearchBar = ({ searchVal, setSearchVal, handleSearch }: SearchBarProps) =>
 
                 {/* Clear Button (X Icon) */}
                 {searchVal.trim() && (
-                    <button
-                        className="absolute right-3 text-gray-500 hover:text-green-700 focus:outline-none"
-                        onClick={() => setSearchVal('')}
-                    >
-                        <XMarkIcon className="h-6 w-6 text-green-700" />
-                    </button>
+                    <div className="absolute right-3 flex items-center space-x-1">
+                        <button
+                            className="text-gray-500 hover:text-green-700 focus:outline-none"
+                            onClick={() => setSearchVal('')}
+                        >
+                            <XMarkIcon className="h-6 w-6 text-green-700" />
+                        </button>
+                        {
+                            totalRecipes > 0 && <span className="text-sm text-gray-500 font-bold">{`(${totalRecipes})`}</span>
+                        }
+                    </div>
                 )}
             </div>
 

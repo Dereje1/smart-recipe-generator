@@ -18,7 +18,7 @@ const Home = () => {
     const isSearching = searchVal.trim() !== "";
     const endpoint = isSearching ? "/api/search-recipes" : "/api/get-recipes";
 
-    const { data: latestRecipes, loading, popularTags, loadMore, handleRecipeListUpdate } = usePagination({
+    const { data: latestRecipes, loading, popularTags, loadMore, handleRecipeListUpdate, totalRecipes } = usePagination({
         endpoint,
         sortOption,
         searchQuery: searchVal,
@@ -95,7 +95,7 @@ const Home = () => {
 
     return (
         <div className="flex flex-col min-h-screen items-center px-4">
-            <SearchBar searchVal={searchVal} setSearchVal={setSearchVal} handleSearch={handleSearch} />
+            <SearchBar searchVal={searchVal} setSearchVal={setSearchVal} handleSearch={handleSearch} totalRecipes={totalRecipes} />
             <PopularTags tags={popularTags} onTagToggle={handleTagSearch} searchVal={searchVal} />
 
             {/* Sorting Buttons */}
