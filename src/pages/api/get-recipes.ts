@@ -19,13 +19,13 @@ const aggreagteHelper = (sortOption: string, skip: number, limit: number): Pipel
   if (sortOption === 'popular') {
     return [
       { $set: { likeCount: { $size: { $ifNull: ["$likedBy", []] } } } },  // Compute `likeCount` dynamically
-      { $sort: { likeCount: -1 } },
+      { $sort: { likeCount: -1, _id: -1 } },
       ...base
     ];
   }
 
   return [
-    { $sort: { createdAt: -1 } }, // Sort by creation date, field already exists no need for $set
+    { $sort: { createdAt: -1, _id: -1 } }, // Sort by creation date, field already exists no need for $set
     ...base
   ];
 };

@@ -85,7 +85,8 @@ describe('Getting recipes for the home page', () => {
       },
       {
         "$sort": {
-          "likeCount": -1
+          "likeCount": -1,
+          _id: -1
         }
       },
       {
@@ -162,7 +163,8 @@ describe('Getting recipes for the home page', () => {
     expect(Recipe.aggregate).toHaveBeenNthCalledWith(1, [
       {
         "$sort": {
-          "createdAt": -1
+          "createdAt": -1,
+          _id: -1
         }
       },
       {
