@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { generateRecipe, generateImages, validateIngredient, getTTS, generateRecipeTags } from "../../src/lib/openai";
+import { generateRecipe, generateImages, validateIngredient, getTTS, generateRecipeTags, generateChatResponse } from "../../src/lib/openai";
 import aigenerated from "../../src/models/aigenerated";
 import recipe from "../../src/models/recipe";
 import OpenAI from 'openai';
@@ -376,3 +376,42 @@ describe('generating recipe tags from openAI', () => {
         }
     })
 })
+
+describe('generating chat responses', () => {
+    let openai: any;
+
+    beforeEach(() => {
+        openai = new OpenAI();
+    });
+
+    afterEach(() => {
+        openai = undefined;
+    });
+
+    it('shall return AI response from OpenAI given message and history', async () => {
+        const mockContent = 'You can substitute eggs with flaxseed.';
+        openai.chat.completions.create = jest.fn().mockResolvedValue({
+            choices: [{ message: { content: mockContent } }]
+        });
+
+        const expectedPrompt = 'You are a helpful recipe assistant. Only respond based on the following recipe:\n    \n    Name: Recipe_1_name\n    Ingredients: Recipe_1_Ingredient_1_quantity_1 Recipe_1_Ingredient_1, Recipe_1_Ingredient_2_quantity_2 Recipe_1_Ingredient_2\n    Ingredients: Recipe_1_preference_1, Recipe_1_preference_2\n    Instructions: Recipe_1_Instructions_1.,Recipe_1_Instructions_2.\n    Tips: Recipe_1_tips\n    Variations: Recipe_1_variations\n    Serving Suggestions: Recipe_1_servingSuggestions\n    Nutritional Info: Recipe_1_nutritionalInformation\n    \n    If asked anything outside this context, politely decline.'
+
+        const message = "What can I use instead of eggs?";
+        const history: string[] = [];
+        const response = await generateChatResponse(message, stubRecipeBatch[0], history, 'mockUserId');
+        expect(response).toEqual(mockContent);
+        expect(openai.chat.completions.create).toHaveBeenCalledWith(
+            {
+                "max_tokens": 1000,
+                "messages": [{ "content": expectedPrompt, "role": "system" }, { role: 'user', content: message }],
+                "model": "gpt-4o"
+            }
+        )
+    });
+
+    it('shall return fallback message if OpenAI fails', async () => {
+        openai.chat.completions.create = jest.fn().mockRejectedValue(new Error('fail'));
+        const response = await generateChatResponse('What can I use?', stubRecipeBatch[0], [], 'mockUserId');
+        expect(response).toEqual('Sorry, I had trouble responding.');
+    });
+});

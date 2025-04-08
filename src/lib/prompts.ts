@@ -134,3 +134,22 @@ export const getRecipeTaggingPrompt = (recipe: ExtendedRecipe) => {
     return prompt;
 };
 
+export const getChatAssistantSystemPrompt = (recipe: ExtendedRecipe) => {
+    const { name, ingredients, instructions, additionalInformation, dietaryPreference } = recipe;
+    const systemPrompt = `
+    You are a helpful recipe assistant. Only respond based on the following recipe:
+    
+    Name: ${name}
+    Ingredients: ${ingredients.map(i => `${i.quantity} ${i.name}`).join(', ')}
+    Ingredients: ${dietaryPreference.map(p => `${p}`).join(', ')}
+    Instructions: ${instructions}
+    Tips: ${additionalInformation.tips}
+    Variations: ${additionalInformation.variations}
+    Serving Suggestions: ${additionalInformation.servingSuggestions}
+    Nutritional Info: ${additionalInformation.nutritionalInformation}
+    
+    If asked anything outside this context, politely decline.
+        `.trim();
+
+    return systemPrompt;
+}

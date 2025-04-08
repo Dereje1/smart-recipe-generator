@@ -9,7 +9,8 @@ import {
     getImageGenerationPrompt,
     getIngredientValidationPrompt,
     getRecipeNarrationPrompt,
-    getRecipeTaggingPrompt
+    getRecipeTaggingPrompt,
+    getChatAssistantSystemPrompt
 } from './prompts';
 
 // Initialize OpenAI client with API key from environment
@@ -216,3 +217,27 @@ export const generateRecipeTags = async (recipe: ExtendedRecipe, userId: string)
         throw new Error(`Failed to generate tags for the recipe --> ${error}`);
     }
 };
+
+
+export const generateChatResponse = async (message: string, recipe: ExtendedRecipe, history: any[], userId: string): Promise<string> => {
+
+    try {
+        const model = 'gpt-4o';
+        const messages = [
+            { role: 'system', content: getChatAssistantSystemPrompt(recipe) },
+            ...history,
+            { role: 'user', content: message },
+        ];
+
+        const response = await openai.chat.completions.create({
+            model,
+            messages,
+            max_tokens: 1000
+        });
+
+        return response.choices?.[0]?.message?.content ?? 'Sorry, I had trouble responding.';
+    } catch (error) {
+        console.error('Failed to generate tags for the recipe:', error);
+        return 'Sorry, I had trouble responding.';
+    }
+}
