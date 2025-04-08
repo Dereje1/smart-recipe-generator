@@ -3,7 +3,6 @@
  */
 import handler from '../../../src/pages/api/chat-assistant';
 import { mockRequestResponse } from '../../apiMocks';
-import * as openaiLib from '../../../src/lib/openai';
 import Recipe from '../../../src/models/recipe';
 import * as nextAuth from 'next-auth';
 import * as op from '../../../src/lib/openai';
