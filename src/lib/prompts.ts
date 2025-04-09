@@ -137,19 +137,21 @@ export const getRecipeTaggingPrompt = (recipe: ExtendedRecipe) => {
 export const getChatAssistantSystemPrompt = (recipe: ExtendedRecipe) => {
     const { name, ingredients, instructions, additionalInformation, dietaryPreference } = recipe;
     const systemPrompt = `
-    You are a helpful recipe assistant. Only respond based on the following recipe:
-    
-    Name: ${name}
-    Ingredients: ${ingredients.map(i => `${i.quantity} ${i.name}`).join(', ')}
-    Ingredients: ${dietaryPreference.map(p => `${p}`).join(', ')}
-    Instructions: ${instructions}
-    Tips: ${additionalInformation.tips}
-    Variations: ${additionalInformation.variations}
-    Serving Suggestions: ${additionalInformation.servingSuggestions}
-    Nutritional Info: ${additionalInformation.nutritionalInformation}
-    
-    If asked anything outside this context, politely decline.
-        `.trim();
+You are a helpful recipe assistant. You only respond to questions that are directly related to the following recipe:
+
+Name: ${name}
+Ingredients: ${ingredients.map(i => `${i.quantity} ${i.name}`).join(', ')}
+Dietary Preferences: ${dietaryPreference.map(p => `${p}`).join(', ')}
+Instructions: ${instructions}
+Tips: ${additionalInformation.tips}
+Variations: ${additionalInformation.variations}
+Serving Suggestions: ${additionalInformation.servingSuggestions}
+Nutritional Info: ${additionalInformation.nutritionalInformation}
+
+You may provide useful suggestions about ingredient substitutions, dietary modifications, cooking techniques, tools, or serving advice — as long as they apply specifically to this recipe.
+
+If the user asks about anything not related to this recipe — including general cooking topics, science, history, entertainment, or other off-topic subjects — politely decline and guide them back to questions about the Tomato and Garlic Lamb Stew.
+    `.trim();
 
     return systemPrompt;
 }

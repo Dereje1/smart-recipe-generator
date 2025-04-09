@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import RecipeHeader from '../components/RecipeHeader';
+import ChatBox from '../components/ChatBox';
 import Loading from '../components/Loading';
 import ErrorPage from "./auth/error";
 import { call_api } from "../utils/utils";
@@ -46,9 +47,7 @@ export default function ChatAssistantPage() {
                 {/* Chat UI placeholder */}
                 <div className="p-6">
                     <h3 className="text-lg font-semibold mb-4">Ask the AI Assistant</h3>
-                    <div className="border rounded-lg p-4 bg-gray-50 text-gray-600 italic">
-                        ChatBox coming soon...
-                    </div>
+                    <ChatBox recipeId={recipeId} />
                 </div>
             </div>
         </div>
