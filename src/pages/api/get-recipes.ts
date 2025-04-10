@@ -19,7 +19,7 @@ const aggreagteHelper = (sortOption: string, skip: number, limit: number): Pipel
   if (sortOption === 'popular') {
     return [
       { $set: { likeCount: { $size: { $ifNull: ["$likedBy", []] } } } },  // Compute `likeCount` dynamically
-      { $sort: { likeCount: -1, _id: -1 } },
+      { $sort: { likeCount: -1, _id: 1 } },
       ...base
     ];
   }
