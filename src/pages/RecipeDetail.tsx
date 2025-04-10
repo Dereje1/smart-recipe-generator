@@ -1,26 +1,19 @@
-import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from 'next/image';
 import { HandThumbUpIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid'
 import useActionPopover from "../components/Hooks/useActionPopover";
+import { useRecipeData } from "../components/Hooks/useRecipeData";
 import { ActionPopover } from "../components/Recipe_Display/ActionPopover";
 import RecipeHeader from "../components/RecipeHeader";
 import Loading from "../components/Loading";
 import ErrorPage from "./auth/error";
-import { call_api } from "../utils/utils";
-import { ExtendedRecipe } from '../types';
 
 export default function RecipeDetail() {
     const router = useRouter();
     const { recipeId } = router.query as { recipeId?: string }; // Extract recipeId from the URL query parameters
+    const { recipeData, loading, error, setRecipeData, setLoading } = useRecipeData(recipeId);
 
-    // State to hold the fetched recipe data
-    const [recipeData, setRecipeData] = useState<ExtendedRecipe | null>(null);
-    // State to manage the loading state
-    const [loading, setLoading] = useState<boolean>(true);
-    // State to handle any errors during data fetching
-    const [error, setError] = useState<string | null>(null);
 
     const updateRecipe = (audioLink: string) => {
         setRecipeData((prevRecipdata) => {
@@ -45,25 +38,6 @@ export default function RecipeDetail() {
         isDeleteDialogOpen
     } = useActionPopover(recipeData, updateRecipe);
 
-    useEffect(() => {
-        async function fetchRecipe() {
-            try {
-                // Make an API call to fetch the single recipe data
-                const data = await call_api({
-                    address: `/api/get-single-recipe?recipeId=${recipeId}`,
-                });
-                setRecipeData(data); // Update state with fetched data
-            } catch (err) {
-                setError((err as Error).message); // Update state with error message
-            } finally {
-                setLoading(false); // Set loading to false after fetching is complete
-            }
-        }
-
-        if (recipeId) {
-            fetchRecipe(); // Initiate data fetching if recipeId is present
-        }
-    }, [recipeId]); // Dependency array ensures the effect runs when recipeId changes
 
 
     const deleteAndRemoveRecipe = async () => {

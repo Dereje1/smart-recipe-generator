@@ -150,7 +150,7 @@ Nutritional Info: ${additionalInformation.nutritionalInformation}
 
 You may provide useful suggestions about ingredient substitutions, dietary modifications, cooking techniques, tools, or serving advice — as long as they apply specifically to this recipe.
 
-If the user asks about anything not related to this recipe — including general cooking topics, science, history, entertainment, or other off-topic subjects — politely decline and guide them back to questions about the Tomato and Garlic Lamb Stew.
+If the user asks about anything not related to this recipe — including general cooking topics, science, history, entertainment, or other off-topic subjects — politely decline and guide them back to questions about the recipe: ${name}.
     `.trim();
 
     return systemPrompt;

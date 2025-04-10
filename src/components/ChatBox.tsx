@@ -51,7 +51,7 @@ export default function ChatBox({ recipeId }: Props) {
 
     return (
         <div className="mt-6 flex flex-col gap-4">
-            <div className="border rounded-lg p-4 bg-gray-50 max-h-[400px] overflow-y-auto space-y-4">
+            {messages.length > 0 && <div className="border rounded-lg p-4 bg-gray-50 max-h-[400px] overflow-y-auto space-y-4">
                 {messages.map((msg, idx) => (
                     <div
                         key={idx}
@@ -71,7 +71,7 @@ export default function ChatBox({ recipeId }: Props) {
                 {isLoading && (
                     <div className="text-sm text-gray-500 italic">Assistant is typing...</div>
                 )}
-            </div>
+            </div>}
 
             <div className="flex items-center gap-2">
                 <input

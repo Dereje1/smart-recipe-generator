@@ -9,9 +9,11 @@ import {
     ArrowTopRightOnSquareIcon,
     InformationCircleIcon,
     PlayCircleIcon,
-    StopCircleIcon
+    StopCircleIcon,
 } from '@heroicons/react/16/solid'
+import { ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/outline'
 import DeleteDialog from './DeleteDialog';
+import { useRouter } from 'next/router';
 import audioload from '../../assets/audioload.gif';
 import audioGenerate from '../../assets/audiogenerate.gif'
 import { ExtendedRecipe } from '../../types';
@@ -39,6 +41,8 @@ interface ActionPopoverProps {
 }
 
 export function ActionPopover({ handlers, states, data }: ActionPopoverProps) {
+
+    const router = useRouter();
 
     const handleOpenRecipe = () => {
         if (!handlers.closeDialog) return;
@@ -100,6 +104,11 @@ export function ActionPopover({ handlers, states, data }: ActionPopoverProps) {
                                 }}>
                                 <ClipboardIcon className="h-5 w-5 text-gray-500" />
                                 Copy Link
+                            </button>
+                            <button
+                                className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={() => router.push(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ChatAssistant?recipeId=${data.recipe._id}`)}>
+                                <ChatBubbleOvalLeftEllipsisIcon className="h-5 w-5 text-gray-500" />
+                                Chat with Assistant
                             </button>
                             {getAudioControls()}
                             {
