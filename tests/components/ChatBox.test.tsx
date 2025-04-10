@@ -75,4 +75,48 @@ describe('ChatBox Component', () => {
         fireEvent.change(input, { target: { value: 'Hi' } });
         expect(sendBtn).not.toBeDisabled();
     });
+
+    it('should display token limit warning when tokenTotal exceeds MAX_TOKENS', async () => {
+        // Return enough tokens to hit the limit in one go
+        (apiCalls.call_api as jest.Mock).mockResolvedValueOnce({
+            reply: 'Token-heavy response',
+            totalTokens: 3000,
+        });
+    
+        render(<ChatBox recipeId={recipeId} />);
+    
+        const input = screen.getByPlaceholderText('Ask a question about this recipe...');
+        fireEvent.change(input, { target: { value: 'Use all tokens' } });
+        fireEvent.click(screen.getByText('Send'));
+    
+        await waitFor(() => {
+            expect(screen.getByText('You\'ve reached the token limit for this chat session.')).toBeInTheDocument();
+        });
+    });
+    
+    it('should prevent further messages when token limit is reached', async () => {
+        (apiCalls.call_api as jest.Mock).mockResolvedValueOnce({
+            reply: 'Token-heavy response',
+            totalTokens: 3000,
+        });
+    
+        render(<ChatBox recipeId={recipeId} />);
+    
+        const input = screen.getByPlaceholderText('Ask a question about this recipe...');
+        fireEvent.change(input, { target: { value: 'Reach limit' } });
+        fireEvent.click(screen.getByText('Send'));
+    
+        // Wait for tokenTotal to hit max
+        await waitFor(() => {
+            expect(screen.getByText('You\'ve reached the token limit for this chat session.')).toBeInTheDocument();
+        });
+    
+        // Try to type and send again
+        fireEvent.change(input, { target: { value: 'Another message' } });
+        fireEvent.click(screen.getByText('Send'));
+    
+        // The second message should not show up in the chat (still only one message)
+        expect(screen.queryByText('Another message')).not.toBeInTheDocument();
+    });
+    
 });

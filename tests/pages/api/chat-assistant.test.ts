@@ -70,7 +70,7 @@ describe('/api/chat-assistant endpoint', () => {
 
     it('shall respond with assistant reply if everything succeeds', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
-        generateChatResponseSpy.mockImplementationOnce(() => Promise.resolve('mock-ai-reply'))
+        generateChatResponseSpy.mockImplementationOnce(() => Promise.resolve({ reply: 'mock-ai-reply', totalTokens: 1000 }))
         Recipe.findById = jest.fn().mockImplementation(
             () => ({
                 lean: jest.fn().mockResolvedValueOnce(stub_recipe_1),
@@ -87,7 +87,7 @@ describe('/api/chat-assistant endpoint', () => {
         }
         await handler(updatedreq, res);
         expect(res._getStatusCode()).toBe(200);
-        expect(res._getData()).toEqual(JSON.stringify({ reply: 'mock-ai-reply' }));
+        expect(res._getData()).toEqual(JSON.stringify({ reply: 'mock-ai-reply', totalTokens: 1000 }));
     });
 
     it('shall handle internal server error gracefully', async () => {

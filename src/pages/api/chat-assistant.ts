@@ -24,8 +24,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
             return res.status(404).json({ error: 'Recipe not found.' });
         }
 
-        const reply = await generateChatResponse(message, recipe, history, session.userId);
-        return res.status(200).json({ reply });
+        const { reply, totalTokens } = await generateChatResponse(message, recipe, history, session.user.id);
+        return res.status(200).json({ reply, totalTokens } );
     } catch (err) {
         console.error('Chat Assistant Error:', err);
         return res.status(500).json({ error: 'Internal server error' });

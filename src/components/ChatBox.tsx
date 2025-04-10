@@ -15,9 +15,12 @@ export default function ChatBox({ recipeId }: Props) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [tokenTotal, setTokenTotal] = useState(0);
+
+    const MAX_TOKENS = 3000;
 
     const handleSend = async () => {
-        if (!input.trim()) return;
+        if (!input.trim() || tokenTotal >= MAX_TOKENS) return;
 
         const newMessages: Message[] = [...messages, { role: 'user', content: input }];
         setMessages(newMessages);
@@ -25,7 +28,7 @@ export default function ChatBox({ recipeId }: Props) {
         setIsLoading(true);
 
         try {
-            const { reply } = await call_api({
+            const { reply, totalTokens } = await call_api({
                 address: '/api/chat-assistant',
                 method: 'post',
                 payload: {
@@ -36,6 +39,7 @@ export default function ChatBox({ recipeId }: Props) {
             });
 
             setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
+            setTokenTotal((prev) => prev + (totalTokens || 0));
         } catch (err) {
             setMessages((prev) => [
                 ...prev,
@@ -51,27 +55,34 @@ export default function ChatBox({ recipeId }: Props) {
 
     return (
         <div className="mt-6 flex flex-col gap-4">
-            {messages.length > 0 && <div className="border rounded-lg p-4 bg-gray-50 max-h-[400px] overflow-y-auto space-y-4">
-                {messages.map((msg, idx) => (
-                    <div
-                        key={idx}
-                        className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'
-                            }`}
-                    >
+            {messages.length > 0 && (
+                <div className="border rounded-lg p-4 bg-gray-50 max-h-[400px] overflow-y-auto space-y-4">
+                    {messages.map((msg, idx) => (
                         <div
-                            className={`px-4 py-2 rounded-lg text-sm max-w-[75%] ${msg.role === 'user'
-                                ? 'bg-blue-100 text-blue-800'
-                                : 'bg-gray-200 text-gray-800'
-                                }`}
+                            key={idx}
+                            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
-                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                            <div
+                                className={`px-4 py-2 rounded-lg text-sm max-w-[75%] ${
+                                    msg.role === 'user'
+                                        ? 'bg-blue-100 text-blue-800'
+                                        : 'bg-gray-200 text-gray-800'
+                                }`}
+                            >
+                                <ReactMarkdown>{msg.content}</ReactMarkdown>
+                            </div>
                         </div>
-                    </div>
-                ))}
-                {isLoading && (
-                    <div className="text-sm text-gray-500 italic">Assistant is typing...</div>
-                )}
-            </div>}
+                    ))}
+                    {isLoading && (
+                        <div className="text-sm text-gray-500 italic">Assistant is typing...</div>
+                    )}
+                    {tokenTotal >= MAX_TOKENS && (
+                        <div className="text-sm text-red-500 italic">
+                            {`You've reached the token limit for this chat session.`}
+                        </div>
+                    )}
+                </div>
+            )}
 
             <div className="flex items-center gap-2">
                 <input
@@ -82,10 +93,11 @@ export default function ChatBox({ recipeId }: Props) {
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') handleSend();
                     }}
+                    disabled={tokenTotal >= MAX_TOKENS}
                 />
                 <button
                     onClick={handleSend}
-                    disabled={isLoading || !input.trim()}
+                    disabled={isLoading || !input.trim() || tokenTotal >= MAX_TOKENS}
                     className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 disabled:opacity-50"
                 >
                     Send

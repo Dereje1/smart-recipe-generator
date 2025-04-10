@@ -218,9 +218,13 @@ export const generateRecipeTags = async (recipe: ExtendedRecipe, userId: string)
     }
 };
 
-
-export const generateChatResponse = async (message: string, recipe: ExtendedRecipe, history: any[], userId: string): Promise<string> => {
-
+// Generate a chat response by sending a message to OpenAI and returning the assistant's reply
+export const generateChatResponse = async (
+    message: string,
+    recipe: ExtendedRecipe,
+    history: any[],
+    userId: string
+): Promise<{ reply: string; totalTokens: number }> => {
     try {
         const model = 'gpt-4o';
         const messages = [
@@ -232,12 +236,25 @@ export const generateChatResponse = async (message: string, recipe: ExtendedReci
         const response = await openai.chat.completions.create({
             model,
             messages,
-            max_tokens: 1000
+            max_tokens: 1000,
         });
 
-        return response.choices?.[0]?.message?.content ?? 'Sorry, I had trouble responding.';
+        const reply = response.choices?.[0]?.message?.content ?? 'Sorry, I had trouble responding.';
+        const totalTokens = response.usage?.total_tokens ?? 0;
+
+        // Save to DB only on first message
+        if (history.length === 1) {
+            await saveOpenaiResponses({
+                userId,
+                prompt: `Chat session started for recipe: ${recipe.name}, first message: ${message}`,
+                response,
+                model,
+            });
+        }
+
+        return { reply, totalTokens };
     } catch (error) {
-        console.error('Failed to generate tags for the recipe:', error);
-        return 'Sorry, I had trouble responding.';
+        console.error('Failed to generate chat response:', error);
+        return { reply: 'Sorry, I had trouble responding.', totalTokens: 0 };
     }
-}
+};
