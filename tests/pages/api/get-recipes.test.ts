@@ -86,7 +86,7 @@ describe('Getting recipes for the home page', () => {
       {
         "$sort": {
           "likeCount": -1,
-          _id: -1
+          _id: 1
         }
       },
       {

@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { generateRecipe, generateImages, validateIngredient, getTTS, generateRecipeTags } from "../../src/lib/openai";
+import { generateRecipe, generateImages, validateIngredient, getTTS, generateRecipeTags, generateChatResponse } from "../../src/lib/openai";
 import aigenerated from "../../src/models/aigenerated";
 import recipe from "../../src/models/recipe";
 import OpenAI from 'openai';
@@ -376,3 +376,43 @@ describe('generating recipe tags from openAI', () => {
         }
     })
 })
+
+describe('generating chat responses', () => {
+    let openai: any;
+
+    beforeEach(() => {
+        openai = new OpenAI();
+    });
+
+    afterEach(() => {
+        openai = undefined;
+    });
+
+    it('shall return AI response from OpenAI given message and history', async () => {
+        const mockContent = 'You can substitute eggs with flaxseed.';
+        openai.chat.completions.create = jest.fn().mockResolvedValue({
+            choices: [{ message: { content: mockContent } }],
+            usage: { total_tokens: 1000 }
+        });
+
+        const expectedPrompt = 'You are a helpful recipe assistant. You only respond to questions that are directly related to the following recipe:\n\nName: Recipe_1_name\nIngredients: Recipe_1_Ingredient_1_quantity_1 Recipe_1_Ingredient_1, Recipe_1_Ingredient_2_quantity_2 Recipe_1_Ingredient_2\nDietary Preferences: Recipe_1_preference_1, Recipe_1_preference_2\nInstructions: Recipe_1_Instructions_1.,Recipe_1_Instructions_2.\nTips: Recipe_1_tips\nVariations: Recipe_1_variations\nServing Suggestions: Recipe_1_servingSuggestions\nNutritional Info: Recipe_1_nutritionalInformation\n\nYou may provide useful suggestions about ingredient substitutions, dietary modifications, cooking techniques, tools, or serving advice — as long as they apply specifically to this recipe.\n\nIf the user asks about anything not related to this recipe — including general cooking topics, science, history, entertainment, or other off-topic subjects — politely decline and guide them back to questions about the recipe: Recipe_1_name.'
+
+        const message = "What can I use instead of eggs?";
+        const history: string[] = ['chat history 1'];
+        const response = await generateChatResponse(message, stubRecipeBatch[0], history, 'mockUserId');
+        expect(response).toEqual({ reply: mockContent, totalTokens: 1000 });
+        expect(openai.chat.completions.create).toHaveBeenCalledWith(
+            {
+                "max_tokens": 1000,
+                "messages": [{ "content": expectedPrompt, "role": "system" }, 'chat history 1', { role: 'user', content: message }],
+                "model": "gpt-4o"
+            }
+        )
+    });
+
+    it('shall return fallback message if OpenAI fails', async () => {
+        openai.chat.completions.create = jest.fn().mockRejectedValue(new Error('fail'));
+        const response = await generateChatResponse('What can I use?', stubRecipeBatch[0], [], 'mockUserId');
+        expect(response).toEqual({reply: 'Sorry, I had trouble responding.', totalTokens: 0 });
+    });
+});

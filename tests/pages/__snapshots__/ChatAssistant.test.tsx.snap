@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The ChatAssistant Page shall successfully render a recipe 1`] = `
+<div>
+  <div
+    class="min-h-screen bg-gray-100 p-4"
+  >
+    <div
+      class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
+    >
+      <div
+        class="relative w-full h-80"
+      />
+      <div
+        class="pl-6 pt-6 pr-6"
+      >
+        <h2
+          class="text-2xl font-bold mb-2 mt-2"
+        >
+          Recipe_1_name
+        </h2>
+         
+        <div
+          class="flex items-center mb-6"
+        >
+          <div
+            class="relative w-12 h-12 rounded-full overflow-hidden mr-4"
+          />
+          <div>
+            <span
+              class="text-gray-700 text-lg"
+            >
+              By 
+              user_1
+            </span>
+             
+            <p
+              class="text-sm text-gray-500"
+            >
+              02 Jul 2024
+            </p>
+          </div>
+        </div>
+        <div
+          class="mb-0"
+        >
+          <h3
+            class="text-xl font-semibold mb-2"
+          >
+            Dietary Preferences
+          </h3>
+           
+          <div
+            class="flex flex-wrap gap-2"
+          >
+             
+            <span
+              class="bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1 rounded-full"
+            >
+              Recipe_1_preference_1
+               
+            </span>
+            <span
+              class="bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1 rounded-full"
+            >
+              Recipe_1_preference_2
+               
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="p-6"
+      >
+        <h3
+          class="text-lg font-semibold mb-4"
+        >
+          Ask the AI Assistant
+        </h3>
+        <div
+          class="mt-6 flex flex-col gap-4"
+        >
+          <div
+            class="flex items-center gap-2"
+          >
+            <input
+              class="flex-grow border rounded-lg px-4 py-2 text-sm"
+              placeholder="Ask a question about this recipe..."
+              value=""
+            />
+            <button
+              class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 disabled:opacity-50"
+              disabled=""
+            >
+              Send
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

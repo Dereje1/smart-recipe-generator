@@ -134,3 +134,24 @@ export const getRecipeTaggingPrompt = (recipe: ExtendedRecipe) => {
     return prompt;
 };
 
+export const getChatAssistantSystemPrompt = (recipe: ExtendedRecipe) => {
+    const { name, ingredients, instructions, additionalInformation, dietaryPreference } = recipe;
+    const systemPrompt = `
+You are a helpful recipe assistant. You only respond to questions that are directly related to the following recipe:
+
+Name: ${name}
+Ingredients: ${ingredients.map(i => `${i.quantity} ${i.name}`).join(', ')}
+Dietary Preferences: ${dietaryPreference.map(p => `${p}`).join(', ')}
+Instructions: ${instructions}
+Tips: ${additionalInformation.tips}
+Variations: ${additionalInformation.variations}
+Serving Suggestions: ${additionalInformation.servingSuggestions}
+Nutritional Info: ${additionalInformation.nutritionalInformation}
+
+You may provide useful suggestions about ingredient substitutions, dietary modifications, cooking techniques, tools, or serving advice — as long as they apply specifically to this recipe.
+
+If the user asks about anything not related to this recipe — including general cooking topics, science, history, entertainment, or other off-topic subjects — politely decline and guide them back to questions about the recipe: ${name}.
+    `.trim();
+
+    return systemPrompt;
+}
