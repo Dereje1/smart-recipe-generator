@@ -101,13 +101,16 @@ export default function ChatBox({ recipeId }: Props) {
             )}
 
             <div className="flex items-center gap-2">
-                <input
-                    className="flex-grow border rounded-lg px-4 py-2 text-sm"
+                <textarea
+                    className="flex-grow border rounded-lg px-4 py-2 text-sm h-[80px] resize-none overflow-y-auto"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Ask a question about this recipe..."
                     onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleSend();
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            handleSend();
+                        }
                     }}
                     disabled={tokenTotal >= MAX_TOKENS}
                 />

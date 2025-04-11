@@ -91,41 +91,44 @@ describe('ChatBox Component', () => {
             reply: 'Token-heavy response',
             totalTokens: 3000,
         });
-    
+
         render(<ChatBox recipeId={recipeId} />);
-    
+
         const input = screen.getByPlaceholderText('Ask a question about this recipe...');
         fireEvent.change(input, { target: { value: 'Use all tokens' } });
         fireEvent.click(screen.getByText('Send'));
-    
+
         await waitFor(() => {
             expect(screen.getByText('You\'ve reached the token limit for this chat session.')).toBeInTheDocument();
         });
     });
-    
+
     it('should prevent further messages when token limit is reached', async () => {
         (apiCalls.call_api as jest.Mock).mockResolvedValueOnce({
             reply: 'Token-heavy response',
             totalTokens: 3000,
         });
-    
+
         render(<ChatBox recipeId={recipeId} />);
-    
+
         const input = screen.getByPlaceholderText('Ask a question about this recipe...');
         fireEvent.change(input, { target: { value: 'Reach limit' } });
         fireEvent.click(screen.getByText('Send'));
-    
+
         // Wait for tokenTotal to hit max
         await waitFor(() => {
             expect(screen.getByText('You\'ve reached the token limit for this chat session.')).toBeInTheDocument();
+            // Also confirm the button is disabled:
+            expect(screen.getByText('Send')).toBeDisabled();
         });
-    
+
         // Try to type and send again
         fireEvent.change(input, { target: { value: 'Another message' } });
-        fireEvent.click(screen.getByText('Send'));
-    
-        // The second message should not show up in the chat (still only one message)
-        expect(screen.queryByText('Another message')).not.toBeInTheDocument();
+        fireEvent.keyDown(input, { key: 'Enter', shiftKey: false });
+
+        // This returns all elements containing "Another message" except form elements.
+        const textNodes = screen.queryAllByText('Another message', { selector: ':not(textarea)' });
+        expect(textNodes).toHaveLength(0);
     });
-    
+
 });

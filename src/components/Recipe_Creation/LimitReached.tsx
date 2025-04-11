@@ -7,12 +7,14 @@ interface LimitReachedProps {
     message?: string;
     onAction?: () => void;
     actionText?: string;
+    fullHeight?: boolean;
 }
 
 const LimitReached: React.FC<LimitReachedProps> = ({
     message = "You've reached your recipe creation limit.",
     onAction,
     actionText = "Go to Home",
+    fullHeight = false,
 }) => {
     const router = useRouter();
 
@@ -25,7 +27,7 @@ const LimitReached: React.FC<LimitReachedProps> = ({
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+        <div className={`flex flex-col items-center justify-top ${fullHeight ? 'min-h-screen' : 'h-full'} bg-gray-100 p-4`}>
             <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
                 {/* Icon */}
                 <ExclamationCircleIcon className="block m-auto h-16 w-16 text-red-500"/>

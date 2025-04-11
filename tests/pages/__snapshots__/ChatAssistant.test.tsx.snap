@@ -83,10 +83,9 @@ exports[`The ChatAssistant Page shall successfully render a recipe 1`] = `
           <div
             class="flex items-center gap-2"
           >
-            <input
-              class="flex-grow border rounded-lg px-4 py-2 text-sm"
+            <textarea
+              class="flex-grow border rounded-lg px-4 py-2 text-sm h-[80px] resize-none overflow-y-auto"
               placeholder="Ask a question about this recipe..."
-              value=""
             />
             <button
               class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 disabled:opacity-50"

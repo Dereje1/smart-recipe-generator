@@ -121,6 +121,7 @@ function Navigation({
     <LimitReached
       message="You have reached the maximum number of interactions with our AI services. Please try again later."
       actionText="Go to Home"
+      fullHeight
     />
   ) : (
 <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-100 to-white p-8">
