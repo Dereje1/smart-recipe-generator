@@ -4,6 +4,7 @@
 import handler from '../../../src/pages/api/chat-assistant';
 import { mockRequestResponse } from '../../apiMocks';
 import Recipe from '../../../src/models/recipe';
+import aigenerated from '../../../src/models/aigenerated';
 import * as nextAuth from 'next-auth';
 import * as op from '../../../src/lib/openai';
 import { stub_recipe_1, getServerSessionStub } from '../../stub';
@@ -31,6 +32,11 @@ describe('/api/chat-assistant endpoint', () => {
     let getServerSessionSpy: any
     let generateChatResponseSpy: any
     beforeEach(() => {
+        // Set environment variables
+        process.env = {
+            ...process.env,
+            API_REQUEST_LIMIT: '5',
+        };
         getServerSessionSpy = jest.spyOn(nextAuth, 'getServerSession')
         generateChatResponseSpy = jest.spyOn(op, 'generateChatResponse')
     })
@@ -47,6 +53,11 @@ describe('/api/chat-assistant endpoint', () => {
     });
 
     it('shall return 404 if recipe not found', async () => {
+        aigenerated.countDocuments = jest.fn().mockImplementation(
+            () => ({
+                exec: jest.fn().mockResolvedValue(4)
+            }),
+        );
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         Recipe.findById = jest.fn().mockImplementation(
             () => ({
@@ -71,6 +82,11 @@ describe('/api/chat-assistant endpoint', () => {
     it('shall respond with assistant reply if everything succeeds', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         generateChatResponseSpy.mockImplementationOnce(() => Promise.resolve({ reply: 'mock-ai-reply', totalTokens: 1000 }))
+        aigenerated.countDocuments = jest.fn().mockImplementation(
+            () => ({
+                exec: jest.fn().mockResolvedValue(4)
+            }),
+        );
         Recipe.findById = jest.fn().mockImplementation(
             () => ({
                 lean: jest.fn().mockResolvedValueOnce(stub_recipe_1),

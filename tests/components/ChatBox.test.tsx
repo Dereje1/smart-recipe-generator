@@ -2,6 +2,15 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import ChatBox from '../../src/components/ChatBox';
 import * as apiCalls from '../../src/utils/utils';
 
+const routePushMock = jest.fn()
+jest.mock("next/router", () => ({
+    useRouter: jest.fn(() => ({
+        pathName: 'mocked Path',
+        push: routePushMock,
+        query: {}
+    })),
+}))
+
 jest.mock('react-markdown', () => {
     const ReactMarkdownMock = ({ children }: { children: React.ReactNode }) => <div>{children}</div>;
     ReactMarkdownMock.displayName = 'ReactMarkdownMock';

@@ -19,6 +19,7 @@
 - **DALL·E Image Generation**: Automatically generate high-quality images of the recipes.
 - **Text-to-Speech (TTS)**: Narrate recipes aloud using AI-driven speech synthesis.
 - **AI-Generated Tags**: Recipes are automatically tagged with relevant keywords for better searchability.
+- **Context-Aware Chat Assistant**: Ask cooking-related questions about a recipe (e.g., substitutions, vegan options, prep time). Powered by GPT-4, limited to the context of each recipe.
 
 ### 📋 **Core Features**
 - **User Authentication**: Secure login via Google OAuth using NextAuth.js.
@@ -90,6 +91,7 @@ App will be live at [http://localhost:3000](http://localhost:3000).
 5. **Search Recipes** using AI-generated tags.
 6. **Browse Recipes** with infinite scrolling and sorting by newest or most liked.
 7. **Save, Like, and Share** your favorite recipes.
+8. **Use the Chat Assistant** to ask follow-up questions about a recipe (e.g. substitutions, dietary changes, or cook time).
 
 ---
 

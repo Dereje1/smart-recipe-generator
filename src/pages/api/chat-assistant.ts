@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { connectDB } from '../../lib/mongodb';
 import Recipe from '../../models/recipe';
+import aigenerated from '../../models/aigenerated';
 import { generateChatResponse } from '../../lib/openai';
 import { ExtendedRecipe } from '../../types';
 
@@ -19,13 +20,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
 
         await connectDB();
 
+        // Count the number of AI-generated entries associated with the user's ID
+        const totalGeneratedCount = await aigenerated.countDocuments({ userId: session.user.id }).exec();
+
+        // Check if the user has exceeded the API request limit
+        if (totalGeneratedCount >= Number(process.env.API_REQUEST_LIMIT)) {
+            // If limit is reached, respond with reachedLimit flag and an empty ingredient list
+            res.status(200).json({
+                reachedLimit: true,
+            });
+            return;
+        }
+
         const recipe = await Recipe.findById(recipeId).lean() as unknown as ExtendedRecipe;
         if (!recipe) {
             return res.status(404).json({ error: 'Recipe not found.' });
         }
 
         const { reply, totalTokens } = await generateChatResponse(message, recipe, history, session.user.id);
-        return res.status(200).json({ reply, totalTokens } );
+        return res.status(200).json({ reply, totalTokens });
     } catch (err) {
         console.error('Chat Assistant Error:', err);
         return res.status(500).json({ error: 'Internal server error' });

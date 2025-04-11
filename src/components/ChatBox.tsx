@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import LimitReached from './Recipe_Creation/LimitReached';
 import { call_api } from '../utils/utils';
+import { useRouter } from 'next/router';
 
 type Message = {
     role: 'user' | 'assistant';
@@ -16,6 +18,9 @@ export default function ChatBox({ recipeId }: Props) {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [tokenTotal, setTokenTotal] = useState(0);
+    const [limitReached, setLimitReached] = useState(false);
+
+    const router = useRouter();
 
     const MAX_TOKENS = 3000;
 
@@ -28,7 +33,7 @@ export default function ChatBox({ recipeId }: Props) {
         setIsLoading(true);
 
         try {
-            const { reply, totalTokens } = await call_api({
+            const { reply, totalTokens, reachedLimit } = await call_api({
                 address: '/api/chat-assistant',
                 method: 'post',
                 payload: {
@@ -37,6 +42,11 @@ export default function ChatBox({ recipeId }: Props) {
                     history: newMessages,
                 },
             });
+
+            if (reachedLimit) {
+                setLimitReached(true);
+                return;
+            }
 
             setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
             setTokenTotal((prev) => prev + (totalTokens || 0));
@@ -53,6 +63,13 @@ export default function ChatBox({ recipeId }: Props) {
         }
     };
 
+    if (limitReached) return (
+        <LimitReached
+            message="You've reached your usage limit for AI-powered features, including the chat assistant. To continue exploring this recipe, return to the recipe page."
+            actionText="Back to Recipe"
+            onAction={() => router.push(`${process.env.NEXT_PUBLIC_API_BASE_URL}/RecipeDetail?recipeId=${recipeId}`)}
+        />
+    );
     return (
         <div className="mt-6 flex flex-col gap-4">
             {messages.length > 0 && (
@@ -63,11 +80,10 @@ export default function ChatBox({ recipeId }: Props) {
                             className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                             <div
-                                className={`px-4 py-2 rounded-lg text-sm max-w-[75%] ${
-                                    msg.role === 'user'
-                                        ? 'bg-blue-100 text-blue-800'
-                                        : 'bg-gray-200 text-gray-800'
-                                }`}
+                                className={`px-4 py-2 rounded-lg text-sm max-w-[75%] ${msg.role === 'user'
+                                    ? 'bg-blue-100 text-blue-800'
+                                    : 'bg-gray-200 text-gray-800'
+                                    }`}
                             >
                                 <ReactMarkdown>{msg.content}</ReactMarkdown>
                             </div>
