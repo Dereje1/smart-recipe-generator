@@ -9,6 +9,14 @@ export const authOptions: NextAuthOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID || '',
             clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+            profile: (profile) => {
+                return {
+                    id: profile.sub,
+                    name: profile.name || 'Anonymous',
+                    email: profile.email,
+                    image: profile.picture || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y', // Default image if not provided
+                }
+            }
         }),
     ],
     adapter: MongoDBAdapter(clientPromise),
