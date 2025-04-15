@@ -24,7 +24,9 @@ jest.mock('../../src/utils/utils', () => ({
 
 describe('ChatBox Component', () => {
     const recipeId = 'test-recipe-id';
-
+    beforeAll(() => {
+        window.HTMLElement.prototype.scrollIntoView = jest.fn();
+      });
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -32,7 +34,7 @@ describe('ChatBox Component', () => {
     it('should render the input and send button', () => {
         render(<ChatBox recipeId={recipeId} />);
         expect(screen.getByPlaceholderText('Ask a question about this recipe...')).toBeInTheDocument();
-        expect(screen.getByText('Send')).toBeInTheDocument();
+        expect(screen.getByLabelText('Send')).toBeInTheDocument();
     });
 
     it('should send a user message and receive assistant reply', async () => {
@@ -47,7 +49,7 @@ describe('ChatBox Component', () => {
         render(<ChatBox recipeId={recipeId} />);
 
         const input = screen.getByPlaceholderText('Ask a question about this recipe...');
-        const sendBtn = screen.getByText('Send');
+        const sendBtn = screen.getByLabelText('Send');
 
         fireEvent.change(input, { target: { value: 'What can I substitute for garlic?' } });
         fireEvent.click(sendBtn);
@@ -77,7 +79,7 @@ describe('ChatBox Component', () => {
     it('should disable send button when input is empty or loading', () => {
         render(<ChatBox recipeId={recipeId} />);
 
-        const sendBtn = screen.getByText('Send');
+        const sendBtn = screen.getByLabelText('Send');
         expect(sendBtn).toBeDisabled(); // initially empty input
 
         const input = screen.getByPlaceholderText('Ask a question about this recipe...');
@@ -96,7 +98,7 @@ describe('ChatBox Component', () => {
 
         const input = screen.getByPlaceholderText('Ask a question about this recipe...');
         fireEvent.change(input, { target: { value: 'Use all tokens' } });
-        fireEvent.click(screen.getByText('Send'));
+        fireEvent.click(screen.getByLabelText('Send'));
 
         await waitFor(() => {
             expect(screen.getByText('You\'ve reached the token limit for this chat session.')).toBeInTheDocument();
@@ -113,13 +115,13 @@ describe('ChatBox Component', () => {
 
         const input = screen.getByPlaceholderText('Ask a question about this recipe...');
         fireEvent.change(input, { target: { value: 'Reach limit' } });
-        fireEvent.click(screen.getByText('Send'));
+        fireEvent.click(screen.getByLabelText('Send'));
 
         // Wait for tokenTotal to hit max
         await waitFor(() => {
             expect(screen.getByText('You\'ve reached the token limit for this chat session.')).toBeInTheDocument();
             // Also confirm the button is disabled:
-            expect(screen.getByText('Send')).toBeDisabled();
+            expect(screen.getByLabelText('Send')).toBeDisabled();
         });
 
         // Try to type and send again

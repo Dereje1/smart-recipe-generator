@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import LimitReached from './Recipe_Creation/LimitReached';
 import { call_api } from '../utils/utils';
 import { useRouter } from 'next/router';
@@ -21,8 +22,15 @@ export default function ChatBox({ recipeId }: Props) {
     const [limitReached, setLimitReached] = useState(false);
 
     const router = useRouter();
+    const bottomRef = useRef<HTMLDivElement | null>(null);
 
     const MAX_TOKENS = 3000;
+
+    useEffect(() => {
+        if (bottomRef.current) {
+            bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages, isLoading]);
 
     const handleSend = async () => {
         if (!input.trim() || tokenTotal >= MAX_TOKENS) return;
@@ -97,6 +105,7 @@ export default function ChatBox({ recipeId }: Props) {
                             {`You've reached the token limit for this chat session.`}
                         </div>
                     )}
+                    <div ref={bottomRef} />
                 </div>
             )}
 
@@ -118,8 +127,9 @@ export default function ChatBox({ recipeId }: Props) {
                     onClick={handleSend}
                     disabled={isLoading || !input.trim() || tokenTotal >= MAX_TOKENS}
                     className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 disabled:opacity-50"
+                    aria-label="Send"
                 >
-                    Send
+                    <PaperAirplaneIcon className="h-14 w-8" />
                 </button>
             </div>
         </div>
