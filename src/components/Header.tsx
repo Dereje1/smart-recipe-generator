@@ -88,12 +88,9 @@ function Header({ user }: HeaderProps) {
                                         href="https://www.buymeacoffee.com/dereje"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="ml-4 text-black relative group transition-opacity hover:opacity-80"
+                                        className="ml-4 bg-amber-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-300 transition"
                                     >
-                                        ☕
-                                        <span className="absolute left-0 top-full mt-1 w-max bg-white text-black text-sm px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition">
-                                            Buy Me a Coffee
-                                        </span>
+                                        ☕ Buy Me a Coffee
                                     </a>
                                     {/* Profile dropdown */}
                                     <Menu as="div" className="relative ml-3">
@@ -164,27 +161,15 @@ function Header({ user }: HeaderProps) {
                                 </DisclosureButton>
                             ))}
                         </div>
-                        {/* ✅ Buy Me a Coffee Button for Mobile */}
+                        {/* ☕ Buy Me a Coffee – mobile */}
                         <div className="px-2 pb-3">
                             <a
                                 href="https://www.buymeacoffee.com/dereje"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="ml-4 text-black relative transition-opacity"
-                                onClick={(e) => {
-                                    const tooltip = e.currentTarget.querySelector(".tooltip");
-                                    if (tooltip) {
-                                        tooltip.classList.remove("hidden");
-                                        setTimeout(() => tooltip.classList.add("hidden"), 2000); // Hide after 2 seconds
-                                    }
-                                }}
+                                className="bg-amber-500 text-white font-bold px-4 py-2 rounded-lg shadow-sm hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-300 transition"
                             >
-                                ☕
-                                <span
-                                    className="tooltip absolute left-1/2 -translate-x-1/2 top-full mt-2 w-max bg-white text-black text-xs px-2 py-1 rounded shadow-md hidden"
-                                >
-                                    Buy Me a Coffee
-                                </span>
+                                ☕ Buy Me a Coffee
                             </a>
                         </div>
                         <div className="border-t border-green-700 pb-3 pt-4">
