@@ -38,6 +38,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
                 </Head>
                 <Component {...pageProps} />
             </Layout>
+            <div id="alert-root"></div>
         </SessionProvider>
     );
 }

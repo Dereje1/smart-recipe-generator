@@ -1,4 +1,5 @@
 import { useState, useEffect, ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
 import Image from 'next/image';
 import {
@@ -146,21 +147,27 @@ export const Alert = ({ message }: { message: string }) => {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        setVisible(true); // Trigger enter animation
-        const timer = setTimeout(() => setVisible(false), 2000); // Start exit animation after 2 seconds
-        return () => clearTimeout(timer); // Clean up timeout on unmount
+        setVisible(true);
+        const timer = setTimeout(() => setVisible(false), 2000);
+        return () => clearTimeout(timer);
     }, []);
 
-    return (
+    const alertContent = (
         <div
-            className={`fixed top-20 left-1/2 transform -translate-x-1/2 px-4 py-3 rounded shadow-lg flex items-center bg-blue-500 text-white font-bold 
-    ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'} 
-    transition-all duration-300 ease-out`}
+            className={`fixed top-0 inset-x-0 mx-auto mt-5 px-4 py-3 rounded shadow-lg flex items-center bg-green-100 text-green-900 font-bold 
+      w-[95%] sm:w-full max-w-sm sm:max-w-md md:max-w-lg 
+      ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'} 
+      transition-all duration-300 ease-out`}
             style={{ zIndex: 100 }}
             role="alert"
+            aria-live="assertive"
         >
-            <InformationCircleIcon className="w-6 h-6 flex-shrink-0 mr-2" />
-            <p className="text-base sm:text-sm md:text-xs leading-tight">{message}</p>
+            <InformationCircleIcon className="w-6 h-6 flex-shrink-0 mr-2 text-green-700" />
+            <p className="text-sm sm:text-xs md:text-[12px] leading-tight">{message}</p>
         </div>
     );
+
+    if (typeof window === 'undefined') return null;
+
+    return createPortal(alertContent, document.getElementById('alert-root')!);
 };
