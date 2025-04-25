@@ -79,6 +79,33 @@ describe('/api/chat-assistant endpoint', () => {
         expect(res._getData()).toEqual(JSON.stringify({ error: 'Recipe not found.' }));
     });
 
+    it('shall respond with limt reached if user has exceeded their api usage', async () => {
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
+        generateChatResponseSpy.mockImplementationOnce(() => Promise.resolve({ reply: 'mock-ai-reply', totalTokens: 1000 }))
+        aigenerated.countDocuments = jest.fn().mockImplementation(
+            () => ({
+                exec: jest.fn().mockResolvedValue(6)
+            }),
+        );
+        Recipe.findById = jest.fn().mockImplementation(
+            () => ({
+                lean: jest.fn().mockResolvedValueOnce(stub_recipe_1),
+            }),
+        );
+        const { req, res } = mockRequestResponse('POST')
+        const updatedreq: any = {
+            ...req,
+            body: {
+                message: 'test',
+                recipeId: '123',
+                history: ['first message'],
+            }
+        }
+        await handler(updatedreq, res);
+        expect(res._getStatusCode()).toBe(200);
+        expect(res._getData()).toEqual(JSON.stringify({ reachedLimit: true}));
+    });
+
     it('shall respond with assistant reply if everything succeeds', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         generateChatResponseSpy.mockImplementationOnce(() => Promise.resolve({ reply: 'mock-ai-reply', totalTokens: 1000 }))
