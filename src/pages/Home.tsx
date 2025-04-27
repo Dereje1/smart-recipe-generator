@@ -18,20 +18,22 @@ const Home = () => {
     const isSearching = searchVal.trim() !== "";
     const endpoint = isSearching ? "/api/search-recipes" : "/api/get-recipes";
 
-    const { data: latestRecipes, loading, popularTags, loadMore, handleRecipeListUpdate, totalRecipes } = usePagination({
+    const {
+        data: latestRecipes,
+        loading,
+        popularTags,
+        loadMore,
+        handleRecipeListUpdate,
+        totalRecipes,
+        page,
+        totalPages
+    } = usePagination({
         endpoint,
         sortOption,
-        searchQuery: searchVal,
+        searchQuery: searchVal.trim(),
         searchTrigger,
         resetSearchTrigger: () => setSearchTrigger(false),
     });
-
-    useEffect(() => {
-        if (!searchVal.trim()) {
-            setSearchTrigger(true)
-        }
-    }, [searchVal])
-    
     useEffect(() => {
         if (!latestRecipes.length) return;
 
@@ -45,7 +47,7 @@ const Home = () => {
         if (observerRef.current) observerRef.current.disconnect();
 
         observerRef.current = new IntersectionObserver((entries) => {
-            if (entries[0]?.isIntersecting && !loading) {
+            if (entries[0]?.isIntersecting && !loading && page < totalPages) {
                 loadMore();
                 if (searchVal.trim() && !searchTrigger) {
                     setSearchTrigger(true);

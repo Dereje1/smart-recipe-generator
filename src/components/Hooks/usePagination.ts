@@ -202,6 +202,7 @@ export const usePagination = ({
     popularTags: state.popularTags,
     totalPages: state.totalPages,
     totalRecipes: state.totalRecipes,
+    page: state.page,
     loadMore,
     handleRecipeListUpdate,
   };
