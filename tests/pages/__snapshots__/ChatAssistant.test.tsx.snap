@@ -31,9 +31,12 @@ exports[`The ChatAssistant Page shall successfully render a recipe 1`] = `
               class="text-gray-700 text-lg"
             >
               By 
-              user_1
+              <span
+                class="text-gray-600 hover:text-gray-800 hover:underline cursor-pointer"
+              >
+                user_1
+              </span>
             </span>
-             
             <p
               class="text-sm text-gray-500"
             >

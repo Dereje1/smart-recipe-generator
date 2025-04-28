@@ -6,6 +6,7 @@ import useActionPopover from "../components/Hooks/useActionPopover";
 import { useRecipeData } from "../components/Hooks/useRecipeData";
 import { ActionPopover } from "../components/Recipe_Display/ActionPopover";
 import RecipeHeader from "../components/RecipeHeader";
+import UserLink from "../components/UserLink";
 import Loading from "../components/Loading";
 import ErrorPage from "./auth/error";
 import { call_api } from "../utils/utils";
@@ -185,7 +186,7 @@ export default function RecipeDetail() {
                                             className="rounded-full" // Make the image circular
                                         />
                                     </div>
-                                    <span className="text-gray-700">{user.name}</span> {/* User's name */}
+                                    <span className="text-gray-700"><UserLink name={user.name} userId={user._id}/></span>
                                 </div>
                             ))}
                         </div>

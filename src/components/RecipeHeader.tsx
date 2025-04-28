@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import UserLink from './UserLink';
 import { formatDate } from '../utils/utils';
 import { ExtendedRecipe } from '../types';
 
@@ -35,7 +36,10 @@ const RecipeHeader = ({ recipeData }: RecipeHeaderProps) => (
                     />
                 </div>
                 <div>
-                    <span className="text-gray-700 text-lg">By {recipeData.owner.name}</span> {/* Owner's name */}
+                    <span className="text-gray-700 text-lg">By <UserLink
+                        userId={recipeData.owner._id}
+                        name={recipeData.owner.name}
+                    /></span>
                     <p className="text-sm text-gray-500">{formatDate(recipeData.createdAt)}</p>
                 </div>
             </div>
