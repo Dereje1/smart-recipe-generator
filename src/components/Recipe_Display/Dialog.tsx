@@ -6,6 +6,7 @@ import useActionPopover from '../Hooks/useActionPopover';
 import RecipeCard from '../RecipeCard';
 import Loading from '../Loading';
 import { ActionPopover } from './ActionPopover';
+import UserLink from '../UserLink';
 import { formatDate } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
 
@@ -86,7 +87,12 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, removeRecipe
                                                 height={25}
                                             />
                                             <div className="ml-4">
-                                                <p className="text-lg font-semibold text-gray-900">{recipe.owner.name}</p>
+                                                <p className="text-lg font-semibold text-gray-900">
+                                                    <UserLink
+                                                        userId={recipe.owner._id}
+                                                        name={recipe.owner.name}
+                                                    />
+                                                </p>
                                                 <p className="text-sm text-gray-500">{formatDate(recipe.createdAt)}</p>
                                             </div>
                                         </div>
