@@ -1,5 +1,3 @@
-// /pages/api/get-user-activity.ts
-
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { connectDB } from '../../lib/mongodb';
 import mongoose from 'mongoose';
@@ -7,6 +5,7 @@ import Recipe from '../../models/recipe';
 import { apiMiddleware } from '../../lib/apiMiddleware';
 import { filterResults } from '../../utils/utils';
 import { ExtendedRecipe } from '../../types';
+import User from '../../models/user';
 
 /**
  * API handler for fetching user activity (created and liked recipes).
@@ -24,6 +23,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
     try {
         await connectDB();
 
+        // Fetch user basic info
+        const user = await User.findById(userId).select('name image').lean();
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        // Extract joined date from ObjectId
+        const joinedDate = new Date(new mongoose.Types.ObjectId(userId).getTimestamp());
+
         const createdRecipes = await Recipe.find({ owner: userId })
             .sort({ createdAt: -1 })
             .lean() as unknown as ExtendedRecipe[];
@@ -33,6 +40,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
             .lean() as unknown as ExtendedRecipe[];
 
         return res.status(200).json({
+            user: {
+                name: user.name,
+                image: user.image,
+                joinedDate: joinedDate.toISOString(),
+            },
             createdRecipes: filterResults(createdRecipes, session.user.id),
             likedRecipes: filterResults(likedRecipes, session.user.id),
         });
