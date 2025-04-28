@@ -32,10 +32,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
         const joinedDate = new Date(new mongoose.Types.ObjectId(userId).getTimestamp());
 
         const createdRecipes = await Recipe.find({ owner: userId })
+            .populate(['owner', 'likedBy', 'comments.user'])
             .sort({ createdAt: -1 })
-            .lean() as unknown as ExtendedRecipe[];
+            .lean() as unknown as ExtendedRecipe[]
 
         const likedRecipes = await Recipe.find({ likedBy: userId })
+            .populate(['owner', 'likedBy', 'comments.user'])
             .sort({ createdAt: -1 })
             .lean() as unknown as ExtendedRecipe[];
 
