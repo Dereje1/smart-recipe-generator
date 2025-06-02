@@ -86,7 +86,7 @@ describe('Start to finish recipe creation and submission', () => {
         expect(await screen.findByText('Test-Ingredient-2')).toBeInTheDocument()
         expect(await screen.findByText('Test-Ingredient-3')).toBeInTheDocument()
         expect(await screen.findByText('Vegan')).toBeInTheDocument()
-        expect(await screen.findByText('Keto')).toBeInTheDocument()
+        expect(await screen.findByText('Dairy-Free')).toBeInTheDocument()
         // mock api and submit
         const createRecipesButton = await screen.findByText('Create Recipes')
         fireEvent.click(createRecipesButton);
@@ -108,7 +108,7 @@ describe('Start to finish recipe creation and submission', () => {
             "address": "/api/generate-recipes",
             "method": "post",
             "payload": {
-                "dietaryPreferences": ["Vegan", "Keto"],
+                "dietaryPreferences": ["Vegan", "Dairy-Free"],
                 "ingredients": ingredientListStub.map(({ name }) => ({ id: expect.any(String), name }))
             }
         })

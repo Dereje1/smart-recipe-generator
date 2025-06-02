@@ -102,11 +102,30 @@ exports[`The step component shall render the diet preference selection 1`] = `
           <span
             aria-checked="false"
             aria-disabled="true"
-            aria-label="Keto"
+            aria-label="Dairy-Free"
             class="h-5 w-5 rounded border border-gray-300 flex items-center justify-center bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             data-disabled=""
             data-headlessui-state="disabled"
             id="headlessui-checkbox-:rb:"
+            role="checkbox"
+          />
+          <span
+            class="ml-3 text-gray-700"
+          >
+            Dairy-Free
+          </span>
+        </div>
+        <div
+          class="flex items-center"
+        >
+          <span
+            aria-checked="false"
+            aria-disabled="true"
+            aria-label="Keto"
+            class="h-5 w-5 rounded border border-gray-300 flex items-center justify-center bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            data-disabled=""
+            data-headlessui-state="disabled"
+            id="headlessui-checkbox-:rc:"
             role="checkbox"
           />
           <span
@@ -121,17 +140,36 @@ exports[`The step component shall render the diet preference selection 1`] = `
           <span
             aria-checked="false"
             aria-disabled="true"
-            aria-label="Paleo"
+            aria-label="Halal"
             class="h-5 w-5 rounded border border-gray-300 flex items-center justify-center bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             data-disabled=""
             data-headlessui-state="disabled"
-            id="headlessui-checkbox-:rc:"
+            id="headlessui-checkbox-:rd:"
             role="checkbox"
           />
           <span
             class="ml-3 text-gray-700"
           >
-            Paleo
+            Halal
+          </span>
+        </div>
+        <div
+          class="flex items-center"
+        >
+          <span
+            aria-checked="false"
+            aria-disabled="true"
+            aria-label="Kosher"
+            class="h-5 w-5 rounded border border-gray-300 flex items-center justify-center bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            data-disabled=""
+            data-headlessui-state="disabled"
+            id="headlessui-checkbox-:re:"
+            role="checkbox"
+          />
+          <span
+            class="ml-3 text-gray-700"
+          >
+            Kosher
           </span>
         </div>
       </div>
@@ -369,7 +407,7 @@ exports[`The step component shall render the review and submit recipes component
               aria-expanded="false"
               class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
               data-headlessui-state=""
-              id="headlessui-disclosure-button-:rn:"
+              id="headlessui-disclosure-button-:rp:"
               type="button"
             >
               <span>
@@ -398,7 +436,7 @@ exports[`The step component shall render the review and submit recipes component
                 aria-expanded="false"
                 class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
                 data-headlessui-state=""
-                id="headlessui-disclosure-button-:rp:"
+                id="headlessui-disclosure-button-:rr:"
                 type="button"
               >
                 <span>
@@ -642,7 +680,7 @@ exports[`The step component shall render the select recipes component 1`] = `
             "
                   data-checked=""
                   data-headlessui-state="checked"
-                  id="headlessui-switch-:rd:"
+                  id="headlessui-switch-:rf:"
                   role="switch"
                   tabindex="0"
                   type="button"
@@ -709,7 +747,7 @@ exports[`The step component shall render the select recipes component 1`] = `
                 aria-expanded="false"
                 class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
                 data-headlessui-state=""
-                id="headlessui-disclosure-button-:re:"
+                id="headlessui-disclosure-button-:rg:"
                 type="button"
               >
                 <span>
@@ -738,7 +776,7 @@ exports[`The step component shall render the select recipes component 1`] = `
                   aria-expanded="false"
                   class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
                   data-headlessui-state=""
-                  id="headlessui-disclosure-button-:rg:"
+                  id="headlessui-disclosure-button-:ri:"
                   type="button"
                 >
                   <span>
@@ -792,7 +830,7 @@ exports[`The step component shall render the select recipes component 1`] = `
                 transition-colors duration-200 ease-in-out focus:outline-none
             "
                   data-headlessui-state=""
-                  id="headlessui-switch-:ri:"
+                  id="headlessui-switch-:rk:"
                   role="switch"
                   tabindex="0"
                   type="button"
@@ -859,7 +897,7 @@ exports[`The step component shall render the select recipes component 1`] = `
                 aria-expanded="false"
                 class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
                 data-headlessui-state=""
-                id="headlessui-disclosure-button-:rj:"
+                id="headlessui-disclosure-button-:rl:"
                 type="button"
               >
                 <span>
@@ -888,7 +926,7 @@ exports[`The step component shall render the select recipes component 1`] = `
                   aria-expanded="false"
                   class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none"
                   data-headlessui-state=""
-                  id="headlessui-disclosure-button-:rl:"
+                  id="headlessui-disclosure-button-:rn:"
                   type="button"
                 >
                   <span>

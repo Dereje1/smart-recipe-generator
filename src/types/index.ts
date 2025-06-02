@@ -7,7 +7,7 @@ export type Ingredient = {
 }
 
 // Type for dietary preferences in client
-export type DietaryPreference = 'Vegetarian' | 'Vegan' | 'Gluten-Free' | 'Keto' | 'Paleo';
+export type DietaryPreference = 'Vegetarian' | 'Vegan' | 'Gluten-Free' | 'Keto' | 'Dairy-Free' | 'Halal' | 'Kosher';
 
 interface RecipeIngredient {
     name: string;

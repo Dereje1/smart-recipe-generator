@@ -7,8 +7,10 @@ const dietaryOptions: DietaryPreference[] = [
   'Vegetarian',
   'Vegan',
   'Gluten-Free',
+  'Dairy-Free',
   'Keto',
-  'Paleo',
+  'Halal',
+  'Kosher'
 ];
 
 interface DietaryPreferencesProps {

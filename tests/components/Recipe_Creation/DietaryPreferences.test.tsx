@@ -27,13 +27,13 @@ describe('The dietary preference selection', () => {
 
         fireEvent.click(preferences[4]);
         await screen.findByText('Dietary Preferences')
-        expect(props.updatePreferences).toHaveBeenLastCalledWith(["Keto"])
+        expect(props.updatePreferences).toHaveBeenLastCalledWith(["Dairy-Free"])
     })
 
     it('shall handle de-selection/s', async () => {
         const updatedProps = {
             ...props,
-            preferences: ["Vegan", "Keto"]
+            preferences: ["Vegan", "Dairy-Free"]
         }
         render(<DietaryPreferences {...updatedProps}/>)
         const preferences = screen.getAllByRole('checkbox')
