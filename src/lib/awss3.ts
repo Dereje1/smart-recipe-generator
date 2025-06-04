@@ -66,7 +66,7 @@ export const uploadImageToS3 = async ({
             Tagging: `userId=${userId}`,
             CacheControl: "public, max-age=2592000", // ✅ Apply 30-day cache
         });
-        s3.send(command);
+        await s3.send(command);
         return {
             location,
             uploaded: true
