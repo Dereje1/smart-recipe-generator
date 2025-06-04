@@ -85,6 +85,7 @@ const FrontDisplay = React.forwardRef<HTMLDivElement, FrontDisplayProps>(
     )
     }
 )
+FrontDisplay.displayName = 'FrontDisplay'
 
 export default FrontDisplay
 
