@@ -1,3 +1,4 @@
+import React from 'react'
 import Image from "next/image"
 import { Button } from '@headlessui/react'
 import { HandThumbUpIcon } from '@heroicons/react/24/outline'
@@ -23,7 +24,8 @@ const getThumbsup = ({ liked, owns }: { liked: boolean, owns: boolean }) => {
 }
 
 
-function FrontDisplay({ recipe, showRecipe, updateRecipeList }: FrontDisplayProps) {
+const FrontDisplay = React.forwardRef<HTMLDivElement, FrontDisplayProps>(
+    ({ recipe, showRecipe, updateRecipeList }, ref) => {
 
     const handleRecipeLike = async (recipeId: string) => {
         try {
@@ -35,7 +37,7 @@ function FrontDisplay({ recipe, showRecipe, updateRecipeList }: FrontDisplayProp
     }
 
     return (
-        <div className="recipe-card max-w-sm bg-gradient-to-r from-slate-200 to-stone-100 border border-gray-200 rounded-lg shadow-lg mt-4 mb-2 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full">
+        <div ref={ref} className="recipe-card max-w-sm bg-gradient-to-r from-slate-200 to-stone-100 border border-gray-200 rounded-lg shadow-lg mt-4 mb-2 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full">
             <div className="relative w-full h-64"> {/* Add a container for the image */}
                 <Image
                     src={recipe.imgLink}
@@ -81,7 +83,8 @@ function FrontDisplay({ recipe, showRecipe, updateRecipeList }: FrontDisplayProp
         </div>
 
     )
-}
+    }
+)
 
 export default FrontDisplay
 

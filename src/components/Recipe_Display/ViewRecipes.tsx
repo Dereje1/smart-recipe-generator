@@ -5,12 +5,13 @@ import Dialog from './Dialog'
 import { ExtendedRecipe } from '../../types';
 
 interface ViewRecipesProps {
-    recipes: ExtendedRecipe[],
+    recipes: ExtendedRecipe[]
     handleRecipeListUpdate: (r: ExtendedRecipe | null, deleteId?: string) => void
+    lastRecipeRef?: React.RefObject<HTMLDivElement>
 }
 const initialDialogContents: ExtendedRecipe | null = null
 
-function ViewRecipes({ recipes, handleRecipeListUpdate }: ViewRecipesProps) {
+function ViewRecipes({ recipes, handleRecipeListUpdate, lastRecipeRef }: ViewRecipesProps) {
     const [openDialog, setOpenDialog] = useState(initialDialogContents);
 
     const handleShowRecipe = (recipe: ExtendedRecipe) => {
@@ -36,12 +37,13 @@ function ViewRecipes({ recipes, handleRecipeListUpdate }: ViewRecipesProps) {
         <>
             <div className="flex justify-center items-center min-h-screen p-5 mb-3">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {recipes.map((recipe) => (
+                    {recipes.map((recipe, index) => (
                         <FrontDisplay
                             key={recipe._id}
                             recipe={recipe}
                             showRecipe={handleShowRecipe}
                             updateRecipeList={handleRecipeListUpdate}
+                            ref={index === recipes.length - 1 ? lastRecipeRef : undefined}
                         />
                     ))}
                 </div>
