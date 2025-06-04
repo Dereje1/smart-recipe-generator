@@ -14,6 +14,7 @@ const Home = () => {
 
     const observerRef = useRef<IntersectionObserver | null>(null);
     const searchTimeout = useRef<NodeJS.Timeout | null>(null);
+    const lastRecipeRef = useRef<HTMLDivElement | null>(null);
 
     const isSearching = searchVal.trim() !== "";
     const endpoint = isSearching ? "/api/search-recipes" : "/api/get-recipes";
@@ -37,11 +38,7 @@ const Home = () => {
     useEffect(() => {
         if (!latestRecipes.length) return;
 
-        // 🔹 TEMPORARY WORKAROUND:
-        // Instead of using a React ref, we are directly querying the DOM to attach the observer.
-        // This is because React's ref assignment is currently not triggering as expected.
-        // Once the root cause is identified, we should refactor this back to the correct React ref approach.
-        const lastRecipeElement = document.querySelector(".recipe-card:last-child");
+        const lastRecipeElement = lastRecipeRef.current;
         if (!lastRecipeElement) return;
 
         if (observerRef.current) observerRef.current.disconnect();
@@ -122,7 +119,11 @@ const Home = () => {
                 </button>
             </div>
 
-            <ViewRecipes recipes={latestRecipes} handleRecipeListUpdate={handleRecipeListUpdate} />
+            <ViewRecipes
+                recipes={latestRecipes}
+                handleRecipeListUpdate={handleRecipeListUpdate}
+                lastRecipeRef={lastRecipeRef}
+            />
             <FloatingActionButtons />
 
             {/* Show loading indicator when fetching */}
