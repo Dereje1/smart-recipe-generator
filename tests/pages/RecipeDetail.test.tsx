@@ -34,7 +34,7 @@ jest.mock("../../src/components/Hooks/useRecipeData", () => ({
 }))
 
 let actionPopoverArgs: any[] = []
-const useActionPopoverMock = jest.fn((...args: any[]) => {
+const mockActionPopover = jest.fn((...args: any[]) => {
     actionPopoverArgs = args;
     return {
         handleClone: jest.fn(),
@@ -50,7 +50,7 @@ const useActionPopoverMock = jest.fn((...args: any[]) => {
 });
 jest.mock("../../src/components/Hooks/useActionPopover", () => ({
     __esModule: true,
-    default: (...args: any[]) => useActionPopoverMock(...args)
+    default: (...args: any[]) => mockActionPopover(...args)
 }))
 
 let receivedHandlers: any
@@ -179,7 +179,7 @@ describe('The Recipe Detail Page', () => {
             setRecipeData: jest.fn(),
             setLoading
         });
-        (useActionPopoverMock as jest.Mock).mockImplementation((_, update) => {
+        (mockActionPopover as jest.Mock).mockImplementation((_, update) => {
             actionPopoverArgs = [_, update]
             return {
                 handleClone: jest.fn(),
