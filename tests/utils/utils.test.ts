@@ -1,6 +1,7 @@
 import { getSession } from "next-auth/react"
 import axios from "axios";
-import { updateRecipeList, getServerSidePropsUtility, call_api, playAudio } from "../../src/utils/utils";
+import { updateRecipeList, getServerSidePropsUtility, call_api, playAudio, paginationQueryHelper } from "../../src/utils/utils";
+import { PaginationQueryType } from "../../src/types";
 import { stubRecipeBatch } from "../stub";
 
 jest.useFakeTimers();
@@ -191,4 +192,24 @@ describe('playAudio', () => {
         jest.runAllTimers();
         await expect(result).rejects.toThrow('Playback error');
     });
+});
+
+describe('paginationQueryHelper', () => {
+  test('returns defaults when query object is empty', () => {
+    const result = paginationQueryHelper({} as PaginationQueryType);
+    expect(result).toEqual({ page: 1, limit: 12, skip: 0, sortOption: 'popular', query: undefined });
+  });
+
+  test('converts page and limit to numbers', () => {
+    const result = paginationQueryHelper({ page: '2', limit: '5' } as PaginationQueryType);
+    expect(result.page).toBe(2);
+    expect(result.limit).toBe(5);
+    expect(result.skip).toBe(5);
+  });
+
+  test('handles sortOption and query strings', () => {
+    const result = paginationQueryHelper({ page: '1', limit: '10', sortOption: 'recent', query: 'apple' });
+    expect(result.sortOption).toBe('recent');
+    expect(result.query).toBe('apple');
+  });
 });
