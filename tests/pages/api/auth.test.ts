@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import type { Adapter } from '@auth/core/adapters';
+import type { Adapter } from 'next-auth/adapters';
 import type { DefaultSession } from 'next-auth';
 
 jest.mock('next-auth', () => ({
@@ -11,8 +11,14 @@ jest.mock('next-auth', () => ({
 
 const adapterMock = jest.fn(() => ({ name: 'adapter' } as unknown as Adapter));
 
+// ⚠️ TypeScript will throw a "spread argument must be a tuple" error
+// if we try to mock MongoDBAdapter using a spread (...args) inside jest.mock.
+// This is because TypeScript cannot guarantee the args are a tuple in this context.
+// Using a regular function and `arguments` sidesteps the issue safely.
 jest.mock('@next-auth/mongodb-adapter', () => ({
-  MongoDBAdapter: (...args: any[]) => adapterMock(...args),
+  MongoDBAdapter: function () {
+    return adapterMock.apply(this, arguments as any);
+  },
 }));
 
 jest.mock('../../../src/lib/mongodb', () => ({
