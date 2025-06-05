@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import { ActionPopover } from '../../../src/components/Recipe_Display/ActionPopover';
 import { stub_recipe_1 } from '../../stub';
 import { useRouter } from 'next/router';
@@ -7,7 +7,15 @@ jest.mock('next/router', () => ({
     useRouter: jest.fn(),
 }));
 
-jest.mock('next/image');
+jest.mock('next/image', () => {
+  return {
+    __esModule: true,
+    default: (props: any) => {
+      // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text, react/display-name
+      return <img {...props} />;
+    },
+  };
+});
 
 const pushMock = jest.fn();
 
@@ -53,9 +61,11 @@ afterEach(() => {
     alertRoot?.remove();
 });
 
-const openPopover = () => {
-    fireEvent.click(screen.getByRole('button', { name: 'Menu' }));
+const openPopover = (container?: HTMLElement) => {
+  const queryRoot = container ? within(container) : screen;
+  fireEvent.click(queryRoot.getByRole('button', { name: 'Menu' }));
 };
+
 
 test('calls handleClone when clone ingredients clicked', () => {
     const handlers = baseHandlers();
@@ -90,22 +100,18 @@ test('calls handleCopy when copy link clicked', () => {
     expect(handlers.handleCopy).toHaveBeenCalled();
 });
 
-test('displays correct audio controls', () => {
-    const states = baseStates();
-    states.hasAudio = true;
-    renderPopover(baseHandlers(), states);
-    openPopover();
-    expect(screen.getByText('Play Recipe')).toBeInTheDocument();
+test('displays correct audio controls', async () => {
+  const { container: c1 } = renderPopover(baseHandlers(), { ...baseStates(), hasAudio: true });
+  openPopover(c1);
+  expect(await screen.findByText('Play Recipe')).toBeInTheDocument();
 
-    states.hasAudio = false;
-    const { rerender } = renderPopover(baseHandlers(), states);
-    openPopover();
-    expect(screen.getByText('Generate Audio')).toBeInTheDocument();
+  const { container: c2 } = renderPopover(baseHandlers(), { ...baseStates(), hasAudio: false });
+  openPopover(c2);
+  expect(await screen.findByText('Generate Audio')).toBeInTheDocument();
 
-    states.isPlayingAudio = true;
-    rerender(<ActionPopover handlers={baseHandlers()} states={states} data={baseData()} />);
-    openPopover();
-    expect(screen.getByText('Stop Playing')).toBeInTheDocument();
+  const { container: c3 } = renderPopover(baseHandlers(), { ...baseStates(), isPlayingAudio: true });
+  openPopover(c3);
+  expect(await screen.findByText('Stop Playing')).toBeInTheDocument();
 });
 
 test('shows loading indicator while audio is loading', () => {
