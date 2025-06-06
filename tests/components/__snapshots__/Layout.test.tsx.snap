@@ -161,7 +161,7 @@ exports[`The Layout renders the hero if the user is not authenticated 1`] = `
           </div>
         </div>
         <div
-          class="text-center"
+          class="text-center animate-fadeInUp"
         >
           <h1
             class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl"

@@ -37,7 +37,7 @@ const FrontDisplay = React.forwardRef<HTMLDivElement, FrontDisplayProps>(
     }
 
     return (
-        <div ref={ref} className="recipe-card max-w-sm bg-gradient-to-r from-slate-200 to-stone-100 border border-gray-200 rounded-lg shadow-lg mt-4 mb-2 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full">
+        <div ref={ref} className="recipe-card max-w-sm bg-gradient-to-r from-slate-200 to-stone-100 border border-gray-200 rounded-lg shadow-lg mt-4 mb-2 transform transition-transform hover:scale-105 hover:shadow-lg flex flex-col h-full animate-fadeInUp">
             <div className="relative w-full h-64"> {/* Add a container for the image */}
                 <Image
                     src={recipe.imgLink}
