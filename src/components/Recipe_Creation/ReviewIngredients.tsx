@@ -47,8 +47,7 @@ const ReviewComponent = ({
 
   return (
     <div
-      className="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-xl mx-auto animate-fadeInUp"
-      style={{ width: '98%' }}
+      className="fixed top-36 mt-48 inset-x-0 mx-auto w-11/12 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-xl animate-fadeInUp"
     >
       <div className="px-1 py-1">
         {/* Enhanced Title */}
