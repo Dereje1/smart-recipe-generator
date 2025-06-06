@@ -1,8 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@headlessui/react';
-import { PencilIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
+import {
+  PencilIcon,
+  ChevronRightIcon,
+  CheckCircleIcon,
+  SparklesIcon,
+  CubeIcon,
+  FireIcon,
+  CakeIcon,
+  BoltIcon,
+  GlobeAltIcon,
+  HeartIcon,
+} from '@heroicons/react/24/solid';
 import { Ingredient, DietaryPreference, Recipe } from '../../types/index';
 import useWindowSize from '../Hooks/useWindowSize';
+
+const preferenceIconMap: Record<
+  DietaryPreference,
+  React.ComponentType<React.SVGProps<SVGSVGElement>>
+> = {
+  Vegetarian: SparklesIcon,
+  Vegan: CubeIcon,
+  'Gluten-Free': FireIcon,
+  'Dairy-Free': CakeIcon,
+  Keto: BoltIcon,
+  Halal: GlobeAltIcon,
+  Kosher: HeartIcon,
+};
 
 interface ReviewComponentProps {
   ingredients: Ingredient[];
@@ -23,7 +47,7 @@ const ReviewComponent = ({
 
   return (
     <div
-      className="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-xl mx-auto"
+      className="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-xl mx-auto animate-fadeInUp"
       style={{ width: '98%' }}
     >
       <div className="px-1 py-1">
@@ -32,6 +56,9 @@ const ReviewComponent = ({
           <h2 className="text-2xl font-medium text-gray-800 sm:text-3xl">
             Review Your Selections
           </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Make sure everything looks right before we start cooking!
+          </p>
           {ingredients.length < 3 && (
             <p className="text-sm text-red-500 mt-2">
               Please select at least 3 ingredients to proceed with recipe creation.
@@ -51,6 +78,7 @@ const ReviewComponent = ({
                 key={ingredient.id}
                 className="flex items-center bg-brand-100 text-brand-800 text-sm font-medium px-3 py-1 rounded-full"
               >
+                <CheckCircleIcon className="w-4 h-4 mr-1 text-brand-600" aria-hidden="true" />
                 {ingredient.name}
                 {ingredient.quantity && (
                   <span className="ml-1 text-xs text-brand-600">
@@ -71,14 +99,18 @@ const ReviewComponent = ({
             className="flex flex-wrap gap-2 overflow-y-auto"
             style={{ maxHeight: '70px' }}
           >
-            {dietaryPreference.map((preference) => (
-              <span
-                key={preference}
-                className="bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1 rounded-full"
-              >
-                {preference}
-              </span>
-            ))}
+            {dietaryPreference.map((preference) => {
+              const Icon = preferenceIconMap[preference] || SparklesIcon;
+              return (
+                <span
+                  key={preference}
+                  className="flex items-center bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1 rounded-full"
+                >
+                  <Icon className="w-4 h-4 mr-1 text-brand-600" aria-hidden="true" />
+                  {preference}
+                </span>
+              );
+            })}
           </div>
         </div>
 
@@ -87,10 +119,10 @@ const ReviewComponent = ({
           {/* Edit Button */}
           <Button
             onClick={onEdit}
-            className={`flex items-center justify-center bg-gray-200 text-gray-700 
-                px-2 py-2 sm:px-4 sm:py-2 
-                rounded-full transition duration-300 ease-in-out 
-                hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500
+            className={`flex items-center justify-center bg-gray-200 text-gray-700
+                px-2 py-2 sm:px-4 sm:py-2
+                rounded-full transition duration-300 ease-in-out transform
+                hover:bg-gray-300 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500
                 ${generatedRecipes.length ? 'cursor-not-allowed opacity-50' : ''}`}
             disabled={Boolean(generatedRecipes.length)}
             aria-label="Edit your selections"
@@ -106,9 +138,9 @@ const ReviewComponent = ({
           <Button
             onClick={onSubmit}
             className={`flex items-center justify-center bg-brand-600 text-white
-                px-2 py-2 sm:px-4 sm:py-2 
-                rounded-full transition duration-300 ease-in-out
-                hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500
+                px-2 py-2 sm:px-4 sm:py-2
+                rounded-full transition duration-300 ease-in-out transform
+                hover:bg-brand-700 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500
                 ${ingredients.length < 3 || generatedRecipes.length
                 ? 'cursor-not-allowed opacity-50'
                 : ''
