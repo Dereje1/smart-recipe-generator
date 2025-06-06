@@ -6,7 +6,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
     class="mt-8"
   >
     <div
-      class="fixed top-36 mt-32 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
+      class="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
       style="width: 98%;"
     >
       <h2
@@ -184,7 +184,7 @@ exports[`The step component shall render the ingredient selection form 1`] = `
     class="mt-8"
   >
     <div
-      class="fixed top-36 mt-32 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
+      class="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
       style="width: 98%;"
     >
       <div
@@ -498,7 +498,7 @@ exports[`The step component shall render the review inputs section 1`] = `
     class="mt-8"
   >
     <div
-      class="fixed top-36 mt-32 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-xl mx-auto"
+      class="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-xl mx-auto"
       style="width: 98%;"
     >
       <div

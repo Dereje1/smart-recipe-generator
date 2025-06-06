@@ -148,7 +148,7 @@ export default function IngredientForm({
 
     return (
         <div
-            className="fixed top-36 mt-32 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
+            className="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
             style={{ width: '98%' }}
         >
             {/* Enhanced "Add New Ingredient" Button */}
