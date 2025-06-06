@@ -73,7 +73,7 @@ export function ActionPopover({ handlers, states, data }: ActionPopoverProps) {
                 {
                     states.isPlayingAudio ?
                         <StopCircleIcon className="h-5 w-5 text-red-500" /> :
-                        <PlayCircleIcon className={`h-5 w-5 ${states.hasAudio ? "text-brand-500" : "text-brand-500"}`} />
+                        <PlayCircleIcon className={`h-5 w-5 ${states.hasAudio ? 'text-brand-600' : 'text-brand-400'}`} />
                 }
 
                 {states.isPlayingAudio ? 'Stop Playing' : `${states.hasAudio ? 'Play Recipe' : 'Generate Audio'}`}
