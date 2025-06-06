@@ -3,7 +3,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/solid'
 
 export default function Features({ resetPage }: { resetPage: () => void }) {
   return (
-    <div className="flex flex-col justify-center items-center px-4 md:px-8 lg:px-12">
+    <div className="flex flex-col justify-center items-center px-4 md:px-8 lg:px-12 animate-fadeInUp">
       <h1 className="mb-2 text-4xl font-semibold text-gray-900 dark:text-white text-center">Features</h1>
       <h2 className="mt-6 mb-5 text-2xl leading-8 text-gray-600 text-center max-w-2xl">
       Discover the features that make our product unique.

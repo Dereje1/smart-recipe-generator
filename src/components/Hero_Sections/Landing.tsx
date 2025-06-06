@@ -1,7 +1,7 @@
 import { signIn } from 'next-auth/react';
 export default function Landing() {
     return (
-        <div className="text-center">
+        <div className="text-center animate-fadeInUp">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
                 Generate Delicious Recipes with Your Ingredients
             </h1>
