@@ -108,7 +108,7 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
             class="mb-4"
           >
             <h3
-              class="text-xl font-semibold mb-2"
+              class="mb-2"
             >
               Ingredients
             </h3>
@@ -182,7 +182,7 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
           class="mb-4"
         >
           <h3
-            class="text-xl font-semibold mb-2"
+            class="mb-2"
           >
             Instructions
           </h3>
@@ -233,7 +233,7 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
           class="mb-6"
         >
           <h3
-            class="text-xl font-semibold mb-4 text-gray-800"
+            class="mb-4 text-gray-800"
           >
             Additional Information
           </h3>

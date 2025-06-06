@@ -6,6 +6,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import modern font for headings */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 /* 
    Root variables for theme colors 
    These define the foreground and background colors used throughout the app.
@@ -55,4 +58,22 @@ body {
 */
 html {
   scrollbar-gutter: stable; /* Prevents layout shift by reserving space for the scrollbar */
+}
+
+/*
+   Base heading styles for consistent hierarchy and spacing
+*/
+@layer base {
+  h1 {
+    @apply text-3xl md:text-4xl font-bold mt-6 mb-4;
+    font-family: 'Inter', sans-serif;
+  }
+  h2 {
+    @apply text-2xl md:text-3xl font-semibold mt-6 mb-4;
+    font-family: 'Inter', sans-serif;
+  }
+  h3 {
+    @apply text-xl md:text-2xl font-semibold mt-4 mb-2;
+    font-family: 'Inter', sans-serif;
+  }
 }

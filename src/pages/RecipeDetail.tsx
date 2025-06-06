@@ -112,7 +112,7 @@ export default function RecipeDetail() {
                     {/* Ingredients */}
                     <div className="flex flex-col">
                         <div className="mb-4">
-                            <h3 className="text-xl font-semibold mb-2">Ingredients</h3> {/* Section title */}
+                        <h3 className="mb-2">Ingredients</h3> {/* Section title */}
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2"> {/* Responsive grid layout */}
                                 {recipeData.ingredients.map((ingredient) => (
                                     <li key={ingredient.name} className="flex items-center"> {/* Ingredient item */}
@@ -129,7 +129,7 @@ export default function RecipeDetail() {
 
                     {/* Instructions */}
                     <div className="mb-4">
-                        <h3 className="text-xl font-semibold mb-2">Instructions</h3> {/* Section title */}
+                        <h3 className="mb-2">Instructions</h3> {/* Section title */}
                         <ol className="list-decimal list-inside space-y-4"> {/* Ordered list with spacing */}
                             {recipeData.instructions.map((step, index) => (
                                 <li key={index} className="flex items-start"> {/* Instruction step */}
@@ -142,7 +142,7 @@ export default function RecipeDetail() {
 
                     {/* Additional Information */}
                     <div className="mb-6">
-                        <h3 className="text-xl font-semibold mb-4 text-gray-800">Additional Information</h3> {/* Section title */}
+                        <h3 className="mb-4 text-gray-800">Additional Information</h3> {/* Section title */}
                         <div className="space-y-4"> {/* Spacing between info items */}
                             <div>
                                 <h4 className="font-bold text-gray-700">Tips:</h4> {/* Subsection title */}
