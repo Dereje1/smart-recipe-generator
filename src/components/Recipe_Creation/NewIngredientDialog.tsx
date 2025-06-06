@@ -92,7 +92,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-md hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition duration-150 ease-in-out">
+        className="inline-flex items-center px-5 py-2.5 bg-brand-600 text-white text-sm font-medium rounded-full hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 shadow-md transition duration-300">
         <PlusCircleIcon className="block mr-2 h-6 w-6" />
         Add New Ingredient
       </Button>

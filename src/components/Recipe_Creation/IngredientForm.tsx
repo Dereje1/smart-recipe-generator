@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Combobox, ComboboxInput, ComboboxButton, ComboboxOptions, ComboboxOption } from '@headlessui/react';
-import { CheckIcon, ChevronDownIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { CheckIcon, ChevronDownIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import NewIngredientDialog from './NewIngredientDialog';
 import { Ingredient, Recipe, IngredientDocumentType } from '../../types/index';
@@ -12,7 +12,7 @@ const initialComboIngredient: ComboIngredient = { id: 0, name: '' };
 
 const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient; onDelete: (id: string) => void }) => {
     return (
-        <div className="flex items-center bg-brand-500 text-white text-sm font-medium px-3 py-1.5 rounded-full m-1">
+        <div className="flex items-center bg-brand-500 text-white text-sm font-medium px-3 py-1.5 rounded-full m-1 transition transform hover:scale-105 animate-fadeInUp">
             <span>{`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}</span>
             <button onClick={() => onDelete(ingredient.id)} className="ml-2 focus:outline-none">
                 <XMarkIcon className="w-4 h-4 text-white hover:text-gray-200" />
@@ -52,9 +52,10 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
                 disabled={Boolean(generatedRecipes.length)}
             >
                 <div className="relative w-full">
+                    <MagnifyingGlassIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                     <ComboboxInput
                         className={clsx(
-                            'w-full rounded-lg border border-gray-300 bg-white py-3 pr-10 pl-4 text-base text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500'
+                            'w-full rounded-lg border border-gray-300 bg-white py-3 pr-10 pl-9 text-base text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all duration-300'
                         )}
                         displayValue={(ingredient: ComboIngredient) => ingredient?.name}
                         onChange={(event) => setQuery(event.target.value)}
@@ -67,14 +68,14 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
 
                 {filteredIngredients.length > 0 && (
                     <ComboboxOptions
-                        className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                        className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm transition-all"
                     >
                         {filteredIngredients.map((ingredient) => (
                             <ComboboxOption
                                 key={ingredient._id}
                                 value={ingredient}
                                 className={({ active }) =>
-                                    `cursor-pointer select-none relative py-2 pl-10 pr-4 ${active ? 'text-white bg-brand-600' : 'text-gray-900'
+                                    `cursor-pointer select-none relative py-2 pl-10 pr-4 transition-colors ${active ? 'text-white bg-brand-600' : 'text-gray-900'
                                     }`
                                 }
                             >
@@ -120,6 +121,7 @@ export default function IngredientForm({
 }: IngredientFormProps) {
     const [ingredientList, setIngredientList] = useState(originalIngredientList);
     const [error, setError] = useState<string | null>(null);
+    const progressPercent = Math.min(ingredients.length, 10) * 10;
 
     const handleChange = (val: string | undefined) => {
         if (!val) return;
@@ -148,8 +150,7 @@ export default function IngredientForm({
 
     return (
         <div
-            className="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
-            style={{ width: '98%' }}
+            className="fixed top-36 mt-48 inset-x-0 mx-auto w-11/12 pl-2 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-md animate-fadeInUp"
         >
             {/* Enhanced "Add New Ingredient" Button */}
             <div className="flex justify-end w-full">
@@ -164,6 +165,15 @@ export default function IngredientForm({
                     ingredientUpdate={(val) => handleChange(val)}
                     generatedRecipes={generatedRecipes}
                 />
+                <div className="mt-3">
+                    <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                            className="h-full bg-brand-500 transition-all"
+                            style={{ width: `${progressPercent}%` }}
+                        />
+                    </div>
+                    <p className="text-right text-xs text-gray-500 mt-1">{ingredients.length}/10 ingredients selected</p>
+                </div>
                 {error && (
                     <p className="mt-2 text-red-500 text-sm">
                         {error}
