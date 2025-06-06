@@ -50,8 +50,8 @@ const PopularTags = ({ tags, onTagToggle, searchVal }: PopularTagsProps) => {
                         <button
                             key={_id}
                             className={`px-3 py-1 text-sm font-medium rounded-lg transition ${activeTag === _id
-                                ? 'bg-green-700 text-white'
-                                : 'bg-green-200 text-green-800 hover:bg-green-300'
+                                ? 'bg-brand-700 text-white'
+                                : 'bg-brand-200 text-brand-800 hover:bg-brand-300'
                                 }`}
                             onClick={() => handleTagClick(_id)}
                         >

@@ -23,7 +23,7 @@ exports[`The Features section renders 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="block mr-2 h-6 w-6 text-green-500"
+          class="block mr-2 h-6 w-6 text-brand-500"
           data-slot="icon"
           fill="currentColor"
           viewBox="0 0 24 24"
@@ -42,7 +42,7 @@ exports[`The Features section renders 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="block mr-2 h-6 w-6 text-green-500"
+          class="block mr-2 h-6 w-6 text-brand-500"
           data-slot="icon"
           fill="currentColor"
           viewBox="0 0 24 24"
@@ -61,7 +61,7 @@ exports[`The Features section renders 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="block mr-2 h-6 w-6 text-green-500"
+          class="block mr-2 h-6 w-6 text-brand-500"
           data-slot="icon"
           fill="currentColor"
           viewBox="0 0 24 24"
@@ -80,7 +80,7 @@ exports[`The Features section renders 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="block mr-2 h-6 w-6 text-green-500"
+          class="block mr-2 h-6 w-6 text-brand-500"
           data-slot="icon"
           fill="currentColor"
           viewBox="0 0 24 24"
@@ -96,7 +96,7 @@ exports[`The Features section renders 1`] = `
       </li>
     </ul>
     <button
-      class="mt-10 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      class="mt-10 rounded-md bg-brand-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
     >
       Back to Home
     </button>

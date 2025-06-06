@@ -38,7 +38,7 @@ const ReviewRecipesComponent = ({ generatedRecipes, selectedRecipes, handleRecip
                 {finalRecipes.length ? (
                     <Button
                         onClick={() => handleRecipeSubmit(finalRecipes)}
-                        className="flex items-center bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
+                        className="flex items-center bg-brand-600 text-white px-6 py-3 rounded-full hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 transition duration-300 ease-in-out"
                         aria-label="Submit selected recipes"
                     >
                         <CheckIcon className="w-5 h-5 mr-2" aria-hidden="true" />

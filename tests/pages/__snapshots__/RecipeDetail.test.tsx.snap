@@ -123,7 +123,7 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
                  
                 <svg
                   aria-hidden="true"
-                  class="w-5 h-5 text-green-500 mr-2 flex-shrink-0"
+                  class="w-5 h-5 text-brand-500 mr-2 flex-shrink-0"
                   data-slot="icon"
                   fill="none"
                   stroke="currentColor"
@@ -152,7 +152,7 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
                  
                 <svg
                   aria-hidden="true"
-                  class="w-5 h-5 text-green-500 mr-2 flex-shrink-0"
+                  class="w-5 h-5 text-brand-500 mr-2 flex-shrink-0"
                   data-slot="icon"
                   fill="none"
                   stroke="currentColor"
@@ -301,7 +301,7 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
           </div>
         </div>
         <button
-          class="w-14 h-14 mb-3 hover:text-blue-600 hover:scale-105 hover:shadow rounded-full flex items-center justify-center"
+          class="w-14 h-14 mb-3 hover:text-brand-600 hover:scale-105 hover:shadow rounded-full flex items-center justify-center"
           data-testid="like_button"
           disabled=""
         >

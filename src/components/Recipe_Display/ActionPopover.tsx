@@ -73,7 +73,7 @@ export function ActionPopover({ handlers, states, data }: ActionPopoverProps) {
                 {
                     states.isPlayingAudio ?
                         <StopCircleIcon className="h-5 w-5 text-red-500" /> :
-                        <PlayCircleIcon className={`h-5 w-5 ${states.hasAudio ? "text-green-500" : "text-blue-500"}`} />
+                        <PlayCircleIcon className={`h-5 w-5 ${states.hasAudio ? "text-brand-500" : "text-brand-500"}`} />
                 }
 
                 {states.isPlayingAudio ? 'Stop Playing' : `${states.hasAudio ? 'Play Recipe' : 'Generate Audio'}`}
@@ -154,7 +154,7 @@ export const Alert = ({ message }: { message: string }) => {
 
     const alertContent = (
         <div
-            className={`fixed top-0 inset-x-0 mx-auto mt-5 px-4 py-3 rounded shadow-lg flex items-center bg-green-100 text-green-900 font-bold 
+            className={`fixed top-0 inset-x-0 mx-auto mt-5 px-4 py-3 rounded shadow-lg flex items-center bg-brand-100 text-brand-900 font-bold
       w-[95%] sm:w-full max-w-sm sm:max-w-md md:max-w-lg 
       ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'} 
       transition-all duration-300 ease-out`}
@@ -162,7 +162,7 @@ export const Alert = ({ message }: { message: string }) => {
             role="alert"
             aria-live="assertive"
         >
-            <InformationCircleIcon className="w-6 h-6 flex-shrink-0 mr-2 text-green-700" />
+            <InformationCircleIcon className="w-6 h-6 flex-shrink-0 mr-2 text-brand-700" />
             <p className="text-sm sm:text-xs md:text-[12px] leading-tight">{message}</p>
         </div>
     );

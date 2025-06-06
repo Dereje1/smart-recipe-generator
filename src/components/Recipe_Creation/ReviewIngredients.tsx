@@ -49,11 +49,11 @@ const ReviewComponent = ({
             {ingredients.map((ingredient) => (
               <li
                 key={ingredient.id}
-                className="flex items-center bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full"
+                className="flex items-center bg-brand-100 text-brand-800 text-sm font-medium px-3 py-1 rounded-full"
               >
                 {ingredient.name}
                 {ingredient.quantity && (
-                  <span className="ml-1 text-xs text-green-600">
+                  <span className="ml-1 text-xs text-brand-600">
                     ({ingredient.quantity})
                   </span>
                 )}
@@ -90,7 +90,7 @@ const ReviewComponent = ({
             className={`flex items-center justify-center bg-gray-200 text-gray-700 
                 px-2 py-2 sm:px-4 sm:py-2 
                 rounded-full transition duration-300 ease-in-out 
-                hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 
+                hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500
                 ${generatedRecipes.length ? 'cursor-not-allowed opacity-50' : ''}`}
             disabled={Boolean(generatedRecipes.length)}
             aria-label="Edit your selections"
@@ -105,10 +105,10 @@ const ReviewComponent = ({
           {/* Create Recipes Button */}
           <Button
             onClick={onSubmit}
-            className={`flex items-center justify-center bg-green-600 text-white 
+            className={`flex items-center justify-center bg-brand-600 text-white
                 px-2 py-2 sm:px-4 sm:py-2 
-                rounded-full transition duration-300 ease-in-out 
-                hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 
+                rounded-full transition duration-300 ease-in-out
+                hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500
                 ${ingredients.length < 3 || generatedRecipes.length
                 ? 'cursor-not-allowed opacity-50'
                 : ''
