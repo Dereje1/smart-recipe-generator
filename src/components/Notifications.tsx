@@ -59,7 +59,7 @@ const Notifications = ({ screen }: NotificationProps) => {
     return (
         <Popover className="relative">
             <PopoverButton
-                className={`relative rounded-full bg-green-800 p-1 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-800 ${screen === 'mobile' ? 'ml-auto' : ''
+                className={`relative rounded-full bg-brand-800 p-1 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-brand-800 ${screen === 'mobile' ? 'ml-auto' : ''
                     }`}
             >
                 {/* Bell Icon */}
@@ -91,7 +91,7 @@ const Notifications = ({ screen }: NotificationProps) => {
                                     {/* Icon for read/unread */}
                                     <div className="flex-shrink-0 flex items-center justify-center h-8 w-8">
                                         {read ? (
-                                            <CheckIcon className="h-5 w-5 text-green-500" />
+                                            <CheckIcon className="h-5 w-5 text-brand-500" />
                                         ) : (
                                             <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
                                         )}
@@ -101,14 +101,14 @@ const Notifications = ({ screen }: NotificationProps) => {
                                         <div className="flex space-x-2 mt-1">
                                             {!read && (
                                                 <button
-                                                    className="text-xs text-blue-500 hover:underline"
+                                                    className="text-xs text-brand-500 hover:underline"
                                                     onClick={() => markAsRead(_id)}
                                                 >
                                                     Mark as Read
                                                 </button>
                                             )}
                                             <button
-                                                className="text-xs text-blue-500 hover:underline"
+                                                className="text-xs text-brand-500 hover:underline"
                                                 onClick={() => router.push(`/RecipeDetail?recipeId=${recipeId}`)}
                                             >
                                                 View Recipe
@@ -121,7 +121,7 @@ const Notifications = ({ screen }: NotificationProps) => {
                     )}
                     {notifications.length > 5 && (
                         <button
-                            className="mt-4 w-full text-sm text-blue-500 hover:text-blue-700"
+                            className="mt-4 w-full text-sm text-brand-500 hover:text-brand-700"
                             onClick={() => router.push('/NotificationsPage')}
                         >
                             See All Notifications

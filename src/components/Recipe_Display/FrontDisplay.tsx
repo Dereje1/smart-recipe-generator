@@ -18,9 +18,9 @@ const getThumbsup = ({ liked, owns }: { liked: boolean, owns: boolean }) => {
         return <HandThumbUpSolid className="block h-6 w-6 text-gray-500" />
     }
     if (liked) {
-        return <HandThumbUpSolid className="block h-6 w-6 text-blue-500" />
+        return <HandThumbUpSolid className="block h-6 w-6 text-brand-500" />
     }
-    return <HandThumbUpIcon className="block h-6 w-6 text-blue-500" />
+    return <HandThumbUpIcon className="block h-6 w-6 text-brand-500" />
 }
 
 
@@ -56,21 +56,21 @@ const FrontDisplay = React.forwardRef<HTMLDivElement, FrontDisplayProps>(
             <div className="mx-auto flex">
                 {
                     recipe.dietaryPreference.map((preference) => (
-                        <span key={preference} className="chip bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110">{preference}</span>
+                        <span key={preference} className="chip bg-brand-100 text-brand-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110">{preference}</span>
                     ))
                 }
             </div>
             <div className="p-5">
                 <div className="flex items-center justify-between">
                     <Button
-                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-brand-700 rounded-lg hover:bg-brand-800 focus:ring-4 focus:outline-none focus:ring-brand-300"
                         onClick={() => showRecipe(recipe)}
                     >
                         See Recipe
                         <ArrowRightCircleIcon className="block ml-2 h-5 w-5" />
                     </Button>
                     <Button
-                        className="py-1.5 px-3 hover:text-blue-600 hover:scale-105 hover:shadow text-center border border-gray-300 rounded-md border-gray-400 h-8 text-sm flex items-center gap-1 lg:gap-2"
+                        className="py-1.5 px-3 hover:text-brand-600 hover:scale-105 hover:shadow text-center border border-gray-300 rounded-md border-gray-400 h-8 text-sm flex items-center gap-1 lg:gap-2"
                         onClick={() => handleRecipeLike(recipe._id)}
                         disabled={recipe.owns}
                         data-testid="like_button"

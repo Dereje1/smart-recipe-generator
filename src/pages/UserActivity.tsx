@@ -114,7 +114,7 @@ export default function UserActivityPage() {
                     <div className="flex justify-center space-x-4 mt-4 mb-6">
                         <button
                             className={`px-3 py-1.5 text-sm rounded-full font-semibold ${activeTab === 'created'
-                                    ? 'bg-green-500 text-white'
+                                    ? 'bg-brand-500 text-white'
                                     : 'bg-gray-200 text-gray-800'
                                 }`}
                             onClick={() => setActiveTab('created')}
@@ -123,7 +123,7 @@ export default function UserActivityPage() {
                         </button>
                         <button
                             className={`px-3 py-1.5 text-sm rounded-full font-semibold ${activeTab === 'liked'
-                                    ? 'bg-green-500 text-white'
+                                    ? 'bg-brand-500 text-white'
                                     : 'bg-gray-200 text-gray-800'
                                 }`}
                             onClick={() => setActiveTab('liked')}

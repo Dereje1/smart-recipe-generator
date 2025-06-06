@@ -92,7 +92,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+        className="inline-flex items-center px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-md hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition duration-150 ease-in-out">
         <PlusCircleIcon className="block mr-2 h-6 w-6" />
         Add New Ingredient
       </Button>
@@ -123,7 +123,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
               <div className="flex gap-4 flex-end">
                 <Button className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400" onClick={() => setIsOpen(false)}>Cancel</Button>
                 <Button
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 data-[disabled]:bg-gray-200"
+                  className="bg-brand-600 text-white px-4 py-2 rounded-md hover:bg-brand-700 data-[disabled]:bg-gray-200"
                   onClick={handleSubmit}
                   disabled={!ingredientName.trim() || isDisabled}
                 >

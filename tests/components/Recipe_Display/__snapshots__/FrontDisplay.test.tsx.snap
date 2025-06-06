@@ -39,12 +39,12 @@ exports[`The single front facing display shall render 1`] = `
       class="mx-auto flex"
     >
       <span
-        class="chip bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110"
+        class="chip bg-brand-100 text-brand-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110"
       >
         Recipe_1_preference_1
       </span>
       <span
-        class="chip bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110"
+        class="chip bg-brand-100 text-brand-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110"
       >
         Recipe_1_preference_2
       </span>
@@ -56,7 +56,7 @@ exports[`The single front facing display shall render 1`] = `
         class="flex items-center justify-between"
       >
         <button
-          class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-brand-700 rounded-lg hover:bg-brand-800 focus:ring-4 focus:outline-none focus:ring-brand-300"
           data-headlessui-state=""
           type="button"
         >
@@ -77,14 +77,14 @@ exports[`The single front facing display shall render 1`] = `
           </svg>
         </button>
         <button
-          class="py-1.5 px-3 hover:text-blue-600 hover:scale-105 hover:shadow text-center border border-gray-300 rounded-md border-gray-400 h-8 text-sm flex items-center gap-1 lg:gap-2"
+          class="py-1.5 px-3 hover:text-brand-600 hover:scale-105 hover:shadow text-center border border-gray-300 rounded-md border-gray-400 h-8 text-sm flex items-center gap-1 lg:gap-2"
           data-headlessui-state=""
           data-testid="like_button"
           type="button"
         >
           <svg
             aria-hidden="true"
-            class="block h-6 w-6 text-blue-500"
+            class="block h-6 w-6 text-brand-500"
             data-slot="icon"
             fill="none"
             stroke="currentColor"
@@ -147,12 +147,12 @@ exports[`The single front facing display shall render for a loading recipe 1`] =
       class="mx-auto flex"
     >
       <span
-        class="chip bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110"
+        class="chip bg-brand-100 text-brand-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110"
       >
         Recipe_1_preference_1
       </span>
       <span
-        class="chip bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110"
+        class="chip bg-brand-100 text-brand-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded hover:scale-110"
       >
         Recipe_1_preference_2
       </span>
@@ -164,7 +164,7 @@ exports[`The single front facing display shall render for a loading recipe 1`] =
         class="flex items-center justify-between"
       >
         <button
-          class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-brand-700 rounded-lg hover:bg-brand-800 focus:ring-4 focus:outline-none focus:ring-brand-300"
           data-headlessui-state=""
           type="button"
         >
@@ -185,14 +185,14 @@ exports[`The single front facing display shall render for a loading recipe 1`] =
           </svg>
         </button>
         <button
-          class="py-1.5 px-3 hover:text-blue-600 hover:scale-105 hover:shadow text-center border border-gray-300 rounded-md border-gray-400 h-8 text-sm flex items-center gap-1 lg:gap-2"
+          class="py-1.5 px-3 hover:text-brand-600 hover:scale-105 hover:shadow text-center border border-gray-300 rounded-md border-gray-400 h-8 text-sm flex items-center gap-1 lg:gap-2"
           data-headlessui-state=""
           data-testid="like_button"
           type="button"
         >
           <svg
             aria-hidden="true"
-            class="block h-6 w-6 text-blue-500"
+            class="block h-6 w-6 text-brand-500"
             data-slot="icon"
             fill="none"
             stroke="currentColor"

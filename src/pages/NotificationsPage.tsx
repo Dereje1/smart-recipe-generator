@@ -46,7 +46,7 @@ const NotificationsPage = ({ initialNotifications }: NotificationsPageProps) => 
                             {/* Icon for read/unread */}
                             <div className="flex-shrink-0 flex items-center justify-center h-10 w-10">
                                 {read ? (
-                                    <CheckIcon className="h-6 w-6 text-green-500" />
+                                    <CheckIcon className="h-6 w-6 text-brand-500" />
                                 ) : (
                                     <ExclamationCircleIcon className="h-6 w-6 text-red-500" />
                                 )}
@@ -57,14 +57,14 @@ const NotificationsPage = ({ initialNotifications }: NotificationsPageProps) => 
                                 <div className="flex space-x-2 mt-1">
                                     {!read && (
                                         <button
-                                            className="text-xs text-blue-500 hover:underline"
+                                            className="text-xs text-brand-500 hover:underline"
                                             onClick={() => markAsRead(_id)}
                                         >
                                             Mark as Read
                                         </button>
                                     )}
                                     <button
-                                        className="text-xs text-blue-500 hover:underline"
+                                        className="text-xs text-brand-500 hover:underline"
                                         onClick={() => router.push(`/RecipeDetail?recipeId=${recipeId}`)}
                                     >
                                         View Recipe

@@ -42,7 +42,7 @@ const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch
                             }
                             className={`
                 relative inline-flex flex-shrink-0
-                ${selectedRecipes.includes(recipe.openaiPromptId) ? 'bg-green-500' : 'bg-gray-300'}
+                ${selectedRecipes.includes(recipe.openaiPromptId) ? 'bg-brand-500' : 'bg-gray-300'}
                 h-[20px] w-[40px] sm:h-[28px] sm:w-[54px]
                 cursor-pointer rounded-full border-2 border-transparent
                 transition-colors duration-200 ease-in-out focus:outline-none
@@ -68,7 +68,7 @@ const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch
                 <ul className="mb-4 flex flex-wrap gap-2">
                     {recipe.ingredients.map((ingredient) => (
                         <li key={ingredient.name}>
-                            <span className="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded">
+                            <span className="bg-brand-100 text-brand-800 text-sm font-medium px-2.5 py-0.5 rounded">
                                 {`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}
                             </span>
                         </li>
@@ -92,7 +92,7 @@ const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch
                 <Disclosure>
                     {({ open }) => (
                         <>
-                            <DisclosureButton className="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none">
+                            <DisclosureButton className="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-brand-900 bg-brand-100 rounded-lg hover:bg-brand-200 focus:outline-none">
                                 <span>Instructions</span>
                                 <ChevronDownIcon className={`w-5 h-5 transform transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
                             </DisclosureButton>
@@ -117,7 +117,7 @@ const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch
                 <Disclosure as="div" className="mt-4">
                     {({ open }) => (
                         <>
-                            <DisclosureButton className="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none">
+                            <DisclosureButton className="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-brand-900 bg-brand-100 rounded-lg hover:bg-brand-200 focus:outline-none">
                                 <span>Additional Information</span>
                                 <ChevronDownIcon className={`w-5 h-5 transform transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
                             </DisclosureButton>

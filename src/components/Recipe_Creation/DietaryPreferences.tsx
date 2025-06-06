@@ -57,8 +57,8 @@ export default function DietaryPreferences({
         <Checkbox
           checked={noPreference}
           onChange={handleNoPreference}
-          className={`h-5 w-5 rounded border border-gray-300 flex items-center justify-center ${noPreference ? 'bg-indigo-600' : 'bg-white'
-            } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+          className={`h-5 w-5 rounded border border-gray-300 flex items-center justify-center ${noPreference ? 'bg-brand-600' : 'bg-white'
+            } focus:outline-none focus:ring-2 focus:ring-brand-500`}
           disabled={Boolean(generatedRecipes.length)}
           aria-label="No Dietary Preference"
         >
@@ -76,8 +76,8 @@ export default function DietaryPreferences({
             <Checkbox
               checked={preferences.includes(option)}
               onChange={(e) => handlePreferenceChange(e, option)}
-              className={`h-5 w-5 rounded border border-gray-300 flex items-center justify-center ${preferences.includes(option) ? 'bg-indigo-600' : 'bg-white'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              className={`h-5 w-5 rounded border border-gray-300 flex items-center justify-center ${preferences.includes(option) ? 'bg-brand-600' : 'bg-white'
+                } focus:outline-none focus:ring-2 focus:ring-brand-500`}
               disabled={noPreference || Boolean(generatedRecipes.length)}
               aria-label={option}
             >

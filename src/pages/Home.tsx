@@ -101,7 +101,7 @@ const Home = () => {
             <div className="flex space-x-4 mt-4 mb-4">
                 <button
                     onClick={() => sortRecipes('recent')}
-                    className={`disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-white flex items-center px-4 py-2 rounded shadow-md transition duration-300 ${sortOption === 'recent' ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300 hover:shadow-lg'
+                    className={`disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-white flex items-center px-4 py-2 rounded shadow-md transition duration-300 ${sortOption === 'recent' ? 'bg-brand-500 text-white' : 'bg-gray-200 hover:bg-gray-300 hover:shadow-lg'
                         }`}
                     disabled={Boolean(searchVal.trim())}
                 >
@@ -110,7 +110,7 @@ const Home = () => {
                 </button>
                 <button
                     onClick={() => sortRecipes('popular')}
-                    className={`disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-white flex items-center px-4 py-2 rounded shadow-md transition duration-300 ${sortOption === 'popular' ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300 hover:shadow-lg"'
+                    className={`disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-white flex items-center px-4 py-2 rounded shadow-md transition duration-300 ${sortOption === 'popular' ? 'bg-brand-500 text-white' : 'bg-gray-200 hover:bg-gray-300 hover:shadow-lg"'
                         }`}
                     disabled={Boolean(searchVal.trim())}
                 >

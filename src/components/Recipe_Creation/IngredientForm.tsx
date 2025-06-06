@@ -12,7 +12,7 @@ const initialComboIngredient: ComboIngredient = { id: 0, name: '' };
 
 const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient; onDelete: (id: string) => void }) => {
     return (
-        <div className="flex items-center bg-indigo-500 text-white text-sm font-medium px-3 py-1.5 rounded-full m-1">
+        <div className="flex items-center bg-brand-500 text-white text-sm font-medium px-3 py-1.5 rounded-full m-1">
             <span>{`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}</span>
             <button onClick={() => onDelete(ingredient.id)} className="ml-2 focus:outline-none">
                 <XMarkIcon className="w-4 h-4 text-white hover:text-gray-200" />
@@ -54,7 +54,7 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
                 <div className="relative w-full">
                     <ComboboxInput
                         className={clsx(
-                            'w-full rounded-lg border border-gray-300 bg-white py-3 pr-10 pl-4 text-base text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                            'w-full rounded-lg border border-gray-300 bg-white py-3 pr-10 pl-4 text-base text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500'
                         )}
                         displayValue={(ingredient: ComboIngredient) => ingredient?.name}
                         onChange={(event) => setQuery(event.target.value)}
@@ -74,7 +74,7 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
                                 key={ingredient._id}
                                 value={ingredient}
                                 className={({ active }) =>
-                                    `cursor-pointer select-none relative py-2 pl-10 pr-4 ${active ? 'text-white bg-indigo-600' : 'text-gray-900'
+                                    `cursor-pointer select-none relative py-2 pl-10 pr-4 ${active ? 'text-white bg-brand-600' : 'text-gray-900'
                                     }`
                                 }
                             >
@@ -88,7 +88,7 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
                                         </span>
                                         {selected && (
                                             <span
-                                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${focus ? 'text-white' : 'text-indigo-600'
+                                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${focus ? 'text-white' : 'text-brand-600'
                                                     }`}
                                             >
                                                 <CheckIcon className="w-5 h-5" aria-hidden="true" />
@@ -172,7 +172,7 @@ export default function IngredientForm({
             </div>
             {ingredients.length > 0 && (
                 <div className="mt-6 w-full">
-                    <h2 className="text-lg font-semibold text-indigo-600 mb-3">Selected Ingredients:</h2>
+                    <h2 className="text-lg font-semibold text-brand-600 mb-3">Selected Ingredients:</h2>
                     <div className="flex flex-wrap max-h-32 overflow-y-auto">
                         {ingredients.map((ingredient: Ingredient) => (
                             <Chip

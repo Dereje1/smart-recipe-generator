@@ -11,9 +11,9 @@ const userNavigation = [
 ]
 
 const navigation = [
-    { name: 'Home', route: '/Home', style: 'text-gray-300 hover:bg-green-700 hover:text-white' },
-    { name: 'Create Recipes', route: '/CreateRecipe', style: 'bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition-all animate-pulse' },
-    { name: 'About', route: '/', style: 'text-gray-300 hover:bg-green-700 hover:text-white' },
+    { name: 'Home', route: '/Home', style: 'text-gray-300 hover:bg-brand-700 hover:text-white' },
+    { name: 'Create Recipes', route: '/CreateRecipe', style: 'bg-brand-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-brand-600 transition-all animate-pulse' },
+    { name: 'About', route: '/', style: 'text-gray-300 hover:bg-brand-700 hover:text-white' },
 ]
 
 function classNames(...classes: string[]) {
@@ -45,7 +45,7 @@ function Header({ user }: HeaderProps) {
 
     if (!user) return null;
     return (
-        <Disclosure as="nav" className="sticky top-0 z-50 bg-green-800 shadow-md" style={{ scrollbarGutter: 'stable' }}>
+        <Disclosure as="nav" className="sticky top-0 z-50 bg-brand-800 shadow-md" style={{ scrollbarGutter: 'stable' }}>
             {({ open }) => (
                 <>
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -67,7 +67,7 @@ function Header({ user }: HeaderProps) {
                                                 key={item.name}
                                                 className={classNames(
                                                     item.route === router.pathname
-                                                        ? 'bg-green-50 text-gray-800'
+                                                        ? 'bg-brand-50 text-gray-800'
                                                         : item.style,
                                                     'rounded-md px-3 py-2 text-sm font-medium',
                                                 )}
@@ -95,7 +95,7 @@ function Header({ user }: HeaderProps) {
                                     {/* Profile dropdown */}
                                     <Menu as="div" className="relative ml-3">
                                         <div>
-                                            <MenuButton className="relative flex max-w-xs items-center rounded-full bg-green-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-800">
+                                            <MenuButton className="relative flex max-w-xs items-center rounded-full bg-brand-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-brand-800">
                                                 <span className="absolute -inset-1.5" />
                                                 <span className="sr-only">Open user menu</span>
                                                 <Image
@@ -132,7 +132,7 @@ function Header({ user }: HeaderProps) {
                             </div>
                             <div className="-mr-2 flex md:hidden">
                                 {/* Mobile menu button */}
-                                <DisclosureButton className="relative inline-flex items-center justify-center rounded-md bg-green-800 p-2 text-gray-200 hover:bg-green-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-800">
+                                <DisclosureButton className="relative inline-flex items-center justify-center rounded-md bg-brand-800 p-2 text-gray-200 hover:bg-brand-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-brand-800">
                                     <span className="absolute -inset-0.5" />
                                     <span className="sr-only">Open main menu</span>
                                     {open ? (
@@ -151,7 +151,7 @@ function Header({ user }: HeaderProps) {
                                 <DisclosureButton
                                     key={item.name}
                                     className={classNames(
-                                        item.route === router.pathname ? 'bg-green-50 text-gray-800' : item.style,
+                                        item.route === router.pathname ? 'bg-brand-50 text-gray-800' : item.style,
                                         'block rounded-md px-3 py-2 text-base font-medium',
                                     )}
                                     aria-current={item.route === router.pathname ? 'page' : undefined}
@@ -172,7 +172,7 @@ function Header({ user }: HeaderProps) {
                                 ☕ Buy Me a Coffee
                             </a>
                         </div>
-                        <div className="border-t border-green-700 pb-3 pt-4">
+                        <div className="border-t border-brand-700 pb-3 pt-4">
                             <div className="flex items-center px-5">
                                 <div className="flex-shrink-0">
                                     <Image
@@ -196,7 +196,7 @@ function Header({ user }: HeaderProps) {
                                 {userNavigation.map((item) => (
                                     <DisclosureButton
                                         key={item.name}
-                                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-green-700 hover:text-white"
+                                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-brand-700 hover:text-white"
                                         onClick={() => handleNavigation(item)}
                                     >
                                         {item.name}

@@ -10,24 +10,24 @@ export default function Features({ resetPage }: { resetPage: () => void }) {
       </h2>
       <ul className="space-y-4 text-gray-500 list-inside dark:text-gray-400">
         <li className="flex items-center text-lg">
-        <CheckCircleIcon className="block mr-2 h-6 w-6 text-green-500" />
+        <CheckCircleIcon className="block mr-2 h-6 w-6 text-brand-500" />
           Ingredient-based recipe generation using advanced AI algorithms.
         </li>
         <li className="flex items-center text-lg">
-        <CheckCircleIcon className="block mr-2 h-6 w-6 text-green-500" />
+        <CheckCircleIcon className="block mr-2 h-6 w-6 text-brand-500" />
           Support for various dietary preferences like vegan, gluten-free, and more.
         </li>
         <li className="flex items-center text-lg">
-        <CheckCircleIcon className="block mr-2 h-6 w-6 text-green-500" />
+        <CheckCircleIcon className="block mr-2 h-6 w-6 text-brand-500" />
           Easy-to-use interface for adding ingredients and generating recipes.
         </li>
         <li className="flex items-center text-lg">
-        <CheckCircleIcon className="block mr-2 h-6 w-6 text-green-500" />
+        <CheckCircleIcon className="block mr-2 h-6 w-6 text-brand-500" />
           Save, rate, and share your favorite recipes with others.
         </li>
       </ul>
       <button
-        className="mt-10 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="mt-10 rounded-md bg-brand-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
         onClick={resetPage}
       >
         Back to Home

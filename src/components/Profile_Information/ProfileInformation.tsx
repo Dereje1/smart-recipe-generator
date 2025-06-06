@@ -23,7 +23,7 @@ function ProfileInformation({ recipes, updateSelection, selectedDisplay, AIusage
 
     // Determine progress bar color based on AI usage percentage
     const getUsageColor = (usage: number) => {
-        if (usage <= 50) return 'bg-green-500'; // Low usage: Green
+        if (usage <= 50) return 'bg-brand-500'; // Low usage: Green
         if (usage <= 75) return 'bg-yellow-500'; // Medium usage: Yellow
         return 'bg-red-500'; // High usage: Red
     };
@@ -47,7 +47,7 @@ function ProfileInformation({ recipes, updateSelection, selectedDisplay, AIusage
                         <Button
                             onClick={() => updateSelection('created')}
                             className={`bg-white rounded-md ${
-                                selectedDisplay === 'created' ? 'text-rose-700 font-bold' : 'text-black hover:text-blue-500 hover:underline'
+                                selectedDisplay === 'created' ? 'text-rose-700 font-bold' : 'text-black hover:text-brand-500 hover:underline'
                             }`}
                         >
                             Recipes Created
@@ -58,7 +58,7 @@ function ProfileInformation({ recipes, updateSelection, selectedDisplay, AIusage
                         <Button
                             onClick={() => updateSelection('votes received')}
                             className={`bg-white rounded-md ${
-                                selectedDisplay === 'votes received' ? 'text-rose-700 font-bold' : 'text-black hover:text-blue-500 hover:underline'
+                                selectedDisplay === 'votes received' ? 'text-rose-700 font-bold' : 'text-black hover:text-brand-500 hover:underline'
                             }`}
                         >
                             Votes Received
@@ -69,7 +69,7 @@ function ProfileInformation({ recipes, updateSelection, selectedDisplay, AIusage
                         <Button
                             onClick={() => updateSelection('favorites')}
                             className={`bg-white rounded-md ${
-                                selectedDisplay === 'favorites' ? 'text-rose-700 font-bold' : 'text-black hover:text-blue-500 hover:underline'
+                                selectedDisplay === 'favorites' ? 'text-rose-700 font-bold' : 'text-black hover:text-brand-500 hover:underline'
                             }`}
                         >
                             Favorites

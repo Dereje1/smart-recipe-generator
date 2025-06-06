@@ -89,7 +89,7 @@ export default function ChatBox({ recipeId }: Props) {
                         >
                             <div
                                 className={`px-4 py-2 rounded-lg text-sm max-w-[75%] ${msg.role === 'user'
-                                    ? 'bg-blue-100 text-blue-800'
+                                    ? 'bg-brand-100 text-brand-800'
                                     : 'bg-gray-200 text-gray-800'
                                     }`}
                             >
@@ -126,7 +126,7 @@ export default function ChatBox({ recipeId }: Props) {
                 <button
                     onClick={handleSend}
                     disabled={isLoading || !input.trim() || tokenTotal >= MAX_TOKENS}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 disabled:opacity-50"
+                    className="bg-brand-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-brand-700 disabled:opacity-50"
                     aria-label="Send"
                 >
                     <PaperAirplaneIcon className="h-14 w-8" />

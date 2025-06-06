@@ -17,9 +17,9 @@ const getThumbsup = ({ liked, owns }: { liked: boolean, owns: boolean }) => {
         return <HandThumbUpSolid className={`${baseClass} text-gray-500`} />;
     }
     if (liked) {
-        return <HandThumbUpSolid className={`${baseClass} text-blue-500`} />;
+        return <HandThumbUpSolid className={`${baseClass} text-brand-500`} />;
     }
-    return <HandThumbUpIcon className={`${baseClass} text-blue-500`} />;
+    return <HandThumbUpIcon className={`${baseClass} text-brand-500`} />;
 };
 
 export default function RecipeDetail() {
@@ -116,7 +116,7 @@ export default function RecipeDetail() {
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2"> {/* Responsive grid layout */}
                                 {recipeData.ingredients.map((ingredient) => (
                                     <li key={ingredient.name} className="flex items-center"> {/* Ingredient item */}
-                                        <CheckCircleIcon className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" /> {/* Icon next to ingredient */}
+                                        <CheckCircleIcon className="w-5 h-5 text-brand-500 mr-2 flex-shrink-0" /> {/* Icon next to ingredient */}
                                         <span className="text-gray-700">
                                             {ingredient.name}{ingredient.quantity && ` (${ingredient.quantity})`} {/* Ingredient name and quantity */}
                                         </span>
@@ -165,7 +165,7 @@ export default function RecipeDetail() {
 
                     {/* Liked By Section */}
                     <button
-                        className="w-14 h-14 mb-3 hover:text-blue-600 hover:scale-105 hover:shadow rounded-full flex items-center justify-center"
+                        className="w-14 h-14 mb-3 hover:text-brand-600 hover:scale-105 hover:shadow rounded-full flex items-center justify-center"
                         onClick={() => handleRecipeLike(recipeData._id)}
                         disabled={recipeData.owns}
                         data-testid="like_button"
