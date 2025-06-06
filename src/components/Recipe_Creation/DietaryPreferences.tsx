@@ -73,7 +73,7 @@ export default function DietaryPreferences({
 
   return (
     <div
-      className="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
+      className="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md md:max-w-lg mx-auto"
       style={{ width: '98%' }}
     >
       {/* Enhanced Title */}
@@ -102,7 +102,7 @@ export default function DietaryPreferences({
       <hr className="mb-4" />
 
       {/* Dietary Options with Wrapped Layout */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {dietaryOptions.map((option) => {
           const Icon = iconMap[option];
           const selected = preferences.includes(option);
@@ -110,7 +110,7 @@ export default function DietaryPreferences({
             <div
               key={option}
               title={tooltipMap[option]}
-              className={`flex items-center p-3 rounded-lg border transition-colors cursor-pointer ${selected ? 'bg-brand-50 border-brand-600' : 'bg-white border-gray-200 hover:bg-gray-50'} ${noPreference || generatedRecipes.length ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-md'}`}
+              className={`flex items-center p-2 sm:p-3 rounded-lg border transition-colors cursor-pointer ${selected ? 'bg-brand-50 border-brand-600' : 'bg-white border-gray-200 hover:bg-gray-50'} ${noPreference || generatedRecipes.length ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-md'}`}
               onClick={() => {
                 if (noPreference || generatedRecipes.length) return;
                 handlePreferenceChange(!selected, option);
@@ -119,13 +119,13 @@ export default function DietaryPreferences({
               <Checkbox
                 checked={selected}
                 onChange={(e) => handlePreferenceChange(e, option)}
-                className={`h-5 w-5 rounded border flex items-center justify-center ${selected ? 'bg-brand-600 border-brand-600' : 'bg-white border-gray-300'} focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors`}
+                className={`shrink-0 h-5 w-5 rounded border flex items-center justify-center ${selected ? 'bg-brand-600 border-brand-600' : 'bg-white border-gray-300'} focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors`}
                 disabled={noPreference || Boolean(generatedRecipes.length)}
                 aria-label={option}
               >
                 {selected && <CheckIcon className="h-3 w-3 text-white" />}
               </Checkbox>
-              <Icon className="w-4 h-4 text-brand-600 ml-3" aria-hidden="true" />
+              <Icon className="shrink-0 w-4 h-4 text-brand-600 ml-3" aria-hidden="true" />
               <span className="ml-2 text-gray-700">{option}</span>
             </div>
           );

@@ -6,7 +6,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
     class="mt-8"
   >
     <div
-      class="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md mx-auto"
+      class="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md md:max-w-lg mx-auto"
       style="width: 98%;"
     >
       <h2
@@ -42,17 +42,17 @@ exports[`The step component shall render the diet preference selection 1`] = `
         class="mb-4"
       />
       <div
-        class="grid grid-cols-2 sm:grid-cols-3 gap-3"
+        class="grid grid-cols-2 md:grid-cols-3 gap-3"
       >
         <div
-          class="flex items-center p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
+          class="flex items-center p-2 sm:p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
           title="No meat or fish"
         >
           <span
             aria-checked="false"
             aria-disabled="true"
             aria-label="Vegetarian"
-            class="h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
+            class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
             id="headlessui-checkbox-:r8:"
@@ -60,7 +60,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           />
           <svg
             aria-hidden="true"
-            class="w-4 h-4 text-brand-600 ml-3"
+            class="shrink-0 w-4 h-4 text-brand-600 ml-3"
             data-slot="icon"
             fill="currentColor"
             viewBox="0 0 24 24"
@@ -79,14 +79,14 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </span>
         </div>
         <div
-          class="flex items-center p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
+          class="flex items-center p-2 sm:p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
           title="No animal products"
         >
           <span
             aria-checked="false"
             aria-disabled="true"
             aria-label="Vegan"
-            class="h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
+            class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
             id="headlessui-checkbox-:r9:"
@@ -94,7 +94,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           />
           <svg
             aria-hidden="true"
-            class="w-4 h-4 text-brand-600 ml-3"
+            class="shrink-0 w-4 h-4 text-brand-600 ml-3"
             data-slot="icon"
             fill="currentColor"
             viewBox="0 0 24 24"
@@ -111,14 +111,14 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </span>
         </div>
         <div
-          class="flex items-center p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
+          class="flex items-center p-2 sm:p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
           title="No wheat, barley or rye"
         >
           <span
             aria-checked="false"
             aria-disabled="true"
             aria-label="Gluten-Free"
-            class="h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
+            class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
             id="headlessui-checkbox-:ra:"
@@ -126,7 +126,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           />
           <svg
             aria-hidden="true"
-            class="w-4 h-4 text-brand-600 ml-3"
+            class="shrink-0 w-4 h-4 text-brand-600 ml-3"
             data-slot="icon"
             fill="currentColor"
             viewBox="0 0 24 24"
@@ -145,14 +145,14 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </span>
         </div>
         <div
-          class="flex items-center p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
+          class="flex items-center p-2 sm:p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
           title="No milk or dairy products"
         >
           <span
             aria-checked="false"
             aria-disabled="true"
             aria-label="Dairy-Free"
-            class="h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
+            class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
             id="headlessui-checkbox-:rb:"
@@ -160,7 +160,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           />
           <svg
             aria-hidden="true"
-            class="w-4 h-4 text-brand-600 ml-3"
+            class="shrink-0 w-4 h-4 text-brand-600 ml-3"
             data-slot="icon"
             fill="currentColor"
             viewBox="0 0 24 24"
@@ -177,14 +177,14 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </span>
         </div>
         <div
-          class="flex items-center p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
+          class="flex items-center p-2 sm:p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
           title="Low-carb, high-fat"
         >
           <span
             aria-checked="false"
             aria-disabled="true"
             aria-label="Keto"
-            class="h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
+            class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
             id="headlessui-checkbox-:rc:"
@@ -192,7 +192,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           />
           <svg
             aria-hidden="true"
-            class="w-4 h-4 text-brand-600 ml-3"
+            class="shrink-0 w-4 h-4 text-brand-600 ml-3"
             data-slot="icon"
             fill="currentColor"
             viewBox="0 0 24 24"
@@ -211,14 +211,14 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </span>
         </div>
         <div
-          class="flex items-center p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
+          class="flex items-center p-2 sm:p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
           title="Halal-certified ingredients"
         >
           <span
             aria-checked="false"
             aria-disabled="true"
             aria-label="Halal"
-            class="h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
+            class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
             id="headlessui-checkbox-:rd:"
@@ -226,7 +226,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           />
           <svg
             aria-hidden="true"
-            class="w-4 h-4 text-brand-600 ml-3"
+            class="shrink-0 w-4 h-4 text-brand-600 ml-3"
             data-slot="icon"
             fill="currentColor"
             viewBox="0 0 24 24"
@@ -243,14 +243,14 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </span>
         </div>
         <div
-          class="flex items-center p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
+          class="flex items-center p-2 sm:p-3 rounded-lg border transition-colors cursor-pointer bg-white border-gray-200 hover:bg-gray-50 opacity-50 cursor-not-allowed"
           title="Prepared according to Jewish dietary laws"
         >
           <span
             aria-checked="false"
             aria-disabled="true"
             aria-label="Kosher"
-            class="h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
+            class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
             id="headlessui-checkbox-:re:"
@@ -258,7 +258,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           />
           <svg
             aria-hidden="true"
-            class="w-4 h-4 text-brand-600 ml-3"
+            class="shrink-0 w-4 h-4 text-brand-600 ml-3"
             data-slot="icon"
             fill="currentColor"
             viewBox="0 0 24 24"
