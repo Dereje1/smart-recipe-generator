@@ -20,7 +20,7 @@ export default function ChatAssistantPage() {
             <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 <RecipeHeader recipeData={recipeData} />
                 <div className="p-6">
-                    <h3 className="text-lg font-semibold mb-4">Ask the AI Assistant</h3>
+                    <h3 className="mb-4">Ask the AI Assistant</h3>
                     <ChatBox recipeId={recipeId} />
                 </div>
             </div>

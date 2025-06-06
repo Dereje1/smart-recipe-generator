@@ -76,7 +76,7 @@ exports[`The ChatAssistant Page shall successfully render a recipe 1`] = `
         class="p-6"
       >
         <h3
-          class="text-lg font-semibold mb-4"
+          class="mb-4"
         >
           Ask the AI Assistant
         </h3>

@@ -36,7 +36,7 @@ const PopularTags = ({ tags, onTagToggle, searchVal }: PopularTagsProps) => {
 
     return (
         <div className='w-full py-4'>
-            <h2 className='text-lg font-semibold text-gray-800 mb-2'>🔥 Popular Tags</h2>
+            <h2 className='mb-4'>🔥 Popular Tags</h2>
             <div className='flex flex-wrap gap-2'>
                 {tags.length === 0 ? (
                         <Image

@@ -132,7 +132,7 @@ function Navigation({
     >
       <div className="flex flex-col items-center">
         <div className="text-center">
-          <h2 className="text-lg font-medium text-gray-800 sm:text-2xl md:text-3xl">
+          <h2>
             Step {step + 1}: {steps[step]}
           </h2>
         </div>

@@ -93,7 +93,7 @@ const Home = () => {
     };
 
     return (
-        <div className="flex flex-col min-h-screen items-center px-4">
+        <div className="flex flex-col min-h-screen items-center px-4 py-8 space-y-8">
             <SearchBar searchVal={searchVal} setSearchVal={setSearchVal} handleSearch={handleSearch} totalRecipes={totalRecipes} />
             <PopularTags tags={popularTags} onTagToggle={handleTagSearch} searchVal={searchVal} />
 
