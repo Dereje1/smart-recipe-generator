@@ -47,7 +47,7 @@ const ReviewComponent = ({
 
   return (
     <div
-      className="mx-auto w-11/12 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-xl animate-fadeInUp mt-10"
+      className="fixed inset-x-0 mx-auto w-11/12 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-xl animate-fadeInUp top-28 sm:top-36 mt-32 sm:mt-48"
     >
       <div className="px-1 py-1">
         {/* Enhanced Title */}

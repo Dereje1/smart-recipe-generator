@@ -126,9 +126,9 @@ function Navigation({
   ) : (
 <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-100 to-white p-8">
   {/* Fixed Navigation */}
-  <div className="fixed top-20 inset-x-0 flex flex-col items-center justify-center p-2 z-20">
+  <div className="fixed inset-x-0 top-14 sm:top-20 flex flex-col items-center justify-center p-1 sm:p-2 z-20">
     <div
-      className={`w-full bg-white shadow-lg rounded-2xl p-8 transition-all duration-300 ease-in-out ${isWideLayout ? 'max-w-7xl' : 'max-w-3xl'}`}
+      className={`w-full bg-white shadow-lg rounded-2xl p-4 sm:p-8 transition-all duration-300 ease-in-out ${isWideLayout ? 'max-w-7xl' : 'max-w-3xl'}`}
     >
       <div className="flex flex-col items-center">
         <div className="text-center">
@@ -167,7 +167,7 @@ function Navigation({
   </div>
 
   {/* Main Content with Top Padding to Avoid Overlap */}
-  <div className="w-full pt-40 overflow-auto max-w-7xl">
+  <div className="w-full pt-32 sm:pt-40 overflow-auto max-w-7xl">
     {isLoading ? (
       <Loading isProgressBar isComplete={isComplete} loadingType={loadingType}/>
     ) : (
