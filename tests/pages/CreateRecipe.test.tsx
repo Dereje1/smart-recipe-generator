@@ -37,6 +37,16 @@ describe('The creating recipes component', () => {
         fireEvent.click(step1Header)
         expect(await screen.findByText('Add New Ingredient')).toBeInTheDocument()
     })
+
+    it('disables later steps before recipes are generated', async () => {
+        render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: false }} />)
+        const step4Button = await screen.findByRole('button', { name: 'Step 4: Select Recipes' })
+        const step5Button = await screen.findByRole('button', { name: 'Step 5: Review and Save Recipes' })
+        expect(step4Button).toBeDisabled()
+        expect(step5Button).toBeDisabled()
+        fireEvent.click(step4Button)
+        expect(screen.queryByText('Use the switch on each recipe to select or unselect.')).not.toBeInTheDocument()
+    })
     it('will not allow recipe creation if limit has been reached', async () => {
         render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: true }} />)
         expect(await screen.findByText('Limit Reached')).toBeInTheDocument()
@@ -88,13 +98,13 @@ describe('Start to finish recipe creation and submission', () => {
         // mock api and submit
         const createRecipesButton = await screen.findByText('Create Recipes')
         fireEvent.click(createRecipesButton);
-        const step4Header = await screen.findByText('Step 4: Select Recipes')
+        const step4Header = await screen.findByRole('button', { name: 'Step 4: Select Recipes' })
         fireEvent.click(step4Header)
         await screen.findByText('Use the switch on each recipe to select or unselect.')
         const switches = screen.getAllByRole('switch')
         fireEvent.click(switches[0]);
         fireEvent.click(switches[1]);
-        const step5Header = await screen.findByText('Step 5: Review and Save Recipes')
+        const step5Header = await screen.findByRole('button', { name: 'Step 5: Review and Save Recipes' })
         fireEvent.click(step5Header)
         const rescipeSubmissionPage = await screen.findByText('Submit Selected (2) Recipes')
         expect(rescipeSubmissionPage).toBeInTheDocument()

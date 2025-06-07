@@ -6,7 +6,6 @@ import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import Loading from '../components/Loading';
 import StepComponent from '../components/Recipe_Creation/StepComponent';
 import LimitReached from '../components/Recipe_Creation/LimitReached';
-import RecipePreview from '../components/Recipe_Creation/RecipePreview';
 import { call_api, getServerSidePropsUtility } from '../utils/utils';
 import { Ingredient, DietaryPreference, Recipe, IngredientDocumentType } from '../types/index';
 
@@ -121,11 +120,17 @@ function Navigation({
   ) : (
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-r from-gray-100 to-white p-4 md:p-8 space-y-4 md:space-y-0 md:space-x-6">
       <div className="md:w-1/2 space-y-4">
-        {steps.map((title, idx) => (
+        {steps.map((title, idx) => {
+          const isDisabled = idx >= 3 && generatedRecipes.length === 0;
+          return (
           <div key={title} className="bg-white shadow rounded-xl">
             <button
-              className="w-full flex items-center justify-between p-4 font-medium text-left"
-              onClick={() => setStep(idx)}
+              className={`w-full flex items-center justify-between p-4 font-medium text-left ${isDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
+              onClick={() => {
+                if (isDisabled) return;
+                setStep(step === idx ? -1 : idx);
+              }}
+              disabled={isDisabled}
             >
               <span>{`Step ${idx + 1}: ${title}`}</span>
               <ChevronDownIcon
@@ -155,12 +160,10 @@ function Navigation({
               </div>
             )}
           </div>
-        ))}
+          )
+        })}
       </div>
 
-      <div className="md:w-1/2">
-        <RecipePreview generatedRecipes={generatedRecipes} selectedRecipes={selectedRecipeIds} />
-      </div>
     </div>
   );
 }
