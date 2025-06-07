@@ -36,8 +36,8 @@ describe('The step component', () => {
         const updatedProps = { ...stepComponentProps, step: 2 }
         const { container } = render(<StepComponent {...updatedProps} />)
         expect(container).toMatchSnapshot()
-        expect(screen.getByText('Selections Summary')).toBeInTheDocument();
-        expect(screen.getByText(/Use the switch on each recipe to select or unselect./)).toBeInTheDocument();
+        expect(screen.getByText('Submit Your Recipe Choices')).toBeInTheDocument();
+        expect(screen.getByText(/Use the switch on each recipe generated to select the recipes you want to submit./)).toBeInTheDocument();
     })
 
     it('shall render the select recipes component', () => {

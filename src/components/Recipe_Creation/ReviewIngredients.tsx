@@ -55,12 +55,12 @@ const ReviewComponent = ({
         {/* Enhanced Title */}
         <div className="text-center mb-6">
           <h2 className="text-2xl font-medium text-gray-800 sm:text-3xl">
-            {showButtons ? 'Review Your Selections' : 'Selections Summary'}
+            {showButtons ? 'Review Your Selections' : 'Submit Your Recipe Choices'}
           </h2>
           <p className="text-sm text-gray-500 mt-1">
             {showButtons
-              ? 'Make sure everything looks right before we start cooking!'
-              : "Here's a recap of your choices. Use the switch on each recipe to select or unselect."}
+              ? ingredients.length >= 3 ? 'Make sure everything looks right before we start cooking!' : ''
+              : "Here's a recap of your choices. Use the switch on each recipe generated to select the recipes you want to submit."}
           </p>
           {ingredients.length < 3 && (
             <p className="text-sm text-red-500 mt-2">

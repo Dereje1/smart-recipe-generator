@@ -481,12 +481,12 @@ exports[`The step component shall render the review inputs section 1`] = `
           <h2
             class="text-2xl font-medium text-gray-800 sm:text-3xl"
           >
-            Selections Summary
+            Submit Your Recipe Choices
           </h2>
           <p
             class="text-sm text-gray-500 mt-1"
           >
-            Here's a recap of your choices. Use the switch on each recipe to select or unselect.
+            Here's a recap of your choices. Use the switch on each recipe generated to select the recipes you want to submit.
           </p>
           <p
             class="text-sm text-red-500 mt-2"
