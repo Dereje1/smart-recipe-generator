@@ -14,10 +14,7 @@ describe('The step component', () => {
             updatePreferences: jest.fn(),
             editInputs: jest.fn(),
             handleIngredientSubmit: jest.fn(),
-            generatedRecipes: stubRecipeBatch,
-            updateSelectedRecipes: jest.fn(),
-            selectedRecipes: ["6683b8908475eac9af5fe834"],
-            handleRecipeSubmit: jest.fn()
+            generatedRecipes: stubRecipeBatch
         }
     })
     it('shall render the ingredient selection form', () => {
@@ -38,13 +35,6 @@ describe('The step component', () => {
         expect(container).toMatchSnapshot()
         expect(screen.getByText('Submit Your Recipe Choices')).toBeInTheDocument();
         expect(screen.getByText(/Use the switch on each recipe generated to select the recipes you want to submit./)).toBeInTheDocument();
-    })
-
-    it('shall render the select recipes component', () => {
-        const updatedProps = { ...stepComponentProps, step: 3 }
-        const { container } = render(<StepComponent {...updatedProps} />)
-        expect(container).toMatchSnapshot()
-        expect(screen.queryByText('Use the switch on each recipe to select or unselect.')).not.toBeInTheDocument();
     })
 
     it('shall render a message for a non-existing step', () => {

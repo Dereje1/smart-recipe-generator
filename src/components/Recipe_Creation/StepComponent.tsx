@@ -1,7 +1,6 @@
 import IngredientForm from './IngredientForm';
 import DietaryPreferences from './DietaryPreferences';
 import ReviewComponent from './ReviewIngredients';
-import SelectRecipesComponent from './SelectRecipes';
 import { Ingredient, DietaryPreference, Recipe, IngredientDocumentType } from '../../types/index'
 
 interface StepComponentProps {
@@ -14,9 +13,6 @@ interface StepComponentProps {
     editInputs: () => void
     handleIngredientSubmit: () => void
     generatedRecipes: Recipe[]
-    updateSelectedRecipes: (ids: string[]) => void
-    selectedRecipes: string[]
-    handleRecipeSubmit: (recipes: Recipe[]) => void
 }
 
 function StepComponent({
@@ -28,10 +24,7 @@ function StepComponent({
     updatePreferences,
     editInputs,
     handleIngredientSubmit,
-    generatedRecipes,
-    selectedRecipes,
-    updateSelectedRecipes,
-    handleRecipeSubmit
+    generatedRecipes
 }: StepComponentProps) {
     return (
         <div className="mt-8">
@@ -62,15 +55,6 @@ function StepComponent({
                                 onEdit={editInputs}
                                 onSubmit={handleIngredientSubmit}
                                 generatedRecipes={generatedRecipes}
-                            />
-                        )
-                    case 3:
-                        return (
-                            <SelectRecipesComponent
-                                generatedRecipes={generatedRecipes}
-                                selectedRecipes={selectedRecipes}
-                                updateSelectedRecipes={updateSelectedRecipes}
-                                handleRecipeSubmit={handleRecipeSubmit}
                             />
                         )
                     default:

@@ -148,9 +148,6 @@ function Navigation({
                       editInputs={() => setStep(0)}
                       handleIngredientSubmit={handleIngredientSubmit}
                       generatedRecipes={generatedRecipes}
-                      updateSelectedRecipes={setSelectedRecipeIds}
-                      selectedRecipes={selectedRecipeIds}
-                      handleRecipeSubmit={handleRecipeSubmit}
                     />
                   )}
                 </div>
