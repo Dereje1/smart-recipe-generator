@@ -6,8 +6,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
     class="mt-8"
   >
     <div
-      class="fixed left-1/2 transform -translate-x-1/2 pl-2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md md:max-w-lg mx-auto top-28 sm:top-36 mt-32 sm:mt-48"
-      style="width: 98%;"
+      class="w-full p-4 sm:p-6 bg-white shadow-md rounded-xl"
     >
       <h2
         class="text-xl font-medium text-gray-800 mb-2 sm:text-2xl"
@@ -286,7 +285,7 @@ exports[`The step component shall render the ingredient selection form 1`] = `
     class="mt-8"
   >
     <div
-      class="fixed inset-x-0 mx-auto w-11/12 pl-2 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-md animate-fadeInUp top-28 sm:top-36 mt-32 sm:mt-48"
+      class="w-full p-4 sm:p-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl animate-fadeInUp"
     >
       <div
         class="flex justify-end w-full"
@@ -464,174 +463,13 @@ exports[`The step component shall render the ingredient selection form 1`] = `
 </div>
 `;
 
-exports[`The step component shall render the review and submit recipes component 1`] = `
-<div>
-  <div
-    class="mt-8"
-  >
-    <div
-      class="flex flex-col mt-10"
-    >
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-      >
-        <div
-          class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative mt-10 mb-5 overflow-x-hidden"
-        >
-          <div
-            class="px-6 py-4 relative"
-          >
-            <div
-              class="flex justify-between items-stretch w-full"
-            >
-              <div
-                class="font-bold text-lg sm:text-xl lg:text-2xl mb-4 
-            w-full
-            
-        "
-                title="Recipe_1_name"
-              >
-                Recipe_1_name
-              </div>
-            </div>
-            <h3
-              class="text-gray-700 font-semibold text-lg"
-            >
-              Ingredients:
-            </h3>
-            <ul
-              class="mb-4 flex flex-wrap gap-2"
-            >
-              <li>
-                <span
-                  class="bg-brand-100 text-brand-800 text-sm font-medium px-2.5 py-0.5 rounded"
-                >
-                  Recipe_1_Ingredient_1 (Recipe_1_Ingredient_1_quantity_1)
-                </span>
-              </li>
-              <li>
-                <span
-                  class="bg-brand-100 text-brand-800 text-sm font-medium px-2.5 py-0.5 rounded"
-                >
-                  Recipe_1_Ingredient_2 (Recipe_1_Ingredient_2_quantity_2)
-                </span>
-              </li>
-            </ul>
-            <h3
-              class="text-gray-700 font-semibold text-lg"
-            >
-              Dietary Preference:
-            </h3>
-            <div
-              class="mb-5 mt-2 flex flex-wrap gap-2"
-            >
-              <span
-                class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
-              >
-                Recipe_1_preference_1
-              </span>
-              <span
-                class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded"
-              >
-                Recipe_1_preference_2
-              </span>
-            </div>
-            <button
-              aria-expanded="false"
-              class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-brand-900 bg-brand-100 rounded-lg hover:bg-brand-200 focus:outline-none"
-              data-headlessui-state=""
-              id="headlessui-disclosure-button-:rp:"
-              type="button"
-            >
-              <span>
-                Instructions
-              </span>
-              <svg
-                aria-hidden="true"
-                class="w-5 h-5 transform transition-transform duration-300 "
-                data-slot="icon"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
-                  fill-rule="evenodd"
-                />
-              </svg>
-            </button>
-            <div
-              class="mt-4"
-              data-headlessui-state=""
-            >
-              <button
-                aria-expanded="false"
-                class="flex justify-between w-full px-4 py-2 text-lg font-semibold text-left text-brand-900 bg-brand-100 rounded-lg hover:bg-brand-200 focus:outline-none"
-                data-headlessui-state=""
-                id="headlessui-disclosure-button-:rr:"
-                type="button"
-              >
-                <span>
-                  Additional Information
-                </span>
-                <svg
-                  aria-hidden="true"
-                  class="w-5 h-5 transform transition-transform duration-300 "
-                  data-slot="icon"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    clip-rule="evenodd"
-                    d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="mt-8 w-full flex justify-center"
-      >
-        <button
-          aria-label="Submit selected recipes"
-          class="flex items-center bg-brand-600 text-white px-6 py-3 rounded-full hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 transition duration-300 ease-in-out"
-          data-headlessui-state=""
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="w-5 h-5 mr-2"
-            data-slot="icon"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              clip-rule="evenodd"
-              d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z"
-              fill-rule="evenodd"
-            />
-          </svg>
-          Submit Selected (1) Recipes
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`The step component shall render the review inputs section 1`] = `
 <div>
   <div
     class="mt-8"
   >
     <div
-      class="fixed inset-x-0 mx-auto w-11/12 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-xl animate-fadeInUp overflow-y-auto top-32 sm:top-40 mt-32 sm:mt-48"
+      class="w-full p-4 sm:p-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl animate-fadeInUp overflow-y-auto"
       style="max-height: 608px;"
     >
       <div
@@ -643,12 +481,12 @@ exports[`The step component shall render the review inputs section 1`] = `
           <h2
             class="text-2xl font-medium text-gray-800 sm:text-3xl"
           >
-            Review Your Selections
+            Submit Your Recipe Choices
           </h2>
           <p
             class="text-sm text-gray-500 mt-1"
           >
-            Make sure everything looks right before we start cooking!
+            Here's a recap of your choices. Use the switch on each recipe generated to select the recipes you want to submit.
           </p>
           <p
             class="text-sm text-red-500 mt-2"
@@ -758,72 +596,6 @@ exports[`The step component shall render the review inputs section 1`] = `
             </span>
           </div>
         </div>
-        <div
-          class="flex justify-between mt-8"
-        >
-          <button
-            aria-label="Edit your selections"
-            class="flex items-center justify-center bg-gray-200 text-gray-700
-                px-2 py-2 sm:px-4 sm:py-2
-                rounded-full transition duration-300 ease-in-out transform
-                hover:bg-gray-300 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500
-                cursor-not-allowed opacity-50"
-            data-disabled=""
-            data-headlessui-state="disabled"
-            disabled=""
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="w-4 h-4 mr-1 sm:w-5 sm:h-5 sm:mr-2"
-              data-slot="icon"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z"
-              />
-            </svg>
-            <span
-              class="text-sm sm:text-base"
-            >
-              Edit
-            </span>
-          </button>
-          <button
-            aria-label="Create recipes based on your selections"
-            class="flex items-center justify-center bg-brand-600 text-white
-                px-2 py-2 sm:px-4 sm:py-2
-                rounded-full transition duration-300 ease-in-out transform
-                hover:bg-brand-700 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500
-                cursor-not-allowed opacity-50"
-            data-disabled=""
-            data-headlessui-state="disabled"
-            disabled=""
-            type="button"
-          >
-            <span
-              class="text-sm sm:text-base"
-            >
-              Create Recipes
-            </span>
-            <svg
-              aria-hidden="true"
-              class="w-4 h-4 ml-1 sm:w-5 sm:h-5 sm:ml-2"
-              data-slot="icon"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                clip-rule="evenodd"
-                d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
-                fill-rule="evenodd"
-              />
-            </svg>
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -838,11 +610,6 @@ exports[`The step component shall render the select recipes component 1`] = `
     <div
       class="flex flex-col"
     >
-      <p
-        class="text-center text-gray-500 text-sm mb-4"
-      >
-        Use the switch on each recipe to select or unselect.
-      </p>
       <div
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
       >
@@ -1147,6 +914,32 @@ exports[`The step component shall render the select recipes component 1`] = `
             </div>
           </div>
         </div>
+      </div>
+      <div
+        class="mt-8 w-full flex justify-center"
+      >
+        <button
+          aria-label="Submit selected recipes"
+          class="flex items-center bg-brand-600 text-white px-6 py-3 rounded-full hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 transition duration-300 ease-in-out"
+          data-headlessui-state=""
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-5 h-5 mr-2"
+            data-slot="icon"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z"
+              fill-rule="evenodd"
+            />
+          </svg>
+          Submit Selected (1) Recipes
+        </button>
       </div>
     </div>
   </div>

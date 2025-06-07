@@ -2,7 +2,6 @@ import IngredientForm from './IngredientForm';
 import DietaryPreferences from './DietaryPreferences';
 import ReviewComponent from './ReviewIngredients';
 import SelectRecipesComponent from './SelectRecipes';
-import ReviewRecipesComponent from './ReviewRecipes';
 import { Ingredient, DietaryPreference, Recipe, IngredientDocumentType } from '../../types/index'
 
 interface StepComponentProps {
@@ -71,13 +70,6 @@ function StepComponent({
                                 generatedRecipes={generatedRecipes}
                                 selectedRecipes={selectedRecipes}
                                 updateSelectedRecipes={updateSelectedRecipes}
-                            />
-                        )
-                    case 4:
-                        return (
-                            <ReviewRecipesComponent
-                                generatedRecipes={generatedRecipes}
-                                selectedRecipes={selectedRecipes}
                                 handleRecipeSubmit={handleRecipeSubmit}
                             />
                         )

@@ -44,20 +44,23 @@ const ReviewComponent = ({
   generatedRecipes,
 }: ReviewComponentProps) => {
   const { height } = useWindowSize()
+  const showButtons = generatedRecipes.length === 0
 
   return (
     <div
-      className="fixed inset-x-0 mx-auto w-11/12 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-xl animate-fadeInUp overflow-y-auto top-32 sm:top-40 mt-32 sm:mt-48"
+      className="w-full p-4 sm:p-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl animate-fadeInUp overflow-y-auto"
       style={{ maxHeight: height - 160 }}
     >
       <div className="px-1 py-1">
         {/* Enhanced Title */}
         <div className="text-center mb-6">
           <h2 className="text-2xl font-medium text-gray-800 sm:text-3xl">
-            Review Your Selections
+            {showButtons ? 'Review Your Selections' : 'Submit Your Recipe Choices'}
           </h2>
           <p className="text-sm text-gray-500 mt-1">
-            Make sure everything looks right before we start cooking!
+            {showButtons
+              ? ingredients.length >= 3 ? 'Make sure everything looks right before we start cooking!' : ''
+              : "Here's a recap of your choices. Use the switch on each recipe generated to select the recipes you want to submit."}
           </p>
           {ingredients.length < 3 && (
             <p className="text-sm text-red-500 mt-2">
@@ -114,30 +117,30 @@ const ReviewComponent = ({
           </div>
         </div>
 
-        {/* Buttons Section */}
-        <div className="flex justify-between mt-8">
-          {/* Edit Button */}
-          <Button
-            onClick={onEdit}
-            className={`flex items-center justify-center bg-gray-200 text-gray-700
+        {showButtons && (
+          <div className="flex justify-between mt-8">
+            {/* Edit Button */}
+            <Button
+              onClick={onEdit}
+              className={`flex items-center justify-center bg-gray-200 text-gray-700
                 px-2 py-2 sm:px-4 sm:py-2
                 rounded-full transition duration-300 ease-in-out transform
                 hover:bg-gray-300 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500
                 ${generatedRecipes.length ? 'cursor-not-allowed opacity-50' : ''}`}
-            disabled={Boolean(generatedRecipes.length)}
-            aria-label="Edit your selections"
-          >
-            <PencilIcon
-              className="w-4 h-4 mr-1 sm:w-5 sm:h-5 sm:mr-2"
-              aria-hidden="true"
-            />
-            <span className="text-sm sm:text-base">Edit</span>
-          </Button>
+              disabled={Boolean(generatedRecipes.length)}
+              aria-label="Edit your selections"
+            >
+              <PencilIcon
+                className="w-4 h-4 mr-1 sm:w-5 sm:h-5 sm:mr-2"
+                aria-hidden="true"
+              />
+              <span className="text-sm sm:text-base">Edit</span>
+            </Button>
 
-          {/* Create Recipes Button */}
-          <Button
-            onClick={onSubmit}
-            className={`flex items-center justify-center bg-brand-600 text-white
+            {/* Create Recipes Button */}
+            <Button
+              onClick={onSubmit}
+              className={`flex items-center justify-center bg-brand-600 text-white
                 px-2 py-2 sm:px-4 sm:py-2
                 rounded-full transition duration-300 ease-in-out transform
                 hover:bg-brand-700 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500
@@ -145,16 +148,17 @@ const ReviewComponent = ({
                 ? 'cursor-not-allowed opacity-50'
                 : ''
               }`}
-            disabled={ingredients.length < 3 || Boolean(generatedRecipes.length)}
-            aria-label="Create recipes based on your selections"
-          >
-            <span className="text-sm sm:text-base">Create Recipes</span>
-            <ChevronRightIcon
-              className="w-4 h-4 ml-1 sm:w-5 sm:h-5 sm:ml-2"
-              aria-hidden="true"
-            />
-          </Button>
-        </div>
+              disabled={ingredients.length < 3 || Boolean(generatedRecipes.length)}
+              aria-label="Create recipes based on your selections"
+            >
+              <span className="text-sm sm:text-base">Create Recipes</span>
+              <ChevronRightIcon
+                className="w-4 h-4 ml-1 sm:w-5 sm:h-5 sm:ml-2"
+                aria-hidden="true"
+              />
+            </Button>
+          </div>
+        )}
 
 
       </div>
