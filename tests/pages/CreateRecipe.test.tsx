@@ -38,12 +38,9 @@ describe('The creating recipes component', () => {
         expect(await screen.findByText('Add New Ingredient')).toBeInTheDocument()
     })
 
-    it('disables later steps before recipes are generated', async () => {
+    it('hides recipe selection until recipes exist', async () => {
         render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: false }} />)
-        const step4Button = await screen.findByRole('button', { name: 'Step 4: Select Recipes' })
-        expect(step4Button).toBeDisabled()
-        fireEvent.click(step4Button)
-        expect(screen.queryByText('Use the switch on each recipe to select or unselect.')).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: 'Step 4: Select Recipes' })).not.toBeInTheDocument()
     })
     it('will not allow recipe creation if limit has been reached', async () => {
         render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: true }} />)

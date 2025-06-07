@@ -34,6 +34,7 @@ interface ReviewComponentProps {
   onSubmit: () => void;
   onEdit: () => void;
   generatedRecipes: Recipe[];
+  showButtons?: boolean;
 }
 
 const ReviewComponent = ({
@@ -42,6 +43,7 @@ const ReviewComponent = ({
   onSubmit,
   onEdit,
   generatedRecipes,
+  showButtons = true,
 }: ReviewComponentProps) => {
   const { height } = useWindowSize()
 
@@ -114,30 +116,30 @@ const ReviewComponent = ({
           </div>
         </div>
 
-        {/* Buttons Section */}
-        <div className="flex justify-between mt-8">
-          {/* Edit Button */}
-          <Button
-            onClick={onEdit}
-            className={`flex items-center justify-center bg-gray-200 text-gray-700
+        {showButtons && (
+          <div className="flex justify-between mt-8">
+            {/* Edit Button */}
+            <Button
+              onClick={onEdit}
+              className={`flex items-center justify-center bg-gray-200 text-gray-700
                 px-2 py-2 sm:px-4 sm:py-2
                 rounded-full transition duration-300 ease-in-out transform
                 hover:bg-gray-300 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500
                 ${generatedRecipes.length ? 'cursor-not-allowed opacity-50' : ''}`}
-            disabled={Boolean(generatedRecipes.length)}
-            aria-label="Edit your selections"
-          >
-            <PencilIcon
-              className="w-4 h-4 mr-1 sm:w-5 sm:h-5 sm:mr-2"
-              aria-hidden="true"
-            />
-            <span className="text-sm sm:text-base">Edit</span>
-          </Button>
+              disabled={Boolean(generatedRecipes.length)}
+              aria-label="Edit your selections"
+            >
+              <PencilIcon
+                className="w-4 h-4 mr-1 sm:w-5 sm:h-5 sm:mr-2"
+                aria-hidden="true"
+              />
+              <span className="text-sm sm:text-base">Edit</span>
+            </Button>
 
-          {/* Create Recipes Button */}
-          <Button
-            onClick={onSubmit}
-            className={`flex items-center justify-center bg-brand-600 text-white
+            {/* Create Recipes Button */}
+            <Button
+              onClick={onSubmit}
+              className={`flex items-center justify-center bg-brand-600 text-white
                 px-2 py-2 sm:px-4 sm:py-2
                 rounded-full transition duration-300 ease-in-out transform
                 hover:bg-brand-700 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500
@@ -145,16 +147,17 @@ const ReviewComponent = ({
                 ? 'cursor-not-allowed opacity-50'
                 : ''
               }`}
-            disabled={ingredients.length < 3 || Boolean(generatedRecipes.length)}
-            aria-label="Create recipes based on your selections"
-          >
-            <span className="text-sm sm:text-base">Create Recipes</span>
-            <ChevronRightIcon
-              className="w-4 h-4 ml-1 sm:w-5 sm:h-5 sm:ml-2"
-              aria-hidden="true"
-            />
-          </Button>
-        </div>
+              disabled={ingredients.length < 3 || Boolean(generatedRecipes.length)}
+              aria-label="Create recipes based on your selections"
+            >
+              <span className="text-sm sm:text-base">Create Recipes</span>
+              <ChevronRightIcon
+                className="w-4 h-4 ml-1 sm:w-5 sm:h-5 sm:ml-2"
+                aria-hidden="true"
+              />
+            </Button>
+          </div>
+        )}
 
 
       </div>

@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import Loading from '../components/Loading';
 import StepComponent from '../components/Recipe_Creation/StepComponent';
+import ReviewComponent from '../components/Recipe_Creation/ReviewIngredients';
 import LimitReached from '../components/Recipe_Creation/LimitReached';
 import { call_api, getServerSidePropsUtility } from '../utils/utils';
 import { Ingredient, DietaryPreference, Recipe, IngredientDocumentType } from '../types/index';
@@ -119,48 +120,91 @@ function Navigation({
   ) : (
     <div className="min-h-screen bg-gradient-to-r from-gray-100 to-white p-4 md:p-8 flex justify-center">
       <div className="w-full max-w-2xl space-y-4">
-        {steps.map((title, idx) => {
-          const isDisabled = idx >= 3 && generatedRecipes.length === 0;
-          return (
-          <div key={title} className="bg-white shadow rounded-xl">
-            <button
-              className={`w-full flex items-center justify-between p-4 font-medium text-left ${isDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
-              onClick={() => {
-                if (isDisabled) return;
-                setStep(step === idx ? -1 : idx);
-              }}
-              disabled={isDisabled}
-            >
-              <span>{`Step ${idx + 1}: ${title}`}</span>
-              <ChevronDownIcon
-                className={`w-5 h-5 transform transition-transform ${step === idx ? 'rotate-180' : ''}`}
-              />
-            </button>
-            {step === idx && (
+        {generatedRecipes.length === 0 ? (
+          steps.slice(0, 3).map((title, idx) => (
+            <div key={title} className="bg-white shadow rounded-xl">
+              <button
+                className={`w-full flex items-center justify-between p-4 font-medium text-left`}
+                onClick={() => setStep(step === idx ? -1 : idx)}
+              >
+                <span>{`Step ${idx + 1}: ${title}`}</span>
+                <ChevronDownIcon
+                  className={`w-5 h-5 transform transition-transform ${step === idx ? 'rotate-180' : ''}`}
+                />
+              </button>
+              {step === idx && (
+                <div className="p-4">
+                  {isLoading ? (
+                    <Loading isProgressBar isComplete={isComplete} loadingType={loadingType} />
+                  ) : (
+                    <StepComponent
+                      step={idx}
+                      ingredientList={recipeCreationData.ingredientList}
+                      ingredients={ingredients}
+                      updateIngredients={setIngredients}
+                      preferences={preferences}
+                      updatePreferences={setPreferences}
+                      editInputs={() => setStep(0)}
+                      handleIngredientSubmit={handleIngredientSubmit}
+                      generatedRecipes={generatedRecipes}
+                      updateSelectedRecipes={setSelectedRecipeIds}
+                      selectedRecipes={selectedRecipeIds}
+                      handleRecipeSubmit={handleRecipeSubmit}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <>
+            <div className="bg-white shadow rounded-xl">
               <div className="p-4">
-                {isLoading ? (
-                  <Loading isProgressBar isComplete={isComplete} loadingType={loadingType} />
-                ) : (
-                  <StepComponent
-                    step={idx}
-                    ingredientList={recipeCreationData.ingredientList}
-                    ingredients={ingredients}
-                    updateIngredients={setIngredients}
-                    preferences={preferences}
-                    updatePreferences={setPreferences}
-                    editInputs={() => setStep(0)}
-                    handleIngredientSubmit={handleIngredientSubmit}
-                    generatedRecipes={generatedRecipes}
-                    updateSelectedRecipes={setSelectedRecipeIds}
-                    selectedRecipes={selectedRecipeIds}
-                    handleRecipeSubmit={handleRecipeSubmit}
-                  />
-                )}
+                <ReviewComponent
+                  ingredients={ingredients}
+                  dietaryPreference={preferences}
+                  onSubmit={() => {}}
+                  onEdit={() => {}}
+                  generatedRecipes={generatedRecipes}
+                  showButtons={false}
+                />
               </div>
-            )}
-          </div>
-          )
-        })}
+            </div>
+            <div className="bg-white shadow rounded-xl">
+              <button
+                className="w-full flex items-center justify-between p-4 font-medium text-left"
+                onClick={() => setStep(step === 3 ? -1 : 3)}
+              >
+                <span>{`Step 4: ${steps[3]}`}</span>
+                <ChevronDownIcon
+                  className={`w-5 h-5 transform transition-transform ${step === 3 ? 'rotate-180' : ''}`}
+                />
+              </button>
+              {step === 3 && (
+                <div className="p-4">
+                  {isLoading ? (
+                    <Loading isProgressBar isComplete={isComplete} loadingType={loadingType} />
+                  ) : (
+                    <StepComponent
+                      step={3}
+                      ingredientList={recipeCreationData.ingredientList}
+                      ingredients={ingredients}
+                      updateIngredients={setIngredients}
+                      preferences={preferences}
+                      updatePreferences={setPreferences}
+                      editInputs={() => setStep(0)}
+                      handleIngredientSubmit={handleIngredientSubmit}
+                      generatedRecipes={generatedRecipes}
+                      updateSelectedRecipes={setSelectedRecipeIds}
+                      selectedRecipes={selectedRecipeIds}
+                      handleRecipeSubmit={handleRecipeSubmit}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
     </div>
