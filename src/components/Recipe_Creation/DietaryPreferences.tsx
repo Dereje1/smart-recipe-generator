@@ -73,7 +73,7 @@ export default function DietaryPreferences({
 
   return (
     <div
-      className="fixed top-36 mt-48 pl-2 left-1/2 transform -translate-x-1/2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md md:max-w-lg mx-auto"
+      className="fixed left-1/2 transform -translate-x-1/2 pl-2 px-4 py-6 bg-white shadow-md rounded-xl sm:max-w-md md:max-w-lg mx-auto top-28 sm:top-36 mt-32 sm:mt-48"
       style={{ width: '98%' }}
     >
       {/* Enhanced Title */}

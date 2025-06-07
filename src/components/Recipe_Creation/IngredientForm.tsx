@@ -150,7 +150,7 @@ export default function IngredientForm({
 
     return (
         <div
-            className="fixed top-36 mt-48 inset-x-0 mx-auto w-11/12 pl-2 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-md animate-fadeInUp"
+            className="fixed inset-x-0 mx-auto w-11/12 pl-2 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-md animate-fadeInUp top-28 sm:top-36 mt-32 sm:mt-48"
         >
             {/* Enhanced "Add New Ingredient" Button */}
             <div className="flex justify-end w-full">

@@ -47,7 +47,8 @@ const ReviewComponent = ({
 
   return (
     <div
-      className="fixed top-36 mt-48 inset-x-0 mx-auto w-11/12 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-xl animate-fadeInUp"
+      className="fixed inset-x-0 mx-auto w-11/12 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-xl animate-fadeInUp overflow-y-auto top-32 sm:top-40 mt-32 sm:mt-48"
+      style={{ maxHeight: height - 160 }}
     >
       <div className="px-1 py-1">
         {/* Enhanced Title */}
