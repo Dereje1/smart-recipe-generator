@@ -120,7 +120,7 @@ function Navigation({
     />
   ) : (
     <div className="min-h-screen bg-gradient-to-r from-gray-100 to-white p-4 md:p-8 flex justify-center">
-      <div className="w-full max-w-2xl space-y-4">
+      <div className={`w-full space-y-4 ${generatedRecipes.length ? 'max-w-7xl' : 'max-w-2xl'}`}> 
         {generatedRecipes.length === 0 ? (
           steps.slice(0, 3).map((title, idx) => (
             <div key={title} className="bg-white shadow rounded-xl">
