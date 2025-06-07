@@ -6,6 +6,7 @@ import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import Loading from '../components/Loading';
 import StepComponent from '../components/Recipe_Creation/StepComponent';
 import ReviewComponent from '../components/Recipe_Creation/ReviewIngredients';
+import SelectRecipesComponent from '../components/Recipe_Creation/SelectRecipes';
 import LimitReached from '../components/Recipe_Creation/LimitReached';
 import { call_api, getServerSidePropsUtility } from '../utils/utils';
 import { Ingredient, DietaryPreference, Recipe, IngredientDocumentType } from '../types/index';
@@ -170,37 +171,16 @@ function Navigation({
                 />
               </div>
             </div>
-            <div className="bg-white shadow rounded-xl">
-              <button
-                className="w-full flex items-center justify-between p-4 font-medium text-left"
-                onClick={() => setStep(step === 3 ? -1 : 3)}
-              >
-                <span>{`Step 4: ${steps[3]}`}</span>
-                <ChevronDownIcon
-                  className={`w-5 h-5 transform transition-transform ${step === 3 ? 'rotate-180' : ''}`}
+            <div className="bg-white shadow rounded-xl p-4">
+              {isLoading ? (
+                <Loading isProgressBar isComplete={isComplete} loadingType={loadingType} />
+              ) : (
+                <SelectRecipesComponent
+                  generatedRecipes={generatedRecipes}
+                  selectedRecipes={selectedRecipeIds}
+                  updateSelectedRecipes={setSelectedRecipeIds}
+                  handleRecipeSubmit={handleRecipeSubmit}
                 />
-              </button>
-              {step === 3 && (
-                <div className="p-4">
-                  {isLoading ? (
-                    <Loading isProgressBar isComplete={isComplete} loadingType={loadingType} />
-                  ) : (
-                    <StepComponent
-                      step={3}
-                      ingredientList={recipeCreationData.ingredientList}
-                      ingredients={ingredients}
-                      updateIngredients={setIngredients}
-                      preferences={preferences}
-                      updatePreferences={setPreferences}
-                      editInputs={() => setStep(0)}
-                      handleIngredientSubmit={handleIngredientSubmit}
-                      generatedRecipes={generatedRecipes}
-                      updateSelectedRecipes={setSelectedRecipeIds}
-                      selectedRecipes={selectedRecipeIds}
-                      handleRecipeSubmit={handleRecipeSubmit}
-                    />
-                  )}
-                </div>
               )}
             </div>
           </>

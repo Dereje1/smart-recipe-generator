@@ -59,7 +59,9 @@ const ReviewComponent = ({
             Review Your Selections
           </h2>
           <p className="text-sm text-gray-500 mt-1">
-            Make sure everything looks right before we start cooking!
+            {showButtons
+              ? 'Make sure everything looks right before we start cooking!'
+              : "Here's a recap of your choices. Select the recipes you'd like to keep."}
           </p>
           {ingredients.length < 3 && (
             <p className="text-sm text-red-500 mt-2">

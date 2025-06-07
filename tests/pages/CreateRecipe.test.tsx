@@ -40,7 +40,7 @@ describe('The creating recipes component', () => {
 
     it('hides recipe selection until recipes exist', async () => {
         render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: false }} />)
-        expect(screen.queryByRole('button', { name: 'Step 4: Select Recipes' })).not.toBeInTheDocument()
+        expect(screen.queryByText('Use the switch on each recipe to select or unselect.')).not.toBeInTheDocument()
     })
     it('will not allow recipe creation if limit has been reached', async () => {
         render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: true }} />)
@@ -93,8 +93,6 @@ describe('Start to finish recipe creation and submission', () => {
         // mock api and submit
         const createRecipesButton = await screen.findByText('Create Recipes')
         fireEvent.click(createRecipesButton);
-        const step4Header = await screen.findByRole('button', { name: 'Step 4: Select Recipes' })
-        fireEvent.click(step4Header)
         await screen.findByText('Use the switch on each recipe to select or unselect.')
         const switches = screen.getAllByRole('switch')
         fireEvent.click(switches[0]);
