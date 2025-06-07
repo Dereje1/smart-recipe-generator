@@ -46,14 +46,8 @@ describe('The step component', () => {
         expect(screen.getByText('Use the switch on each recipe to select or unselect.')).toBeInTheDocument();
     })
 
-    it('shall render the review and submit recipes component', () => {
-        const updatedProps = { ...stepComponentProps, step: 4 }
-        const { container } = render(<StepComponent {...updatedProps} />)
-        expect(container).toMatchSnapshot()
-        expect(screen.getByText('Submit Selected (1) Recipes')).toBeInTheDocument();
-    })
     it('shall render a message for a non-existing step', () => {
-        const updatedProps = { ...stepComponentProps, step: 5 }
+        const updatedProps = { ...stepComponentProps, step: 4 }
         render(<StepComponent {...updatedProps} />)
         expect(screen.getByText('Coming Soon!')).toBeInTheDocument();
     })

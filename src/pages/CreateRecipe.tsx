@@ -14,7 +14,6 @@ const steps = [
   'Choose Diet',
   'Review and Create Recipes',
   'Select Recipes',
-  'Review and Save Recipes',
 ];
 
 const initialIngredients: Ingredient[] = [];

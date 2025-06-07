@@ -41,9 +41,7 @@ describe('The creating recipes component', () => {
     it('disables later steps before recipes are generated', async () => {
         render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: false }} />)
         const step4Button = await screen.findByRole('button', { name: 'Step 4: Select Recipes' })
-        const step5Button = await screen.findByRole('button', { name: 'Step 5: Review and Save Recipes' })
         expect(step4Button).toBeDisabled()
-        expect(step5Button).toBeDisabled()
         fireEvent.click(step4Button)
         expect(screen.queryByText('Use the switch on each recipe to select or unselect.')).not.toBeInTheDocument()
     })
@@ -104,10 +102,6 @@ describe('Start to finish recipe creation and submission', () => {
         const switches = screen.getAllByRole('switch')
         fireEvent.click(switches[0]);
         fireEvent.click(switches[1]);
-        const step5Header = await screen.findByRole('button', { name: 'Step 5: Review and Save Recipes' })
-        fireEvent.click(step5Header)
-        const rescipeSubmissionPage = await screen.findByText('Submit Selected (2) Recipes')
-        expect(rescipeSubmissionPage).toBeInTheDocument()
         const submitRecipesButton = await screen.findByText('Submit Selected (2) Recipes')
         fireEvent.click(submitRecipesButton)
         // goes back to ingredient page as router push to home is mocked
