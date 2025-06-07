@@ -631,7 +631,8 @@ exports[`The step component shall render the review inputs section 1`] = `
     class="mt-8"
   >
     <div
-      class="fixed inset-x-0 mx-auto w-11/12 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-xl animate-fadeInUp top-28 sm:top-36 mt-32 sm:mt-48"
+      class="fixed inset-x-0 mx-auto w-11/12 px-4 py-6 bg-gradient-to-br from-slate-50 to-stone-100 shadow-md rounded-xl sm:max-w-xl animate-fadeInUp overflow-y-auto top-32 sm:top-40 mt-32 sm:mt-48"
+      style="max-height: 608px;"
     >
       <div
         class="px-1 py-1"
