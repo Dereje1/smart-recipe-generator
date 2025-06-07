@@ -62,7 +62,6 @@ function StepComponent({
                                 onEdit={editInputs}
                                 onSubmit={handleIngredientSubmit}
                                 generatedRecipes={generatedRecipes}
-                                showButtons
                             />
                         )
                     case 3:

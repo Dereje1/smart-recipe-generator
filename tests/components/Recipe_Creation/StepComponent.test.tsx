@@ -36,14 +36,15 @@ describe('The step component', () => {
         const updatedProps = { ...stepComponentProps, step: 2 }
         const { container } = render(<StepComponent {...updatedProps} />)
         expect(container).toMatchSnapshot()
-        expect(screen.getByText('Review Your Selections')).toBeInTheDocument();
+        expect(screen.getByText('Selections Summary')).toBeInTheDocument();
+        expect(screen.getByText(/Use the switch on each recipe to select or unselect./)).toBeInTheDocument();
     })
 
     it('shall render the select recipes component', () => {
         const updatedProps = { ...stepComponentProps, step: 3 }
         const { container } = render(<StepComponent {...updatedProps} />)
         expect(container).toMatchSnapshot()
-        expect(screen.getByText('Use the switch on each recipe to select or unselect.')).toBeInTheDocument();
+        expect(screen.queryByText('Use the switch on each recipe to select or unselect.')).not.toBeInTheDocument();
     })
 
     it('shall render a message for a non-existing step', () => {

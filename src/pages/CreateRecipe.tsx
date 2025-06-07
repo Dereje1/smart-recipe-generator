@@ -167,7 +167,6 @@ function Navigation({
                   onSubmit={() => {}}
                   onEdit={() => {}}
                   generatedRecipes={generatedRecipes}
-                  showButtons={false}
                 />
               </div>
             </div>

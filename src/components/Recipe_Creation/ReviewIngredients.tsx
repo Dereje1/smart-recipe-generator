@@ -34,7 +34,6 @@ interface ReviewComponentProps {
   onSubmit: () => void;
   onEdit: () => void;
   generatedRecipes: Recipe[];
-  showButtons?: boolean;
 }
 
 const ReviewComponent = ({
@@ -43,9 +42,9 @@ const ReviewComponent = ({
   onSubmit,
   onEdit,
   generatedRecipes,
-  showButtons = true,
 }: ReviewComponentProps) => {
   const { height } = useWindowSize()
+  const showButtons = generatedRecipes.length === 0
 
   return (
     <div
@@ -56,12 +55,12 @@ const ReviewComponent = ({
         {/* Enhanced Title */}
         <div className="text-center mb-6">
           <h2 className="text-2xl font-medium text-gray-800 sm:text-3xl">
-            Review Your Selections
+            {showButtons ? 'Review Your Selections' : 'Selections Summary'}
           </h2>
           <p className="text-sm text-gray-500 mt-1">
             {showButtons
               ? 'Make sure everything looks right before we start cooking!'
-              : "Here's a recap of your choices. Select the recipes you'd like to keep."}
+              : "Here's a recap of your choices. Use the switch on each recipe to select or unselect."}
           </p>
           {ingredients.length < 3 && (
             <p className="text-sm text-red-500 mt-2">

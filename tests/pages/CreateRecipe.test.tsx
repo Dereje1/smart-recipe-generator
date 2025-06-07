@@ -93,8 +93,8 @@ describe('Start to finish recipe creation and submission', () => {
         // mock api and submit
         const createRecipesButton = await screen.findByText('Create Recipes')
         fireEvent.click(createRecipesButton);
-        await screen.findByText('Use the switch on each recipe to select or unselect.')
-        const switches = screen.getAllByRole('switch')
+        await screen.findByText(/Use the switch on each recipe to select or unselect./)
+        const switches = await screen.findAllByRole('switch')
         fireEvent.click(switches[0]);
         fireEvent.click(switches[1]);
         const submitRecipesButton = await screen.findByText('Submit Selected (2) Recipes')
