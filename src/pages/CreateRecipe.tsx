@@ -118,8 +118,8 @@ function Navigation({
       fullHeight
     />
   ) : (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-r from-gray-100 to-white p-4 md:p-8 space-y-4 md:space-y-0 md:space-x-6">
-      <div className="md:w-1/2 space-y-4">
+    <div className="min-h-screen bg-gradient-to-r from-gray-100 to-white p-4 md:p-8 flex justify-center">
+      <div className="w-full max-w-2xl space-y-4">
         {steps.map((title, idx) => {
           const isDisabled = idx >= 3 && generatedRecipes.length === 0;
           return (
