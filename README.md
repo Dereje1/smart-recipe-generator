@@ -95,6 +95,18 @@ App will be live at [http://localhost:3000](http://localhost:3000).
 
 ---
 
+## 🧪 Testing
+
+End-to-end tests are written with **Cypress**. To run them locally:
+
+```bash
+npm run e2e
+```
+
+This starts the Cypress test runner. Ensure your development server is running at `http://localhost:3000`.
+
+---
+
 ## 📊 Contributing
 
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
