@@ -69,7 +69,6 @@ export default function RecipeDisplayModal({ isOpen, close, recipe, removeRecipe
                 <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
                     <div className="flex min-h-full items-center justify-center p-4">
                         <DialogPanel
-                            transition
                             className="w-full max-w-md rounded-xl bg-white p-1 backdrop-blur-2xl duration-300 ease-out"
                         >
                             <div className="flex flex-col items-center">

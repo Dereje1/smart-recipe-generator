@@ -119,6 +119,9 @@ exports[`The Layout renders the hero if the user is not authenticated 1`] = `
           </button>
         </div>
       </nav>
+      <div
+        style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
+      />
     </header>
     <div
       class="relative isolate px-6 pt-14 lg:px-8"

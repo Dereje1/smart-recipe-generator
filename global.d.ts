@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 
 declare global {
-  var _mongoClientPromise: Promise<MongoClient>;
+  var _mongoClientPromise: ReturnType<typeof MongoClient.prototype.connect> | undefined;
 }
 
 export {};

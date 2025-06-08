@@ -1,5 +1,5 @@
 import ViewRecipes from "../../../src/components/Recipe_Display/ViewRecipes";
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import * as apiCalls from "../../../src/utils/utils";
 import { stubRecipeBatch } from '../../stub'
 
@@ -9,7 +9,7 @@ jest.mock("next/router", () => ({
     useRouter: jest.fn(() => ({
         pathName: 'mocked Path',
         push: routePushMock,
-        events:{
+        events: {
             on: jest.fn(),
             off: jest.fn()
         }
@@ -53,9 +53,8 @@ describe('The view recipes component', () => {
         fireEvent.click(screen.getAllByText('See Recipe')[0]);
         await screen.findByText('user_1');
         expect(screen.queryByText('user_1')).toBeInTheDocument();
-        // open popover
         const popoverbutton = await screen.findAllByRole('button')
-        fireEvent.click(popoverbutton[4])
+        fireEvent.click(popoverbutton[0])
         fireEvent.click(screen.getByText('Close'));
         expect(screen.queryByText('user_1')).not.toBeInTheDocument();
     })
@@ -76,7 +75,7 @@ describe('The view recipes component', () => {
         expect(screen.queryByText('user_1')).toBeInTheDocument();
         //open popover
         const popoverbutton = await screen.findAllByRole('button')
-        fireEvent.click(popoverbutton[4])
+        fireEvent.click(popoverbutton[0])
         //open delete dialog
         const deleteDialogButton = await screen.findByText('Delete Recipe');
         fireEvent.click(deleteDialogButton)
@@ -85,8 +84,8 @@ describe('The view recipes component', () => {
         fireEvent.click(deleteButton)
         expect(deleteApi).toHaveBeenCalledWith({
             "address": "/api/delete-recipe",
-             "method": "delete",
-              "payload": {"data": {"recipeId": "6683b8d38475eac9af5fe838"}}
+            "method": "delete",
+            "payload": { "data": { "recipeId": "6683b8d38475eac9af5fe838" } }
         })
     })
 
@@ -106,7 +105,7 @@ describe('The view recipes component', () => {
         expect(screen.queryByText('user_1')).toBeInTheDocument();
         //open popover
         const popoverbutton = await screen.findAllByRole('button')
-        fireEvent.click(popoverbutton[4])
+        fireEvent.click(popoverbutton[0])
         //open delete dialog
         const deleteDialogButton = await screen.findByText('Delete Recipe');
         fireEvent.click(deleteDialogButton)
@@ -115,8 +114,8 @@ describe('The view recipes component', () => {
         fireEvent.click(deleteButton)
         expect(deleteApi).toHaveBeenCalledWith({
             "address": "/api/delete-recipe",
-             "method": "delete",
-              "payload": {"data": {"recipeId": "6683b8d38475eac9af5fe838"}}
+            "method": "delete",
+            "payload": { "data": { "recipeId": "6683b8d38475eac9af5fe838" } }
         })
     })
 })

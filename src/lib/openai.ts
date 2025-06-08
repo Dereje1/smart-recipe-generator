@@ -96,11 +96,20 @@ export const generateImages = async (recipes: Recipe[], userId: string) => {
             response: images,
             model
         });
-        // Map each image response to its corresponding recipe name
-        const imagesWithNames = images.map((imageResponse, idx) => ({
-            imgLink: imageResponse.data[0].url,
-            name: recipes[idx].name,
-        }));
+        // Validate and map images safely
+        const imagesWithNames = images.map((imageResponse, idx) => {
+            const recipeName = recipes[idx].name;
+            const url = imageResponse?.data?.[0]?.url;
+
+            if (!url) {
+                throw new Error(`Image generation failed for recipe: ${recipeName}`);
+            }
+
+            return {
+                imgLink: url,
+                name: recipeName,
+            };
+        });
         return imagesWithNames;
     } catch (error) {
         console.error('Error generating image:', error);

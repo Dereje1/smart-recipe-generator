@@ -48,7 +48,6 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
             <Combobox
                 value={selectedIngredient}
                 onChange={handleSelectedIngredient}
-                onClose={() => setQuery('')}
                 disabled={Boolean(generatedRecipes.length)}
             >
                 <div className="relative w-full">

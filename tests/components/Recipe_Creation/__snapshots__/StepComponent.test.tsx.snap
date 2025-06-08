@@ -28,8 +28,9 @@ exports[`The step component shall render the diet preference selection 1`] = `
           class="h-5 w-5 rounded border border-gray-300 flex items-center justify-center bg-white focus:outline-none focus:ring-2 focus:ring-brand-500"
           data-disabled=""
           data-headlessui-state="disabled"
-          id="headlessui-checkbox-:r7:"
+          id="headlessui-checkbox-:r5:"
           role="checkbox"
+          tabindex="0"
         />
         <span
           class="ml-3 text-gray-700"
@@ -54,8 +55,9 @@ exports[`The step component shall render the diet preference selection 1`] = `
             class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
-            id="headlessui-checkbox-:r8:"
+            id="headlessui-checkbox-:r6:"
             role="checkbox"
+            tabindex="0"
           />
           <svg
             aria-hidden="true"
@@ -89,8 +91,9 @@ exports[`The step component shall render the diet preference selection 1`] = `
             class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
-            id="headlessui-checkbox-:r9:"
+            id="headlessui-checkbox-:r7:"
             role="checkbox"
+            tabindex="0"
           />
           <svg
             aria-hidden="true"
@@ -122,8 +125,9 @@ exports[`The step component shall render the diet preference selection 1`] = `
             class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
-            id="headlessui-checkbox-:ra:"
+            id="headlessui-checkbox-:r8:"
             role="checkbox"
+            tabindex="0"
           />
           <svg
             aria-hidden="true"
@@ -157,8 +161,9 @@ exports[`The step component shall render the diet preference selection 1`] = `
             class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
-            id="headlessui-checkbox-:rb:"
+            id="headlessui-checkbox-:r9:"
             role="checkbox"
+            tabindex="0"
           />
           <svg
             aria-hidden="true"
@@ -190,8 +195,9 @@ exports[`The step component shall render the diet preference selection 1`] = `
             class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
-            id="headlessui-checkbox-:rc:"
+            id="headlessui-checkbox-:ra:"
             role="checkbox"
+            tabindex="0"
           />
           <svg
             aria-hidden="true"
@@ -225,8 +231,9 @@ exports[`The step component shall render the diet preference selection 1`] = `
             class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
-            id="headlessui-checkbox-:rd:"
+            id="headlessui-checkbox-:rb:"
             role="checkbox"
+            tabindex="0"
           />
           <svg
             aria-hidden="true"
@@ -258,8 +265,9 @@ exports[`The step component shall render the diet preference selection 1`] = `
             class="shrink-0 h-5 w-5 rounded border flex items-center justify-center bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
             data-disabled=""
             data-headlessui-state="disabled"
-            id="headlessui-checkbox-:re:"
+            id="headlessui-checkbox-:rc:"
             role="checkbox"
+            tabindex="0"
           />
           <svg
             aria-hidden="true"
@@ -318,6 +326,9 @@ exports[`The step component shall render the ingredient selection form 1`] = `
           </svg>
           Add New Ingredient
         </button>
+        <div
+          style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
+        />
       </div>
       <div
         class="mt-4 w-full"

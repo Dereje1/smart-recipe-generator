@@ -60,17 +60,16 @@ describe('Start to finish recipe creation and submission', () => {
         render(<CreateRecipe recipeCreationData={{ ingredientList: ingredientListStub, reachedLimit: false }}/>)
         expect(await screen.findByText('Step 1: Choose Ingredients')).toBeInTheDocument()
         // Select at least 3 ingredients from the combobox
-        const comboButton = document.querySelector('[id^="headlessui-combobox-button"]') as HTMLElement
         const comboInput = screen.getByRole('combobox')
-        fireEvent.mouseDown(comboButton);
+        fireEvent.change(comboInput, { target: { value: 'Test-Ingredient-1' } });
         const ingredient1 = await screen.findByRole('option', { name: 'Test-Ingredient-1' });
-        fireEvent.mouseDown(ingredient1);
-        fireEvent.mouseDown(comboButton);
+        fireEvent.click(ingredient1);
+        fireEvent.change(comboInput, { target: { value: 'Test-Ingredient-2' } });
         const ingredient2 = await screen.findByRole('option', { name: 'Test-Ingredient-2' });
-        fireEvent.mouseDown(ingredient2);
-        fireEvent.mouseDown(comboButton);
+        fireEvent.click(ingredient2);
+        fireEvent.change(comboInput, { target: { value: 'Test-Ingredient-3' } });
         const ingredient3 = await screen.findByRole('option', { name: 'Test-Ingredient-3' });
-        fireEvent.mouseDown(ingredient3);
+        fireEvent.click(ingredient3);
         // move to dietary preferences
         const step2Header = await screen.findByText('Step 2: Choose Diet')
         fireEvent.click(step2Header)
