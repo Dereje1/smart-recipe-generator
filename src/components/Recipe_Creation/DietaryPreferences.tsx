@@ -73,7 +73,7 @@ export default function DietaryPreferences({
 
   return (
     <div
-      className="w-full p-4 sm:p-6 bg-white shadow-md rounded-xl"
+      className="w-full p-4 sm:p-6 bg-white shadow-md rounded-xl animate-fadeInUp"
     >
       {/* Enhanced Title */}
       <h2 className="text-xl font-medium text-gray-800 mb-2 sm:text-2xl">
@@ -125,7 +125,7 @@ export default function DietaryPreferences({
                 {selected && <CheckIcon className="h-3 w-3 text-white" />}
               </Checkbox>
               <Icon className="shrink-0 w-4 h-4 text-brand-600 ml-3" aria-hidden="true" />
-              <span className="ml-2 text-gray-700">{option}</span>
+              <span title={tooltipMap[option]} className="ml-2 text-gray-700">{option}</span>
             </div>
           );
         })}

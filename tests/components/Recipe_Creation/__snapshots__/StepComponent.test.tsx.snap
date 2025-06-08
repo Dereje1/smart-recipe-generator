@@ -6,7 +6,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
     class="mt-8"
   >
     <div
-      class="w-full p-4 sm:p-6 bg-white shadow-md rounded-xl"
+      class="w-full p-4 sm:p-6 bg-white shadow-md rounded-xl animate-fadeInUp"
     >
       <h2
         class="text-xl font-medium text-gray-800 mb-2 sm:text-2xl"
@@ -73,6 +73,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </svg>
           <span
             class="ml-2 text-gray-700"
+            title="No meat or fish"
           >
             Vegetarian
           </span>
@@ -105,6 +106,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </svg>
           <span
             class="ml-2 text-gray-700"
+            title="No animal products"
           >
             Vegan
           </span>
@@ -139,6 +141,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </svg>
           <span
             class="ml-2 text-gray-700"
+            title="No wheat, barley or rye"
           >
             Gluten-Free
           </span>
@@ -171,6 +174,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </svg>
           <span
             class="ml-2 text-gray-700"
+            title="No milk or dairy products"
           >
             Dairy-Free
           </span>
@@ -205,6 +209,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </svg>
           <span
             class="ml-2 text-gray-700"
+            title="Low-carb, high-fat"
           >
             Keto
           </span>
@@ -237,6 +242,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </svg>
           <span
             class="ml-2 text-gray-700"
+            title="Halal-certified ingredients"
           >
             Halal
           </span>
@@ -269,6 +275,7 @@ exports[`The step component shall render the diet preference selection 1`] = `
           </svg>
           <span
             class="ml-2 text-gray-700"
+            title="Prepared according to Jewish dietary laws"
           >
             Kosher
           </span>
@@ -407,7 +414,7 @@ exports[`The step component shall render the ingredient selection form 1`] = `
           class="flex flex-wrap max-h-32 overflow-y-auto"
         >
           <div
-            class="flex items-center bg-brand-500 text-white text-sm font-medium px-3 py-1.5 rounded-full m-1 transition transform hover:scale-105 animate-fadeInUp"
+            class="flex items-center bg-brand-500 text-white text-sm font-medium px-3 py-1.5 rounded-full m-1 transition transform hover:scale-105"
           >
             <span>
               undefined
@@ -432,7 +439,7 @@ exports[`The step component shall render the ingredient selection form 1`] = `
             </button>
           </div>
           <div
-            class="flex items-center bg-brand-500 text-white text-sm font-medium px-3 py-1.5 rounded-full m-1 transition transform hover:scale-105 animate-fadeInUp"
+            class="flex items-center bg-brand-500 text-white text-sm font-medium px-3 py-1.5 rounded-full m-1 transition transform hover:scale-105"
           >
             <span>
               undefined

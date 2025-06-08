@@ -119,7 +119,7 @@ function Navigation({
       fullHeight
     />
   ) : (
-    <div className="min-h-screen bg-gradient-to-r from-gray-100 to-white p-4 md:p-8 flex justify-center">
+    <div className="min-h-screen bg-gradient-to-r from-brand-50 to-white p-4 md:p-8 flex justify-center">
       <div className={`w-full space-y-4 ${generatedRecipes.length ? 'max-w-7xl' : 'max-w-2xl'}`}> 
         {generatedRecipes.length === 0 ? (
           steps.slice(0, 3).map((title, idx) => (

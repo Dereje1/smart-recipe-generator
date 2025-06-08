@@ -12,7 +12,7 @@ const initialComboIngredient: ComboIngredient = { id: 0, name: '' };
 
 const Chip = ({ ingredient, onDelete }: { ingredient: Ingredient; onDelete: (id: string) => void }) => {
     return (
-        <div className="flex items-center bg-brand-500 text-white text-sm font-medium px-3 py-1.5 rounded-full m-1 transition transform hover:scale-105 animate-fadeInUp">
+        <div className="flex items-center bg-brand-500 text-white text-sm font-medium px-3 py-1.5 rounded-full m-1 transition transform hover:scale-105">
             <span>{`${ingredient.name}${ingredient.quantity ? ` (${ingredient.quantity})` : ''}`}</span>
             <button onClick={() => onDelete(ingredient.id)} className="ml-2 focus:outline-none">
                 <XMarkIcon className="w-4 h-4 text-white hover:text-gray-200" />
