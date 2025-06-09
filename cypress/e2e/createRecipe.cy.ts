@@ -63,9 +63,7 @@ describe('End-to-end recipe creation', () => {
 
     // Navigate to Create Recipe page
     cy.contains('Create Recipes').click();
-
-    // Wait for navigation and data to load
-    cy.wait('@createRecipeData');
+    cy.wait('@createRecipeData'); // wait for SSR data
     cy.location('pathname').should('include', '/CreateRecipe');
 
     // --- Step 1: Select Ingredients ---
