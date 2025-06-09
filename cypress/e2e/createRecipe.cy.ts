@@ -33,8 +33,16 @@ describe('End-to-end recipe creation', () => {
     // Intercept data request for the Profile page to avoid real SSR
     cy.intercept('GET', /_next\/data\/.*\/Profile\.json/, {
       statusCode: 200,
-      body: { pageProps: {} },
+      body: {
+        pageProps: {
+          profileData: {
+            recipes: [...stubRecipeBatch],
+            AIusage: 42,
+          }
+        }
+      },
     });
+
 
 
     cy.intercept('POST', '/api/generate-recipes', {
@@ -74,12 +82,12 @@ describe('End-to-end recipe creation', () => {
     // --- Step 2: Dietary Preferences ---
     cy.contains('Step 2: Choose Diet').click();
     cy.contains('Dietary Preferences');
-    cy.get('button[aria-label="No Dietary Preference"]').click();
-    cy.get('button[aria-label="Vegan"]').click();
+    cy.get('[aria-label="No Dietary Preference"]').click();
+    cy.get('[aria-label="Vegan"]').click();
 
     // --- Step 3: Review & Generate Recipes ---
     cy.contains('Step 3: Review and Create Recipes').click();
-    cy.contains('Create Recipes').click();
+    cy.get('button[aria-label="Create recipes based on your selections"]').click()
     cy.wait('@generateRecipes');
 
     // --- Step 4: Select Recipes & Submit ---
