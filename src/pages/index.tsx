@@ -1,12 +1,15 @@
 // pages/index.tsx
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import Loading from '../components/Loading';
+import { GetServerSideProps } from 'next';
+
+export const getServerSideProps: GetServerSideProps = async () => ({
+  redirect: {
+    destination: '/Home',
+    permanent: false,
+  },
+});
 
 export default function Index() {
-  const router = useRouter()
-  useEffect(() => {
-    router.push('/Home')
-  }, [router])
-  return <Loading />;
+  // Next.js never renders this component because it
+  // performs the redirect on the server.
+  return null;
 }
