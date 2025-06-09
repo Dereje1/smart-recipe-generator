@@ -1,4 +1,4 @@
-import { stubRecipeBatch } from '../../tests/stub'
+import { stubRecipeBatch, ingredientListStub } from '../../tests/stub'
 
 describe('End-to-end recipe creation', () => {
   beforeEach(() => {
@@ -20,6 +20,25 @@ describe('End-to-end recipe creation', () => {
     });
 
     cy.intercept('GET', '/api/get-notifications', { statusCode: 200, body: [] });
+
+    // Intercept Next.js data request for the CreateRecipe page
+    cy.intercept('GET', /_next\/data\/.*\/CreateRecipe\.json/, {
+      statusCode: 200,
+      body: {
+        pageProps: {
+          recipeCreationData: {
+            ingredientList: ingredientListStub,
+            reachedLimit: false,
+          },
+        },
+      },
+    }).as('createRecipeData');
+
+    // Intercept data request for the Profile page to avoid real SSR
+    cy.intercept('GET', /_next\/data\/.*\/Profile\.json/, {
+      statusCode: 200,
+      body: { pageProps: {} },
+    });
 
 
     cy.intercept('POST', '/api/generate-recipes', {
@@ -45,9 +64,13 @@ describe('End-to-end recipe creation', () => {
     // Navigate to Create Recipe page
     cy.contains('Create Recipes').click();
 
+    // Wait for navigation and data to load
+    cy.wait('@createRecipeData');
+    cy.location('pathname').should('include', '/CreateRecipe');
+
     // --- Step 1: Select Ingredients ---
     const comboInput = 'input[role="combobox"]';
-    cy.get(comboInput).click().type('Test-Ingredient-1');
+    cy.get(comboInput).should('be.visible').click().type('Test-Ingredient-1');
     cy.contains('[role="option"]', 'Test-Ingredient-1').click();
     cy.get(comboInput).type('Test-Ingredient-2');
     cy.contains('[role="option"]', 'Test-Ingredient-2').click();
