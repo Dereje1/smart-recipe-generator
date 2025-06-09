@@ -1,4 +1,4 @@
-import { ingredientListStub, stubRecipeBatch } from '../../tests/stub'
+import { stubRecipeBatch } from '../../tests/stub'
 
 describe('End-to-end recipe creation', () => {
   beforeEach(() => {
@@ -21,10 +21,6 @@ describe('End-to-end recipe creation', () => {
 
     cy.intercept('GET', '/api/get-notifications', { statusCode: 200, body: [] });
 
-    cy.intercept('GET', '/api/get-ingredients', {
-      statusCode: 200,
-      body: { ingredientList: ingredientListStub, reachedLimit: false },
-    }).as('getIngredients');
 
     cy.intercept('POST', '/api/generate-recipes', {
       statusCode: 200,
@@ -48,7 +44,6 @@ describe('End-to-end recipe creation', () => {
 
     // Navigate to Create Recipe page
     cy.contains('Create Recipes').click();
-    cy.wait('@getIngredients');
 
     // --- Step 1: Select Ingredients ---
     const comboInput = 'input[role="combobox"]';
