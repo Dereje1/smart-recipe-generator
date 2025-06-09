@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
@@ -7,7 +8,7 @@ import StepComponent from '../components/Recipe_Creation/StepComponent';
 import ReviewComponent from '../components/Recipe_Creation/ReviewIngredients';
 import SelectRecipesComponent from '../components/Recipe_Creation/SelectRecipes';
 import LimitReached from '../components/Recipe_Creation/LimitReached';
-import { call_api } from '../utils/utils';
+import { call_api, getServerSidePropsUtility } from '../utils/utils';
 import { Ingredient, DietaryPreference, Recipe, IngredientDocumentType } from '../types/index';
 
 const steps = [
@@ -22,12 +23,14 @@ const initialPreferences: DietaryPreference[] = [];
 const initialRecipes: Recipe[] = [];
 const initialSelectedIds: string[] = [];
 
-function Navigation() {
-  const [recipeCreationData, setRecipeCreationData] = useState<{
+function Navigation({
+  recipeCreationData,
+}: {
+  recipeCreationData: {
     ingredientList: IngredientDocumentType[];
     reachedLimit: boolean;
-  } | null>(null);
-  const [dataLoading, setDataLoading] = useState(true);
+  };
+}) {
   const [step, setStep] = useState(0);
   const [ingredients, setIngredients] = useState(initialIngredients);
   const [preferences, setPreferences] = useState(initialPreferences);
@@ -39,25 +42,6 @@ function Navigation() {
 
   const router = useRouter();
   const { oldIngredients } = router.query;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch('/api/get-ingredients');
-        const data = await res.json();
-        setRecipeCreationData({
-          ingredientList: data.ingredientList,
-          reachedLimit: data.reachedLimit,
-        });
-      } catch (error) {
-        console.error('Failed to fetch ingredients', error);
-        setRecipeCreationData({ ingredientList: [], reachedLimit: false });
-      } finally {
-        setDataLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
 
   useEffect(() => {
     if (oldIngredients && Array.isArray(oldIngredients)) {
@@ -127,14 +111,6 @@ function Navigation() {
     }
   };
 
-
-  if (dataLoading || !recipeCreationData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loading />
-      </div>
-    );
-  }
 
   return recipeCreationData.reachedLimit ? (
     <LimitReached
@@ -210,5 +186,9 @@ function Navigation() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return await getServerSidePropsUtility(context, 'api/get-ingredients', 'recipeCreationData');
+};
 
 export default Navigation;

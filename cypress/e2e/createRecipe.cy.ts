@@ -21,14 +21,18 @@ describe('End-to-end recipe creation', () => {
 
     cy.intercept('GET', '/api/get-notifications', { statusCode: 200, body: [] });
 
-    // Intercept ingredient fetch request on page load
-    cy.intercept('GET', '/api/get-ingredients', {
+    // Intercept Next.js data request for the CreateRecipe page
+    cy.intercept('GET', /_next\/data\/.*\/CreateRecipe\.json/, {
       statusCode: 200,
       body: {
-        ingredientList: ingredientListStub,
-        reachedLimit: false,
+        pageProps: {
+          recipeCreationData: {
+            ingredientList: ingredientListStub,
+            reachedLimit: false,
+          },
+        },
       },
-    }).as('getIngredients');
+    }).as('createRecipeData');
 
     // Intercept data request for the Profile page to avoid real SSR
     cy.intercept('GET', /_next\/data\/.*\/Profile\.json/, {
@@ -67,7 +71,7 @@ describe('End-to-end recipe creation', () => {
 
     // Navigate to Create Recipe page
     cy.contains('Create Recipes').click();
-    cy.wait('@getIngredients'); // wait for mocked fetch
+    cy.wait('@createRecipeData');
     cy.location('pathname').should('include', '/CreateRecipe');
 
     // --- Step 1: Select Ingredients ---

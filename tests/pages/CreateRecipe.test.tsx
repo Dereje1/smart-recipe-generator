@@ -1,4 +1,4 @@
-import CreateRecipe from "../../src/pages/CreateRecipe";
+import CreateRecipe, { getServerSideProps } from "../../src/pages/CreateRecipe";
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import * as apiCalls from "../../src/utils/utils";
 import { stubRecipeBatch, ingredientListStub } from "../stub";
@@ -15,29 +15,20 @@ jest.mock("next/router", () => ({
 
 jest.mock("../../src/utils/utils", () => ({
     ...jest.requireActual("../../src/utils/utils"),
+    getServerSidePropsUtility: jest.fn(() => Promise.resolve('mock_serverside_props_return')),
     call_api: jest.fn()
 }))
 
-const mockFetch = (data: any) => {
-    global.fetch = jest.fn(() =>
-        Promise.resolve({
-            json: () => Promise.resolve(data)
-        })
-    ) as jest.Mock;
-}
-
 describe('The creating recipes component', () => {
     it('will increase the current step', async () => {
-        mockFetch({ ingredientList: [], reachedLimit: false })
-        render(<CreateRecipe />)
+        render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: false }} />)
         expect(await screen.findByText('Step 1: Choose Ingredients')).toBeInTheDocument()
         const step2Header = await screen.findByText('Step 2: Choose Diet')
         fireEvent.click(step2Header)
         expect(await screen.findByText('Dietary Preferences')).toBeInTheDocument()
     })
     it('will decrease the current step', async () => {
-        mockFetch({ ingredientList: [], reachedLimit: false })
-        render(<CreateRecipe />)
+        render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: false }} />)
         expect(await screen.findByText('Step 1: Choose Ingredients')).toBeInTheDocument()
         const step2Header = await screen.findByText('Step 2: Choose Diet')
         fireEvent.click(step2Header)
@@ -48,13 +39,11 @@ describe('The creating recipes component', () => {
     })
 
     it('hides recipe selection until recipes exist', async () => {
-        mockFetch({ ingredientList: [], reachedLimit: false })
-        render(<CreateRecipe />)
+        render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: false }} />)
         expect(screen.queryByText('Use the switch on each recipe to select or unselect.')).not.toBeInTheDocument()
     })
     it('will not allow recipe creation if limit has been reached', async () => {
-        mockFetch({ ingredientList: [], reachedLimit: true })
-        render(<CreateRecipe />)
+        render(<CreateRecipe recipeCreationData={{ ingredientList: [], reachedLimit: true }} />)
         expect(await screen.findByText('Limit Reached')).toBeInTheDocument()
     })
 })
@@ -68,8 +57,7 @@ describe('Start to finish recipe creation and submission', () => {
             openaiPromptId: "mock-openAI-Prompt-Id"
         }))
 
-        mockFetch({ ingredientList: ingredientListStub, reachedLimit: false })
-        render(<CreateRecipe />)
+        render(<CreateRecipe recipeCreationData={{ ingredientList: ingredientListStub, reachedLimit: false }} />)
         expect(await screen.findByText('Step 1: Choose Ingredients')).toBeInTheDocument()
         // Select at least 3 ingredients from the combobox
         const comboInput = screen.getByRole('combobox')
@@ -140,3 +128,10 @@ describe('Start to finish recipe creation and submission', () => {
     })
 })
 
+
+describe('updating the serverside props', () => {
+    it('shall update', async () => {
+        const response = await getServerSideProps('' as any);
+        expect(response).toBe('mock_serverside_props_return')
+    })
+})
