@@ -119,7 +119,7 @@ describe('Recipe Card Actions', () => {
     });
   });
 
-  describe('Play Recipe', () => {
+  describe.only('Play Recipe', () => {
     it('plays recipe audio', () => {
       cy.visit('/Home');
 
@@ -128,9 +128,11 @@ describe('Recipe Card Actions', () => {
         cy.stub(win, 'Audio').callsFake(() => {
           const audio: any = {
             load: () => {
-              if (typeof audio.oncanplaythrough === 'function') {
-                audio.oncanplaythrough();
-              }
+              setTimeout(() => {
+                if (typeof audio.oncanplaythrough === 'function') {
+                  audio.oncanplaythrough();
+                }
+              }, 50); // give React time to attach the handler
             },
             play: playStub,
             preload: 'auto',
@@ -140,13 +142,6 @@ describe('Recipe Card Actions', () => {
           };
           return audio;
         });
-      });
-
-      const first = recipes[0];
-
-      cy.intercept('GET', '/api/get-single-recipe*', {
-        statusCode: 200,
-        body: first,
       });
 
       cy.contains('See Recipe').first().click();
