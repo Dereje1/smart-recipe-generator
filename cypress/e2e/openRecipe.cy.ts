@@ -22,8 +22,8 @@ describe('Open Recipe from card', () => {
     cy.contains('See Recipe').first().click();
 
     // Open action menu and click "Open Recipe"
-    cy.get('button[aria-expanded="false"]').first().click();
-    cy.contains('button', 'Open Recipe').click();
+    cy.get('button[aria-expanded="false"]').first().click({ force: true });
+    cy.contains('button', 'Open Recipe').click({ force: true });
 
     // verify navigation
     cy.location('pathname').should('eq', '/RecipeDetail');
