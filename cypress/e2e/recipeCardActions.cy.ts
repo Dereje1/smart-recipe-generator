@@ -56,7 +56,9 @@ describe('Recipe Card Actions', () => {
       cy.get('button[id^="headlessui-popover-button"]').eq(1).click({ force: true });
       cy.contains('button', 'Copy Link').click();
 
-      cy.contains(`${first.name} copied to clipboard!`).should('be.visible');
+      cy.get('@clipboard').should('have.been.calledWith', `http://localhost:3000/RecipeDetail?recipeId=${first._id}`);
+
+      cy.get('p.leading-tight').invoke('text').should('include', `${first.name} copied to clipboard!`);
     });
   });
 });
