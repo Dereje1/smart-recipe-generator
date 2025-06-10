@@ -95,6 +95,36 @@ App will be live at [http://localhost:3000](http://localhost:3000).
 
 ---
 
+## 🧪 Testing & Building
+
+### Unit Tests
+Run Jest tests:
+```bash
+npm test
+```
+Generate a coverage report:
+```bash
+npm run coverage
+```
+
+### Compile TypeScript
+Check the entire project for type errors:
+```bash
+npm run compileTS
+```
+
+### End-to-End Tests
+Ensure the dev server is running (`npm run dev`), then run Cypress:
+```bash
+npx cypress run
+```
+For the interactive UI:
+```bash
+npx cypress open
+```
+
+---
+
 ## 📊 Contributing
 
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
