@@ -20,12 +20,8 @@ describe('Recipe Card Actions', () => {
 
       cy.window().then((win) => {
         cy.stub(win, 'open').callsFake((url) => {
-          const origin = Cypress.config().baseUrl || 'http://localhost:3000';
-          if (url.startsWith('/')) {
-            win.location.href = `${origin}${url}`;
-          } else {
-            win.location.href = url;
-          }
+          const sanitized = url.replace(/^undefined/, Cypress.config().baseUrl || 'http://localhost:3000');
+          win.location.href = sanitized;
         }).as('windowOpen');
       });
 
@@ -54,18 +50,21 @@ describe('Recipe Card Actions', () => {
         if (!win.navigator.clipboard) {
           (win as any).navigator.clipboard = { writeText: () => Promise.resolve() };
         }
-        cy.stub(win.navigator.clipboard, 'writeText').as('clipboard');
+
+        cy.stub(win.navigator.clipboard, 'writeText').callsFake((url) => {
+          const sanitized = url.replace(/^undefined/, Cypress.config().baseUrl || 'http://localhost:3000');
+          return Promise.resolve(sanitized);
+        }).as('clipboard');
       });
 
       const first = recipes[0];
+      const baseUrl = Cypress.config().baseUrl;
 
       cy.contains('See Recipe').first().click();
       cy.get('button[id^="headlessui-popover-button"]').eq(1).click({ force: true });
       cy.contains('button', 'Copy Link').click();
 
-      const baseUrl = Cypress.config().baseUrl;
       cy.get('@clipboard').should('have.been.calledWith', `${baseUrl}/RecipeDetail?recipeId=${first._id}`);
-
       cy.get('p.leading-tight').invoke('text').should('include', `${first.name} copied to clipboard!`);
     });
   });
@@ -73,6 +72,13 @@ describe('Recipe Card Actions', () => {
   describe('Chat with Assistant', () => {
     it('navigates to the assistant chat page', () => {
       cy.visit('/Home');
+
+      cy.window().then((win) => {
+        cy.stub(win, 'open').callsFake((url) => {
+          const sanitized = url.replace(/^undefined/, Cypress.config().baseUrl || 'http://localhost:3000');
+          win.location.href = sanitized;
+        }).as('windowOpen');
+      });
 
       const first = recipes[0];
 
@@ -138,7 +144,7 @@ describe('Recipe Card Actions', () => {
                 if (typeof audio.oncanplaythrough === 'function') {
                   audio.oncanplaythrough();
                 }
-              }, 50); // give React time to attach the handler
+              }, 50);
             },
             play: playStub,
             preload: 'auto',
