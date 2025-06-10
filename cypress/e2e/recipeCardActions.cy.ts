@@ -118,4 +118,43 @@ describe('Recipe Card Actions', () => {
       });
     });
   });
+
+  describe('Play Recipe', () => {
+    it('plays recipe audio', () => {
+      cy.visit('/Home');
+
+      cy.window().then((win) => {
+        const playStub = cy.stub().as('audioPlay').resolves();
+        cy.stub(win, 'Audio').callsFake(() => {
+          const audio: any = {
+            load: () => {
+              if (typeof audio.oncanplaythrough === 'function') {
+                audio.oncanplaythrough();
+              }
+            },
+            play: playStub,
+            preload: 'auto',
+            oncanplaythrough: undefined,
+            onended: undefined,
+            onerror: undefined,
+          };
+          return audio;
+        });
+      });
+
+      const first = recipes[0];
+
+      cy.intercept('GET', '/api/get-single-recipe*', {
+        statusCode: 200,
+        body: first,
+      });
+
+      cy.contains('See Recipe').first().click();
+      cy.get('button[id^="headlessui-popover-button"]').eq(1).click({ force: true });
+      cy.contains('button', 'Play Recipe').click();
+
+      cy.get('@audioPlay').should('have.been.called');
+      cy.contains('button', 'Stop Playing').should('be.visible');
+    });
+  });
 });
