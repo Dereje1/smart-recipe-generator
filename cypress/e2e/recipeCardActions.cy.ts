@@ -61,4 +61,25 @@ describe('Recipe Card Actions', () => {
       cy.get('p.leading-tight').invoke('text').should('include', `${first.name} copied to clipboard!`);
     });
   });
+
+  describe('Chat with Assistant', () => {
+    it('navigates to the assistant chat page', () => {
+      cy.visit('/Home');
+
+      const first = recipes[0];
+
+      cy.intercept('GET', '/api/get-single-recipe*', {
+        statusCode: 200,
+        body: first,
+      });
+
+      cy.contains('See Recipe').first().click();
+      cy.get('button[id^="headlessui-popover-button"]').eq(1).click({ force: true });
+      cy.contains('button', 'Chat with Assistant').click();
+
+      cy.location('pathname').should('eq', '/ChatAssistant');
+      cy.location('search').should('eq', `?recipeId=${first._id}`);
+      cy.contains('Ask the AI Assistant').should('be.visible');
+    });
+  });
 });
