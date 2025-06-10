@@ -27,7 +27,7 @@ jobs:
       - name: Wait for preview to become live
         run: |
           echo "Waiting for ${{ steps.vercel.outputs.preview_url }}"
-          npx wait-on ${{ steps.vercel.outputs.preview_url }}
+          npx wait-on "${{ steps.vercel.outputs.preview_url }}favicon.ico" --timeout 10000
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
