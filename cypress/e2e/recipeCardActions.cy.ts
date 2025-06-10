@@ -38,4 +38,25 @@ describe('Recipe Card Actions', () => {
       cy.contains(first.name).should('be.visible');
     });
   });
+
+  describe('Copy Link', () => {
+    it('copies recipe link to clipboard', () => {
+      cy.visit('/Home');
+
+      cy.window().then((win) => {
+        if (!win.navigator.clipboard) {
+          (win as any).navigator.clipboard = { writeText: () => Promise.resolve() };
+        }
+        cy.stub(win.navigator.clipboard, 'writeText').as('clipboard');
+      });
+
+      const first = recipes[0];
+
+      cy.contains('See Recipe').first().click();
+      cy.get('button[id^="headlessui-popover-button"]').eq(1).click({ force: true });
+      cy.contains('button', 'Copy Link').click();
+
+      cy.contains(`${first.name} copied to clipboard!`).should('be.visible');
+    });
+  });
 });
