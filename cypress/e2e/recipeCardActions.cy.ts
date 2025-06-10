@@ -1,7 +1,10 @@
-import { ingredientListStub } from '../../tests/stub'
+import { ingredientListStub } from '../../tests/stub';
 
 describe('Recipe Card Actions', () => {
   let recipes: any[];
+
+  const sanitizeUrl = (url: string) =>
+    url.replace(/^undefined/, Cypress.config().baseUrl || 'http://localhost:3000');
 
   beforeEach(() => {
     cy.fixture('recipes').then((data) => {
@@ -20,8 +23,7 @@ describe('Recipe Card Actions', () => {
 
       cy.window().then((win) => {
         cy.stub(win, 'open').callsFake((url) => {
-          const sanitized = url.replace(/^undefined/, Cypress.config().baseUrl || 'http://localhost:3000');
-          win.location.href = sanitized;
+          win.location.href = sanitizeUrl(url);
         }).as('windowOpen');
       });
 
@@ -52,8 +54,7 @@ describe('Recipe Card Actions', () => {
         }
 
         cy.stub(win.navigator.clipboard, 'writeText').callsFake((url) => {
-          const sanitized = url.replace(/^undefined/, Cypress.config().baseUrl || 'http://localhost:3000');
-          return Promise.resolve(sanitized);
+          return Promise.resolve(sanitizeUrl(url));
         }).as('clipboard');
       });
 
@@ -75,8 +76,7 @@ describe('Recipe Card Actions', () => {
 
       cy.window().then((win) => {
         cy.stub(win, 'open').callsFake((url) => {
-          const sanitized = url.replace(/^undefined/, Cypress.config().baseUrl || 'http://localhost:3000');
-          win.location.href = sanitized;
+          win.location.href = sanitizeUrl(url);
         }).as('windowOpen');
       });
 
