@@ -19,7 +19,8 @@ jobs:
         id: vercel
         run: |
           npm install -g vercel
-          URL=$(vercel --token ${{ secrets.VERCEL_TOKEN }} --project ${{ secrets.VERCEL_PROJECT_ID }} --yes --prod=false)
+          vercel pull --yes --token ${{ secrets.VERCEL_TOKEN }}
+          URL=$(vercel deploy --token ${{ secrets.VERCEL_TOKEN }} --prebuilt)
           echo "preview_url=${URL}" >> $GITHUB_OUTPUT
 
       - name: Wait for preview to become live
