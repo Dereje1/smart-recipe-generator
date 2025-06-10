@@ -1,0 +1,32 @@
+name: E2E Tests on Vercel Preview
+
+on:
+  pull_request:
+
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Get Vercel preview URL
+        id: vercel
+        run: |
+          npm install -g vercel
+          URL=$(vercel --token ${{ secrets.VERCEL_TOKEN }} --org ${{ secrets.VERCEL_ORG_ID }} --project ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }} --yes --prod=false)
+          echo "preview_url=${URL}" >> $GITHUB_OUTPUT
+
+      - name: Wait for preview to become live
+        run: |
+          echo "Waiting for ${{ steps.vercel.outputs.preview_url }}"
+          npx wait-on ${{ steps.vercel.outputs.preview_url }}
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: echo "Vercel already deployed" # skip local start
+          wait-on: ''
+          config: baseUrl=${{ steps.vercel.outputs.preview_url }}
