@@ -19,7 +19,7 @@ jobs:
         id: vercel
         run: |
           npm install -g vercel
-          URL=$(vercel --token ${{ secrets.VERCEL_TOKEN }} --org ${{ secrets.VERCEL_ORG_ID }} --project ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }} --yes --prod=false)
+          URL=$(vercel --token ${{ secrets.VERCEL_TOKEN }} --project ${{ secrets.VERCEL_PROJECT_ID }} --yes --prod=false)
           echo "preview_url=${URL}" >> $GITHUB_OUTPUT
 
       - name: Wait for preview to become live
@@ -30,6 +30,6 @@ jobs:
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
-          start: echo "Vercel already deployed" # skip local start
+          start: echo "Vercel already deployed"
           wait-on: ''
           config: baseUrl=${{ steps.vercel.outputs.preview_url }}
