@@ -152,4 +152,25 @@ describe('Recipe Card Actions', () => {
       cy.contains('button', 'Stop Playing').should('be.visible');
     });
   });
+
+  describe('Delete Recipe', () => {
+    it('deletes a recipe', () => {
+      cy.visit('/Home');
+
+      const first = recipes[0];
+
+      cy.intercept('DELETE', '/api/delete-recipe', {
+        statusCode: 200,
+        body: { message: `Deleted recipe with id ${first._id}` },
+      }).as('deleteRecipe');
+
+      cy.contains('See Recipe').first().click();
+      cy.get('button[id^="headlessui-popover-button"]').eq(1).click({ force: true });
+      cy.contains('button', 'Delete Recipe').click();
+      cy.contains('button', 'Delete').click();
+
+      cy.wait('@deleteRecipe');
+      cy.contains(first.name).should('not.exist');
+    });
+  });
 });
