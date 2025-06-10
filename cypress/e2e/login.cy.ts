@@ -1,31 +1,9 @@
+
 describe('Logged-in user flow', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/api/auth/session', {
-      statusCode: 200,
-      body: {
-        user: {
-          name: 'Test User',
-          email: 'test@example.com',
-          id: 'test-id-123',
-        },
-        expires: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
-      },
-    });
-
-    cy.intercept('GET', '/api/get-recipes*', {
-      statusCode: 200,
-      body: {
-        recipes: [],
-        currentPage: 1,
-        totalPages: 1,
-        popularTags: [],
-      },
-    });
-
-    cy.intercept('GET', '/api/get-notifications', {
-      statusCode: 200,
-      body: [],
-    });
+    cy.mockSession();
+    cy.mockGetRecipes()
+    cy.mockGetNotifications();
 
     cy.login();
   });

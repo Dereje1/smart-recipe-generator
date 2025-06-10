@@ -2,24 +2,9 @@ import { stubRecipeBatch, ingredientListStub } from '../../tests/stub'
 
 describe('End-to-end recipe creation', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/api/auth/session', {
-      statusCode: 200,
-      body: {
-        user: {
-          name: 'Test User',
-          email: 'test@example.com',
-          id: 'test-id-123',
-        },
-        expires: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
-      },
-    });
-
-    cy.intercept('GET', '/api/get-recipes*', {
-      statusCode: 200,
-      body: { recipes: [], currentPage: 1, totalPages: 1, popularTags: [] },
-    });
-
-    cy.intercept('GET', '/api/get-notifications', { statusCode: 200, body: [] });
+    cy.mockSession();
+    cy.mockGetRecipes()
+    cy.mockGetNotifications();
 
     // Intercept Next.js data request for the CreateRecipe page
     cy.intercept('GET', /_next\/data\/.*\/CreateRecipe\.json/, {
@@ -34,20 +19,21 @@ describe('End-to-end recipe creation', () => {
       },
     }).as('createRecipeData');
 
-    // Intercept data request for the Profile page to avoid real SSR
-    cy.intercept('GET', /_next\/data\/.*\/Profile\.json/, {
-      statusCode: 200,
-      body: {
-        pageProps: {
-          profileData: {
-            recipes: [...stubRecipeBatch],
-            AIusage: 42,
+  
+    cy.fixture('recipes').then((recipes) => {
+       // Intercept data request for the Profile page to avoid real SSR
+      cy.intercept('GET', /_next\/data\/.*\/Profile\.json/, {
+        statusCode: 200,
+        body: {
+          pageProps: {
+            profileData: {
+              recipes,
+              AIusage: 42,
+            }
           }
-        }
-      },
+        },
+      });
     });
-
-
 
     cy.intercept('POST', '/api/generate-recipes', {
       statusCode: 200,

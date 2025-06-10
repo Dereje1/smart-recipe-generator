@@ -1,0 +1,222 @@
+[
+    {
+        "_id": "6683b8d38475eac9af5fe83d",
+        "owner": {
+            "_id": "test-id-123",
+            "name": "Test User",
+            "image": "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+        },
+        "name": "Blueberry Apple Smoothie",
+        "ingredients": [
+            {
+                "name": "Blueberries",
+                "quantity": "1 cup",
+                "_id": "6683b8d38475eac9af5fe83e"
+            },
+            {
+                "name": "Apples",
+                "quantity": "1 peeled and cored",
+                "_id": "6683b8d38475eac9af5fe83f"
+            },
+            {
+                "name": "Cucumber",
+                "quantity": "1/2 chopped",
+                "_id": "6683b8d38475eac9af5fe840"
+            }
+        ],
+        "instructions": [
+            "Place the blueberries, apple, and cucumber in a blender.",
+            "Blend until smooth.",
+            "Add water or ice cubes to reach desired consistency."
+        ],
+        "dietaryPreference": [
+            "Vegan",
+            "Gluten-Free"
+        ],
+        "additionalInformation": {
+            "tips": "Use fresh or frozen blueberries for a thicker smoothie.",
+            "variations": "Add a handful of spinach for extra nutrients.",
+            "servingSuggestions": "Serve immediately for the best texture and flavor.",
+            "nutritionalInformation": "High in antioxidants and fiber, great for a healthy snack."
+        },
+        "imgLink": "https://smart-recipe-generator.s3.amazonaws.com/6683b8908475eac9af5fe834-1",
+        "openaiPromptId": "6683b8908475eac9af5fe834",
+        "likedBy": [
+            {
+                "_id": "668550b989b50bfdbcc56198",
+                "name": "Dereje Getahun",
+                "image": "https://lh3.googleusercontent.com/a/ACg8ocLpXxo_jA6JpSTa9zyrvTVAxmZo-abqYf0gNKXqSQfnAdaXaA=s96-c"
+            }
+        ],
+        "comments": {
+            "user": []
+        },
+        "tags": [
+            {
+                "tag": "blueberry",
+                "_id": "67d2790a5a3a2083f2850b0e"
+            },
+            {
+                "tag": "apple",
+                "_id": "67d2790a5a3a2083f2850b0f"
+            },
+            {
+                "tag": "smoothie",
+                "_id": "67d2790a5a3a2083f2850b10"
+            },
+            {
+                "tag": "vegan",
+                "_id": "67d2790a5a3a2083f2850b11"
+            },
+            {
+                "tag": "glutenfree",
+                "_id": "67d2790a5a3a2083f2850b12"
+            },
+            {
+                "tag": "cucumber",
+                "_id": "67d2790a5a3a2083f2850b13"
+            },
+            {
+                "tag": "antioxidants",
+                "_id": "67d2790a5a3a2083f2850b14"
+            },
+            {
+                "tag": "fiber",
+                "_id": "67d2790a5a3a2083f2850b15"
+            },
+            {
+                "tag": "healthy",
+                "_id": "67d2790a5a3a2083f2850b16"
+            },
+            {
+                "tag": "snack",
+                "_id": "67d2790a5a3a2083f2850b17"
+            }
+        ],
+        "createdAt": "2024-07-02T08:22:43.168Z",
+        "updatedAt": "2025-04-21T12:48:08.376Z",
+        "__v": 0,
+        "audio": "https://smart-recipe-generator.s3.us-east-1.amazonaws.com/audio/6683b8d38475eac9af5fe83d.mp3",
+        "likeCount": 1,
+        "owns": true,
+        "liked": false
+    },
+    {
+        "_id": "675d877809a6c39e11f14342",
+        "owner": {
+            "_id": "6687d83725254486590fec59",
+            "name": "Dereje Getahun",
+            "image": "https://lh3.googleusercontent.com/a/ACg8ocJUrbjt2uN55OQ0F2NPaq9B4e2fayppfRfUQeLG1f8fLHrYjsE2=s96-c"
+        },
+        "name": "Mango Avocado Smoothie",
+        "ingredients": [
+            {
+                "name": "Mango",
+                "quantity": "1 large, peeled and diced",
+                "_id": "675d877809a6c39e11f14343"
+            },
+            {
+                "name": "Avocado",
+                "quantity": "1 medium, ripe",
+                "_id": "675d877809a6c39e11f14344"
+            },
+            {
+                "name": "Blueberries",
+                "quantity": "1/2 cup",
+                "_id": "675d877809a6c39e11f14345"
+            },
+            {
+                "name": "Almond Milk",
+                "quantity": "1 cup",
+                "_id": "675d877809a6c39e11f14346"
+            },
+            {
+                "name": "Honey",
+                "quantity": "1 tablespoon",
+                "_id": "675d877809a6c39e11f14347"
+            },
+            {
+                "name": "Ice Cubes",
+                "quantity": "1 cup",
+                "_id": "675d877809a6c39e11f14348"
+            }
+        ],
+        "instructions": [
+            "Combine mango, avocado, blueberries, almond milk, honey, and ice cubes in a blender.",
+            "Blend until smooth and creamy, adjusting with more almond milk if necessary for desired consistency.",
+            "Taste and add more honey if additional sweetness is desired.",
+            "Serve immediately in chilled glasses."
+        ],
+        "dietaryPreference": [
+            "Vegetarian",
+            "Gluten-Free"
+        ],
+        "additionalInformation": {
+            "tips": "Use frozen mango chunks for a thicker smoothie. Honey can be substituted with agave syrup for a vegan option.",
+            "variations": "Add a banana for extra creaminess or a handful of spinach for a nutritional boost.",
+            "servingSuggestions": "Serve garnished with a few blueberries or a mint sprig for added freshness.",
+            "nutritionalInformation": "Approx. 250 calories per serving, with 4g protein, 8g fat, and 45g carbohydrates."
+        },
+        "imgLink": "https://smart-recipe-generator.s3.amazonaws.com/675d875309a6c39e11f1433e-1",
+        "openaiPromptId": "675d875309a6c39e11f1433e",
+        "likedBy": [
+            {
+                "_id": "668550b989b50bfdbcc56198",
+                "name": "Dereje Getahun",
+                "image": "https://lh3.googleusercontent.com/a/ACg8ocLpXxo_jA6JpSTa9zyrvTVAxmZo-abqYf0gNKXqSQfnAdaXaA=s96-c"
+            }
+        ],
+        "comments": {
+            "user": []
+        },
+        "tags": [
+            {
+                "tag": "blueberry",
+                "_id": "67d2790a5a3a2083f2850ce2"
+            },
+            {
+                "tag": "apple",
+                "_id": "67d2790a5a3a2083f2850ce3"
+            },
+            {
+                "tag": "smoothie",
+                "_id": "67d2790a5a3a2083f2850ce4"
+            },
+            {
+                "tag": "vegan",
+                "_id": "67d2790a5a3a2083f2850ce5"
+            },
+            {
+                "tag": "glutenfree",
+                "_id": "67d2790a5a3a2083f2850ce6"
+            },
+            {
+                "tag": "cucumber",
+                "_id": "67d2790a5a3a2083f2850ce7"
+            },
+            {
+                "tag": "antioxidants",
+                "_id": "67d2790a5a3a2083f2850ce8"
+            },
+            {
+                "tag": "fiber",
+                "_id": "67d2790a5a3a2083f2850ce9"
+            },
+            {
+                "tag": "healthy",
+                "_id": "67d2790a5a3a2083f2850cea"
+            },
+            {
+                "tag": "snack",
+                "_id": "67d2790a5a3a2083f2850ceb"
+            }
+        ],
+        "__v": 0,
+        "createdAt": "2024-12-14T13:26:16.900Z",
+        "updatedAt": "2025-04-21T12:49:14.209Z",
+        "audio": "https://smart-recipe-generator.s3.us-east-1.amazonaws.com/audio/675d877809a6c39e11f14342.mp3",
+        "likeCount": 1,
+        "owns": false,
+        "liked": true
+    }
+]
