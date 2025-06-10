@@ -80,6 +80,7 @@ describe('Recipe Card Actions', () => {
       cy.location('pathname').should('eq', '/ChatAssistant');
       cy.location('search').should('eq', `?recipeId=${first._id}`);
       cy.contains('Ask the AI Assistant').should('be.visible');
+      cy.contains(first.name).should('be.visible');
     });
   });
 });
