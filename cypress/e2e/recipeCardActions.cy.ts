@@ -20,7 +20,12 @@ describe('Recipe Card Actions', () => {
 
       cy.window().then((win) => {
         cy.stub(win, 'open').callsFake((url) => {
-          win.location.href = url;
+          const origin = Cypress.config().baseUrl || 'http://localhost:3000';
+          if (url.startsWith('/')) {
+            win.location.href = `${origin}${url}`;
+          } else {
+            win.location.href = url;
+          }
         }).as('windowOpen');
       });
 
@@ -58,7 +63,8 @@ describe('Recipe Card Actions', () => {
       cy.get('button[id^="headlessui-popover-button"]').eq(1).click({ force: true });
       cy.contains('button', 'Copy Link').click();
 
-      cy.get('@clipboard').should('have.been.calledWith', `http://localhost:3000/RecipeDetail?recipeId=${first._id}`);
+      const baseUrl = Cypress.config().baseUrl;
+      cy.get('@clipboard').should('have.been.calledWith', `${baseUrl}/RecipeDetail?recipeId=${first._id}`);
 
       cy.get('p.leading-tight').invoke('text').should('include', `${first.name} copied to clipboard!`);
     });
