@@ -92,11 +92,6 @@ describe('Recipe Card Actions', () => {
 
       const first = recipes[0];
 
-      cy.intercept('GET', '/api/get-single-recipe*', {
-        statusCode: 200,
-        body: first,
-      });
-
       cy.intercept('GET', /_next\/data\/.*\/CreateRecipe\.json/, {
         statusCode: 200,
         body: {
