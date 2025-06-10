@@ -10,7 +10,9 @@
     "compileTS": "npx tsc --noEmit && npx tsc --project cypress/tsconfig.json",
     "test": "jest --watch",
     "coverage": "jest --coverage",
-    "all_tests": "cross-env NODE_ENV=test jest"
+    "all_tests": "cross-env NODE_ENV=test jest",
+    "cy:run": "cypress run",
+    "test:e2e": "start-server-and-test dev http://localhost:3000 cy:run"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.606.0",
@@ -51,6 +53,7 @@
     "nock": "^13.2.2",
     "node-mocks-http": "^1.15.0",
     "postcss": "^8",
+    "start-server-and-test": "^2.0.12",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5"
