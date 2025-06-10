@@ -1,7 +1,10 @@
 name: E2E Tests on Vercel Preview
 
 on:
+  push:
+    branches: [main]
   pull_request:
+    branches: [main]
 
 jobs:
   cypress:
