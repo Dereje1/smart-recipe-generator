@@ -1,3 +1,5 @@
+import { ingredientListStub } from '../../tests/stub'
+
 describe('Recipe Card Actions', () => {
   let recipes: any[];
 
@@ -81,6 +83,44 @@ describe('Recipe Card Actions', () => {
       cy.location('search').should('eq', `?recipeId=${first._id}`);
       cy.contains('Ask the AI Assistant').should('be.visible');
       cy.contains(first.name).should('be.visible');
+    });
+  });
+
+  describe('Clone Ingredients', () => {
+    it('opens create recipe with cloned ingredients', () => {
+      cy.visit('/Home');
+
+      const first = recipes[0];
+
+      cy.intercept('GET', '/api/get-single-recipe*', {
+        statusCode: 200,
+        body: first,
+      });
+
+      cy.intercept('GET', /_next\/data\/.*\/CreateRecipe\.json/, {
+        statusCode: 200,
+        body: {
+          pageProps: {
+            recipeCreationData: {
+              ingredientList: ingredientListStub,
+              reachedLimit: false,
+            },
+          },
+        },
+      }).as('createRecipeData');
+
+      cy.contains('See Recipe').first().click();
+      cy.get('button[id^="headlessui-popover-button"]').eq(1).click({ force: true });
+      cy.contains('button', 'Clone Ingredients').click();
+
+      cy.wait('@createRecipeData');
+      cy.location('pathname').should('eq', '/CreateRecipe');
+      cy.location('search').then((search) => {
+        const params = new URLSearchParams(search);
+        expect(params.getAll('oldIngredients')).to.deep.equal(
+          first.ingredients.map((i: any) => i.name)
+        );
+      });
     });
   });
 });
