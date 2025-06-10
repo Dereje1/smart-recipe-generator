@@ -119,7 +119,7 @@ describe('Recipe Card Actions', () => {
     });
   });
 
-  describe.only('Play Recipe', () => {
+  describe('Play Recipe', () => {
     it('plays recipe audio', () => {
       cy.visit('/Home');
 
