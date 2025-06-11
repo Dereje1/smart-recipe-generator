@@ -9,11 +9,14 @@ on:
 jobs:
   cypress:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:3000
+      MONGO_URI: mongodb://127.0.0.1:27017/dummy
     steps:
       - uses: actions/checkout@v3
 
       - name: Install dependencies
         run: npm ci
 
-      # - name: Run Cypress E2E tests locally
-      #   run: npm run test:e2e
+      - name: Run Cypress E2E tests locally
+        run: npm run test:e2e
