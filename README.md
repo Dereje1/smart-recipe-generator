@@ -8,6 +8,10 @@
 
 **Smart Recipe Generator** is an **AI-powered web application** that uses **GPT-4** to generate unique recipes based on selected ingredients and dietary preferences, **DALL·E** to create custom recipe images, and **TTS** to narrate recipes. It's designed to make cooking easy, creative, and accessible for everyone.
 
+🎥 **App Demo**
+
+![Smart Recipe Generator Demo](./demo.gif)
+
 🌐 **[Live Demo →](https://smart-recipe-generator.vercel.app/)**
 
 ---
