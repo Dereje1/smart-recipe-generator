@@ -23,6 +23,7 @@ The `smart-recipe-generator` project includes a robust suite of Cypress-based E2
   * Play Audio
   * Delete Recipe
 * ✅ **Home page infinite scroll** loads additional recipes when scrolling to the bottom (`infiniteScroll.cy.ts`)
+* ✅ **Search and filtering** via search bar and tags (`searchFiltering.cy.ts`)
 
 Each of these flows is mock-driven and uses `cy.intercept()` and custom commands like `mockSession`, `mockGetRecipes`, and `mockGetNotifications` to simulate backend behavior.
 
@@ -34,7 +35,7 @@ The current tests verify core recipe interactions but **miss several other impor
 
 | Feature                       | E2E Status   | Notes                                                                      |
 | ----------------------------- | ------------ | -------------------------------------------------------------------------- |
-| **Search / Filtering**        | ❌ Not tested | Includes tag selection, search query input, and response filtering         |
+| **Search / Filtering**        | ✅ Covered    | Verified search and tag filtering (`searchFiltering.cy.ts`)                |
 | **Sorting Recipes**           | ❌ Not tested | Covers sorting by newest, popular, etc.                                    |
 | **Infinite Scrolling**        | ✅ Covered    | Verified loading additional recipes when scrolling (`infiniteScroll.cy.ts`) |
 | **Liking / Unliking Recipes** | ❌ Not tested | Implemented in backend and UI (`/RecipeDetail`, `/Home`)                   |
