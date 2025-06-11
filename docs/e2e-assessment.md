@@ -22,6 +22,7 @@ The `smart-recipe-generator` project includes a robust suite of Cypress-based E2
   * Clone Ingredients
   * Play Audio
   * Delete Recipe
+* ✅ **Home page infinite scroll** loads additional recipes when scrolling to the bottom (`infiniteScroll.cy.ts`)
 
 Each of these flows is mock-driven and uses `cy.intercept()` and custom commands like `mockSession`, `mockGetRecipes`, and `mockGetNotifications` to simulate backend behavior.
 
@@ -35,7 +36,7 @@ The current tests verify core recipe interactions but **miss several other impor
 | ----------------------------- | ------------ | -------------------------------------------------------------------------- |
 | **Search / Filtering**        | ❌ Not tested | Includes tag selection, search query input, and response filtering         |
 | **Sorting Recipes**           | ❌ Not tested | Covers sorting by newest, popular, etc.                                    |
-| **Infinite Scrolling**        | ❌ Not tested | Ensure that pagination and lazy loading are functional                     |
+| **Infinite Scrolling**        | ✅ Covered    | Verified loading additional recipes when scrolling (`infiniteScroll.cy.ts`) |
 | **Liking / Unliking Recipes** | ❌ Not tested | Implemented in backend and UI (`/RecipeDetail`, `/Home`)                   |
 | **Notifications Page**        | ❌ Not tested | No E2E for reading notifications, marking as read, or navigating from them |
 | **Chat Assistant Messages**   | ❌ Not tested | Only navigation is tested—no E2E covering actual chat interaction          |
@@ -65,7 +66,6 @@ The current tests verify core recipe interactions but **miss several other impor
 
    * Search + tag filters
    * Sorting UI
-   * Infinite scroll scroll-triggered loads
    * Liking / unliking from card and detail page
    * Notifications: unread indicator, routing, and marking as read
    * Full AI chat interaction
