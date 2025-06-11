@@ -1,29 +1,35 @@
+// next.config.mjs
 /** @type {import('next').NextConfig} */
-const nextConfig = {
 
+const isE2E = process.env.E2E === '1';
+
+const nextConfig = {
     images: {
-        remotePatterns: [
+        // ⬇️ When running Cypress in the sandbox we don’t want Next’s proxy
+        unoptimized: isE2E,
+
+        // The rest only matters in normal dev / prod builds
+        remotePatterns: isE2E ? [] : [
             {
                 protocol: 'https',
                 hostname: 'lh3.googleusercontent.com',
-                port: '',
+                pathname: '/**',        // <- required
             },
             {
                 protocol: 'https',
                 hostname: 'smart-recipe-generator.s3.amazonaws.com',
-                port: '',
+                pathname: '/**',
             },
             {
                 protocol: 'https',
                 hostname: 'www.gravatar.com',
-                port: '',
+                pathname: '/**',
             },
         ],
-        minimumCacheTTL: 2592000, // Cache for 30 days (in seconds)
-        deviceSizes: [320, 420, 768, 1024, 1280, 1440, 1920], // Breakpoints for mobile, tablet, desktop
-        imageSizes: [16, 32, 48, 64, 96], // For icons, thumbnails, avatars
-    }
-
+        minimumCacheTTL: 2_592_000,          // 30 days
+        deviceSizes: [320, 420, 768, 1024, 1280, 1440, 1920],
+        imageSizes: [16, 32, 48, 64, 96],
+    },
 };
 
 export default nextConfig;
