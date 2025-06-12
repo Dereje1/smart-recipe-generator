@@ -96,7 +96,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
         <PlusCircleIcon className="block mr-2 h-6 w-6" />
         Add New Ingredient
       </Button>
-      <Dialog open={isOpen} onClose={() => { }} className="relative z-50">
+      <Dialog open={isOpen} onClose={() => { }} className="relative z-modal">
         <DialogBackdrop className="fixed inset-0 bg-black/50" />
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
           <DialogPanel className="max-w-lg space-y-4 border bg-white p-12 rounded-lg shadow-lg">
