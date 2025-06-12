@@ -53,12 +53,17 @@ beforeEach(() => {
     const alertRoot = document.createElement('div');
     alertRoot.setAttribute('id', 'alert-root');
     document.body.appendChild(alertRoot);
+    const modalRoot = document.createElement('div');
+    modalRoot.setAttribute('id', 'modal-root');
+    document.body.appendChild(modalRoot);
     jest.clearAllMocks();
 });
 
 afterEach(() => {
     const alertRoot = document.getElementById('alert-root');
     alertRoot?.remove();
+    const modalRoot = document.getElementById('modal-root');
+    modalRoot?.remove();
 });
 
 const openPopover = (container?: HTMLElement) => {
