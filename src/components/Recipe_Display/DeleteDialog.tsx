@@ -5,7 +5,6 @@ import {
     DialogBackdrop,
     Button,
 } from '@headlessui/react';
-import { createPortal } from 'react-dom';
 
 interface DeleteDialogProps {
     isOpen: boolean
@@ -16,7 +15,7 @@ interface DeleteDialogProps {
 function DeleteDialog({ isOpen, closeDialog, recipeName, deleteRecipe }: DeleteDialogProps) {
     if (!isOpen) return null;
 
-    const dialogContent = (
+    return (
         <Dialog open={isOpen} onClose={closeDialog} className="relative z-modal-top">
             <DialogBackdrop className="fixed inset-0 bg-black/80" />
             <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
@@ -35,11 +34,6 @@ function DeleteDialog({ isOpen, closeDialog, recipeName, deleteRecipe }: DeleteD
             </div>
         </Dialog>
     );
-
-    if (typeof window === 'undefined') return dialogContent;
-
-    const root = document.getElementById('modal-root') || document.body;
-    return createPortal(dialogContent, root);
 }
 
 export default DeleteDialog

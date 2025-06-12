@@ -39,7 +39,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
                 <Component {...pageProps} />
             </Layout>
             <div id="alert-root"></div>
-            <div id="modal-root"></div>
         </SessionProvider>
     );
 }
