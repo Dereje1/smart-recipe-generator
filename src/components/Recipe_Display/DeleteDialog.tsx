@@ -14,8 +14,10 @@ interface DeleteDialogProps {
     deleteRecipe: ()=> void
 }
 function DeleteDialog({ isOpen, closeDialog, recipeName, deleteRecipe }: DeleteDialogProps) {
+    if (!isOpen) return null;
+
     const dialogContent = (
-        <Dialog open={isOpen} onClose={closeDialog} className="relative z-modal">
+        <Dialog open={isOpen} onClose={closeDialog} className="relative z-modal-top">
             <DialogBackdrop className="fixed inset-0 bg-black/80" />
             <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
                 <DialogPanel className="max-w-lg space-y-4 border bg-white p-12 rounded-lg shadow-lg">
@@ -40,4 +42,4 @@ function DeleteDialog({ isOpen, closeDialog, recipeName, deleteRecipe }: DeleteD
     return createPortal(dialogContent, root);
 }
 
-export default DeleteDialog;
+export default DeleteDialog
