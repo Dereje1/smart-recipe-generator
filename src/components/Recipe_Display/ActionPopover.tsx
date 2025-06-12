@@ -87,7 +87,7 @@ export function ActionPopover({ handlers, states, data }: ActionPopoverProps) {
                 <PopoverButton className={`flex items-center justify-center w-12 h-12 ${handlers.closeDialog ? "mt-3 mr-3" : "ml-auto"} bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 active:bg-gray-300 transition-all duration-200`}>
                     {data.buttonType}
                 </PopoverButton>
-                <PopoverPanel className="absolute right-0 z-50 mt-2 w-56 rounded-lg bg-white shadow-lg ring-1 ring-black/10">
+                <PopoverPanel className="absolute right-0 z-header mt-2 w-56 rounded-lg bg-white shadow-lg ring-1 ring-black/10">
                     {({ close }) => (
                         <>
                             <button className="group flex w-full items-center gap-2 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 focus:bg-gray-100" onClick={handlers.handleClone}>
@@ -155,10 +155,9 @@ export const Alert = ({ message }: { message: string }) => {
     const alertContent = (
         <div
             className={`fixed top-0 inset-x-0 mx-auto mt-5 px-4 py-3 rounded shadow-lg flex items-center bg-brand-100 text-brand-900 font-bold
-      w-[95%] sm:w-full max-w-sm sm:max-w-md md:max-w-lg 
-      ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'} 
-      transition-all duration-300 ease-out`}
-            style={{ zIndex: 100 }}
+      w-[95%] sm:w-full max-w-sm sm:max-w-md md:max-w-lg
+      ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}
+      transition-all duration-300 ease-out z-modal`}
             role="alert"
             aria-live="assertive"
         >

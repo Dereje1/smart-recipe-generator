@@ -75,7 +75,7 @@ const Notifications = ({ screen }: NotificationProps) => {
                 )}
             </PopoverButton>
             <PopoverPanel
-                className={`${height <= 750 ? 'absolute right-8 top-0 -mt-32' : 'absolute right-0 mt-2'} w-80 rounded-lg bg-white shadow-lg ring-1 ring-black/10 z-50`}
+                className={`${height <= 750 ? 'absolute right-8 top-0 -mt-32' : 'absolute right-0 mt-2'} w-80 rounded-lg bg-white shadow-lg ring-1 ring-black/10 z-header`}
             >
                 <div className="p-4">
                     {loading && <p className="text-sm text-gray-500">Loading notifications...</p>}

@@ -49,6 +49,16 @@ body {
   .text-balance {
     text-wrap: balance; /* Improves text readability by balancing line breaks */
   }
+  /* z-index layers for consistent stacking across the app */
+  .z-overlay {
+    z-index: 10;
+  }
+  .z-header {
+    z-index: 50;
+  }
+  .z-modal {
+    z-index: 100;
+  }
 }
 
 /* 

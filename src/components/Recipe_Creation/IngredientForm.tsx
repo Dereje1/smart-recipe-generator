@@ -67,7 +67,7 @@ function IngredientList({ ingredientList, ingredientUpdate, generatedRecipes }: 
 
                 {filteredIngredients.length > 0 && (
                     <ComboboxOptions
-                        className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm transition-all"
+                        className="absolute z-overlay mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm transition-all"
                     >
                         {filteredIngredients.map((ingredient) => (
                             <ComboboxOption

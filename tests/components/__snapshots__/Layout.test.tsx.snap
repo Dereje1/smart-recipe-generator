@@ -25,7 +25,7 @@ exports[`The Layout renders the hero if the user is not authenticated 1`] = `
     class="bg-white"
   >
     <header
-      class="absolute inset-x-0 top-0 z-50"
+      class="absolute inset-x-0 top-0 z-header"
     >
       <nav
         aria-label="Global"
