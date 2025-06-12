@@ -118,9 +118,10 @@ npm run compileTS
 ```
 
 ### End-to-End Tests
-Ensure the dev server is running (`npm run dev`), then run Cypress:
+Run all Cypress tests with the provided script which automatically starts the
+development server:
 ```bash
-npx cypress run
+npm run test:e2e
 ```
 For the interactive UI:
 ```bash

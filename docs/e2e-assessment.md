@@ -24,6 +24,7 @@ The `smart-recipe-generator` project includes a robust suite of Cypress-based E2
   * Delete Recipe
 * ✅ **Home page infinite scroll** loads additional recipes when scrolling to the bottom (`infiniteScroll.cy.ts`)
 * ✅ **Search and filtering** via search bar and tags (`searchFiltering.cy.ts`)
+* ✅ **Sorting recipes** by newest or most popular (`sortRecipes.cy.ts`)
 
 Each of these flows is mock-driven and uses `cy.intercept()` and custom commands like `mockSession`, `mockGetRecipes`, and `mockGetNotifications` to simulate backend behavior.
 
@@ -36,7 +37,7 @@ The current tests verify core recipe interactions but **miss several other impor
 | Feature                       | E2E Status   | Notes                                                                      |
 | ----------------------------- | ------------ | -------------------------------------------------------------------------- |
 | **Search / Filtering**        | ✅ Covered    | Verified search and tag filtering (`searchFiltering.cy.ts`)                |
-| **Sorting Recipes**           | ❌ Not tested | Covers sorting by newest, popular, etc.                                    |
+| **Sorting Recipes**           | ✅ Covered    | Verified sorting by newest and popular (`sortRecipes.cy.ts`)               |
 | **Infinite Scrolling**        | ✅ Covered    | Verified loading additional recipes when scrolling (`infiniteScroll.cy.ts`) |
 | **Liking / Unliking Recipes** | ❌ Not tested | Implemented in backend and UI (`/RecipeDetail`, `/Home`)                   |
 | **Notifications Page**        | ❌ Not tested | No E2E for reading notifications, marking as read, or navigating from them |
@@ -66,7 +67,6 @@ The current tests verify core recipe interactions but **miss several other impor
 1. **Cover Feature Gaps**:
 
    * Search + tag filters
-   * Sorting UI
    * Liking / unliking from card and detail page
    * Notifications: unread indicator, routing, and marking as read
    * Full AI chat interaction
