@@ -37,11 +37,11 @@ describe("The Hero Component",()=>{
         render(<Hero/>)
         const feature = await screen.findByText('Features')
         fireEvent.click(feature);
-        let featureComponent: any = await screen.findByText('Discover the features that make our product unique.')
+        let featureComponent: any = await screen.findByText('Explore what makes Smart Recipe Generator unique.')
         expect(featureComponent).toBeInTheDocument();
         const backHomeButton = await screen.findByText('Back to Home')
         fireEvent.click(backHomeButton);
-        featureComponent = await screen.queryByText('Discover the features that make our product unique.')
+        featureComponent = await screen.queryByText('Explore what makes Smart Recipe Generator unique.')
         expect(featureComponent).toBeNull()
     })
 
