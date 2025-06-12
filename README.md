@@ -10,7 +10,7 @@
 
 🎥 **App Demo**
 
-![Smart Recipe Generator Demo](./demo.gif)
+![Smart Recipe Generator Demo](./public/demo.gif)
 
 🌐 **[Live Demo →](https://smart-recipe-generator.vercel.app/)**
 
