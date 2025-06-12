@@ -105,9 +105,6 @@ exports[`The Recipe Detail Page shall succesfully render a recipe 1`] = `
           style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
         />
         <div
-          style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; display: none;"
-        />
-        <div
           class="flex flex-col"
         >
           <div
