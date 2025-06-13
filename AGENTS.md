@@ -89,10 +89,7 @@ npm run lint
 # 3. Unit & integration tests (watch mode optional)
 npm run all_tests
 
-# 4. Coverage (optional gate ≥ 90 %)
-npm run coverage
-
-# 5. E2E — runs dev server automatically
+# 4. E2E — runs dev server automatically
 npm run test:e2e
 ```
 
