@@ -168,9 +168,8 @@ describe('useActionPopover', () => {
         });
 
         expect(call_api).toHaveBeenCalledWith({
-            address: '/api/delete-recipe',
+            address: `/api/delete-recipe?recipeId=123`,
             method: 'delete',
-            payload: { data: { recipeId: '123' } },
         });
         expect(response).toEqual({ success: true });
     });

@@ -83,9 +83,8 @@ describe('The view recipes component', () => {
         const deleteButton = await screen.findByText('Delete');
         fireEvent.click(deleteButton)
         expect(deleteApi).toHaveBeenCalledWith({
-            "address": "/api/delete-recipe",
-            "method": "delete",
-            "payload": { "data": { "recipeId": "6683b8d38475eac9af5fe838" } }
+            "address": `/api/delete-recipe?recipeId=6683b8d38475eac9af5fe838`,
+            "method": "delete"
         })
     })
 
@@ -113,9 +112,8 @@ describe('The view recipes component', () => {
         const deleteButton = await screen.findByText('Delete');
         fireEvent.click(deleteButton)
         expect(deleteApi).toHaveBeenCalledWith({
-            "address": "/api/delete-recipe",
-            "method": "delete",
-            "payload": { "data": { "recipeId": "6683b8d38475eac9af5fe838" } }
+            "address": `/api/delete-recipe?recipeId=6683b8d38475eac9af5fe838`,
+            "method": "delete"
         })
     })
 })

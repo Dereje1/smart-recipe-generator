@@ -94,9 +94,8 @@ function useActionPopover(recipe: ExtendedRecipe | null, updateRecipe: (audioLin
     const handleDeleteRecipe = async () => {
         try {
             const response = await call_api({
-                address: '/api/delete-recipe',
-                method: 'delete',
-                payload: { data: { recipeId: recipe?._id } }
+                address: `/api/delete-recipe?recipeId=${recipe?._id}`,
+                method: 'delete'
             })
             return response;
         } catch (error) {

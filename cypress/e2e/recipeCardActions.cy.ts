@@ -159,7 +159,7 @@ describe('Recipe Card Actions', () => {
 
       const first = recipes[0];
 
-      cy.intercept('DELETE', '/api/delete-recipe', {
+      cy.intercept('DELETE', `/api/delete-recipe?recipeId=${first._id}`, {
         statusCode: 200,
         body: { message: `Deleted recipe with id ${first._id}` },
       }).as('deleteRecipe');
