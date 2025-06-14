@@ -61,12 +61,10 @@ describe('Deleting a recipe', () => {
         const { req, res } = mockRequestResponse('DELETE')
         const updatedreq: any = {
             ...req,
-            body: {
-                recipeId: 'invalid-recipe-id'
-            }
+            query: { recipeId: 'invalid-recipe-id' }
         }
         await deleteRecipe(updatedreq, res)
-        expect(res._getJSONData()).toEqual({ error: "Invalid recipe ID" })
+        expect(res._getJSONData()).toEqual({ error: 'Invalid recipe ID.' })
     })
 
     it('shall reject request if the recipe id is not found', async () => {
@@ -81,12 +79,10 @@ describe('Deleting a recipe', () => {
         const { req, res } = mockRequestResponse('DELETE')
         const updatedreq: any = {
             ...req,
-            body: {
-                recipeId: 1234
-            }
+            query: { recipeId: '648863e41f4500b3d9a3c1a9' }
         }
         await deleteRecipe(updatedreq, res)
-        expect(res._getJSONData()).toEqual({error: 'Recipe with Id: 1234 not found... exiting DELETE'})
+        expect(res._getJSONData()).toEqual({ error: 'Recipe with ID: 648863e41f4500b3d9a3c1a9 not found.' })
     })
 
     it('shall reject request if the recipe is not owned by the user', async () => {
@@ -101,12 +97,10 @@ describe('Deleting a recipe', () => {
         const { req, res } = mockRequestResponse('DELETE')
         const updatedreq: any = {
             ...req,
-            body: {
-                recipeId: 1234
-            }
+            query: { recipeId: '648863e41f4500b3d9a3c1a9' }
         }
         await deleteRecipe(updatedreq, res)
-        expect(res._getJSONData()).toEqual({error: 'Recipe with Id: 1234 is not owned by userId: 6687d83725254486590fec59... exiting DELETE'})
+        expect(res._getJSONData()).toEqual({ error: 'You do not have permission to delete this recipe.' })
     })
 
 
@@ -131,12 +125,10 @@ describe('Deleting a recipe', () => {
         const { req, res } = mockRequestResponse('DELETE')
         const updatedreq: any = {
             ...req,
-            body: {
-                recipeId: 1234
-            }
+            query: { recipeId: '648863e41f4500b3d9a3c1a9' }
         }
         await deleteRecipe(updatedreq, res)
-        expect(res._getJSONData()).toEqual({message: 'Deleted recipe with id 1234'})
+        expect(res._getJSONData()).toEqual({ message: 'Deleted recipe with ID 648863e41f4500b3d9a3c1a9' })
     })
 
     it('will respond with error if DELETE call is rejected', async () => {
@@ -151,9 +143,7 @@ describe('Deleting a recipe', () => {
         const { req, res } = mockRequestResponse('DELETE')
         const updatedreq: any = {
             ...req,
-            body: {
-                recipeId: 1234
-            }
+            query: { recipeId: '648863e41f4500b3d9a3c1a9' }
         }
         await deleteRecipe(updatedreq, res)
         expect(res.statusCode).toBe(500)

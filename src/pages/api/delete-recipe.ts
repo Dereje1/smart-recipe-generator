@@ -11,11 +11,11 @@ import recipes from '../../models/recipe';
  */
 const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) => {
     try {
-        // Validate recipeId
-        const { recipeId } = req.body;
-        if (!mongoose.Types.ObjectId.isValid(recipeId)) {
-            const error = "Invalid recipe ID"
-            console.error(error)
+        // Validate recipeId from query parameters
+        const { recipeId } = req.query;
+        if (!recipeId || typeof recipeId !== 'string' || !mongoose.Types.ObjectId.isValid(recipeId)) {
+            const error = 'Invalid recipe ID.';
+            console.error(error);
             return res.status(400).json({ error });
         }
 
@@ -25,21 +25,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
         // Find the recipe by ID
         const recipe = await recipes.findById(recipeId).exec();
         if (!recipe) {
-            const error = `Recipe with Id: ${recipeId} not found... exiting DELETE`
-            console.error(error)
-            return res.status(400).json({ error  });
+            const error = `Recipe with ID: ${recipeId} not found.`;
+            console.error(error);
+            return res.status(404).json({ error });
         }
 
         // Ensure that the user owns the recipe
-        if (session.user.id !== recipe.owner.toString()) {
-            const error = `Recipe with Id: ${recipeId} is not owned by userId: ${session.user.id}... exiting DELETE`
-            console.error(error)
-            return res.status(400).json({ error });
+        if (recipe.owner.toString() !== session.user.id) {
+            const error = 'You do not have permission to delete this recipe.';
+            console.error(error);
+            return res.status(403).json({ error });
         }
         // Delete the recipe
         await recipes.findByIdAndDelete(recipeId).exec();
-        console.info(`User id: ${session.user.id} deleted recipe id:${recipeId}`)
-        res.status(200).json({ message: `Deleted recipe with id ${recipeId}` });
+        console.info(`User ID: ${session.user.id} deleted recipe ID: ${recipeId}`);
+        res.status(200).json({ message: `Deleted recipe with ID ${recipeId}` });
     } catch (error) {
         // Handle any errors that occur during fetching recipes
         console.error(error);

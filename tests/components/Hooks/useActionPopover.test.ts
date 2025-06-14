@@ -134,9 +134,8 @@ describe('useActionPopover', () => {
         });
 
         expect(call_api).toHaveBeenCalledWith({
-            address: '/api/delete-recipe',
+            address: `/api/delete-recipe?recipeId=6683b8d38475eac9af5fe838`,
             method: 'delete',
-            payload: { data: { recipeId: '6683b8d38475eac9af5fe838' } },
         });
         expect(response).toEqual({ success: true });
     });
