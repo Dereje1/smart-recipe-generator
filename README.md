@@ -71,6 +71,7 @@ NEXTAUTH_SECRET=your-secret
 GOOGLE_CLIENT_ID=your-google-client-id
 GOOGLE_CLIENT_SECRET=your-google-client-secret
 OPENAI_API_KEY=your-openai-api-key
+OPENAI_TEXT_MODEL=gpt-5-mini
 OPENAI_IMAGE_MODEL=gpt-image-1
 AWS_ACCESS_KEY_ID=your-aws-access-key-id
 AWS_SECRET_ACCESS_KEY=your-aws-secret-key

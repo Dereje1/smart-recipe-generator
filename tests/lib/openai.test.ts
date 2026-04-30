@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { generateRecipe, generateImages, validateIngredient, getTTS, generateRecipeTags, generateChatResponse } from "../../src/lib/openai";
+import { generateRecipe, generateImages, validateIngredient, getTTS, generateRecipeTags, generateChatResponse, OPENAI_TEXT_MODEL } from "../../src/lib/openai";
 import aigenerated from "../../src/models/aigenerated";
 import recipe from "../../src/models/recipe";
 import OpenAI from 'openai';
@@ -101,7 +101,7 @@ Please ensure the recipes are diverse in type or cuisine (e.g., different meal c
             {
                 "max_tokens": 1500,
                 "messages": [{ "content": expectedPrompt, "role": "user" }],
-                "model": "gpt-4o"
+                "model": OPENAI_TEXT_MODEL
             }
         )
     })
@@ -231,7 +231,7 @@ describe('validating ingredients from open ai', () => {
             {
                 "max_tokens": 800,
                 "messages": [{ "content": expectedPrompt, "role": "user" }],
-                "model": "gpt-4o"
+                "model": OPENAI_TEXT_MODEL
             }
         )
     })
@@ -293,7 +293,7 @@ describe('generating audio from open ai', () => {
             {
                 "max_tokens": 1500,
                 "messages": [{ "content": expectedPrompt, "role": "user" }],
-                "model": "gpt-4o"
+                "model": OPENAI_TEXT_MODEL
             }
         )
         expect(openai.audio.speech.create).toHaveBeenCalledWith(
@@ -350,7 +350,7 @@ describe('generating recipe tags from openAI', () => {
             {
                 "max_tokens": 1500,
                 "messages": [{ "content": expectedPrompt, "role": "user" }],
-                "model": "gpt-4o"
+                "model": OPENAI_TEXT_MODEL
             }
         )
     })
@@ -411,7 +411,7 @@ describe('generating chat responses', () => {
             {
                 "max_tokens": 1000,
                 "messages": [{ "content": expectedPrompt, "role": "system" }, 'chat history 1', { role: 'user', content: message }],
-                "model": "gpt-4o"
+                "model": OPENAI_TEXT_MODEL
             }
         )
     });
