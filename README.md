@@ -6,7 +6,7 @@
 ![License](https://img.shields.io/github/license/Dereje1/smart-recipe-generator)
 ![Vercel Deployment](https://img.shields.io/badge/Deployed%20on-Vercel-green)
 
-**Smart Recipe Generator** is an **AI-powered web application** that uses **GPT-4** to generate unique recipes based on selected ingredients and dietary preferences, **DALL·E** to create custom recipe images, and **TTS** to narrate recipes. It's designed to make cooking easy, creative, and accessible for everyone.
+**Smart Recipe Generator** is an **AI-powered web application** that uses **GPT-4** to generate unique recipes based on selected ingredients and dietary preferences, **OpenAI GPT Image** to create custom recipe images (default: `gpt-image-1`), and **TTS** to narrate recipes. It's designed to make cooking easy, creative, and accessible for everyone.
 
 🎥 **App Demo**
 
@@ -20,7 +20,7 @@
 
 ### 🤖 **AI-Powered Features**
 - **GPT-4 Recipe Generation**: Create unique recipes based on user-selected ingredients and dietary preferences.
-- **DALL·E Image Generation**: Automatically generate high-quality images of the recipes.
+- **OpenAI GPT Image Generation**: Automatically generate high-quality images of the recipes (default model: `gpt-image-1`).
 - **Text-to-Speech (TTS)**: Narrate recipes aloud using AI-driven speech synthesis.
 - **AI-Generated Tags**: Recipes are automatically tagged with relevant keywords for better searchability.
 - **Context-Aware Chat Assistant**: Ask cooking-related questions about a recipe (e.g., substitutions, vegan options, prep time). Powered by GPT-4, limited to the context of each recipe.
@@ -42,7 +42,7 @@
 
 - **Frontend**: Next.js, React, Tailwind CSS
 - **Backend**: Node.js, MongoDB
-- **AI Integration**: OpenAI GPT-4 for recipes, DALL·E for images, TTS for narration
+- **AI Integration**: OpenAI GPT-4 for recipes, OpenAI GPT Image for images, TTS for narration
 - **Authentication**: NextAuth.js with Google OAuth
 - **Cloud Storage**: AWS S3 for storing images and audio
 - **Deployment**: Vercel
@@ -71,6 +71,7 @@ NEXTAUTH_SECRET=your-secret
 GOOGLE_CLIENT_ID=your-google-client-id
 GOOGLE_CLIENT_SECRET=your-google-client-secret
 OPENAI_API_KEY=your-openai-api-key
+OPENAI_IMAGE_MODEL=gpt-image-1
 AWS_ACCESS_KEY_ID=your-aws-access-key-id
 AWS_SECRET_ACCESS_KEY=your-aws-secret-key
 MONGO_URI=your-mongodb-uri
