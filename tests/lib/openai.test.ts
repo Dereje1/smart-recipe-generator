@@ -99,9 +99,10 @@ Please ensure the recipes are diverse in type or cuisine (e.g., different meal c
         })
         expect(openai.chat.completions.create).toHaveBeenCalledWith(
             {
-                "max_completion_tokens": 1500,
+                "max_completion_tokens": 4000,
                 "messages": [{ "content": expectedPrompt, "role": "user" }],
-                "model": OPENAI_TEXT_MODEL
+                "model": OPENAI_TEXT_MODEL,
+                "reasoning_effort": "low"
             }
         )
     })
@@ -231,7 +232,8 @@ describe('validating ingredients from open ai', () => {
             {
                 "max_completion_tokens": 800,
                 "messages": [{ "content": expectedPrompt, "role": "user" }],
-                "model": OPENAI_TEXT_MODEL
+                "model": OPENAI_TEXT_MODEL,
+                "reasoning_effort": "low"
             }
         )
     })
@@ -293,7 +295,8 @@ describe('generating audio from open ai', () => {
             {
                 "max_completion_tokens": 1500,
                 "messages": [{ "content": expectedPrompt, "role": "user" }],
-                "model": OPENAI_TEXT_MODEL
+                "model": OPENAI_TEXT_MODEL,
+                "reasoning_effort": "low"
             }
         )
         expect(openai.audio.speech.create).toHaveBeenCalledWith(
@@ -350,7 +353,8 @@ describe('generating recipe tags from openAI', () => {
             {
                 "max_completion_tokens": 1500,
                 "messages": [{ "content": expectedPrompt, "role": "user" }],
-                "model": OPENAI_TEXT_MODEL
+                "model": OPENAI_TEXT_MODEL,
+                "reasoning_effort": "low"
             }
         )
     })
@@ -411,7 +415,8 @@ describe('generating chat responses', () => {
             {
                 "max_completion_tokens": 1000,
                 "messages": [{ "content": expectedPrompt, "role": "system" }, 'chat history 1', { role: 'user', content: message }],
-                "model": OPENAI_TEXT_MODEL
+                "model": OPENAI_TEXT_MODEL,
+                "reasoning_effort": "low"
             }
         )
     });

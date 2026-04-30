@@ -54,11 +54,12 @@ export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferenc
         const model = OPENAI_TEXT_MODEL;
         const response = await openai.chat.completions.create({
             model,
+            reasoning_effort: 'low',
             messages: [{
                 role: 'user',
                 content: prompt,
             }],
-            max_completion_tokens: 1500,
+            max_completion_tokens: 4000,
         });
         const _id = await saveOpenaiResponses({ userId, prompt, response, model });
         return { recipes: response.choices[0].message?.content, openaiPromptId: _id || 'null-prompt-id' };
@@ -134,6 +135,7 @@ export const validateIngredient = async (ingredientName: string, userId: string)
         const model = OPENAI_TEXT_MODEL;
         const response = await openai.chat.completions.create({
             model,
+            reasoning_effort: 'low',
             messages: [{
                 role: 'user',
                 content: prompt,
@@ -156,6 +158,7 @@ const getRecipeNarration = async (recipe: ExtendedRecipe, userId: string): Promi
         const model = OPENAI_TEXT_MODEL;
         const response = await openai.chat.completions.create({
             model,
+            reasoning_effort: 'low',
             messages: [{
                 role: 'user',
                 content: prompt,
@@ -202,6 +205,7 @@ export const generateRecipeTags = async (recipe: ExtendedRecipe, userId: string)
         const model = OPENAI_TEXT_MODEL;
         const response = await openai.chat.completions.create({
             model,
+            reasoning_effort: 'low',
             messages: [{
                 role: 'user',
                 content: prompt,
@@ -254,6 +258,7 @@ export const generateChatResponse = async (
 
         const response = await openai.chat.completions.create({
             model,
+            reasoning_effort: 'low',
             messages,
             max_completion_tokens: 1000,
         });
