@@ -17,6 +17,7 @@ import {
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
+export const OPENAI_TEXT_MODEL = process.env.OPENAI_TEXT_MODEL || 'gpt-5-mini';
 
 // Save OpenAI responses in the database for logging/tracking
 type SaveOpenaiResponsesType = {
@@ -50,14 +51,15 @@ type ResponseType = {
 export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferences: DietaryPreference[], userId: string): Promise<ResponseType> => {
     try {
         const prompt = getRecipeGenerationPrompt(ingredients, dietaryPreferences);
-        const model = 'gpt-4o';
+        const model = OPENAI_TEXT_MODEL;
         const response = await openai.chat.completions.create({
             model,
+            reasoning_effort: 'low',
             messages: [{
                 role: 'user',
                 content: prompt,
             }],
-            max_tokens: 1500,
+            max_completion_tokens: 4000,
         });
         const _id = await saveOpenaiResponses({ userId, prompt, response, model });
         return { recipes: response.choices[0].message?.content, openaiPromptId: _id || 'null-prompt-id' };
@@ -130,14 +132,15 @@ export const generateImages = async (recipes: Recipe[], userId: string) => {
 export const validateIngredient = async (ingredientName: string, userId: string): Promise<string | null> => {
     try {
         const prompt = getIngredientValidationPrompt(ingredientName);
-        const model = 'gpt-4o';
+        const model = OPENAI_TEXT_MODEL;
         const response = await openai.chat.completions.create({
             model,
+            reasoning_effort: 'low',
             messages: [{
                 role: 'user',
                 content: prompt,
             }],
-            max_tokens: 800,
+            max_completion_tokens: 800,
         });
         await saveOpenaiResponses({ userId, prompt, response, model });
         return response.choices[0].message?.content;
@@ -152,14 +155,15 @@ const getRecipeNarration = async (recipe: ExtendedRecipe, userId: string): Promi
     try {
         const prompt = getRecipeNarrationPrompt(recipe);
         console.info('Getting recipe narration text from OpenAI...');
-        const model = 'gpt-4o';
+        const model = OPENAI_TEXT_MODEL;
         const response = await openai.chat.completions.create({
             model,
+            reasoning_effort: 'low',
             messages: [{
                 role: 'user',
                 content: prompt,
             }],
-            max_tokens: 1500,
+            max_completion_tokens: 1500,
         });
         const _id = await saveOpenaiResponses({ userId, prompt, response, model });
         return response.choices[0].message?.content;
@@ -198,14 +202,15 @@ export const getTTS = async (recipe: ExtendedRecipe, userId: string): Promise<Bu
 export const generateRecipeTags = async (recipe: ExtendedRecipe, userId: string): Promise<undefined> => {
     try {
         const prompt = getRecipeTaggingPrompt(recipe);
-        const model = 'gpt-4o';
+        const model = OPENAI_TEXT_MODEL;
         const response = await openai.chat.completions.create({
             model,
+            reasoning_effort: 'low',
             messages: [{
                 role: 'user',
                 content: prompt,
             }],
-            max_tokens: 1500,
+            max_completion_tokens: 1500,
         });
         await saveOpenaiResponses({ userId, prompt, response, model });
         const [tagsObject] = response.choices;
@@ -244,7 +249,7 @@ export const generateChatResponse = async (
     userId: string
 ): Promise<{ reply: string; totalTokens: number }> => {
     try {
-        const model = 'gpt-4o';
+        const model = OPENAI_TEXT_MODEL;
         const messages = [
             { role: 'system', content: getChatAssistantSystemPrompt(recipe) },
             ...history,
@@ -253,8 +258,9 @@ export const generateChatResponse = async (
 
         const response = await openai.chat.completions.create({
             model,
+            reasoning_effort: 'low',
             messages,
-            max_tokens: 1000,
+            max_completion_tokens: 1000,
         });
 
         const reply = response.choices?.[0]?.message?.content ?? 'Sorry, I had trouble responding.';
