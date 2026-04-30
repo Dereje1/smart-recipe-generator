@@ -81,8 +81,6 @@ describe('Uploading images to S3', () => {
         ]);
     });
 
-    
-
     it('will upload an image buffer to S3 successfully', async () => {
         const result = await uploadImageBufferToS3({
             imageBuffer: Buffer.from('buffer-image-data'),
@@ -102,7 +100,8 @@ describe('Uploading images to S3', () => {
 
         expect(result).toEqual({ location: 'buffer-location-1', uploaded: true });
     });
-it('will handle failures in processing images', async () => {
+
+    it('will handle failures in processing images', async () => {
         // Clean existing mocks and set new erroneous endpoints
         nock.cleanAll();
         nock('https://openai-img-link-3')
