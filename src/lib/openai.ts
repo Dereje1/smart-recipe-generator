@@ -58,7 +58,7 @@ export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferenc
                 role: 'user',
                 content: prompt,
             }],
-            max_tokens: 1500,
+            max_completion_tokens: 1500,
         });
         const _id = await saveOpenaiResponses({ userId, prompt, response, model });
         return { recipes: response.choices[0].message?.content, openaiPromptId: _id || 'null-prompt-id' };
@@ -138,7 +138,7 @@ export const validateIngredient = async (ingredientName: string, userId: string)
                 role: 'user',
                 content: prompt,
             }],
-            max_tokens: 800,
+            max_completion_tokens: 800,
         });
         await saveOpenaiResponses({ userId, prompt, response, model });
         return response.choices[0].message?.content;
@@ -160,7 +160,7 @@ const getRecipeNarration = async (recipe: ExtendedRecipe, userId: string): Promi
                 role: 'user',
                 content: prompt,
             }],
-            max_tokens: 1500,
+            max_completion_tokens: 1500,
         });
         const _id = await saveOpenaiResponses({ userId, prompt, response, model });
         return response.choices[0].message?.content;
@@ -206,7 +206,7 @@ export const generateRecipeTags = async (recipe: ExtendedRecipe, userId: string)
                 role: 'user',
                 content: prompt,
             }],
-            max_tokens: 1500,
+            max_completion_tokens: 1500,
         });
         await saveOpenaiResponses({ userId, prompt, response, model });
         const [tagsObject] = response.choices;
@@ -255,7 +255,7 @@ export const generateChatResponse = async (
         const response = await openai.chat.completions.create({
             model,
             messages,
-            max_tokens: 1000,
+            max_completion_tokens: 1000,
         });
 
         const reply = response.choices?.[0]?.message?.content ?? 'Sorry, I had trouble responding.';
