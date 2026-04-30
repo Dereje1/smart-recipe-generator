@@ -77,10 +77,7 @@ const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch
                                 <ChevronDownIcon className={`w-5 h-5 transform transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
                             </DisclosureButton>
 
-                            <DisclosurePanel
-                                className={`mt-2 px-4 pt-4 pb-2 text-sm leading-relaxed bg-gray-50 border border-gray-200 rounded-lg space-y-2 transition-all duration-300 ease-in-out ${open ? 'opacity-100 max-h-[500px]' : 'opacity-0 max-h-0'
-                                    } overflow-hidden`}
-                            >
+                            <DisclosurePanel className="mt-2 px-4 pt-4 pb-2 text-sm leading-relaxed bg-gray-50 border border-gray-200 rounded-lg space-y-2">
                                 <ol className="list-decimal ml-5 space-y-2">
                                     {visibleInstructions.map((instruction, idx) => (
                                         <li key={idx}>
