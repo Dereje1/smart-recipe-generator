@@ -6,7 +6,8 @@ import { UploadReturnType } from '../types';
 
 // Define an interface for the upload parameters
 interface UploadToS3Type {
-    originalImgLink: string | undefined;
+    originalImgLink?: string;
+    imageBuffer?: Buffer;
     userId: string | undefined;
     location: string;
 }
@@ -80,10 +81,51 @@ export const uploadImageToS3 = async ({
     }
 };
 
+
+
+export const uploadImageBufferToS3 = async ({
+    imageBuffer,
+    userId,
+    location
+}: {
+    imageBuffer: Buffer;
+    userId: string | undefined;
+    location: string;
+}): Promise<UploadReturnType> => {
+    try {
+        const s3 = configureS3();
+        if (!s3) throw new Error('Unable to configure S3');
+
+        const command = new PutObjectCommand({
+            Bucket: process.env.S3_BUCKET_NAME || '',
+            Key: location,
+            Body: imageBuffer,
+            ContentType: 'image/png',
+            Tagging: `userId=${userId}`,
+            CacheControl: "public, max-age=2592000",
+        });
+        await s3.send(command);
+        return {
+            location,
+            uploaded: true
+        };
+    } catch (error) {
+        console.error(`Error uploading image buffer. ${location} - ${error}`);
+        return {
+            location,
+            uploaded: false
+        };
+    }
+};
 // Function to upload multiple images to S3
 export const uploadImagesToS3 = async (openaiImagesArray: UploadToS3Type[]): Promise<UploadReturnType[] | null> => {
     try {
-        const imagePromises: Promise<UploadReturnType>[] = openaiImagesArray.map(img => uploadImageToS3(img));
+        const imagePromises: Promise<UploadReturnType>[] = openaiImagesArray.map(img => {
+            if (img.imageBuffer) {
+                return uploadImageBufferToS3({ imageBuffer: img.imageBuffer, userId: img.userId, location: img.location });
+            }
+            return uploadImageToS3(img);
+        });
         const results = await Promise.all(imagePromises);
         return results;
     } catch (error) {

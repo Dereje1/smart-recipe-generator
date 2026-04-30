@@ -39,11 +39,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
         const imageResults = await generateImages(recipeNames, session.user.id);
         
         // Prepare images for uploading to S3
-        const openaiImagesArray = imageResults.map((result, idx) => ({
-            originalImgLink: result.imgLink,
-            userId: session.user.id,
-            location: recipes[idx].openaiPromptId
-        }));
+        const openaiImagesArray = imageResults.map((result, idx) => {
+            const dataUriPrefix = 'data:image/png;base64,';
+            const isBase64DataUri = result.imgLink?.startsWith(dataUriPrefix);
+            const b64Data = isBase64DataUri ? result.imgLink.slice(dataUriPrefix.length) : '';
+
+            return {
+                originalImgLink: isBase64DataUri ? undefined : result.imgLink,
+                imageBuffer: isBase64DataUri ? Buffer.from(b64Data, 'base64') : undefined,
+                userId: session.user.id,
+                location: recipes[idx].openaiPromptId
+            };
+        });
 
         // Upload images to S3
         console.info('Uploading OpenAI images to S3...');

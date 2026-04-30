@@ -82,31 +82,40 @@ const generateImage = (prompt: string, model: string): Promise<ImagesResponse> =
     }
 };
 
+const OPENAI_IMAGE_MODEL = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1';
+
 // Generate images for an array of recipes and return image links paired with recipe names
 export const generateImages = async (recipes: Recipe[], userId: string) => {
     try {
-        const model = 'dall-e-3';
+        const model = OPENAI_IMAGE_MODEL;
         const imagePromises: Promise<ImagesResponse>[] = recipes.map(recipe =>
             generateImage(getImageGenerationPrompt(recipe.name, recipe.ingredients), model)
         );
         const images = await Promise.all(imagePromises);
+        const imageLogSummary = images.map((imageResponse) => ({
+            created: imageResponse.created,
+            hasUrl: Boolean(imageResponse?.data?.[0]?.url),
+            hasB64Json: Boolean(imageResponse?.data?.[0]?.b64_json),
+        }));
         await saveOpenaiResponses({
             userId,
             prompt: `Image generation for recipe names ${recipes.map(r => r.name).join(' ,')} (note: not exact prompt)`,
-            response: images,
+            response: imageLogSummary,
             model
         });
         // Validate and map images safely
         const imagesWithNames = images.map((imageResponse, idx) => {
             const recipeName = recipes[idx].name;
-            const url = imageResponse?.data?.[0]?.url;
+            const imageData = imageResponse?.data?.[0];
+            const url = imageData?.url;
+            const b64Json = imageData?.b64_json;
 
-            if (!url) {
+            if (!b64Json && !url) {
                 throw new Error(`Image generation failed for recipe: ${recipeName}`);
             }
 
             return {
-                imgLink: url,
+                imgLink: b64Json ? `data:image/png;base64,${b64Json}` : url as string,
                 name: recipeName,
             };
         });

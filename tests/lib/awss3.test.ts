@@ -4,7 +4,7 @@
 import nock from 'nock';
 import { S3Client } from '@aws-sdk/client-s3';
 import { mockClient } from 'aws-sdk-client-mock';
-import { uploadImagesToS3, uploadAudioToS3 } from "../../src/lib/awss3";
+import { uploadImagesToS3, uploadAudioToS3, uploadImageBufferToS3 } from "../../src/lib/awss3";
 
 describe('Uploading images to S3', () => {
     let mockS3Client: any;
@@ -79,6 +79,26 @@ describe('Uploading images to S3', () => {
             { location: 'location-1', uploaded: true },
             { location: 'location-2', uploaded: true }
         ]);
+    });
+
+    it('will upload an image buffer to S3 successfully', async () => {
+        const result = await uploadImageBufferToS3({
+            imageBuffer: Buffer.from('buffer-image-data'),
+            userId: 'mockUserId',
+            location: 'buffer-location-1'
+        });
+
+        const [params1] = mockS3Client.send.args;
+        expect(params1[0].input).toEqual({
+            Bucket: 'stub-bucket-name',
+            Key: 'buffer-location-1',
+            Body: Buffer.from('buffer-image-data'),
+            ContentType: 'image/png',
+            Tagging: 'userId=mockUserId',
+            CacheControl: "public, max-age=2592000",
+        });
+
+        expect(result).toEqual({ location: 'buffer-location-1', uploaded: true });
     });
 
     it('will handle failures in processing images', async () => {
