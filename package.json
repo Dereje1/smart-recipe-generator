@@ -23,7 +23,7 @@
     "cookies-next": "^4.1.1",
     "mongodb": "^5.9.2",
     "mongoose": "^8.4.3",
-    "next": "^16.2.4",
+    "next": "^14.2.35",
     "next-auth": "^4.24.14",
     "openai": "^4.52.1",
     "pluralize": "^8.0.0",
