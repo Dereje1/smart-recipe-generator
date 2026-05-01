@@ -18,7 +18,7 @@ const RecipeCard = ({ recipe, handleRecipeSelection, selectedRecipes, showSwitch
     const initialInstructionCount = 3;
     const instructionPreview = recipe.instructions.slice(0, initialInstructionCount);
     const visibleInstructions = isModalView && !showAllInstructions ? instructionPreview : recipe.instructions;
-    const parentClassName = `max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative ${removeMargin ? '' : 'mt-10 mb-5'}`;
+    const parentClassName = `w-full max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative ${removeMargin ? '' : 'mt-10 mb-5'}`;
 
     return (
         <div className={`${parentClassName} overflow-x-hidden`} key={recipe.name}>
