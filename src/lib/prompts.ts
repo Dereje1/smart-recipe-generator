@@ -45,17 +45,38 @@ export const getIngredientValidationPrompt = (ingredientName: string): string =>
 
 Rules:
 
-The isValid field must be true if the ingredient is commonly used in recipes, and false otherwise.
+IMPORTANT OVERRIDE RULE:
+If the ingredient appears to be a misspelling of a real ingredient:
+- You MUST set "isValid" to false
+- You MUST include the corrected name(s) in "possibleVariations"
+- You MUST NOT mark it as valid, even if the intended ingredient is commonly used in recipes
+
+General Rules:
+
+The isValid field must be true ONLY if the ingredient name is correctly spelled and commonly used in recipes.
+The isValid field must be false if the input is not a real ingredient, is too vague (e.g. "breakfast"), or is a misspelling.
+
 The possibleVariations field must contain an array of 2 to 3 valid variations, alternative names, or related ingredients for the given ingredient.
-If the ingredient appears to be a misspelling, include the corrected name(s) in this array.
+
+If the ingredient is invalid due to misspelling, include the corrected name(s) in possibleVariations.
+
 If there are no recognized variations or corrections, return an empty array for possibleVariations.
+
 The output must be strictly valid JSON without any additional text, markdown formatting, or code blocks.
+
 Examples: 
-Input: "cheese" Expected Output: { "isValid": true, "possibleVariations": ["cheddar", "mozzarella", "parmesan"] }
 
-Input: "breakfast" Expected Output: { "isValid": false, "possibleVariations": [] }
+Input: "cheese" 
+Expected Output: { "isValid": true, "possibleVariations": ["cheddar", "mozzarella", "parmesan"] }
 
-Input: "cuscus" Expected Output: { "isValid": false, "possibleVariations": ["couscous"] }`;
+Input: "breakfast" 
+Expected Output: { "isValid": false, "possibleVariations": [] }
+
+Input: "cuscus" 
+Expected Output: { "isValid": false, "possibleVariations": ["couscous"] }
+
+Input: "cinamom" 
+Expected Output: { "isValid": false, "possibleVariations": ["cinnamon"] }`;
     return prompt;
 }
 
