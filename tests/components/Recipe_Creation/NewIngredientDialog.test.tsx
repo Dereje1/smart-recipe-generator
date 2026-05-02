@@ -64,9 +64,9 @@ describe('The new Ingredient Dialog', () => {
         const message = await screen.findByText(/^Successfully added: ingredient-3/)
         expect(message).toBeInTheDocument();
         expect(addIngredient).toHaveBeenCalledWith({
-            "address": "/api/validate-ingredient", 
-            "method": "post", 
-            "payload": {"ingredientName": "ingredient-3"}
+            "address": "/api/validate-ingredient",
+            "method": "post",
+            "payload": { "ingredientName": "ingredient-3" }
         })
     })
 
@@ -84,12 +84,20 @@ describe('The new Ingredient Dialog', () => {
         fireEvent.change(input, { target: { value: 'ingredient-3' } })
         const submitButton = await screen.findByText('Submit')
         fireEvent.click(submitButton);
-        const message = await screen.findByText('ingredient-3 is invalid. Try the following suggestions: ingredient-A, ingredient-B, ingredient-C')
-        expect(message).toBeInTheDocument();
+        // check invalid message
+        expect(await screen.findByText('ingredient-3 is invalid.')).toBeInTheDocument();
+
+        // check suggestions label
+        expect(screen.getByText('Try one of these:')).toBeInTheDocument();
+
+        // check individual suggestions (chips)
+        expect(screen.getByText('ingredient-A')).toBeInTheDocument();
+        expect(screen.getByText('ingredient-B')).toBeInTheDocument();
+        expect(screen.getByText('ingredient-C')).toBeInTheDocument();
         expect(addIngredient).toHaveBeenCalledWith({
-            "address": "/api/validate-ingredient", 
-            "method": "post", 
-            "payload": {"ingredientName": "ingredient-3"}
+            "address": "/api/validate-ingredient",
+            "method": "post",
+            "payload": { "ingredientName": "ingredient-3" }
         })
     })
 
@@ -108,9 +116,9 @@ describe('The new Ingredient Dialog', () => {
         const message = await screen.findByText('An error occurred with validation... check back later: erroneous response')
         expect(message).toBeInTheDocument();
         expect(addIngredient).toHaveBeenCalledWith({
-            "address": "/api/validate-ingredient", 
-            "method": "post", 
-            "payload": {"ingredientName": "ingredient-3"}
+            "address": "/api/validate-ingredient",
+            "method": "post",
+            "payload": { "ingredientName": "ingredient-3" }
         })
     })
 
@@ -127,9 +135,9 @@ describe('The new Ingredient Dialog', () => {
         const message = await screen.findByText('Failed to add ingredient')
         expect(message).toBeInTheDocument();
         expect(addIngredient).toHaveBeenCalledWith({
-            "address": "/api/validate-ingredient", 
-            "method": "post", 
-            "payload": {"ingredientName": "ingredient-3"}
+            "address": "/api/validate-ingredient",
+            "method": "post",
+            "payload": { "ingredientName": "ingredient-3" }
         })
     })
 

@@ -22,10 +22,12 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
   const [isLoading, setIsLoading] = useState(false); // State to manage the loading state
   const [message, setMessage] = useState(''); // State to manage feedback messages
   const [isDisabled, setIsDisabled] = useState(false); // State to manage the disabled state of the submit button
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
     setIngredientName('');
     setMessage('');
+    setSuggestions([]);
   }, [isOpen]); // Reset ingredient name and message when dialog is opened/closed
 
   // Handle input change for the ingredient name
@@ -33,6 +35,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
     setIngredientName(e.target.value);
     setMessage('');
     setIsDisabled(false);
+    setSuggestions([]);
   };
 
   // Handle form submission
@@ -60,7 +63,7 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
 
     setIsLoading(true);
     try {
-      const response = await call_api({ address: '/api/validate-ingredient', method: 'post', payload: { ingredientName } });
+      const response = await call_api({ address: '/api/validate-ingredient', method: 'post', payload: { ingredientName: ingredientName.trim() } });
       const { message: responseMessage, error } = response;
 
       if (error) {
@@ -72,17 +75,21 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
         setMessage(`Successfully added: ${response.newIngredient.name}${possibleSuggestions ? `\nAdditional suggestions: ${possibleSuggestions}` : ''}`);
         updateIngredientList(response.newIngredient);
         setIngredientName('');
+        setSuggestions([]);
       } else if (responseMessage === 'Invalid') {
-        const possibleSuggestions = response.suggested.join(', ');
-        setMessage(`${ingredientName} is invalid. ${possibleSuggestions ? `Try the following suggestions: ${possibleSuggestions}` : ''}`);
+        const possibleSuggestions = response.suggested || [];
+        setSuggestions(possibleSuggestions);
+        setMessage(`${ingredientName} is invalid.`);
         setIngredientName('');
       } else {
         setMessage(`An error occurred with validation... check back later: ${responseMessage}`);
         setIngredientName('');
+        setSuggestions([]);
       }
     } catch (error) {
       console.error(error);
       setMessage('Failed to add ingredient');
+      setSuggestions([]);
     } finally {
       setIsLoading(false);
     }
@@ -119,6 +126,28 @@ function NewIngredientDialog({ ingredientList, updateIngredientList }: NewIngred
             <div className="text-red-400 font-bold mb-2" style={{ whiteSpace: 'pre-line' }}>
               <span>{message}</span>
             </div>
+            {suggestions.length > 0 && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600 mb-2">Try one of these:</p>
+                <div className="flex flex-wrap gap-2">
+                  {suggestions.map((suggestion) => (
+                    <Button
+                      key={suggestion}
+                      type="button"
+                      className="rounded-full bg-brand-100 px-3 py-1 text-sm font-medium text-brand-800 hover:bg-brand-200"
+                      onClick={() => {
+                        setIngredientName(suggestion);
+                        setMessage('');
+                        setSuggestions([]);
+                        setIsDisabled(false);
+                      }}
+                    >
+                      {suggestion}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
             {isLoading ? <Loading /> :
               <div className="flex gap-4 flex-end">
                 <Button className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400" onClick={() => setIsOpen(false)}>Cancel</Button>
