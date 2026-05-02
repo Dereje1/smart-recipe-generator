@@ -281,6 +281,9 @@ describe('/api/validate-ingredient', () => {
     it('will respond with error if POST call is rejected', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         validateIngredientSpy.mockRejectedValueOnce(() => Promise.reject())
+        Ingredient.find = jest.fn().mockImplementation(
+            () => Promise.resolve([]),
+        );
 
         const { req, res } = mockRequestResponse('POST')
         const updatedreq: any = {
