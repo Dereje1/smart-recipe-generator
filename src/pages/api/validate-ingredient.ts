@@ -71,36 +71,35 @@ const handler = async (req: NextApiRequest, res: NextApiResponse, session: any) 
             return res.status(400).json({ error: `Ingredient name cannot exceed ${MAX_INGREDIENT_NAME_LENGTH} characters` });
         }
 
+        const formattedIngredientName = trimmedIngredientName[0].toUpperCase() + trimmedIngredientName.slice(1).toLowerCase();
+        const allIngredients = await Ingredient.find({}, { name: 1 });
+        const ingredientExists = allIngredients.find((ingredient: { name: string }) =>
+            isDuplicateIngredient(formattedIngredientName, ingredient.name)
+        );
+
+        if (ingredientExists) {
+            return res.status(200).json({
+                message: 'Error: This ingredient already exists'
+            });
+        }
+
         // Validate ingredient using OpenAI
         console.info('Validating ingredient from OpenAI...');
         const response = await validateIngredient(trimmedIngredientName, userId);
         const parsedResponse = parseValidationResponse(response);
 
         if (parsedResponse) {
-            const formattedIngredientName = trimmedIngredientName[0].toUpperCase() + trimmedIngredientName.slice(1).toLowerCase();
-            const allIngredients = await Ingredient.find({}, { name: 1 });
-            const ingredientExists = allIngredients.find((ingredient: { name: string }) =>
-                isDuplicateIngredient(formattedIngredientName, ingredient.name)
-            );
-
             if (parsedResponse.isValid) {
-                if (!ingredientExists) {
-                    // Create new ingredient if it does not exist
-                    const newIngredient = await Ingredient.create({
-                        name: formattedIngredientName,
-                        createdBy: new mongoose.Types.ObjectId(userId)
-                    });
-                    return res.status(200).json({
-                        message: 'Success',
-                        newIngredient,
-                        suggested: parsedResponse.possibleVariations
-                    });
-                } else {
-                    // Respond with error if ingredient already exists
-                    return res.status(200).json({
-                        message: 'Error: This ingredient already exists'
-                    });
-                }
+                // Create new ingredient if it does not exist
+                const newIngredient = await Ingredient.create({
+                    name: formattedIngredientName,
+                    createdBy: new mongoose.Types.ObjectId(userId)
+                });
+                return res.status(200).json({
+                    message: 'Success',
+                    newIngredient,
+                    suggested: parsedResponse.possibleVariations
+                });
             } else {
                 // Respond with invalid ingredient and possible variations
                 return res.status(200).json({

@@ -74,6 +74,9 @@ describe('/api/validate-ingredient', () => {
 
     it('shall respond with error message if openai fails to validate request', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
+        Ingredient.find = jest.fn().mockImplementation(
+            () => Promise.resolve([]),
+        );
 
         const { req, res } = mockRequestResponse('POST')
         const updatedreq: any = {
@@ -149,6 +152,7 @@ describe('/api/validate-ingredient', () => {
         await validateIngredient(updatedreq, res)
         expect(res.statusCode).toBe(200)
         expect(res._getJSONData()).toEqual({ message: 'Error: This ingredient already exists' })
+        expect(validateIngredientSpy).not.toHaveBeenCalled()
     })
 
     it('shall detect case-insensitive existing ingredients', async () => {
@@ -165,6 +169,7 @@ describe('/api/validate-ingredient', () => {
         await validateIngredient(updatedreq, res)
         expect(res.statusCode).toBe(200)
         expect(res._getJSONData()).toEqual({ message: 'Error: This ingredient already exists' })
+        expect(validateIngredientSpy).not.toHaveBeenCalled()
     })
 
     it('shall detect singular and plural duplicate ingredients', async () => {
@@ -181,6 +186,7 @@ describe('/api/validate-ingredient', () => {
         await validateIngredient(updatedreq, res)
         expect(res.statusCode).toBe(200)
         expect(res._getJSONData()).toEqual({ message: 'Error: This ingredient already exists' })
+        expect(validateIngredientSpy).not.toHaveBeenCalled()
     })
 
     it('shall detect duplicates when incoming ingredient has padded whitespace', async () => {
@@ -197,6 +203,7 @@ describe('/api/validate-ingredient', () => {
         await validateIngredient(updatedreq, res)
         expect(res.statusCode).toBe(200)
         expect(res._getJSONData()).toEqual({ message: 'Error: This ingredient already exists' })
+        expect(validateIngredientSpy).not.toHaveBeenCalled()
     })
 
     it('shall add the requested ingredient if valid and does not exist in the db', async () => {
@@ -229,6 +236,9 @@ describe('/api/validate-ingredient', () => {
     it('shall safely handle malformed OpenAI JSON response', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         validateIngredientSpy.mockImplementationOnce(() => Promise.resolve('not-json'))
+        Ingredient.find = jest.fn().mockImplementation(
+            () => Promise.resolve([]),
+        );
 
         const { req, res } = mockRequestResponse('POST')
         const updatedreq: any = { ...req, body: { ingredientName: 'mockIngredient' } }
