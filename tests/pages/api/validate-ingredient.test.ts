@@ -30,7 +30,7 @@ jest.mock('../../../src/lib/openai', () => ({
     validateIngredient: jest.fn(() => Promise.resolve(null))
 }))
 
-describe('Liking a recipe', () => {
+describe('/api/validate-ingredient', () => {
     let getServerSessionSpy: any
     let validateIngredientSpy: any
     beforeEach(() => {
@@ -87,6 +87,24 @@ describe('Liking a recipe', () => {
         expect(res._getJSONData()).toEqual({ message: 'Error with parsing response' })
     })
 
+    it('shall reject whitespace-only ingredient names', async () => {
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
+        const { req, res } = mockRequestResponse('POST')
+        const updatedreq: any = { ...req, body: { ingredientName: '   ' } }
+        await validateIngredient(updatedreq, res)
+        expect(res.statusCode).toBe(400)
+        expect(res._getJSONData()).toEqual({ error: 'Ingredient name is required' })
+    })
+
+    it('shall reject ingredient names longer than 20 characters after trimming', async () => {
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
+        const { req, res } = mockRequestResponse('POST')
+        const updatedreq: any = { ...req, body: { ingredientName: '  thisingredientnameistoolong  ' } }
+        await validateIngredient(updatedreq, res)
+        expect(res.statusCode).toBe(400)
+        expect(res._getJSONData()).toEqual({ error: 'Ingredient name cannot exceed 20 characters' })
+    })
+
     it('shall appropriately respond for an invalid ingredient name ', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         // change open ai result
@@ -95,7 +113,7 @@ describe('Liking a recipe', () => {
             possibleVariations: ['var-1', 'var-2']
         })))
         // mock db find query
-        Ingredient.findOne = jest.fn().mockImplementation(
+        Ingredient.find = jest.fn().mockImplementation(
             () => Promise.resolve([]),
         );
         const { req, res } = mockRequestResponse('POST')
@@ -118,8 +136,8 @@ describe('Liking a recipe', () => {
             possibleVariations: ['var-1', 'var-2']
         })))
         // mock db find query
-        Ingredient.findOne = jest.fn().mockImplementation(
-            () => Promise.resolve(true),
+        Ingredient.find = jest.fn().mockImplementation(
+            () => Promise.resolve([{ name: 'Mockingredient' }]),
         );
         const { req, res } = mockRequestResponse('POST')
         const updatedreq: any = {
@@ -133,6 +151,54 @@ describe('Liking a recipe', () => {
         expect(res._getJSONData()).toEqual({ message: 'Error: This ingredient already exists' })
     })
 
+    it('shall detect case-insensitive existing ingredients', async () => {
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
+        validateIngredientSpy.mockImplementationOnce(() => Promise.resolve(JSON.stringify({
+            isValid: true,
+            possibleVariations: []
+        })))
+        Ingredient.find = jest.fn().mockImplementation(
+            () => Promise.resolve([{ name: 'Tomato' }]),
+        );
+        const { req, res } = mockRequestResponse('POST')
+        const updatedreq: any = { ...req, body: { ingredientName: 'tomato' } }
+        await validateIngredient(updatedreq, res)
+        expect(res.statusCode).toBe(200)
+        expect(res._getJSONData()).toEqual({ message: 'Error: This ingredient already exists' })
+    })
+
+    it('shall detect singular and plural duplicate ingredients', async () => {
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
+        validateIngredientSpy.mockImplementationOnce(() => Promise.resolve(JSON.stringify({
+            isValid: true,
+            possibleVariations: []
+        })))
+        Ingredient.find = jest.fn().mockImplementation(
+            () => Promise.resolve([{ name: 'tomatoes' }]),
+        );
+        const { req, res } = mockRequestResponse('POST')
+        const updatedreq: any = { ...req, body: { ingredientName: 'tomato' } }
+        await validateIngredient(updatedreq, res)
+        expect(res.statusCode).toBe(200)
+        expect(res._getJSONData()).toEqual({ message: 'Error: This ingredient already exists' })
+    })
+
+    it('shall detect duplicates when incoming ingredient has padded whitespace', async () => {
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
+        validateIngredientSpy.mockImplementationOnce(() => Promise.resolve(JSON.stringify({
+            isValid: true,
+            possibleVariations: []
+        })))
+        Ingredient.find = jest.fn().mockImplementation(
+            () => Promise.resolve([{ name: 'tomato' }]),
+        );
+        const { req, res } = mockRequestResponse('POST')
+        const updatedreq: any = { ...req, body: { ingredientName: '  tomato  ' } }
+        await validateIngredient(updatedreq, res)
+        expect(res.statusCode).toBe(200)
+        expect(res._getJSONData()).toEqual({ message: 'Error: This ingredient already exists' })
+    })
+
     it('shall add the requested ingredient if valid and does not exist in the db', async () => {
         getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
         // change open ai result
@@ -141,8 +207,8 @@ describe('Liking a recipe', () => {
             possibleVariations: ['var-1', 'var-2']
         })))
         // mock db find query
-        Ingredient.findOne = jest.fn().mockImplementation(
-            () => Promise.resolve(false),
+        Ingredient.find = jest.fn().mockImplementation(
+            () => Promise.resolve([]),
         );
         // mock db create query
         Ingredient.create = jest.fn().mockImplementation(
@@ -158,6 +224,48 @@ describe('Liking a recipe', () => {
         await validateIngredient(updatedreq, res)
         expect(res.statusCode).toBe(200)
         expect(res._getJSONData()).toEqual({ message: 'Success', newIngredient: 'mock-added-ingredient', suggested: ['var-1', 'var-2'] })
+    })
+
+    it('shall safely handle malformed OpenAI JSON response', async () => {
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
+        validateIngredientSpy.mockImplementationOnce(() => Promise.resolve('not-json'))
+
+        const { req, res } = mockRequestResponse('POST')
+        const updatedreq: any = { ...req, body: { ingredientName: 'mockIngredient' } }
+        await validateIngredient(updatedreq, res)
+        expect(res.statusCode).toBe(200)
+        expect(res._getJSONData()).toEqual({ message: 'Error with parsing response' })
+    })
+
+    it('shall return suggested as [] when possibleVariations is missing', async () => {
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
+        validateIngredientSpy.mockImplementationOnce(() => Promise.resolve('```json\n{"isValid": false}\n```'))
+        Ingredient.find = jest.fn().mockImplementation(
+            () => Promise.resolve([]),
+        );
+
+        const { req, res } = mockRequestResponse('POST')
+        const updatedreq: any = { ...req, body: { ingredientName: 'mockIngredient' } }
+        await validateIngredient(updatedreq, res)
+        expect(res.statusCode).toBe(200)
+        expect(res._getJSONData()).toEqual({ message: 'Invalid', suggested: [] })
+    })
+
+    it('shall return suggested as [] when possibleVariations is not an array', async () => {
+        getServerSessionSpy.mockImplementationOnce(() => Promise.resolve(getServerSessionStub))
+        validateIngredientSpy.mockImplementationOnce(() => Promise.resolve(JSON.stringify({
+            isValid: false,
+            possibleVariations: 'bad-data'
+        })))
+        Ingredient.find = jest.fn().mockImplementation(
+            () => Promise.resolve([]),
+        );
+
+        const { req, res } = mockRequestResponse('POST')
+        const updatedreq: any = { ...req, body: { ingredientName: 'mockIngredient' } }
+        await validateIngredient(updatedreq, res)
+        expect(res.statusCode).toBe(200)
+        expect(res._getJSONData()).toEqual({ message: 'Invalid', suggested: [] })
     })
 
     it('will respond with error if POST call is rejected', async () => {
