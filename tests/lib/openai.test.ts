@@ -89,7 +89,20 @@ I have the following ingredients: [{\"name\":\"ingredient-1\",\"id\":\"1\"},{\"n
     },
     ...
 ]
-Please ensure the recipes are diverse in type or cuisine (e.g., different meal categories or international flavors) and use all the ingredients listed unless dietary preferences or practicality dictate otherwise. Quantities must include appropriate units (e.g., grams, cups, teaspoons) for precision. Provide clear, detailed instructions suitable for someone with basic cooking skills. The instructions should be ordered but not include step numbers. Additionally, ensure the recipes respect the dietary preferences provided by suggesting suitable alternatives where necessary. The JSON must be valid and parsable without any additional text or formatting outside the JSON structure.
+Please ensure the recipes are diverse in type or cuisine (e.g., different meal categories or international flavors). Quantities must include appropriate units (e.g., grams, cups, teaspoons) for precision. Additionally, ensure the recipes respect the dietary preferences provided by suggesting suitable alternatives where necessary.
+
+Practicality and Ingredient Use Rules:
+
+* Prefer realistic, home-cook-friendly recipes that a normal person would plausibly make from the provided ingredients.
+* Do not force every provided ingredient into every recipe if the combination would be unnatural or unappetizing.
+* It is acceptable for different recipes to use different subsets of the provided ingredients; across all three recipes, use as many of the provided ingredients as practical.
+* Keep additional ingredients minimal and favor common pantry staples such as salt, pepper, oil, basic spices, onion, garlic, lemon, broth, or simple herbs.
+* Avoid overly gourmet, restaurant-style, or highly experimental recipes unless the provided ingredients clearly suggest that style.
+* If dietary preferences conflict with a provided ingredient, use a clear appropriate substitute, such as gluten-free pasta, vegan cheese, plant-based chicken, or flax egg, and label it clearly in the ingredient name.
+* Keep recipe names natural and simple rather than overly long or restaurant-style.
+* Keep instructions clear and useful, but avoid unnecessary verbosity.
+
+The JSON must be valid and parsable without any additional text or formatting outside the JSON structure.
 `;
 
         const result = await generateRecipe(ingredients, ['Keto', 'Vegetarian'], 'mockUserId')
