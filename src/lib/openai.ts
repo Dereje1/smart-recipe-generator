@@ -69,7 +69,7 @@ export const generateRecipe = async (ingredients: Ingredient[], dietaryPreferenc
     }
 };
 
-// Generate an image using DALL-E by sending an image generation prompt to OpenAI
+// Generate a PNG image by sending an image generation prompt to OpenAI
 const generateImage = (prompt: string, model: string): Promise<ImagesResponse> => {
     try {
         const response = openai.images.generate({
@@ -77,6 +77,7 @@ const generateImage = (prompt: string, model: string): Promise<ImagesResponse> =
             prompt,
             n: 1,
             size: '1024x1024',
+            output_format: 'png',
         });
         return response;
     } catch (error) {
@@ -84,7 +85,7 @@ const generateImage = (prompt: string, model: string): Promise<ImagesResponse> =
     }
 };
 
-const OPENAI_IMAGE_MODEL = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1';
+const OPENAI_IMAGE_MODEL = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2.5-flare';
 
 // Generate images for an array of recipes and return image links paired with recipe names
 export const generateImages = async (recipes: Recipe[], userId: string) => {
