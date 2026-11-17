@@ -192,10 +192,11 @@ describe('generating images of recipes from open ai', () => {
         call.prompt = normalizeWhitespace(call.prompt); // Normalize the received prompt
 
         expect(call).toEqual({
-            model: process.env.OPENAI_IMAGE_MODEL || "gpt-image-1",
+            model: process.env.OPENAI_IMAGE_MODEL || "gpt-image-2.5-flare",
             n: 1,
             prompt: expectedPrompt,
             size: "1024x1024",
+            output_format: "png",
         });
     })
 
