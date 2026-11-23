@@ -1,19 +1,11 @@
 
-# 🍳 Smart Recipe Generator - AI-Powered Recipe App
+## <p align="center">SmartChef - AI-Powered Recipe App</p>
 
-![GitHub Stars](https://img.shields.io/github/stars/Dereje1/smart-recipe-generator?style=social)
-![GitHub Forks](https://img.shields.io/github/forks/Dereje1/smart-recipe-generator?style=social)
-![License](https://img.shields.io/github/license/Dereje1/smart-recipe-generator)
-![Vercel Deployment](https://img.shields.io/badge/Deployed%20on-Vercel-green)
+<p align="center"><img width="400" height="400" alt="SmartChef" src="https://github.com/user-attachments/assets/80ea10b4-e94b-4731-8d25-e76ee2209975"></p>
 
-**Smart Recipe Generator** is an **AI-powered web application** that uses **OpenAI text models** to generate unique recipes based on selected ingredients and dietary preferences (configurable via `OPENAI_TEXT_MODEL`, default: `gpt-5-mini`), **OpenAI GPT Image** to create custom recipe images (default: `gpt-image-1`), and **TTS** to narrate recipes. It's designed to make cooking easy, creative, and accessible for everyone.
 
-🎥 **App Demo**
 
-![Smart Recipe Generator Demo](./public/demo.gif)
-
-🌐 **[Live Demo →](https://smart-recipe-generator.vercel.app/)**
-
+SmartChef is a privacy friendly fork of **Smart Recipe Generator**  that requires no accounts, authentication, syncing, or recipe sharing. It allows for local **OpenAI text models** to generate unique recipes based on selected ingredients and dietary preferences. These allow for the creation of offline "recipebooks" which then can be disciminated as the user sees fit.
 ---
 
 ## ⚡️ Key Features
@@ -41,10 +33,8 @@
 ## 🚀 Tech Stack
 
 - **Frontend**: Next.js, React, Tailwind CSS
-- **Backend**: Node.js, MongoDB
+- **Backend**: Node.js, 
 - **AI Integration**: Configurable OpenAI text model (default: `gpt-5-mini`) for text features, OpenAI GPT Image (`gpt-image-1`) for images, TTS for narration
-- **Authentication**: NextAuth.js with Google OAuth
-- **Cloud Storage**: AWS S3 for storing images and audio
 - **Deployment**: Vercel
 
 ---
@@ -54,7 +44,7 @@
 ### 1. **Clone the Repository**
 ```bash
 git clone https://github.com/Dereje1/smart-recipe-generator.git
-cd smart-recipe-generator
+cd SmartChef
 ```
 
 ### 2. **Install Dependencies**
@@ -65,19 +55,11 @@ npm install
 ### 3. **Set Up Environment Variables**
 Create a `.env.local` file and add:
 ```env
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
+
 OPENAI_API_KEY=your-openai-api-key
 OPENAI_TEXT_MODEL=gpt-5-mini
 OPENAI_IMAGE_MODEL=gpt-image-1
-AWS_ACCESS_KEY_ID=your-aws-access-key-id
-AWS_SECRET_ACCESS_KEY=your-aws-secret-key
-MONGO_URI=your-mongodb-uri
-S3_BUCKET_NAME=your-s3-bucket-name
-API_REQUEST_LIMIT=maximum-api-requests
+
 ```
 
 ### 4. **Run the Development Server**
@@ -90,14 +72,13 @@ App will be live at [http://localhost:3000](http://localhost:3000).
 
 ## 💡 Usage
 
-1. **Log in** with Google.
+1. **Launch App** 
 2. **Select Ingredients** and **Dietary Preferences**.
 3. **Generate Recipes** powered by the configurable **OpenAI text model** (default: **gpt-5-mini**).
 4. **View AI-Generated Images** and **Play Narrations**.
 5. **Search Recipes** using AI-generated tags.
 6. **Browse Recipes** with infinite scrolling and sorting by newest or most liked.
-7. **Save, Like, and Share** your favorite recipes.
-8. **Use the Chat Assistant** to ask follow-up questions about a recipe (e.g. substitutions, dietary changes, or cook time).
+7. **Use the Chat Assistant** to ask follow-up questions about a recipe (e.g. substitutions, dietary changes, or cook time).
 
 ---
 
@@ -145,4 +126,3 @@ It helps more people discover it.
 - [OpenAI](https://openai.com/)
 - [Vercel](https://vercel.com/)
 - [Next.js](https://nextjs.org/)
-- [MongoDB](https://www.mongodb.com/)
